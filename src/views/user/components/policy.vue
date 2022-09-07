@@ -61,6 +61,7 @@ export default {
 .user-policy-wrap {
   background: #FFFFFF;
   border-radius: 4px;
+  margin-top: 10px;
   .container {
     // margin: 60px 92px 0px;
     display: flex;

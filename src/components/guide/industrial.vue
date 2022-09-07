@@ -45,18 +45,6 @@ export default {
         industrialName: '工商财税(套餐三)'
       }]
     }
-  },
-  props: {
-    list: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-    loading: {
-      type: Boolean,
-      default: true
-    }
   }
 };
 </script>

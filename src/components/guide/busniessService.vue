@@ -6,13 +6,22 @@
         企业风貌
         <p class="guide-agile">Cultural industry</p>
       </div>
-      <div class="guide-busniessService-content">
-        <div class="busniessService-right">
+      <div class="guide-busniess-service-content">
+        <div class="busniess-service">
           <div class="r-top">
-            <div class="finance"></div>
-            <div class="manage"></div>
+            <div class="busniess-service-block finance">
+              <div class="busniess-service-block-title">金融服务</div>
+              <div class="busniess-service-block-desc">金融服务的宣传推广词</div>
+            </div>
+            <div class="busniess-service-block manage">
+              <div class="busniess-service-block-title">管家服务</div>
+              <div class="busniess-service-block-desc">大模块的宣传推广词</div>
+            </div>
           </div>
-          <div class="r-bottom">中关村科幻产业创新中心</div>
+          <div class="r-bottom">
+              <div>培训中心</div>
+              <div style="font-size: 26px;">这里是相关内容一句话概括</div>
+          </div>
         </div>
       </div>
     </div>
@@ -41,11 +50,19 @@ export default {
 .guide-wrap {
   .container {
     margin: 0 60px;
-    .guide-busniessService-content {
-      .busniessService-right {
+    .guide-busniess-service-content {
+      .busniess-service {
+        font-size: 56px;
+        font-family: AlibabaPuHuiTiR;
+        color: #FFFFFF;
         .r-bottom {
           margin-top: 10px;
-          height: 305px;
+          height: 300px;
+          // width: 1300px;
+          padding-left: 60px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           background-repeat: no-repeat;
           background-size:100% 100%;
           background-image: url("../../images/培训中心.png");
@@ -54,18 +71,28 @@ export default {
           width: 100%;
           display: flex;
           margin-top: 20px;
-          .finance {
-            width: 50%;
-            height: 305px;
-            background-size:100% 100%;
+          justify-content: space-between; 
+          .busniess-service-block {
+            width: 49.5%;
+            height: 480px;
+            background-size: cover !important;
             background-repeat: no-repeat;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            flex-direction: column;
+            // &-title {
+            //   font-size: 26px;
+            // }
+            &-desc {
+              font-size: 26px;
+              flex: 0.2;
+            }
+          }
+          .finance {
             background: url("../../images/金融服务.png");
           }
           .manage {
-            width: 50%;
-            height: 305px;
-            background-size:100% 100%;
-            background-repeat: no-repeat;
             background: url("../../images/管家服务.png");
           }
         }

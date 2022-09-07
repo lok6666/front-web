@@ -150,16 +150,13 @@ export default {
       background-image: url("../../images/swiper.png");
     }
     .swiper-slide-1 {
-      background-image: url("../../images/swiper.png");
+      background-image: url("../../images/swiper1.png");
     }
     .swiper-slide-2 {
-      background-image: url("../../images/swiper.png");
+      background-image: url("../../images/swiper2.png");
     }
     .swiper-slide-3 {
-      background-image: url("../../images/swiper.png");
-    }
-    .swiper-slide-4 {
-      background-image: url("../../images/swiper.png");
+      background-image: url("../../images/swiper3.png");
     }
     /deep/ .swiper-pagination-bullet-custom {
       @import '~@/styles/word';

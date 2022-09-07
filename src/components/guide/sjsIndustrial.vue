@@ -7,25 +7,26 @@
         <p class="guide-agile">Cultural industry</p>
       </div>
       <div class="guide-sjsIndustrial-content">
-      <video
-        controls
-        preload="auto"
-        paused="true"
-        width="640"
-        height="264"
-        poster="MY_VIDEO_POSTER.jpg"
-        data-setup="{}"
-      >
-        <source src="../../video/7ba8526361db302c7fb5236ff570a98e.mp4" type="video/webm">
-        </p>
-      </video>
+        <video
+          ref="video"
+          class="video-js vjs-default-skin vjs-big-play-centered"
+          style="height: 746px; max-height: 1300px; width: 100%"
+          controls
+        >
+          <source
+            src="../../video/7ba8526361db302c7fb5236ff570a98e.mp4" type="video/webm"
+          />
+        </video>
         <div class="guide-sjsIndustrial-show">
           <div class="sjsIndustrial-left">首钢园 SHOUGANG PARK</div>
           <div class="sjsIndustrial-right">
             <div class="r-top">中关村科幻产业创新中心</div>
             <div class="r-bottom">
               <div class="ly-show"></div>
-              <div class="more"><div class="more-icon"></div>查看更多</div>
+              <div class="more">
+                <div class="more-icon"></div>
+                查看更多
+              </div>
             </div>
           </div>
         </div>
@@ -33,10 +34,25 @@
     </div>
   </div>
 </template>
-<script src="https://vjs.zencdn.net/7.20.2/video.min.js"></script>
 <script>
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
 export default {
   name: "sjsIndustrial",
+  data() {
+    return {
+      player: null,
+      options: {
+        autoplay: true,
+        poster: "http://minio.bjwcxf.com/cultural-image/shijingshan.png"
+      },
+    };
+  },
+  mounted() {
+    this.player = videojs(this.$refs.video, this.options, () => {
+      console.log("播放器渲染完成");
+    });
+  },
   props: {
     list: {
       type: Array,
@@ -46,9 +62,9 @@ export default {
     },
     loading: {
       type: Boolean,
-      default: true
-    }
-  }
+      default: true,
+    },
+  },
 };
 </script>
 
@@ -60,12 +76,15 @@ export default {
       .guide-sjsIndustrial-show {
         display: flex;
         width: 100%;
+        .video-js {
+          display: none !important
+        }
         .sjsIndustrial-left {
-            width: 50%;
-            height: 630px;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-image: url("../../images/首钢园.png")
+          width: 50%;
+          height: 630px;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-image: url("../../images/首钢园.png");
         }
         .sjsIndustrial-right {
           width: 50%;
@@ -89,14 +108,14 @@ export default {
             .more {
               width: 50%;
               height: 305px;
-              background: #D99447;
+              background: #d99447;
               display: flex;
               justify-content: center;
               align-items: center;
               flex-direction: column;
               font-size: 34px;
               font-family: AlibabaPuHuiTiR;
-              color: #FFFFFF;
+              color: #ffffff;
               &-icon {
                 width: 68px;
                 height: 68px;

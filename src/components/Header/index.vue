@@ -361,12 +361,18 @@ export default {
           }
 
           .logined {
-            height: 100%;
-            color: #007fff;
-            font-weight: 600;
             display: flex;
+            justify-content: center;
             align-items: center;
-
+            color: #fff;
+            width: 200px;
+            height: 80px;
+            background: #FFFFFF;
+            border-radius: 46px 0px 0px 46px;
+            font-size: 20px;
+            font-family: AlibabaPuHuiTiR;
+            color: #000000;
+            line-height: 27px;
             .console {
               font-size: 12px;
               font-weight: 600;

@@ -88,6 +88,7 @@
 
 <style lang="scss" scoped>
 .apply-bg {
+  background-repeat: no-repeat !important;
   background-image: url('../../../images/已申请服务背景.png') !important;
 }
 .user-table-wrap {

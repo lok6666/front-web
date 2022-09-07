@@ -90,6 +90,7 @@
 
 <style lang="scss" scoped>
 .collect-bg {
+  background-repeat: no-repeat !important;
   background-image: url('../../../images/已收藏政策背景.png') !important;
 }
 .user-table-wrap {
