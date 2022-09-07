@@ -1,0 +1,18 @@
+$white: #FFFFFF;
+$black: #000000;
+$transitionTimeNormal: .25s;
+$body-bg: #e0e0e0;
+
+$textColor: #353535;
+$textSecondary: lighten($textColor, 20%);
+$linkColor: $black;
+
+:export {
+    white: $white;
+    black: $black;
+    transitionTimeNormal: $transitionTimeNormal;
+    textColor: $textColor;
+    textSecondary: $textSecondary;
+    linkColor: $linkColor;
+  }
+  

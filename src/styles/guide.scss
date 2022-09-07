@@ -1,0 +1,33 @@
+.guide-wrap {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #999;
+    min-height: 50px;
+    margin-bottom: 60px;
+  }
+.guide-header {
+    display: flex;
+    align-items: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    font-size: 56px;
+    font-family: AlibabaPuHuiTiR;
+    color: #212121;
+    line-height: 77px;
+    margin-bottom: 38px;
+    &-logo {
+        margin-right: 10px;
+        width: 48px;
+        height: 52px;
+    }
+}
+
+.guide-agile {
+    margin-left: 8px;
+    font-size: 26px;
+    font-family: AlibabaPuHuiTiM;
+    color: #343434;
+    line-height: 35px;
+}
