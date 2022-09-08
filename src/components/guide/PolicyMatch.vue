@@ -85,7 +85,7 @@ export default {
           &-desc {
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: space-between;
             margin-bottom: 39px;
             &-policy {
               display: flex;
@@ -99,11 +99,14 @@ export default {
               }
             }
             &-time {
-
+              font-size: 18px;
+              font-family: AlibabaPuHuiTiR;
+              color: #000000;
             }
           }
           &-show {
             display: flex;
+            justify-content: space-between;
             &-left {
               width: 640px;
               height: 390px;

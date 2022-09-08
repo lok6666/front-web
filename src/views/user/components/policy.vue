@@ -67,8 +67,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 20px;
-    padding-left: 20px;
+    padding: 20px;
     .user-policy-content {
         flex: 1;
         display: flex;
@@ -84,6 +83,9 @@ export default {
             margin-right: 5px;
             font-weight: 300;
             color: #000000;
+            &::-webkit-scrollbar {
+              display: none;
+            }
             &-item {
                 display: flex;
                 justify-content: space-between;

@@ -6,48 +6,23 @@
         <img class="table-icon" src="../../../images/列表.png" style="width: 17px; heigth: 17px;"/>查看全部
     </div>
   </div>
-  <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      label="级别">
-      <template slot="header" slot-scope="scope">
-        <img class="table-item-icon"  src="../../../images/gift.png" style="width: 17px; heigth: 17px;"/>活动名称
-      </template>
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.level }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="姓名">
-      <template slot="header" slot-scope="scope">
-        <img class="table-item-icon" src="../../../images/单位.png" style="width: 17px; heigth: 17px;"/>主办单位
-      </template>
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.level }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-       <template slot="header" slot-scope="scope">
-        <img class="table-item-icon" src="../../../images/time.png" style="width: 17px; heigth: 17px;"/>开始时间
-      </template>
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="日期">
-      <template slot="header" slot-scope="scope">
-        <img class="table-item-icon" src="../../../images/time.png" style="width: 17px; heigth: 17px;"/>结束时间
-      </template>
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column>
-  </el-table>
+  <el-table :data="tableData" style="width: 100%">
+      <el-table-column v-for="(item, index) in tableItem" :key="index">
+        <template slot="header" slot-scope="scope">
+          <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
+        </template>
+        <template slot-scope="scope">
+          <span>{{ scope.row[item.showKey] }}</span>
+        </template>
+      </el-table-column>
+    </el-table>
 </div>
 </template>
 
 <script>
+  import levelImg from "@/images/gift.png";
+  import policyTitleImg from "@/images/单位.png";
+  import dateImg from "@/images/time.png";
   export default {
     data() {
       return {
@@ -71,15 +46,29 @@
           title: '推进国际科技创新中心建设加快…',
           address: '上海市普陀区金沙江路',
           date: '2016.05.03'
-        }]
-      }
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
+        }],
+        tableItem: [
+        {
+          label: "级别",
+          src: levelImg,
+          showKey: "level",
+        },
+        {
+          label: "政策标题",
+          src: policyTitleImg,
+          showKey: "title",
+        },
+        {
+          label: "发文机构",
+          src: dateImg,
+          showKey: "date",
+        },
+        {
+          label: "发布时间",
+          src: dateImg,
+          showKey: "date",
+        },
+      ]
       }
     }
   }
@@ -104,8 +93,8 @@
     margin-right: 2px;
   }
   .table-item-icon {
-    width: 12px !important;
-    height: 16px;
+    width: 15px !important;
+    height: 15px;
     margin-right: 2px;
   }
   .user-table-title {

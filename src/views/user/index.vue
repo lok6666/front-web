@@ -79,18 +79,6 @@
           <div class="enterprise-service">
             <div class="enterprise-service-echarts-title">企业服务占比：</div>
             <echarts :echartsOptions="echartsOptions2" id="2"  height="260"/>
-            <!-- <div class="enterprise-service-list">
-              <div
-                class="enterprise-service-list-item"
-                v-for="(item, index) in serviceList"
-                :key="index"
-              >
-                <div
-                  :style="`width: 15px;height: 15px;background: ${item.color}`"
-                ></div>
-                {{ item.name }}
-              </div>
-            </div> -->
           </div>
           <div class="enterprise-service-manage">
             <div class="enterprise-service-manage-bg"></div>
@@ -705,8 +693,10 @@ export default {
           }
         }
         .enterprise-service-manage {
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
           background-image: url("../../images/service-manage.png");
-          height: 319px;
+          height: 301px;
           margin-top: 5px;
           &-bg {
             height: 172px;

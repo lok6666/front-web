@@ -76,6 +76,7 @@ export default {
       .guide-sjsIndustrial-show {
         display: flex;
         width: 100%;
+        margin-top: 19px;
         .video-js {
           display: none !important
         }
@@ -92,21 +93,23 @@ export default {
           .r-top {
             // width: 50%;
             height: 305px;
+            background-size: cover;
             background-image: url("../../images/中关村科幻产业创新中心.png");
           }
           .r-bottom {
             width: 100%;
             display: flex;
             margin-top: 20px;
+            justify-content: space-between;
             .ly-show {
-              width: 50%;
+              width: 49%;
               height: 305px;
-              background-size: cover;
+              background-size: cover !important;
               background-repeat: no-repeat;
               background: url("../../images/朗园.png");
             }
             .more {
-              width: 50%;
+              width: 49%;
               height: 305px;
               background: #d99447;
               display: flex;

@@ -43,15 +43,6 @@ export default {
       },{
         title: '石景山区启动开学保障执法检查',
         time: '2022/9/1'
-      },{
-        title: '石景山区启动开学保障执法检查',
-        time: '2022/9/1'
-      },{
-        title: '石景山区启动开学保障执法检查',
-        time: '2022/9/1'
-      },{
-        title: '石景山区启动开学保障执法检查',
-        time: '2022/9/1'
       }]
     }
   },
@@ -72,7 +63,6 @@ export default {
 
 <style lang="scss" scoped>
 .new-wrap {
-  background: #F5F6F9;
   padding-bottom: 60px;
   .container {
     margin: 60px 92px 60px;
@@ -109,15 +99,15 @@ export default {
     .new-content {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: end;
         .new-content-list {
             width: 100%;
-            margin-top: 60px;
             max-height: 242px;
             overflow: scroll;
             color: #212121;
-            margin-right: 5px;
-            padding-right: 10px;
+            &::-webkit-scrollbar {
+              display: none;
+            }
             &-item {
                 display: flex;
                 justify-content: space-between;

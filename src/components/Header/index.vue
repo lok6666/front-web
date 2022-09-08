@@ -41,7 +41,7 @@
           </div>
           <div class="content-right">
                 <span><img class="index-icon" src="../../images/后台管理.png" />企业管理后台</span>
-                <span><img class="index-icon" src="../../images/首页.png" />企业首页</span>
+                <span @click="$router.push('/')" style="cursor: pointer;"><img class="index-icon" src="../../images/首页.png" />企业首页</span>
                 <span><img class="index-icon" src="../../images/CombinedShape.png" />+3</span>
                               <!-- 右边box -->
               <div class="right-box">
@@ -148,23 +148,19 @@ export default {
         },
         {
           name: '人才服务',
-          to: '/category',
-          icon: '金融2.png'
+          to: '/category'
         },
         {
           name: '产品大厅',
-          to: '/archives',
-          icon: '手机管家.png'
+          to: '/archives'
         },
         {
           name: '行业培训',
-          to: '/friend-link',
-          icon: '知识产权.png'
+          to: '/friend-link'
         },
         {
           name: '金融服务',
-          to: '/message',
-          icon: '金融2.png'
+          to: '/message'
         }
       ]
     }
@@ -254,17 +250,20 @@ export default {
       width: 18px;
       margin-right: 3px;
     }
+    .nav-icon-0 {
+      background-image: url('../../images/政策匹配.png');
+    }
     .nav-icon-1 {
-      background-image: url('../../images/金融2.png');
+      background-image: url('../../images/人才服务.png');
     }
     .nav-icon-2 {
-      background-image: url('../../images/手机管家.png');
+      background-image: url('../../images/产品大厅.png');
     }
     .nav-icon-3 {
-      background-image: url('../../images/知识产权.png');
+      background-image: url('../../images/行业培训.png');
     }
     .nav-icon-4 {
-      background-image: url('../../images/zcpt-培训点播管理.png');
+      background-image: url('../../images/金融.png');
     }
     .header {
       display: flex;
