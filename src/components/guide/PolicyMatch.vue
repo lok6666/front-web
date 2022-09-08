@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="guide-policy-query">
-          查阅我的匹配政策
+          匹配政策
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
           type: '条'
         },
         {
-          title: '已匹配企业',
+          title: '匹配企业',
           num: '88690',
           type: '家'
         },
