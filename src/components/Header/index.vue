@@ -160,8 +160,12 @@ export default {
         },
         {
           name: '金融服务',
-          to: '/message'
+          to: '/finance'
         }
+        // {
+        //   name: '金融服务',
+        //   to: '/message'
+        // }
       ]
     }
   },

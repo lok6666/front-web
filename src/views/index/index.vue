@@ -13,6 +13,24 @@
               <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
             </swiper>
         </div>
+<!--         <div class="test" style="height: 601px;">
+          <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
+             <swiper-slide class="slide-1"></swiper-slide>
+            <swiper-slide class="slide-2"></swiper-slide>
+            <swiper-slide class="slide-3"></swiper-slide>
+            <swiper-slide class="slide-4"></swiper-slide>
+            <swiper-slide class="slide-5"></swiper-slide>
+            <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+            <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+          </swiper>
+          <swiper class="swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
+            <swiper-slide class="slide-1"></swiper-slide>
+            <swiper-slide class="slide-2"></swiper-slide>
+            <swiper-slide class="slide-3"></swiper-slide>
+            <swiper-slide class="slide-4"></swiper-slide>
+            <swiper-slide class="slide-5"></swiper-slide>
+          </swiper>
+        </div -->
         <new/>
         <policy-enter/>
         <sjs-industrial />
@@ -38,7 +56,6 @@
 import { mapGetters } from 'vuex'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import { swiperConfig } from '@/config/index'
-import videoSrc from '@/video/7ba8526361db302c7fb5236ff570a98e.mp4'
 import 'swiper/css/swiper.css'
 import AppHeader from '@/components/Header/index'
 import AppFooter from '@/components/footer/index'
@@ -84,7 +101,6 @@ export default {
       current: 1,
       size: 6,
       total: 0,
-      video: videoSrc,
       mainActive: 0,
       loading: false,
       swiperConfig,
@@ -96,11 +112,28 @@ export default {
             return `<span class="${className} swiper-pagination-bullet-custom" style="color: red;"></span>`
           }
         }
+      },
+      swiperOptionTop: {
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      },
+      swiperOptionThumbs: {
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
       }
     }
   },
   created() {
-    console.log('videoSrc', videoSrc)
   },
   computed: {
     orderBy() {
@@ -113,6 +146,12 @@ export default {
 
   mounted() {
     // this.getArtList()
+    this.$nextTick(() => {
+      const swiperTop = this.$refs.swiperTop.$swiper
+      const swiperThumbs = this.$refs.swiperThumbs.$swiper
+      swiperTop.controller.control = swiperThumbs
+      swiperThumbs.controller.control = swiperTop
+    })
   },
 
   methods: {
@@ -128,6 +167,52 @@ export default {
 
 <style lang="scss" scoped>
 .home-container {
+  .thumb-example {
+    height: 480px;
+    background-color: black;
+  }
+  .test {
+    .swiper {
+      .swiper-slide {
+        background-size: cover;
+        background-position: center;
+
+        &.slide-1 {
+          background-image:url('../../images/swiper.png');
+        }
+        &.slide-2 {
+          background-image:url('../../images/swiper1.png');
+        }
+        &.slide-3 {
+          background-image:url('../../images/swiper2.png');
+        }
+        &.slide-4 {
+          background-image:url('../../images/swiper3.png');
+        }
+        &.slide-5 {
+          background-image:url('../../images/swiper.png');
+        }
+      }
+
+      &.gallery-top {
+        height: 80%;
+        width: 100%;
+      }
+      &.gallery-thumbs {
+        height: 20%;
+        box-sizing: border-box;
+        padding: 10 0;
+      }
+      &.gallery-thumbs .swiper-slide {
+        width: 25% !important;
+        height: 100%;
+        opacity: 0.4;
+      }
+      &.gallery-thumbs .swiper-slide-active {
+        opacity: 1;
+      }
+    }
+  }
   .swiper {
     height: 601px;
     width: 100%;
@@ -191,6 +276,7 @@ export default {
 
   .content-container {
     width: 100%;
+    padding-top: 93px; // 轮播图
     max-width: $ContentContainerW;
     box-sizing: border-box;
     margin: 0 auto;
@@ -205,7 +291,6 @@ export default {
 
     .side-left {
       flex: 1;
-      background: #F5F6F9;
       border-radius: 2px;
 
       @media screen and (max-width: 960px){

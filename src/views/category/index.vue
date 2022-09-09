@@ -2,41 +2,32 @@
   <div ref="container" class="container">
     <app-header :nav-item-active="1" />
     <div class="content-container">
-
-      <ul v-if="device === 'desktop'" class="left-list">
-        <li
-          v-for="(category,index) in categorys"
-          :key="index"
-          class="left-list-item"
-          :class="{'left-list-item-active': categoryId === category.id}"
-          @click="chageTab(category.id)"
-        >
-          <span class="item-content">{{ category.name }}</span>
-        </li>
-      </ul>
-      <div class="content-list">
-        <ul v-if="device !== 'desktop'" class="list-header">
-          <li
-            v-for="(category,index) in categorys"
-            :key="index"
-            class="list-header-item"
-            :class="{ 'header-item-active': categoryId === category.id }"
-            @click="chageTab(category.id)"
-          >{{ category.name }}</li>
-        </ul>
-        <article-list :list="artList" :loading="loading" />
-
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          hide-on-single-page
-          :page-size="size"
-          :current-page="current"
-          :total="total"
-          @current-change="currentChange"
-        />
+      <img src="../../images/userBg.png" style="width: 100%" />
+      <flow/>
+      <div class="service">
+        <div class="service-title">面对日趋多元化的需求，企业如何能轻运营、快发展</div>
+        <div class="service-desc">使用身边云提供的共享产品，“多快好省”为企业运营提效降本</div>
+        <div class="service-content">
+          <div class="service-content-item"  :style="`background-image: url(${item.bgImg})`" v-for="(item, index) in list" :key="index">
+            {{item.title}}
+            <img src="../../images/guide-logo.png"/>
+          </div>
+        </div>
       </div>
+      <div class="solve">
+        <div class="solve-title">我们还将为您提供更多行业 热门实用资源包</div>
+        <div class="solve-desc">更多行业解决方案等您来解锁</div>
+        <div class="solve-content">
+        </div>
+        <div class="more-solve">探索更多解决方案</div>
+      </div>
+      <!-- <div class="resource">
+        <div class="resource-title">我们还将为您提供更多行业 热门实用资源包</div>
+        <div class="resource-content">
+        </div>
+      </div> -->
     </div>
+    <app-footer />
   </div>
 </template>
 
@@ -44,23 +35,37 @@
 import { mapGetters } from 'vuex'
 import { categoryList } from '@/api/category.js'
 import AppHeader from '@/components/Header/index'
+import AppFooter from '@/components/footer/index'
+import Flow from '@/components/flow/index.vue'
 import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
+import service1Img from "@/images/service_1.png";
+import service2Img from "@/images/service_2.png";
+import service3Img from "@/images/service_3.png";
+import service4Img from "@/images/service_4.png";
 export default {
   name: 'Category',
   components: {
     AppHeader,
-    ArticleList
+    AppFooter,
+    ArticleList,
+    Flow
   },
   data() {
     return {
-      categoryId: 0,
-      categorys: [],
-      loading: true,
-      artList: [],
-      current: 1,
-      size: 10,
-      total: 0
+      list: [{
+        title: '我是企业负责人',
+        bgImg: service1Img
+      },{
+        title: '我是财务负责人',
+        bgImg: service2Img
+      },{
+        title: '我是人力负责人',
+        bgImg: service3Img
+      },{
+        title: '我是项目执行方',
+        bgImg: service4Img
+      }]
     }
   },
 
@@ -75,57 +80,10 @@ export default {
   },
 
   methods: {
-
     // 获取分类列表
     init() {
-      categoryList().then(
-        res => {
-          this.categorys = res.data
-          const id = this.$route.query && this.$route.query.id
-          if (id && this.categorys.some(ele => ele.id === id)) {
-            this.chageTab(id)
-          } else {
-            this.chageTab(this.categorys[0].id)
-          }
-        }
-      )
     },
 
-    // tab更改
-    chageTab(categoryId) {
-      this.total = 0
-      this.current = 1
-      this.categoryId = categoryId
-      this.getArtList()
-    },
-
-    // 分页监听
-    currentChange(current) {
-      this.current = current
-      this.getArtList()
-    },
-
-    // 获取文章列表
-    getArtList() {
-      this.loading = true
-      const params = {
-        current: this.current,
-        size: this.size,
-        categoryId: this.categoryId
-      }
-      pagePublishedArticle(params).then(
-        res => {
-          this.total = res.data.total
-          this.artList = res.data.records
-          this.loading = false
-          this.$refs.container.scrollTop = 0
-        },
-        error => {
-          console.error(error)
-          this.loading = false
-        }
-      )
-    }
   }
 }
 </script>
@@ -140,120 +98,109 @@ export default {
   overflow-y: overlay;
 
   .content-container {
-    position: relative;
-    // max-width: 822px;
-    margin: 0 auto;
-    margin-top: 15px;
-    border-radius: 2px;
-    display: flex;
-    align-items: flex-start;
-
+    // max-width: 1440px;
+    margin-left: 70px;
+    margin-right: 70px;
+    padding-bottom: 60px;
     @media screen and (max-width: 960px){
       margin-top: 0;
     }
-
-    .left-list {
-      // display: none;
-      background: #fff;
-      width: 112px;
-      margin: 0;
-      margin-right: 10px;
-      padding: 0;
-      text-align: center;
-      box-sizing: border-box;
-      color: #909090;
-      border-radius: 2px;
-      position: fixed;
-      left: calc(calc(100% - 845px)/2);
-      top: 75px;
-      background: #fff;
-      z-index: 999;
-
-      .left-list-item {
-        font-size: 14px;
-        list-style: none;
-        cursor: pointer;
-        position: relative;
-        margin-top: 10px;
-
-        &:last-child {
-          margin-bottom: 10px;
-        }
-
-        .item-content {
-          padding: 7px 0;
-          display: inline-block;
-          min-width: 86px;
-          cursor: pointer;
-          border-radius: 3px;
-
-          &:hover {
-            color: #007fff;
-            background: #f4f5f5;
-          }
-        }
+    .service {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &-title {
+        font-size: 36px;
+        font-family: AlibabaPuHuiTiM;
+        color: #212121;
+        line-height: 50px;
       }
-
-      .left-list-item-active {
-        color: #fff;
-        font-weight: 700;
-
-        .item-content {
-          background: #007fff;
-
-          &:hover {
-            color: #fff;
-            background: #007fff;
+      &-desc {
+        margin-top: 2px;
+        font-size: 24px;
+        font-family: AlibabaPuHuiTiR;
+        color: #212121;
+        line-height: 33px;
+      }
+      &-content {
+        display: flex;
+        margin-top: 68px;
+        &-item {
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          flex-direction: column;
+          margin-right: 9px;
+          padding-bottom: 49px;
+          font-size: 36px;
+          font-family: AlibabaPuHuiTiR;
+          color: #212121;
+          width: 326px;
+          height: 517px;
+          img {
+            margin-top: 25px;
           }
         }
       }
     }
-
-    .content-list {
+    .solve {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       background: #fff;
-      // width: 700px;
-      margin: 0;
-      box-sizing: border-box;
-      border-radius: 2px;
-      // margin-left: 122px;
-      margin-bottom: 20px;
-
-      .list-header {
-        margin: 0;
-        padding: 0;
+      margin-top: 16px;
+      padding-top: 32px;
+      padding-bottom: 40px;
+      &-title {
+        font-size: 28px;
+        font-family: AlibabaPuHuiTiR;
+        color: #212121;
+      }
+      &-desc {
+        margin-top: 2px;
+        font-size: 36px;
+        font-family: AlibabaPuHuiTiM;
+        color: #212121;
+        line-height: 50px;
+      }
+      &-content {
+        background-image: url("../../images/solve.png");
+        height: 556px;
+        width: 100%;
+        background-size: 100%;
+      }
+      .more-solve {
+        margin-top: 46px;
+        margin-bottom: 30px;
+        width: 358px;
+        height: 82px;
+        background: #B48859;
+        border-radius: 20px;
+        font-size: 24px;
+        font-family: AlibabaPuHuiTiM;
+        color: #FFFFFF;
+        line-height: 33px;
         display: flex;
+        justify-content: center;
         align-items: center;
-        width: 100vw;
-        white-space: nowrap;
-        overflow-x: scroll;
-        font-size: 14px;
-        border-bottom: 1px solid hsla(0,0%,59.2%,.1);
-
-        &:first-child {
-          margin-left: 5px;
-        }
-
-        .list-header-item {
-          list-style: none;
-          cursor: pointer;
-          padding: 15px;
-          margin-right: 5px;
-        }
-
-        .header-item-active {
-          color: #007fff;
-        }
       }
-
-      @media screen and (max-width: 960px){
-        margin-left: 0;
+    }
+    .resource {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 32px;
+      padding-bottom: 40px;
+      &-title {
+        font-size: 36px;
+        font-family: AlibabaPuHuiTiM;
+        color: #212121;
+        line-height: 50px;
       }
-
-      .el-pagination {
-        text-align: center;
-        padding: 30px;
-        padding-bottom: 0;
-        background: #eee;
+      &-content {
+        display: flex;
+        margin-top: 68px;
       }
     }
   }

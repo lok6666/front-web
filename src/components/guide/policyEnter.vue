@@ -2,14 +2,14 @@
   <div class="guide-wrap policy-enter-bg">
     <div class="container">
       <div class="guide-policyEnter-content">
-        <div class="policy-block search">
+        <div class="policy-block search" @click="$router.push('/policy-search')" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策查询
             <p class="guide-agile">Cultural industry</p>
         </div>
         <div class="divide"></div>
-        <div class="policy-block apply">
+        <div class="policy-block apply" @click="$router.push('/policy-report')" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策申报
@@ -52,10 +52,11 @@ export default {
         margin-top: 20px;
         .policy-block {
         display: flex;
-        align-items: center;
+        align-items: end;
         justify-content: center;
         width: 596px;
         font-size: 56px;
+        padding-bottom: 33px;
         color: #212121;
         height: 517px;
         background-size: cover !important;

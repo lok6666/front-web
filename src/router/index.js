@@ -41,6 +41,26 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/policy-search',
+    component: () => import('@/views/policy-search/index'),
+    hidden: true
+  },
+  {
+    path: '/policy-report',
+    component: () => import('@/views/policy-report/index'),
+    hidden: true
+  },
+  {
+    path: '/finance',
+    component: () => import('@/views/finance/index'),
+    hidden: true
+  },
+  {
+    path: '/finance-detail/:id',
+    component: () => import('@/views/finance-detail/index'),
+    hidden: true
+  },
+  {
     path: '/archives',
     component: () => import('@/views/archives/index'),
     hidden: true
@@ -293,7 +313,6 @@ const createRouter = () => new Router({
       return { x: 0, y: 0 }
     }
   },
-  mode: 'history',
   routes: constantRoutes
 })
 
