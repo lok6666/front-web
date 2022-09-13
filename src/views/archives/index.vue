@@ -1,456 +1,232 @@
-<!-- 文章归档页面 -->
 <template>
-  <div ref="container" class="container">
-    <app-header :nav-item-active="2" />
-    <div class="content-container">
-      <div class="left-side">
-        <p class="left-side-title">Archives</p>
-        <ul class="tab-list">
-          <li
-            v-for="(tab,index) in tabs"
-            :key="index"
-            class="list-tab"
-            :class="{'tab-active':tabActive === index}"
-            @click="tabClick(index,tab)"
-          >{{ tab.date }}</li>
-        </ul>
-        <el-button type="text" :disabled="tabCurrent === 1" @click="tabPageChange(-1)">
-          <i class="el-icon-arrow-left el-icon" />
-        </el-button>
-        <el-button type="text" :disabled="tabPages === tabCurrent" @click="tabPageChange(1)">
-          <i class="el-icon-arrow-right el-icon" />
-        </el-button>
-      </div>
-
-      <div class="right-side">
-        <el-timeline>
-          <el-timeline-item
-            id="first"
-            color="#0bbd87"
-            icon="el-icon-date"
-            size="large"
-            :timestamp="'# 继续加油啊！当前月份一共' + total +'篇文章！'"
-            placement="top"
-          />
-          <transition-group name="fade">
-            <el-timeline-item
-              v-for="(item,index) in artList"
-              :key="index"
-              color="#0bbd87"
-              :timestamp="item.date"
-              placement="top"
-            >
-              <el-card shadow="hover">
-                <router-link :to="'/article/' + item.id" class="title">{{ item.title }}</router-link>
-                <div class="content">
-                  <p class="abstract multi-ellipsis--l3">
-                    {{ item.summary }}
-                  </p>
-                  <div class="wrap-img">
-                    <img :src="item.cover">
-                  </div>
-                </div>
-              </el-card>
-            </el-timeline-item>
-          </transition-group>
-        </el-timeline>
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :page-size="size"
-          :current-page="current"
-          :total="total"
-          :hide-on-single-page="true"
-          @current-change="currentChange"
-        />
-      </div>
+  <div class="app-container">
+    <app-header :nav-item-active="-1" />
+    <div class="protect-bg">
+      <div>产品大厅</div>
     </div>
-
-    <!-- 移动tab菜单图标 -->
-    <svg-icon v-if="device !== 'desktop'" icon-class="archives-menu" class="menu-svg" @click="drawer=!drawer" />
-    <!-- 移动tab菜单抽屉 -->
-    <el-drawer
-      v-if="device !== 'desktop'"
-      :visible.sync="drawer"
-      direction="ltr"
-      size="40%"
-      :show-close="false"
-    >
-      <ul class="menu-list">
-        <li
-          v-for="(tab,index) in tabs"
-          :key="index"
-          class="list-tab"
-          :class="{'tab-active':tabActive === index}"
-          @click="tabClick(index,tab)"
-        >{{ tab.date }}</li>
-      </ul>
-      <div class="page-wraper">
-        <el-button type="text" :disabled="tabCurrent === 1" @click="tabPageChange(-1)">
-          <i class="el-icon-arrow-left el-icon" />
-        </el-button>
-        <el-button type="text" :disabled="tabPages === tabCurrent" @click="tabPageChange(1)">
-          <i class="el-icon-arrow-right el-icon" />
-        </el-button>
+    <div class="search">
+      <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
+       <template slot="append">
+       <div style="display: flex; align-item: center;">
+       <img src="../../images/search.png" style="width: 23px; height: 23px;" />查找
+       </div>
+       </template>
+      </el-input>
+    </div>
+    <div class="finance-container">
+      <div style="margin: 36px 60px;">
+        <div class="select-btn">
+          <div>服务分类:</div>
+          <div v-for="(btn, index) in serviceList" :key="index">
+            <el-button
+              class="button-new-tag "
+              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+              size="small"
+              @click="select(index)"
+              >{{ btn.message }}</el-button
+            >
+          </div>
+        </div>
+        <div class="select-btn">
+          <div>价格范围:</div>
+          <div v-for="(btn, index) in priceList" :key="index">
+            <el-button
+              class="button-new-tag "
+              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+              size="small"
+              @click="select(index)"
+              >{{ btn.message }}</el-button
+            >
+          </div>
+        </div>
+        <div class="select-btn">
+          <div>发布时间:</div>
+            <div v-for="(btn, index) in priceList" :key="index">
+              <el-button
+                class="button-new-tag "
+                :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                size="small"
+                @click="select(index)"
+                >{{ btn.message }}</el-button
+              >
+            </div>
+        </div>
       </div>
-    </el-drawer>
+      <protect/>
+    </div>
+    <app-footer />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { pageArchives } from '@/api/archives.js'
-import AppHeader from '@/components/Header/index'
-import { formatDate } from '@/utils/index.js'
-import { pagePublishedArticle } from '@/api/article.js'
+import { mapGetters } from "vuex";
+import { getAccessToken } from "@/utils/auth";
+import loanBg1 from "../../images/loan-card-header1.png";
+import bank1 from "../../images/bank1.png";
+import AppHeader from "@/components/Header/index";
+import protect from "./components/protect.vue";
+import AppFooter from "@/components/footer/index";
+import { updateUser, bindUsername } from "@/api/user.js";
 export default {
-  name: 'Archives',
-  components: {
-    AppHeader
-  },
+  name: "User",
   data() {
     return {
-      drawer: false,
-      tabActive: 0,
-      loading: true,
-      tabs: [],
-      tabSize: 12,
-      tabCurrent: 1,
-      tabPages: 1,
-      yearMonth: '',
-      current: 1,
-      size: 8,
-      total: 0,
-      artList: []
-    }
-  },
-
-  computed: {
-    ...mapGetters([
-      'device'
-    ])
-  },
-
-  mounted() {
-    this.pageArchives()
-  },
-
-  methods: {
-
-    pageArchives() {
-      this.loading = true
-      const params = { size: this.tabSize, current: this.tabCurrent }
-      pageArchives(params).then(
-        res => {
-          const records = res.data.records
-          records.forEach(
-            ele => {
-              const arr = ele.yearMonth.split('-')
-              ele.date = arr[0] + '年' + arr[1] + '月'
-            }
-          )
-          this.tabs = records
-          this.tabPages = res.data.pages
-          this.tabClick(0, this.tabs[0])
-        }
-      )
-    },
-
-    // 获取文章列表
-    pageArticle() {
-      this.loading = true
-      const params = {
-        current: this.current,
-        size: this.size,
-        yearMonth: this.yearMonth
-      }
-      pagePublishedArticle(params).then(
-        res => {
-          const records = res.data.records
-          records.forEach(ele => { ele.date = formatDate(new Date(ele.publishTime.replace(/-/g, '/')), 'yyyy-MM-dd') })
-          this.artList = records
-          this.total = res.data.total
-          this.loading = false
-          this.$refs.container.scrollTop = 0
+      inputValue: '',
+      categoryId: 0,
+      serviceList: [
+        {
+          message: "不限",
+          isSelect: false,
         },
-        error => {
-          console.error(error)
-          this.loading = false
+        {
+          message: "文化/互联网科技资讯",
+          isSelect: false,
+        },
+        {
+          message: "政策资质",
+          isSelect: false,
+        },
+        {
+          message: "工商",
+          isSelect: false,
+        },
+        {
+          message: "审计",
+          isSelect: false,
         }
-      )
+      ],
+      priceList: [
+        {
+          message: "不限",
+          isSelect: false,
+        },
+        {
+          message: "1-500",
+          isSelect: false,
+        },
+        {
+          message: "月计价",
+          isSelect: false,
+        },
+        {
+          message: "天计价",
+          isSelect: false,
+        },
+        {
+          message: "面议",
+          isSelect: false,
+        }
+      ],
+      timeList: [
+        {
+          message: "不限",
+          isSelect: false,
+        },
+        {
+          message: "当月",
+          isSelect: false,
+        },
+        {
+          message: "三月半",
+          isSelect: false,
+        },
+        {
+          message: "半年内",
+          isSelect: false,
+        },
+        {
+          message: "一年内",
+          isSelect: false,
+        }
+      ]
+    };
+  },
+  components: {
+    AppHeader,
+    protect,
+    AppFooter,
+  },
+  computed: {
+    ...mapGetters(["defaultAvatar", "device"]),
+  },
+  mounted() {},
+  methods: {
+    select(index) {
+      // Vue.set(vm.obj, propertyName, newValue);
+      // this.btnList[index].isSelect = !this.btnList[index].isSelect;
+      console.log("this---------", this.btnList[index]);
     },
-
-    // 文章分页
-    currentChange(current) {
-      this.current = current
-      this.pageArticle()
+    detail(index) {
+      this.$router.push({
+        path: `/finance-detail/:${index}`
+      })
     },
-
-    // 归档tab分页
-    tabPageChange(val) {
-      this.tabCurrent = this.tabCurrent + val
-      this.drawer = false
-      this.pageArchives()
-    },
-
-    // 左边tab点击事件
-    tabClick(index, tab) {
-      this.tabActive = index
-      this.yearMonth = tab.yearMonth
-      this.current = 1
-      this.drawer = false
-      this.pageArticle()
-    }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.container {
-  @import '~@/styles/variables';
-  width: 100%;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: -webkit-overlay;
-  overflow-y: overlay;
+.app-container {
+  // padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: #eee;
+  min-height: calc(100vh - 50px);
+  position: relative;
 
-  @media screen and (max-width: 960px){
-    background: #fff;
-  }
-
-  .content-container {
-    max-width: $ContentContainerW;
-    margin: 0 auto;
-    margin-top: 50px;
-    box-sizing: border-box;
-    display: flex;
-
-    @media screen and (max-width: 960px){
-      margin-top: 20px;
-    }
-
-    .left-side {
-      position: fixed;
-      top: 110px;
-      left: calc(calc(100% - 810px)/2);
-      z-index: 999;
-      padding: 0;
-      padding-top: 20px;
-      padding-bottom: 5px;
-      background: #fff;
-      text-align: center;
-
-      .left-side-title {
-        margin: 0;
-        font-weight: 700;
-        font-size: 20px;
-        color: #303133;
-        text-align: center;
-        padding-bottom: 20px;
-      }
-
-      .tab-list {
-        margin: 0;
-        padding: 0;
-        font-size: 15px;
-        text-align: center;
-        color: #909090;;
-
-        .list-tab {
-          list-style: none;
-          position: relative;
-          padding: 5px;
-          border-radius: 3px;
-          cursor: pointer;
-          margin: 5px 20px;
-          margin-top: 0;
-
-          &:hover {
-            color: #007fff;
-            background: #f4f5f5;
-          }
-        }
-
-        .tab-active {
-          color: #fff;
-          background: #007fff;
-
-          &:hover {
-            color: #fff;
-            background: #007fff;
-          }
-        }
-      }
-
-      .el-icon {
-        font-weight: 700;
-      }
-    }
-
-    .right-side {
-      margin-left: 200px;
-      flex: 1;
-
-      .el-card {
-        position: relative;
-
-        @media screen and (max-width: 922px){
-          width: 80vw;
-        }
-
-        .title {
-          margin: 0;
-          font-size: 14px;
-          font-weight: 700;
-          color: #2f2f2f;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-
-        .content {
-          display: flex;
-
-          .abstract {
-            flex: 1;
-            margin: 0;
-            margin-top: 8px;
-            padding-right: 200px;
-            line-height: 20px;
-            color: #999;
-
-            @media screen and (max-width: 960px){
-              padding-right: 0;
-            }
-          }
-
-          .wrap-img {
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 150px;
-            height: 90px;
-            border-radius: 4px;
-            border: 1px solid #f3f7fa;
-            overflow: hidden;
-
-            @media screen and (max-width: 960px){
-              display: none;
-            }
-
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
-        }
-      }
-
-      .el-pagination {
-        text-align: center;
-      }
-
-      @media screen and (max-width: 960px){
-        margin-left: 0;
-      }
-
-      #first {
-        width: 100%;
-        height: 70px;
-
-        /deep/ .el-timeline-item__timestamp {
-          color: #303133;
-          font-size: 16px;
-          font-weight: bold;
-        }
-
-        /deep/ .el-timeline-item__node--large {
-          left: -8px;
-          width: 23px;
-          height: 23px;
-        }
-      }
-
-      @media screen and (max-width: 960px){
-        /deep/ .el-timeline {
-          padding: 15px;
-        }
-      }
-
-      // 左边连线的样式
-      @media screen and (min-width: 960px){
-        /deep/ .el-timeline-item__tail {
-          border-left: 2px solid #C0C4CC;
-        }
-      }
-
-      // 右边日期的样式
-      @media screen and (min-width: 960px){
-        /deep/ .el-timeline-item__timestamp {
-          color: #444;
-          font-weight: 700;
-        }
-      }
-    }
-  }
-
-  // 移动端tab menu图标
-  .menu-svg {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    fill: #333;
-    width: 25px;
-    height: 25px;
-  }
-
-  // 移动端tab
-  .menu-list {
-    margin: 0;
+  @media screen and (max-width: 922px) {
     padding: 0;
-    font-size: 15px;
-    text-align: center;
-    color: #909090;;
-
-    @media screen and (min-width: 922px){
-      display: none;
-    }
-
-    .list-tab {
-      list-style: none;
-      position: relative;
-      margin: 0 auto;
-      padding: 5px;
-      border-radius: 3px;
-      cursor: pointer;
-      margin-top: 5px;
-      width: 100px;
-
-      &:hover {
-        color: #007fff;
-        background: #f4f5f5;
+    margin: 0;
+  }
+  .protect-bg {
+    padding-left: 73px;
+    padding-bottom: 123px;
+    display: flex;
+    align-items: flex-end;
+    font-size: 56px;
+    font-family: AlibabaPuHuiTiR;
+    color: #FFFFFF;
+    width: 100%;
+    height: 442px;
+    background-size: cover;
+    background-image: url('../../images/protectBg.png');
+  }
+  .search {
+    width: 100%;
+    height: 118px;
+    padding: 62px 137px;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    .a {
+      .input {
+        height: 42px !important;
       }
-    }
-
-    .tab-active {
-      color: #fff;
-      background: #007fff;
-
-      &:hover {
-        color: #fff;
-        background: #007fff;
+      .el-input-group__append {
+        background: white;
       }
-    }
-
-    .page-wraper {
-      text-align: center;
     }
   }
-
-  /deep/ .el-drawer__body>* {
-    text-align: center;
+  .finance-container {
+    max-width: 1440px;
+    margin-top: 31px;
+    margin-left: 70px;
+    margin-right: 70px;
+    .select-btn {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      .button-new-tag {
+        margin-left: 10px;
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
   }
 }
 </style>

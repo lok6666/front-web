@@ -96,3 +96,9 @@ div:focus {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+//todo 暂时定义全局
+.dialog-bg {
+  height: 801px;
+  background-size: cover;
+  background-image: url('../images/policy-match.png');
+}

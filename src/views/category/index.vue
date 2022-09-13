@@ -2,7 +2,14 @@
   <div ref="container" class="container">
     <app-header :nav-item-active="1" />
     <div class="content-container">
-      <img src="../../images/userBg.png" style="width: 100%" />
+      <div class="service-bg">
+        <div style="width: 1285px;display: flex;display: flex;flex-direction: column;align-items: end;">
+        <div style="width: 310px;height: 10px;"></div>
+          <div>高效专业的</div>
+          <div>企业共享服务科技提供商</div>
+          <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">帮助企业规模化使用共享产品，并提供需求匹</div>
+        </div>
+      </div>
       <flow/>
       <div class="service">
         <div class="service-title">面对日趋多元化的需求，企业如何能轻运营、快发展</div>
@@ -104,6 +111,20 @@ export default {
     padding-bottom: 60px;
     @media screen and (max-width: 960px){
       margin-top: 0;
+    }
+    .service-bg {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      font-size: 50px;
+      font-family: AlibabaPuHuiTiM;
+      color: #000000;
+      width: 100%;
+      height: 442px;
+      padding-right: 143px;
+      padding-bottom: 60px;
+      background-size: cover;
+      background-image: url('../../images/peopleServiceBg.png');
     }
     .service {
       display: flex;

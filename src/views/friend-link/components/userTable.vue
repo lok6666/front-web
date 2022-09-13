@@ -1,7 +1,9 @@
 <template>
-  <div class="user-table-wrap apply-bg">
+  <div class="user-table-wrap collect-bg">
     <div class="user-table-title">
-      <div class="user-table-service">已申请的服务</div>
+      <div class="user-table-service">
+        已报名的课程
+      </div>
       <div class="user-table-all">
         <img
           class="table-icon"
@@ -24,10 +26,9 @@
 </template>
 
 <script>
-import levelImg from "@/images/修改名称.png";
-import policyTitleImg from "@/images/类别.png";
-import addressImg from "@/images/account.png";
-import statusImg from "@/images/符号-状态-警告.png";
+import levelImg from "@/images/等级.png";
+import policyTitleImg from "@/images/形状.png";
+import addressImg from "@/images/转发文.png";
 import dateImg from "@/images/time.png";
 export default {
   data() {
@@ -36,68 +37,59 @@ export default {
         {
           level: "石景山区2",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普",
-          status: "已申请",
+          address: "上海市普陀区金沙江路",
           date: "2016.05.03",
         },
         {
           level: "石景山区4",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普",
-          status: "已申请",
+          address: "上海市普陀区金沙江路",
           date: "2016.05.03",
         },
         {
           level: "石景山区1",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普",
-          status: "已申请",
+          address: "上海市普陀区金沙江路",
           date: "2016.05.03",
         },
         {
           level: "石景山区3",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普",
-          status: "已申请",
+          address: "上海市普陀区金沙江路",
           date: "2016.05.03",
         },
       ],
       tableItem: [
         {
-          label: "服务名称",
+          label: "上课时间",
           src: levelImg,
           showKey: "level",
         },
         {
-          label: "类别",
+          label: "课程名称",
           src: policyTitleImg,
           showKey: "title",
         },
         {
-          label: "招商服务",
+          label: "讲课名称",
           src: addressImg,
           showKey: "address",
         },
         {
-          label: "状态",
-          src: statusImg,
-          showKey: "status",
-        },
-        {
-          label: "申请日期",
+          label: "归属系列",
           src: dateImg,
           showKey: "date",
         },
       ],
     };
-  },
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.apply-bg {
+.collect-bg {
   background-repeat: no-repeat !important;
-  background-image: url("../../../images/已申请服务背景.png") !important;
+  background-image: url("../../../images/已收藏政策背景.png") !important;
 }
 .user-table-wrap {
   background: #ffffff;

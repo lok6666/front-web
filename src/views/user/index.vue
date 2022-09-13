@@ -662,8 +662,8 @@ export default {
         }
       }
       .setting-box-center {
-        width: 100%;
-        min-width: 732px;
+        //width: 100%;
+        //min-width: 732px;
       }
       .setting-box-right {
         font-family: PingFangSC-Semibold, PingFang SC;
