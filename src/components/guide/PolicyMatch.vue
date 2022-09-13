@@ -1,5 +1,10 @@
 <template>
   <div class="guide-wrap policy-bg">
+    <el-dialog
+      :visible.sync="dialogVisible"
+      custom-class="dialog-bg"
+      :before-close="handleClose">
+    </el-dialog>
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
@@ -24,7 +29,7 @@
             </div>
         </div>
       </div>
-      <div class="guide-policy-query">
+      <div class="guide-policy-query" @click="dialogVisible = true">
           匹配政策
       </div>
     </div>
@@ -36,6 +41,7 @@ export default {
   name: "Advantage",
   data() {
     return {
+      dialogVisible: false,
       fnList: [
         {
           title: '政策文件',
@@ -66,6 +72,15 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  methods: {
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    }
   }
 };
 </script>
