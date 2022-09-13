@@ -36,11 +36,10 @@
         </div>
         <div class="content">
           <div class="content-left">
-                <span style="font-size: 30px;font-weight: bold;font-family: SourceHanSerifSC-Bold, SourceHanSerifSC;">石文创投</span>
+                <span style="font-size: 30px;font-weight: bold;font-family: SourceHanSerifSC-Bold, SourceHanSerifSC;">石文创服</span>
                 <span>助理企业梦想腾飞</span>
           </div>
           <div class="content-right">
-                <span><img class="index-icon" src="../../images/后台管理.png" />企业管理后台</span>
                 <span @click="$router.push('/')" style="cursor: pointer;"><img class="index-icon" src="../../images/首页.png" />企业首页</span>
                 <span><img class="index-icon" src="../../images/CombinedShape.png" />+3</span>
                               <!-- 右边box -->
@@ -136,6 +135,9 @@ export default {
     return {
       keyword: '',
       inputIconColor: '',
+      userInfo: {
+
+      },
       navItems: [
         {
           name: '首页',
@@ -144,7 +146,7 @@ export default {
         },
          {
           name: '政策匹配',
-          to: '/',
+          to: '/policy-match',
         },
         {
           name: '人才服务',

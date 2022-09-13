@@ -22,7 +22,7 @@
           <div class="sjsIndustrial-right">
             <div class="r-top">中关村科幻产业创新中心</div>
             <div class="r-bottom">
-              <div class="ly-show"></div>
+              <div class="ly-show" @click="showPictureDetail"></div>
               <div class="more">
                 <div class="more-icon"></div>
                 查看更多
@@ -52,6 +52,11 @@ export default {
     this.player = videojs(this.$refs.video, this.options, () => {
       console.log("播放器渲染完成");
     });
+  },
+  methods: {
+    showPictureDetail() {
+      this.$router.push('/picture-detail')
+    }
   },
   props: {
     list: {

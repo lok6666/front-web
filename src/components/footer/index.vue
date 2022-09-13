@@ -27,7 +27,7 @@
           京公网安备 11010502039640 京ICP备05060933号
         </div>
         <div class="footer-direct">
-          © 2012-2022 石文创投<img
+          © 2012-2022 石文创服<img
             src="../../images/ga.png"
             style="width: 17px;height: 17px;"
           />京公网安备100000303030303

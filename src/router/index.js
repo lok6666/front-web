@@ -51,6 +51,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/policy-match',
+    component: () => import('@/views/policy-match/index'),
+    hidden: true
+  },
+  {
+    path: '/picture-detail',
+    component: () => import('@/views/picture-detail/index'),
+    hidden: true
+  },
+  {
     path: '/finance',
     component: () => import('@/views/finance/index'),
     hidden: true

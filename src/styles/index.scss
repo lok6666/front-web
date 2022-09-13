@@ -99,6 +99,56 @@ div:focus {
 //todo 暂时定义全局
 .dialog-bg {
   height: 801px;
-  background-size: cover;
+  width: 1104px;
+  //padding-top: 176px;
+  background-size: 100% 100%;
+  background-color:rgba(0,0,255,0);
   background-image: url('../images/policy-match.png');
+  .el-dialog__body {
+    font-family: YouSheBiaoTiHei;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 142px;
+    .select-btn {
+      display: flex;
+      margin-bottom: 31px;
+      .title {
+        font-size: 20px;
+        font-family: AlibabaPuHuiTiR;
+        color: #FFFFFF;
+        padding-top: 10px;
+      }
+      .select-item {
+        display: grid;
+        grid-template-columns: repeat(9, 86px);
+        grid-gap: 10px 10px;
+      }
+      .button-new-tag {
+        background-color:rgba(0,0,255,0);
+        height: 40px;
+        width: 86px;
+        font-size: 16px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #FFFFFF;
+        border-radius: 5px;
+        border: 1px solid rgba(255,255,255,0.31);
+      }
+    }
+    .calculate {
+      height: 59px;
+      background: #8B572A;
+      border-radius: 30px;
+      font-size: 20px;
+      font-family: AlibabaPuHuiTiR;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
 }

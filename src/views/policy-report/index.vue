@@ -12,7 +12,7 @@
       <el-breadcrumb-item>活动详情</el-breadcrumb-item>
     </el-breadcrumb>
       <div class="search">
-        <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
+        <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
         <template slot="append">
         <div style="display: flex; align-item: center;">
         <img src="../../images/search.png" style="width: 23px; height: 23px;" />查找

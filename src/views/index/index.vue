@@ -13,9 +13,9 @@
               <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
             </swiper>
         </div>
-<!--         <div class="test" style="height: 601px;">
+        <div class="test" style="height: 601px;">
           <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
-             <swiper-slide class="slide-1"></swiper-slide>
+            <swiper-slide class="slide-1"></swiper-slide>
             <swiper-slide class="slide-2"></swiper-slide>
             <swiper-slide class="slide-3"></swiper-slide>
             <swiper-slide class="slide-4"></swiper-slide>
@@ -30,7 +30,7 @@
             <swiper-slide class="slide-4"></swiper-slide>
             <swiper-slide class="slide-5"></swiper-slide>
           </swiper>
-        </div -->
+        </div>
         <new/>
         <policy-enter/>
         <sjs-industrial />
@@ -116,11 +116,7 @@ export default {
       swiperOptionTop: {
         loop: true,
         loopedSlides: 5, // looped slides should be the same
-        spaceBetween: 10,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
+        spaceBetween: 10
       },
       swiperOptionThumbs: {
         loop: true,
@@ -146,12 +142,6 @@ export default {
 
   mounted() {
     // this.getArtList()
-    this.$nextTick(() => {
-      const swiperTop = this.$refs.swiperTop.$swiper
-      const swiperThumbs = this.$refs.swiperThumbs.$swiper
-      swiperTop.controller.control = swiperThumbs
-      swiperThumbs.controller.control = swiperTop
-    })
   },
 
   methods: {
