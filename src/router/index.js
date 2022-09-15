@@ -61,6 +61,31 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/new-detail',
+    component: () => import('@/views/new-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/teacher-detail',
+    component: () => import('@/views/teacher-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/policy-detail',
+    component: () => import('@/views/policy-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/business-detail',
+    component: () => import('@/views/business-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/protect-detail/:id',
+    component: () => import('@/views/protect-detail/index'),
+    hidden: true
+  },
+  {
     path: '/finance',
     component: () => import('@/views/finance/index'),
     hidden: true

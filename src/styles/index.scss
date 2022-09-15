@@ -152,3 +152,141 @@ div:focus {
     }
   }
 }
+
+// todo 暂时定义全局
+.register-dialog {
+  font-size: 14px;
+  background-image: url("../images/login-bg.png");
+  background-color: rgba(255,255,255, 0);
+  background-size: 100% 100%;
+  box-shadow: none;
+  .el-dialog__header {
+    visibility: hidden;
+  }
+  .el-dialog__body {
+    padding: 10px 30px 15px 35px;
+    h2 {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  .el-input {
+    margin-bottom: 10px;
+  }
+
+  .el-button {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .login-tip {
+    text-align: center;
+    color: #007fff;
+    margin-bottom: 10px;
+  }
+
+  .code-btn {
+    position: relative;
+    top: 10px;
+    right: 5px;
+    font-size: 16px;
+    font-family: AlibabaPuHuiTiR;
+    color: #009AFF;
+  }
+}
+// todo 暂时定义全局
+.login-dialog {
+  font-size: 14px;
+  background-image: url("../images/login-bg.png");
+  background-color: rgba(255,255,255, 0);
+  background-size: 100% 100%;
+  box-shadow: none;
+  .el-dialog__header {
+    visibility: hidden;
+  }
+  .el-dialog__body {
+    padding: 10px 30px 15px 35px;
+    h2 {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  .tab {
+    padding-right: 10px;
+    font-weight: bold;
+  }
+
+  .active {
+    color: #007fff;
+  }
+
+  .el-input {
+    margin-bottom: 10px;
+  }
+
+  .el-button {
+    width: 100%;
+  }
+
+  .code-btn {
+    color: #007fff;
+    position: relative;
+    top: 10px;
+    right: 5px;
+  }
+
+  .tip {
+    margin-bottom: 20px;
+    padding: 0 2px;
+
+    .right {
+      float: right;
+    }
+  }
+
+  .third-login {
+    width: 100%;
+
+    .name {
+      color: #999;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      margin: 23px 0;
+
+      &:before {
+        content: "";
+        height: 1px;
+        background: #999;
+        flex: 1;
+        margin-right: 10px;
+        opacity: .8;
+      }
+
+      &:after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: #999;
+        margin-left: 10px;
+        opacity: .8;
+      }
+    }
+
+    .icon-box {
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 5px;
+
+      .icon {
+        height: 28px;
+        width: 28px;
+        margin: 0 15px;
+      }
+    }
+  }
+}

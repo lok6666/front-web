@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="teacher-list">
-        <div class="teacher-list-item" v-for="(i, index) in userList" :key="index">
+        <div class="teacher-list-item" @click="routeTo()" v-for="(i, index) in userList" :key="index">
             <img class="user-img" :src="i.userImg"/>
             <div class="name">{{i.name}}</div>
             <div class="desc">{{i.desc}}</div>
@@ -67,6 +67,11 @@ export default {
         }
       ],
     };
+  },
+  methods: {
+    routeTo(detailType) {
+      this.$router.push('/teacher-detail')
+    }
   }
 };
 </script>

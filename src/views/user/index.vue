@@ -28,7 +28,7 @@
             @click="chageTab(category.id)"
           >
             <div
-              :class="`user-icon-${category.id}`"
+              :class="[categoryId === category.id? `user-icon-${category.id}-active`:  `user-icon-${category.id}`]"
               style="width: 20px; height: 20px;"
             ></div>
             <!-- <img src="../../images/home.png"> -->
@@ -44,7 +44,7 @@
             @click="chageTab(property.id)"
           >
             <div
-              :class="`user-icon-${property.id}`"
+            :class="[categoryId === property.id? `user-icon-${property.id}-active`:  `user-icon-${property.id}`]"
               style="width: 20px; height: 20px;"
             ></div>
             <!-- <img src="../../images/home.png"> -->
@@ -60,7 +60,7 @@
             @click="chageTab(service.id)"
           >
             <div
-              :class="`user-icon-${service.id}`"
+            :class="[categoryId === service.id? `user-icon-${service.id}-active`:  `user-icon-${service.id}`]"
               style="width: 20px; height: 20px;"
             ></div>
             <!-- <img src="../../images/home.png"> -->
@@ -69,11 +69,31 @@
           </li>
         </ul>
         <div class="setting-box-center">
-          <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
-          <policyList />
-          <userTable />
-          <userTable2 />
-          <userTable3 />
+          <div v-if="categoryId === 0">
+            <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
+            <policyList />
+            <userTable />
+            <userTable2 />
+            <userTable3 />
+          </div>
+          <div v-else-if="categoryId === 1" style="background-color: #fff">
+            <form-template style="padding: 50px 127px 100px 80px;"
+              @likeCountChanges="likeCountChanges"
+              :labelWidth="140"
+              :formConfig="messageForm"
+              :showBtn="true"
+              :disabled="false"/> 
+          </div>
+          <div v-else-if="categoryId === 3" style="background-color: #fff">
+            <price-form-template style="padding: 50px 30px 100px 20px;"
+              @likeCountChanges="likeCountChanges"
+              :labelWidth="200"
+              :priceForm="priceForm"
+              :payTaxesForm="payTaxesForm"
+              :createForm="createForm"
+              :showBtn="true"
+              :disabled="false"/> 
+          </div>
         </div>
         <div class="setting-box-right">
           <div class="enterprise-service">
@@ -101,12 +121,15 @@
 <script>
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
+import {  messageForm, priceForm, payTaxesForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
 import policyList from "./components/policy.vue";
 import userTable from "./components/userTable.vue";
 import userTable2 from "./components/userTable2.vue";
 import userTable3 from "./components/userTable3.vue";
 import AppHeader from "@/components/Header/index";
+import FormTemplate from "@/components/Form/index.vue";
+import priceFormTemplate from "@/components/Form/priceForm.vue";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
@@ -114,24 +137,10 @@ export default {
   data() {
     return {
       categoryId: 0,
-/*       serviceList: [
-        {
-          name: "金融服务",
-          color: "#F52323",
-        },
-        {
-          name: "知识产权",
-          color: "#F5A623",
-        },
-        {
-          name: "企业服务",
-          color: "#52CCA3",
-        },
-        {
-          name: "培训服务",
-          color: "#4A90E2",
-        },
-      ], */
+      messageForm,
+      priceForm,
+      payTaxesForm,
+      createForm,
       echartsOptions: {
         title: {
           text: '财政数据图'
@@ -241,6 +250,8 @@ export default {
   components: {
     AppHeader,
     AppFooter,
+    FormTemplate,
+    priceFormTemplate,
     echarts,
     policyList,
     userTable,
@@ -276,197 +287,20 @@ export default {
       this.originalBirthday = userInfo.birthday;
       this.form.brief = userInfo.brief;
     },
-
-    // 昵称输入框焦点事件
-    nicknameIputFocus() {
-      this.$refs.nicknameIput.focus();
-      this.opVisible.nickname = true;
-    },
-
-    // 昵称取消保存
-    cancelNickname() {
-      this.form.nickname = this.userInfo.nickname;
-      this.opVisible.nickname = false;
-    },
-
-    // 昵称保存
-    saveNickname() {
-      const data = { nickname: this.form.nickname, userId: this.userInfo.id };
-      this.updateUser(data, 0);
-    },
-
-    // 生日栏聚焦
-    birthdayIputFocus() {
-      this.opVisible.birthday = true;
-    },
-
-    // 生日取消保存
-    cancelBirthday() {
-      this.form.birthday = this.userInfo.birthday;
-      this.opVisible.birthday = false;
-    },
-
-    // 保存生日
-    saveBirthday() {
-      const data = { birthday: this.form.birthday, userId: this.userInfo.id };
-      this.updateUser(data, 1);
-    },
-
-    // 性别栏聚焦
-    genderIputFocus() {
-      this.$refs.genderIput.focus();
-      this.opVisible.gender = true;
-    },
-
-    // 性别取消保存
-    cancelGender() {
-      this.form.gender = this.userInfo.gender;
-      this.opVisible.gender = false;
-    },
-
-    // 性别保存
-    saveGender() {
-      const data = { gender: this.form.gender, userId: this.userInfo.id };
-      this.updateUser(data, 2);
-    },
-
-    // 简介聚焦
-    briefIputFocus() {
-      this.$refs.briefIput.focus();
-      this.opVisible.brief = true;
-    },
-
-    // 简介取消保存
-    cancelBrief() {
-      this.form.brief = this.userInfo.brief;
-      this.opVisible.brief = false;
-    },
-
-    // 保存简介
-    saveBrief() {
-      const data = { brief: this.form.brief, userId: this.userInfo.id };
-      this.updateUser(data, 3);
-    },
-
-    // 更新用户信息
-    updateUser(data, index) {
-      return new Promise(async (resolve, reject) => {
-        await updateUser(data).then(
-          (res) => {
-            switch (index) {
-              case 0:
-                this.opVisible.nickname = false;
-                break;
-              case 1:
-                this.opVisible.birthday = false;
-                break;
-              case 2:
-                this.opVisible.gender = false;
-                break;
-              case 3:
-                this.opVisible.brief = false;
-                break;
-            }
-            this.$message({
-              message: "保存成功",
-              type: "success",
-            });
-            resolve();
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-        await this.$store.dispatch("user/getUserInfo");
-        this.init();
-      });
-    },
-
-    // 超出个数限制
-    onExceed() {
-      this.loading = false;
-    },
-
-    // 上传成功
-    uploadSuccess(res, file, fileList) {
-      if (res.code !== 0) {
-        console.error(res.message);
-        this.$message.error("文件上传失败");
-        return;
-      }
-      this.loading = false;
-      this.$message({
-        message: "上传成功",
-        type: "success",
-      });
-      this.$store.dispatch("user/getUserInfo").then((res) => this.init());
-    },
-
-    // 上传失败
-    uploadError(err) {
-      console.error(err);
-      this.loading = false;
-      this.$message.error("文件上传失败");
-    },
-
-    // 上传前，对文件校验
-    beforeUpload(file) {
-      this.loading = true;
-      const isImg =
-        file.type === "image/jpeg" ||
-        file.type === "image/png" ||
-        file.type === "image/jpg";
-      const isLt300KB = file.size / 1000 < 300;
-      if (!isImg) {
-        this.$message.error("文件格式不正确");
-        this.loading = false;
-      }
-      if (!isLt300KB) {
-        this.$message.error("文件大小不能大于300KB");
-        this.loading = false;
-      }
-      return isImg && isLt300KB;
-    },
-
-    // 用户名输入弹框
-    usernamePrompt() {
-      this.$prompt(
-        "字母开头，允许2-16字节，允许字母数字下划线，并且用户名成功填写后不允许修改。",
-        "填写用户名",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          inputPattern: /^[a-zA-Z][a-zA-Z0-9_]{1,15}$/,
-          inputErrorMessage: "用户名格式不正确",
-        }
-      )
-        .then(({ value }) => {
-          const params = { username: value };
-          bindUsername(params).then((res) => {
-            this.$message({
-              message: "绑定成功",
-              type: "success",
-            });
-            this.$store.dispatch("user/getUserInfo").then((res) => this.init());
-          });
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
         })
-        .catch(() => {
-          // TODO
-        });
+        .catch(_ => {});
     },
-
-    // 邮箱脱敏
-    sensitiveEmail(email) {
-      return email
-        ? email.substr(0, 2) + "****" + email.substr(email.indexOf("@"))
-        : "";
+    chageTab(id) {
+      console.log('chageTab-----', id);
+      this.categoryId = id;
     },
-
-    // 手机号脱敏
-    sensitiveMobile(mobile) {
-      var pat = /(\d{3})\d*(\d{4})/;
-      return mobile ? mobile.toString().replace(pat, "$1****$2") : "";
-    },
+    likeCountChanges(formConfig) {
+      console.log('likeCountChanges', this.formConfig, formConfig);
+    }
   },
 };
 </script>
@@ -536,6 +370,7 @@ export default {
       // padding: 20px;
       // padding-top: 10px;
       // margin-right: 60px;
+      width: 1440px;
       margin-top: -111px;
       display: flex;
       justify-content: space-between;
@@ -588,39 +423,77 @@ export default {
             background-image: url("../../images/home.png");
             margin-right: 1px;
           }
+          .user-icon-0-active {
+            background-image: url("../../images/home-active.png");
+            margin-right: 1px;
+          }
           .user-icon-1 {
             background-image: url("../../images/基本信息.png");
+            margin-right: 1px;
+          }
+          .user-icon-1-active {
+            background-image: url("../../images/基本信息-active.png");
             margin-right: 1px;
           }
           .user-icon-2 {
             background-image: url("../../images/宣传资料.png");
             margin-right: 1px;
           }
+          .user-icon-2-active {
+            background-image: url("../../images/宣传资料-active.png");
+            margin-right: 1px;
+          }
           .user-icon-3 {
             background-image: url("../../images/财税数据填报.png");
+            margin-right: 1px;
+          }
+          .user-icon-3-active {
+            background-image: url("../../images/财税数据填报-active.png");
             margin-right: 1px;
           }
           .user-icon-4 {
             background-image: url("../../images/企业备案信息.png");
             margin-right: 1px;
           }
+          .user-icon-4-active {
+            background-image: url("../../images/企业备案信息-active.png");
+            margin-right: 1px;
+          }
           .user-icon-5 {
             background-image: url("../../images/我的政策.png");
+            margin-right: 1px;
+          }
+          .user-icon-5-active {
+            background-image: url("../../images/我的政策-active.png");
             margin-right: 1px;
           }
           .user-icon-6 {
             background-image: url("../../images/我的服务.png");
             margin-right: 1px;
           }
+          .user-icon-6-active {
+            background-image: url("../../images/我的服务-active.png");
+            margin-right: 1px;
+          }
           .user-icon-7 {
             background-image: url("../../images/我的活动.png");
+            margin-right: 1px;
+          }
+          .user-icon-7-active {
+            background-image: url("../../images/我的活动-active.png");
             margin-right: 1px;
           }
           .user-icon-8 {
             background-image: url("../../images/站内信息.png");
           }
+          .user-icon-8-active {
+            background-image: url("../../images/站内信息-active.png");
+          }
           .user-icon-9 {
             background-image: url("../../images/账户管理.png");
+          }
+          .user-icon-9-active {
+            background-image: url("../../images/账户管理-active.png");
           }
           img {
             margin-right: 1px;
@@ -662,7 +535,7 @@ export default {
         }
       }
       .setting-box-center {
-        //width: 100%;
+        width: 100%;
         //min-width: 732px;
       }
       .setting-box-right {

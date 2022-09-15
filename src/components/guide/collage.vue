@@ -46,6 +46,9 @@ export default {
       },
       {
         excellentBusniessName: '航天云网'
+      },
+      {
+        excellentBusniessName: '航天云网'
       }]
     }
   },

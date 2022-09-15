@@ -11,12 +11,17 @@
           :options="swiperOptionTop"
           ref="swiperTop"
         >
-          <swiper-slide class="slide-1">
+          <swiper-slide
+            v-for="(item, index) in swiperConfig"
+            v-bind:class="`swiper-slide-${index}`"
+            :key="index"
+          >
             <div>
               <video
                 ref="video"
                 class="video-js vjs-default-skin vjs-big-play-centered"
-                style="height: 746px; max-height: 1300px; width: 100%"
+                style="height: 644px; max-height: 1300px; width: 100%"
+                :poster="item.poster"
                 controls
               >
                 <source
@@ -24,31 +29,31 @@
                   type="video/webm"
                 />
               </video>
-              <div style="width: 100%;height: 78px;font-size: 18px;font-family: AlibabaPuHuiTiR;color: #FFFFFF;">视频信息的文字介绍，可不配置，未配置隐藏不显示。视频信息的文字介绍，可不配置，未配置隐藏不显示。视频信息的文字介绍，可不配置，未配置隐藏不显示。视频信息的文字介绍，可不配置，未配置隐藏不显示。</div>
+              <div class="video-desc">
+                视频信息的文字介绍，可不配置，未配置隐藏不显示。视频信息的文字介绍，可不配置，未配置隐藏不显示。视频信息的文字介绍，可不配置，未配置隐藏不显示。视频信息的文字介绍，可不配置，未配置隐藏不显示。
+              </div>
             </div>
           </swiper-slide>
-          <swiper-slide class="slide-2"></swiper-slide>
-          <swiper-slide class="slide-3"></swiper-slide>
-          <swiper-slide class="slide-4"></swiper-slide>
-          <swiper-slide class="slide-5"></swiper-slide>
         </swiper>
         <swiper
           class="swiper gallery-thumbs"
           :options="swiperOptionThumbs"
           ref="swiperThumbs"
         >
-          <swiper-slide class="slide-1"><div style="width: 100%;height: 78px;font-size: 18px;font-family: AlibabaPuHuiTiR;color: #FFFFFF;">视频信息的文字介绍。</div></swiper-slide>
-          <swiper-slide class="slide-2"></swiper-slide>
-          <swiper-slide class="slide-3"></swiper-slide>
-          <swiper-slide class="slide-4"></swiper-slide>
-          <swiper-slide class="slide-5"></swiper-slide>
+          <swiper-slide v-for="(item, index) in swiperConfig"  :key="index">
+            <div v-bind:class="`swiper-bg swiper-slide-${index}`"></div>
+            <div class="swiper-desc">视频信息的文字介绍。</div>
+          </swiper-slide>
         </swiper>
       </div>
+      <imgEl />
     </div>
     <app-footer />
   </div>
 </template>
 <script>
+import { swiperConfig } from "@/config/index";
+import imgEl from "@/components/guide/img.vue";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import { mapGetters } from "vuex";
@@ -62,16 +67,23 @@ export default {
   components: {
     AppHeader,
     AppFooter,
+    imgEl,
     Swiper,
     SwiperSlide,
   },
   data() {
     return {
+      player: null,
+      swiperConfig,
       swiperOptionTop: {
         loop: true,
         loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
-        poster: "http://minio.bjwcxf.com/cultural-image/shijingshan.png",
+      },
+      options: {
+        autoplay: true,
+        poster:
+          "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
       },
       swiperOptionThumbs: {
         loop: true,
@@ -99,9 +111,9 @@ export default {
       swiperTop.controller.control = swiperThumbs;
       swiperThumbs.controller.control = swiperTop;
     });
-    this.player = videojs(this.$refs.video, this.options, () => {
-      console.log("播放器渲染完成");
-    });
+    // this.player = videojs(this.$refs.video, this.options, () => {
+    //   console.log("播放器渲染完成");
+    // });
   },
 
   methods: {
@@ -139,52 +151,72 @@ export default {
   overflow-y: overlay;
   .content-container {
     width: 100%;
-    padding-top: 93px; // 轮播图
-    background: #000;
     box-sizing: border-box;
     margin: 0 auto;
+    background: #fff;
     position: relative;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    // align-items: flex-start;
     //top: 36px;
     @media screen and (max-width: 960px) {
       margin-top: 0;
     }
     .side-left {
+      background: #000;
       flex: 1;
       border-radius: 2px;
-      height: 993px;
       .swiper {
-        height: 1232px;
+        // height: 1232px;
         width: 100%;
         max-width: 1440px;
         .swiper-slide {
           background-size: cover;
           background-position: center;
-
-          &.slide-1 {
-            background-image: url("../../images/swiper.png");
+          .video-desc {
+            background-color: black;
+            width: 100%;
+            height: 78px;
+            font-size: 18px;
+            font-family: AlibabaPuHuiTiR;
+            color: #ffffff;
+            padding-top: 22px;
           }
-          &.slide-2 {
+          .swiper-desc {
+            width: 100%;
+            height: 78px;
+            font-size: 18px;
+            font-family: AlibabaPuHuiTiR;
+            color: #ffffff;
+          }
+          .swiper-bg {
+            height: 226px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+          }
+          .swiper-slide-0 {
+            background-image: url("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+          }
+          .swiper-slide-1 {
             background-image: url("../../images/swiper1.png");
           }
-          &.slide-3 {
+          .swiper-slide-2 {
             background-image: url("../../images/swiper2.png");
           }
-          &.slide-4 {
+          .swiper-slide-3 {
             background-image: url("../../images/swiper3.png");
           }
-          &.slide-5 {
+          .swiper-slide-4 {
             background-image: url("../../images/swiper.png");
           }
         }
 
         &.gallery-top {
-          height: 80%;
+          height: 72%;
           width: 100%;
         }
         &.gallery-thumbs {
-          height: 20%;
+          height: 26%;
           box-sizing: border-box;
           padding: 10 0;
         }

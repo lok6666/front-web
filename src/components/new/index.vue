@@ -3,15 +3,14 @@
     <div class="container">
       <div class="new-header">
         <div>
-          <span class="new-title" @click="changeTab('newList')">最新新闻</span>
-          <span class="new-title" @click="changeTab('newPolicyList')">最新政策</span>
+          <span class="new-title" v-for="(item, index) in mainTabs" :key="index" @click="changeTab(item.itemType)">{{item.message}}</span>
        </div>
         <span class="new-more">了解更多<div class="new-more-icon"></div></span>
       </div>
       <div class="new-content">
             <img style="margin-right: 20px;width: 427px; height: 304px;" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.qianlong.com%2F2019%2F0213%2F1550024337804.jpg&refer=http%3A%2F%2Fupload.qianlong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664933673&t=365d4ee62f00b425cb088bcaf8fb9ebd" alt="">
             <div class="new-content-list">
-                <div class="new-content-list-item" v-for="(item, index) in contentList" :key="index">
+                <div class="new-content-list-item" @click="routeTo(item.detailType)" v-for="(item, index) in contentList" :key="index">
                     <p class="new-content-list-title">{{item.title}}</p>
                     <p class="new-content-list-time">{{item.time}}</p>
                 </div>
@@ -26,46 +25,61 @@ export default {
   name: "new",
   data() {
     return {
-      mainTabs: ['最新', '热门'],
+      mainTabs: [
+        {message: '最新新闻', itemType: 'newList'},
+        {message: '最新政策', itemType: 'newPolicyList'}
+      ],
       current: 1,
       newList: [{
         title: '石景山区启动开学保障执法检查11',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: '/new-detail'
       },{
         title: '石景山区启动开学保障执法检查11',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: '/new-detail'
       },{
         title: '石景山区启动开学保障执法检查11',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: '/new-detail'
       },{
         title: '石景山区启动开学保障执法检查11',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: '/new-detail'
       },{
         title: '石景山区启动开学保障执法检查11',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: '/new-detail'
       },{
         title: '石景山区启动开学保障执法检查11',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: '/new-detail'
       }],
       contentList: [],
       newPolicyList: [{
         title: '石景山区启动开学保障执法检查112',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: 'policy-detail'
       },{
         title: '石景山区启动开学保障执法检查112',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: 'policy-detail'
       },{
         title: '石景山区启动开学保障执法检查112',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: 'policy-detail'
       },{
         title: '石景山区启动开学保障执法检查121',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: 'policy-detail'
       },{
         title: '石景山区启动开学保障执法检查112',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: 'policy-detail'
       },{
         title: '石景山区启动开学保障执法检查112',
-        time: '2022/9/1'
+        time: '2022/9/1',
+        detailType: 'policy-detail'
       }]
     }
   },
@@ -77,6 +91,9 @@ export default {
       console.log('changeTab', key);
       this.contentList = this[key];
     },
+    routeTo(detailType) {
+      this.$router.push(detailType)
+    }
   },
   props: {
     list: {

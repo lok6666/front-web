@@ -7,7 +7,8 @@
         <p class="guide-agile">Cultural industry</p>
       </div>
       <div class="guide-excellent-busniess-content">
-        <div :class="`guide-excellent-busniess-content-item item-icon item-icon-${index}`" v-for="(item,index) in excellentBusniessList" :key="index">
+        <div :class="`guide-excellent-busniess-content-item item-icon item-icon-${index}`" @click="routeTo(item.id)" 
+        v-for="(item,index) in excellentBusniessList" :key="index">
         </div>
       </div>
     </div>
@@ -55,6 +56,11 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    }
+  },
+  methods: {
+    routeTo(detailType) {
+      this.$router.push('/business-detail')
     }
   }
 };

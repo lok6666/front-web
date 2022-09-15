@@ -3,6 +3,7 @@
     <div class="container">
       <div class="guide-excellent-busniess-content">
         <div class="guide-excellent-busniess-content-item"
+            @click="routeTo(item.id)" 
             v-for="(item,index) in excellentBusniessList"
             :key="index">
             <div :class="`item-icon item-icon-${index}`"></div>
@@ -19,31 +20,40 @@ export default {
   data() {
     return {
       excellentBusniessList: [{
-        excellentBusniessName: '国内商标注册'
+        excellentBusniessName: '国内商标注册',
+        id: 0
       },
       {
-        excellentBusniessName: '著作权申请'
+        excellentBusniessName: '著作权申请',
+        id: 1
       },
       {
-        excellentBusniessName: '专利申请'
+        excellentBusniessName: '专利申请',
+        id: 2
       },
       {
-        excellentBusniessName: '政策资质-国高新认证'
+        excellentBusniessName: '政策资质-国高新认证',
+        id: 3
       },
       {
-        excellentBusniessName: '政策资质-创新型中小企业'
+        excellentBusniessName: '政策资质-创新型中小企业',
+        id: 4
       },
       {
-        excellentBusniessName: '政策资质-专精特新中小企业'
+        excellentBusniessName: '政策资质-专精特新中小企业',
+        id: 5
       },
       {
-        excellentBusniessName: '政策资质-专精特新企业'
+        excellentBusniessName: '政策资质-专精特新企业',
+        id: 5
       },
       {
-        excellentBusniessName: '公司注册套餐产品'
+        excellentBusniessName: '公司注册套餐产品',
+        id: 6
       },
       {
-        excellentBusniessName: '公司注册套餐产品'
+        excellentBusniessName: '公司注册套餐产品',
+        id: 7
       }]
     }
   },
@@ -57,6 +67,13 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    }
+  },
+  methods: {
+    routeTo(index) {
+      this.$router.push({
+        path: `/protect-detail/:${index}`
+      })
     }
   }
 };

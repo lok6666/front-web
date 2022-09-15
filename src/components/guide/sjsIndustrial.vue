@@ -10,6 +10,7 @@
         <video
           ref="video"
           class="video-js vjs-default-skin vjs-big-play-centered"
+          poster="http://vjs.zencdn.net/v/oceans.png"
           style="height: 746px; max-height: 1300px; width: 100%"
           controls
         >
@@ -44,7 +45,7 @@ export default {
       player: null,
       options: {
         autoplay: true,
-        poster: "http://minio.bjwcxf.com/cultural-image/shijingshan.png"
+        poster: "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
       },
     };
   },

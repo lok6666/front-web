@@ -1,14 +1,13 @@
 <!-- 注册弹框组件 -->
 <template>
   <el-dialog
-    title="注册"
     top="25vh"
     width="318px"
     custom-class="register-dialog"
     :visible.sync="visible"
-    :close-on-click-modal="false"
     :lock-scroll="false"
-  >
+  > <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;"/>
+    <h2><img src="../../images/nobgcolor-wtlogo.png"/>注册文投账号</h2>
     <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" />
     <el-input v-model="mobile" placeholder="手机号用于登录和找回密码" />
     <el-input v-model="code" placeholder="验证码">
@@ -23,7 +22,7 @@
       >{{ codeCount }}s</el-button>
     </el-input>
     <el-input v-model="password" placeholder="密码不能少于6位数" />
-    <el-button type="primary" size="medium" :loading="loading" @click="submit">注册</el-button>
+    <el-button style="background: #D99447;border-radius: 30px;border: none;" type="primary" size="medium" :loading="loading" @click="submit">注册</el-button>
     <p>注册登录即表示同意
     <span style="color: #007fff;">
       <span class="btn" @click="terms">用户协议</span>
@@ -197,30 +196,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.register-dialog {
-  font-size: 14px;
-
-  .el-input {
-    margin-bottom: 10px;
-  }
-
-  .el-button {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .login-tip {
-    text-align: center;
-    color: #007fff;
-    margin-bottom: 10px;
-  }
-
-  .code-btn {
-    color: #007fff;
-    position: relative;
-    top: 10px;
-    right: 5px;
-  }
-}
 </style>

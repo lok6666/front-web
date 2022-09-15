@@ -7,7 +7,7 @@
           <div class="header-left">
                 <span><img src="../../images/sdzc.png" /></span>
                 <span><img class="index-icon" src="../../images/微信.png" />公众号</span>
-                <span><img class="index-icon" src="../../images/手机.png" />手机版</span>
+                <span><img class="index-icon" src="../../images/路径.png" />平台热线： 400-400-400</span>
           </div>
           <div class="header-right">
                   <span>
@@ -30,8 +30,8 @@
                     </div>
                 </span>
                 <span><img class="index-icon" src="../../images/历史记录.png" />我的浏览记录</span>
+                <span><img class="index-icon" src="../../images/客服.png" />招商申请</span>
                 <span><img class="index-icon" src="../../images/客服.png" />线上客服</span>
-                <span><img class="index-icon" src="../../images/路径.png" />平台热线： 400-400-400</span>
           </div>
         </div>
         <div class="content">
@@ -135,9 +135,6 @@ export default {
     return {
       keyword: '',
       inputIconColor: '',
-      userInfo: {
-
-      },
       navItems: [
         {
           name: '首页',

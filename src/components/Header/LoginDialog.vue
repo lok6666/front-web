@@ -4,29 +4,23 @@
     top="25vh"
     width="318px"
     custom-class="login-dialog"
-    :close-on-click-modal="false"
-    :show-close="false"
     :visible="login_visible"
+    :close-on-click-modal="true"
     :lock-scroll="false"
   >
-    <span slot="title">
-      <span
-        v-for="(item, index) in tabs"
-        :key="index"
-        class="btn tab"
-        :class="{ active: active === index }"
-        @click="tabClick(index)"
-      >{{ item }}</span>
-      <button
-        type="button"
-        aria-label="Close"
-        class="el-dialog__headerbtn"
-        @click="bClose"
-      >
-        <i class="el-dialog__close el-icon el-icon-close" />
-      </button>
-    </span>
-
+    <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;"/>
+    <h2>
+      <img src="../../images/nobgcolor-wtlogo.png"/>
+      <div>
+        <span
+          v-for="(item, index) in tabs"
+          :key="index"
+          class="btn tab"
+          :class="{ active: active === index }"
+          @click="tabClick(index)"
+        >{{ item }}</span>
+      </div>
+    </h2>
     <el-input v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
     <el-input v-else v-model="mobile" placeholder="手机号" />
     <el-input v-if="active === 0" v-model="password" placeholder="密码" />
@@ -41,10 +35,10 @@
         style="margin-top: 6px;"
       >{{ codeCount }}s</el-button>
     </el-input>
-    <el-button type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
+    <el-button style="background: #D99447;border-radius: 30px;border: none;" type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p class="tip">
       <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox>
-      <span class="active btn" :class="{ right: active === 0 }" @click="forgetClick">忘记密码^_^?</span>
+      <span class="active btn" :class="{ right: active === 0 }" @click="forgetClick">忘记密码</span>
     </p>
     <p style="clear: both;">
       注册登录即表示同意
@@ -107,7 +101,6 @@ export default {
       this.$store.commit('login/CHANGE_VISIBLE', false)
       this.$router.push('/terms')
     },
-
     // 关闭弹框跳转隐私政策
     privacy() {
       this.$store.commit('login/CHANGE_VISIBLE', false)
@@ -261,84 +254,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login-dialog {
-  font-size: 14px;
 
-  .tab {
-    padding-right: 10px;
-    font-weight: bold;
-  }
-
-  .active {
-    color: #007fff;
-  }
-
-  .el-input {
-    margin-bottom: 10px;
-  }
-
-  .el-button {
-    width: 100%;
-  }
-
-  .code-btn {
-    color: #007fff;
-    position: relative;
-    top: 10px;
-    right: 5px;
-  }
-
-  .tip {
-    margin-bottom: 20px;
-    padding: 0 2px;
-
-    .right {
-      float: right;
-    }
-  }
-
-  .third-login {
-    width: 100%;
-
-    .name {
-      color: #999;
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      margin: 23px 0;
-
-      &:before {
-        content: "";
-        height: 1px;
-        background: #999;
-        flex: 1;
-        margin-right: 10px;
-        opacity: .8;
-      }
-
-      &:after {
-        content: "";
-        height: 1px;
-        flex: 1;
-        background: #999;
-        margin-left: 10px;
-        opacity: .8;
-      }
-    }
-
-    .icon-box {
-      display: flex;
-      box-sizing: border-box;
-      justify-content: center;
-      margin-top: 10px;
-      margin-bottom: 5px;
-
-      .icon {
-        height: 28px;
-        width: 28px;
-        margin: 0 15px;
-      }
-    }
-  }
-}
 </style>
