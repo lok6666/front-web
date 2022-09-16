@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <app-header :nav-item-active="-1" />
+    <app-header :nav-item-active="5" />
     <img src="../../images/financeBg.png" style="width: 100%" />
     <div class="finance-container">
       <div class="select-btn">

@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-      <app-header :nav-item-active="-1" />
+      <app-header :nav-item-active="1" />
       <div class="policy-match-bg">
         <div>匹配结果</div>
       </div>
@@ -318,7 +318,8 @@
               align-items: center;
               font-size: 12px;
               .tag-item {
-                width: 75px;
+                padding: 0px 8px;
+                margin-top: 10px;
                 height: 24px;
                 border-radius: 3px;
                 display: flex;

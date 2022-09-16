@@ -103,7 +103,7 @@ const yearOptions = [
   },
   {
     value: "3-5年",
-    label: "中型企业",
+    label: "3-5年",
     isSelect:　false
   },
   {

@@ -1,81 +1,6 @@
 <template>
   <div class="guide-wrap policy-bg">
-    <el-dialog
-      :visible.sync="dialogVisible"
-      custom-class="dialog-bg"
-      :top="0"
-      :center="true"
-      :show-close="false"
-      :before-close="handleClose">
-      <div style="font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;">政策计算器</div>
-      <div style="margin-bottom: 25px;margin-top:5px;">请选择您的条件，我将为您计算出适合您的政</div>
-      <div class="select-btn">
-        <div class="title">政策等级:</div>
-        <div class="select-item">
-          <div v-for="(btn, index) in locationOptions" :key="index">
-            <el-button
-              class="button-new-tag"
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.label }}</el-button>
-          </div>
-        </div>
-      </div>
-      <div class="select-btn">
-        <div class="title">企业属性:</div>
-        <div class="select-item">
-          <div v-for="(btn, index) in businessOptions" :key="index">
-            <el-button
-              class="button-new-tag"
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.label }}</el-button>
-          </div>
-        </div>
-      </div>
-      <div class="select-btn">
-        <div class="title">企业属性:</div>
-        <div class="select-item">
-          <div v-for="(btn, index) in businessAttributeOptions" :key="index">
-            <el-button
-              class="button-new-tag"
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.label }}</el-button>
-          </div>
-        </div>
-      </div>
-      <div class="select-btn">
-        <div class="title">成立年限:</div>
-        <div class="select-item">
-          <div v-for="(btn, index) in yearOptions" :key="index">
-            <el-button
-              class="button-new-tag"
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.label }}</el-button>
-          </div>
-        </div>
-      </div>
-      <div class="select-btn">
-        <div class="title">成立年限:</div>
-        <div class="select-item">
-          <div v-for="(btn, index) in themeOptions" :key="index">
-            <el-button
-              class="button-new-tag"
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.label }}</el-button>
-          </div>
-        </div>
-      </div>
-      <div class="calculate">开始计算</div>
-    </el-dialog>
+    <policy-calculate :dialogVisible="dialogVisible" @handleClose="dialogVisible = false"/>
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
@@ -108,6 +33,7 @@
 </template>
 
 <script>
+import PolicyCalculate from '@/components/Policycalculate/index'
 import {
   locationOptions, businessOptions, businessAttributeOptions, yearOptions, themeOptions
 } from "@/config/constant.js";
@@ -152,6 +78,9 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  components: {
+    PolicyCalculate
   },
   methods: {
     handleClose(done) {
@@ -248,6 +177,7 @@ export default {
             align-items: center;
             position: relative;
             top: 49px;
+            cursor: pointer;
           }
         }
   }

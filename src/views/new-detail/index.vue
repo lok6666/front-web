@@ -2,42 +2,28 @@
     <div ref="container" class="home-container">
       <app-header />
       <div class="policy-search-bg"></div>
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;">
+      <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>最新新闻</el-breadcrumb-item>
           <el-breadcrumb-item>新闻动态</el-breadcrumb-item>
       </el-breadcrumb>
-      <div class="new-container">
+      <div class="policy-container">
         <div class="side-left">
             <div class="content">
                 <div class="content-header">
                     <div class="title">{{title}}</div>
                     <div class="desc">
-                      <div class="desc-left">
-                        <div style="font-size: 40px;color: #8B572A;flex: 0.4">政策原文</div>
-                        <div class="policy-explain">政策解读</div>
-                      </div>
-                      <div class="desc-right">
-                        <div>政策发布:{{address}}</div>
-                        <div>发布日期:{{time}}</div>
-                      </div>
+                        <div style="flex: 0.2;">发布日期:{{time}}</div>
+                        <div>来源:{{address}}</div>
                     </div>
                 </div>
-                <div class="content-center">为切实做到统一领导、有序监督，区纪委监委成立专项监督组，建立主要领导牵头总领、相关监督室统筹协调、各派驻（出）机构协作配合的监督机制，紧密围绕区服贸会属地筹办工作任务清单、督办事项清单，强化跟踪督办。区委常委、区纪委书记、区监委主任王晓东多次带队到首钢园展区，围绕展厅运行、疫情防控、现场秩序、交通保障等重点任务落实情况开展监督检查，确保各项任务不折不扣执行到位。 结合服贸会保障任务重、涉及单位多等特点，区纪委监委注重加强统筹协作，牢固树立“一盘棋”思想，充分发挥“室组地”联动优势，主动对接首钢集团纪委，联合相关派驻（出）机构、区商务局、区城管委、区市场监管局、区环卫中心等部门，围绕服贸会筹备、食品卫生安全、安全生产等工作，到首钢园区红线内及周边工业企业、商业设施开展实地监督检查，督促主责单位履职尽责。</div>
+                <div class="content-center"><p><span style="color: rgb(47, 46, 63); font-size: 24px;">9月3日，区委书记常卫到服贸会区企指挥部检查服贸会疫情防控和服务保障工作。区委副书记、政法委书记刘海涛参加检查。</span></p><p style="text-align: center;"><img src="http://minio.bjwcxf.com/cultural-image/2022-09-16/1663299087366.jpg" alt="使用说明" data-href="http://minio.bjwcxf.com/cultural-image/2022-09-16/1663299087366.jpg" style="width: 100%;"></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">常卫指出，今天是服贸会公众开放日首日，观展人员数量较前两日有所增长。要压紧压实各方责任，严格落实落细各项措施，全力做好服贸会疫情防控和服务保障工作，确保万无一失。 常卫强调，要严格登录厅人员进入查验，严防“北京健康宝”异常、核酸检测不符合规定的人员入内。做好服务保障人员检录，确保一人一证，不得转借、出售、私自带人出入。做好弹窗人员处理工作，保障服贸会防疫安全。各场馆要加强远端管控，做好引导疏导、人员限流，降低人员聚集风险。 要强化交通接驳，增加班车频次，宣传倡导绿色交通出行方式，缓解周边交通压力。加强停车场动态监测，推进停车资源高效利用。做好场馆周边交通保障，加强巡逻劝导。要加强场馆运行和环境保障，严格展台用电安全巡查检查，做好园区垃圾分类收集清运，加大卫生间等设施消毒消杀和清理频次，确保安全有序稳定。要优化餐饮服务，做好食品供应保障，加大抽查检查，筑牢食品安全防线。要强化会展及配套活动组织，做好招商招展和促消费工作。</span></p><p style="text-align: right;"><span style="color: rgb(47, 46, 63); font-size: 24px;">区领导迟志禹、王智勇、葛强参加检查。</span></p><p style="text-align: right;"><span style="color: rgb(47, 46, 63); font-size: 24px;">来源：文投大数据媒体中心</span></p></div>
                   <div class="relation-policy">
-                    <div style="font-size: 28px;font-family: AlibabaPuHuiTiM;color: #000000;;">政策关联</div>
                     <div class="relation-policy-item" v-for="(item, index) in list" :key="index">
                       <div style="color: #8B572A;">{{item.title}}</div>
                       <div>{{item.time}}</div>
                     </div>
                   </div>
-                <div class="content-footer policy-opration">
-                  <div style="display: flex;">
-                    <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
-                    <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
-                  </div>
-                  <div class="opration-block policy-opration-apply"><img src="../../images/policy-apply.png"/>去申报政策</div>
-                </div>
             </div>
         </div>
       </div>
@@ -124,7 +110,7 @@
     overflow-x: hidden;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
-    .new-container {
+    .policy-container {
       width: 100%;
       box-sizing: border-box;
       margin: 0 auto;
@@ -152,73 +138,26 @@
                   display: flex;
                   width: 100%;
                   justify-content: space-between;
-                  &-left {
-                    display: flex;
-                    font-family: Helvetica;
-                    width: 100%;
-                    .policy-explain {
-                      background-repeat: no-repeat;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      background-size: 100% 100%;
-                      width: 262px;
-                      font-size: 32px;
-                      color: #FFFFFF;
-                      background-image: url('../../images/poliy-explain-bg.png')
-                    }
-                  }
-                  &-right {
-                    font-size: 18px;
-                    font-family: AlibabaPuHuiTiR;
-                    color: #2B292D;
-                  }
+                  font-size: 18px;
+                  font-family: AlibabaPuHuiTiR;
+                  color: #2B292D;
                 }
+            }
+            .content-center {
+              padding-top: 39px;
+              border-top: 1px solid #8B572A;
+              border-bottom: 1px solid #8B572A;
             }
             .relation-policy {
               margin-top: 67px;
               margin-bottom: 78px;
               &-item {
-                border-left: 2px solid #B48859;
                 font-size: 24px;
                 font-family: AlibabaPuHuiTiR;
-                width: 907px;
+                color: #212121;
+                width: 100%;
                 display: flex;
                 justify-content: space-between;
-              }
-            }
-            &-footer, .policy-opration {
-              font-size: 24px;
-              font-family: AlibabaPuHuiTiM;
-              color: #FFFFFF;
-              display: flex;
-              justify-content: space-between;
-              .opration-block {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin: 0px 10px;
-                img {
-                  margin-right: 10px;
-                }
-              }
-              &-collage {
-                width: 307px;
-                height: 82px;
-                background: #FF6B03;
-                border-radius: 20px 0px 0px 20px;
-              }
-              &-share {
-                width: 307px;
-                height: 82px;
-                background: #038F6E;
-                border-radius: 0px 20px 20px 0px;
-              }
-              &-apply {
-                width: 460px;
-                height: 82px;
-                background: #B48859;
-                border-radius: 20px;
               }
             }
         }

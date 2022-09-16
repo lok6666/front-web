@@ -8,8 +8,6 @@
     <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>政策申报</el-breadcrumb-item>
-      <el-breadcrumb-item>列表</el-breadcrumb-item>
-      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
     </el-breadcrumb>
       <div class="search">
         <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
@@ -19,30 +17,6 @@
         </div>
         </template>
         </el-input>
-      </div>
-      <div class="select-btn">
-        <div>筛选条件:</div>
-          <div v-for="(btn, index) in btnList" :key="index">
-            <el-button
-              class="button-new-tag "
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.message }}</el-button
-            >
-        </div>
-      </div>
-      <div class="select-btn">
-        <div>筛选条件:</div>
-          <div v-for="(btn, index) in btnList" :key="index">
-            <el-button
-              class="button-new-tag "
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-              size="small"
-              @click="select(index)"
-              >{{ btn.message }}</el-button
-            >
-        </div>
       </div>
       <div v-for="(item, index) in policyList" :key="index" :class="`item-${index} policy-search-container-item`">
         <div class="message">{{item.message}}</div>
@@ -67,40 +41,6 @@ export default {
     return {
       inputValue: '',
       categoryId: 0,
-      btnList: [
-        {
-          message: "不限",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-      ],
       policyList: [
         {
           message: "信息列表标题信息列表标题信息列表标题信息",
@@ -202,18 +142,6 @@ export default {
     max-width: 1440px;
     width: 100%;
     padding: 0px 70px 10px;
-    .select-btn {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      .button-new-tag {
-        margin-left: 10px;
-        height: 32px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-    }
     &-item {
       padding-left: 21px;
       padding-right: 45px;

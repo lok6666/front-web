@@ -1,6 +1,6 @@
 <template>
   <div ref="container" class="container">
-    <app-header :nav-item-active="1" />
+    <app-header :nav-item-active="2" />
     <div class="content-container">
       <div class="service-bg">
         <div style="width: 1285px;display: flex;display: flex;flex-direction: column;align-items: end;">

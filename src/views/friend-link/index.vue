@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <app-header :nav-item-active="-1" />
+    <app-header :nav-item-active="4" />
     <div class="trade-bg">
       <div class="trade-title">行业培训</div>
       <div class="fw-model">

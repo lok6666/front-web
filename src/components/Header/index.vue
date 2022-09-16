@@ -1,7 +1,8 @@
 <!-- 头部导航栏 -->
 <template>
   <div class="main-header-box">
-    <img src="../../images/logo.png" style="width: 138px; height: 195px; z-index: 251; position: fixed; left: 57px; top: 0px">
+    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose"></policy-calculate>
+    <img src="../../images/logo.png" @click="$router.push('/')" style="cursor:pointer;z-index: 251; position: fixed; left: 57px;">
     <header class="main-header">
         <div class="header">
           <div class="header-left">
@@ -101,8 +102,8 @@
                   v-for="(nav,index) in navItems"
                   :key="index"
                   class="main-nav-item"
-                  :class="{'main-nav-item-active':navItemActive===index}"
-                  @click="$router.push(nav.to)"
+                  :class="[navItemActive === index?'main-nav-item-active':'']"
+                  @click="routerTo(nav.to, index)"
                 >
                   <div :class="`index-icon nav-icon-${index}`"></div>
                   {{ nav.name }}
@@ -117,22 +118,25 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import PolicyCalculate from '@/components/Policycalculate/index'
 import RegisterDialog from './RegisterDialog'
 import LoginDialog from './LoginDialog'
 export default {
   name: 'Header',
   components: {
+    PolicyCalculate,
     RegisterDialog,
     LoginDialog
   },
   props: {
     navItemActive: {
-      type: Number,
-      default: 0
+      type: String,
+      default: '0'
     }
   },
   data() {
     return {
+      dialogVisible: false,
       keyword: '',
       inputIconColor: '',
       navItems: [
@@ -161,10 +165,6 @@ export default {
           name: '金融服务',
           to: '/finance'
         }
-        // {
-        //   name: '金融服务',
-        //   to: '/message'
-        // }
       ]
     }
   },
@@ -183,7 +183,17 @@ export default {
   },
 
   methods: {
-
+    routerTo(to, index) {
+      if(to === '/policy-match') {
+        this.dialogVisible = true;
+      } else {
+        this.$router.push(to);
+        this.navItemActive = index;
+      }
+    },
+    handleClose() {
+      this.dialogVisible = false;
+    },
     // 抽屉关闭
     drawerClose() {
       this.drawer = false
@@ -253,19 +263,19 @@ export default {
       width: 18px;
       margin-right: 3px;
     }
-    .nav-icon-0 {
+    .nav-icon-1 {
       background-image: url('../../images/政策匹配.png');
     }
-    .nav-icon-1 {
+    .nav-icon-2 {
       background-image: url('../../images/人才服务.png');
     }
-    .nav-icon-2 {
+    .nav-icon-3 {
       background-image: url('../../images/产品大厅.png');
     }
-    .nav-icon-3 {
+    .nav-icon-4 {
       background-image: url('../../images/行业培训.png');
     }
-    .nav-icon-4 {
+    .nav-icon-5 {
       background-image: url('../../images/金融.png');
     }
     .header {
@@ -413,7 +423,7 @@ export default {
         padding-right: 285px;
         overflow: hidden;
         height: 50px;
-        opacity: 0.5;
+        opacity: 0.8;
         .footer-desc {
           // width: 197px;
           height: 20px;
@@ -478,14 +488,17 @@ export default {
             display: flex;
             align-items: center;
             cursor: pointer;
-
+            height: 100%;
             .main-nav-item {
               display: flex;
+              align-items: center;
+              margin-right: 4px;
               list-style: none;
               // line-height: 60px;
-              padding-right: 18px;
+              padding: 0px 5px;
               white-space: nowrap;
               transition: all .3s;
+              height: 100%;
 
               &:hover {
                 color: #007fff;
@@ -493,6 +506,7 @@ export default {
             }
 
             .main-nav-item-active {
+              background: #FF6B03;
               color: #fff;
             }
 

@@ -1,6 +1,6 @@
 <template>
   <div ref="container" class="home-container">
-    <app-header />
+    <app-header :nav-item-active="0"/>
     <div class="content-container">
       <div class="side-left">
         <div style="height: 601px;">

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <app-header :nav-item-active="-1" />
+    <app-header :nav-item-active="3" />
     <div class="protect-bg">
       <div>产品大厅</div>
     </div>
