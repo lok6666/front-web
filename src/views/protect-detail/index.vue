@@ -30,6 +30,13 @@
             </div>
           </div>
         </div>
+        <div class="protect-regist-process">
+          <div class="title">
+            <div>商标注册流程:</div>
+          </div>
+          <div class="protect-regist-process-bg">
+          </div>
+        </div>
         <div class="protect-apply">
           <div class="title">
             <div>双享商标注册：商标注册不成功，免费再注册</div>
@@ -197,6 +204,17 @@ export default {
           }
           .img-bg-3 {
             background-image: url('../../images/regist-3-bg.png');
+          }
+        }
+        .protect-regist-process {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 91px;
+          &-bg {
+            height: 376px;
+            width: 1030px;
+            background-image: url('../../images/商标注册流程.png');
           }
         }
         .protect--big-show {
