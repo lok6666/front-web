@@ -47,7 +47,7 @@ export default {
     return {
       player: null,
       options: {
-        poster: "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
+        poster: "http://minio.bjwcxf.com/cultural-image/shijingshan.png"
       },
     };
   },

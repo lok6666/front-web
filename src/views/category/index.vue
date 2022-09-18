@@ -188,7 +188,7 @@ export default {
         background-image: url("../../images/solve.png");
         height: 556px;
         width: 100%;
-        background-size: 100%;
+        background-size: 100% 100%;
       }
       .more-solve {
         margin-top: 46px;

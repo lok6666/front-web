@@ -83,7 +83,7 @@ export default {
       options: {
         autoplay: true,
         poster:
-          "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+          "http://minio.bjwcxf.com/cultural-image/shijingshan.png",
       },
       swiperOptionThumbs: {
         loop: true,
@@ -195,7 +195,7 @@ export default {
             background-repeat: no-repeat;
           }
           .swiper-slide-0 {
-            background-image: url("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+            background-image: url("http://minio.bjwcxf.com/cultural-image/shijingshan.png");
           }
           .swiper-slide-1 {
             background-image: url("../../images/swiper1.png");

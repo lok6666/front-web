@@ -199,24 +199,24 @@ export default {
       },
       fwList: [
         {
-          title: "平台注册",
-          num: "111",
+          title: "已在平台注册",
+          num: "1213",
           type: "天",
         },
         {
-          title: "平台注册",
-          num: "111",
-          type: "天",
+          title: "共被访问次数",
+          num: "82.5",
+          type: "w",
         },
         {
-          title: "平台注册",
-          num: "111",
-          type: "天",
+          title: "适用政策",
+          num: "90",
+          type: "条",
         },
         {
-          title: "平台注册",
-          num: "111",
-          type: "天",
+          title: "已申请/已执行",
+          num: "99+",
+          type: "项服务",
         },
       ],
       categorys: [

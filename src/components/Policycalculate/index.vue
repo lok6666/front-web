@@ -6,11 +6,11 @@
       :top="0"
       :lock-scroll="false"
       :center="true"
-      :show-close="false"
+      :show-close="true"
       :before-close="handleClose">
       <div style="font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;">政策计算器</div>
       <div style="margin-bottom: 25px;margin-top:5px;">请选择您的条件，我将为您计算出适合您的政</div>
-      <div style="height: 500px; overflow: scroll;">
+      <div class="calculate-warpper">
           <div class="select-btn">
             <span class="title">政策级别:</span>
             <div class="select-item">

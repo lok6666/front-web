@@ -112,6 +112,12 @@ div:focus {
     justify-content: center;
     align-items: center;
     padding-top: 142px;
+    .calculate-warpper {
+      height: 500px; overflow: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
     .select-btn {
       // display: flex;
       display: grid;

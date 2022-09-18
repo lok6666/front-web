@@ -35,27 +35,27 @@ export default {
     return {
       tableData: [
         {
-          level: "石景山区2",
+          level: "石景山区",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
-          date: "2016.05.03",
+          address: "北京市星座大厦",
+          date: "2016.05.09",
         },
         {
-          level: "石景山区4",
+          level: "石景山区",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
-          date: "2016.05.03",
+          address: "北京市星座大厦",
+          date: "2016.05.07",
         },
         {
-          level: "石景山区1",
+          level: "石景山区",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
-          date: "2016.05.03",
+          address: "北京市星座大厦",
+          date: "2016.05.05",
         },
         {
-          level: "石景山区3",
+          level: "石景山区",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
+          address: "北京市星座大厦",
           date: "2016.05.03",
         },
       ],
