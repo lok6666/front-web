@@ -12,18 +12,18 @@
             <div class="content">
                 <div class="content-header">
                     <div class="title">{{title}}</div>
-                    <div class="desc">
-                      <div class="desc-left">
-                        <div style="font-size: 40px;color: #8B572A;flex: 0.4">政策原文</div>
-                        <div class="policy-explain">政策解读</div>
-                      </div>
-                      <div class="desc-right">
-                        <div>政策发布:{{address}}</div>
-                        <div>发布日期:{{time}}</div>
-                      </div>
-                    </div>
-                </div>
                 <div class="content-center"><p><img src="http://minio.bjwcxf.com/cultural-image/2022-09-16/微信截图_20220916111246.png" alt="使用说明" data-href="http://minio.bjwcxf.com/cultural-image/2022-09-16/微信截图_20220916111246.png" style=""/></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">连日来，石景山区纪委监委将服务保障服贸会各项任务落实情况作为当前最重要的任务，注重强化展会期间监督，督促主责单位以“首善标准”做好各项服务保障工作。 </span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">为切实做到统一领导、有序监督，区纪委监委成立专项监督组，建立主要领导牵头总领、相关监督室统筹协调、各派驻（出）机构协作配合的监督机制，紧密围绕区服贸会属地筹办工作任务清单、督办事项清单，强化跟踪督办。区委常委、区纪委书记、区监委主任王晓东多次带队到首钢园展区，围绕展厅运行、疫情防控、现场秩序、交通保障等重点任务落实情况开展监督检查，确保各项任务不折不扣执行到位。</span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">结合服贸会保障任务重、涉及单位多等特点，区纪委监委注重加强统筹协作，牢固树立“一盘棋”思想，充分发挥“室组地”联动优势，主动对接首钢集团纪委，联合相关派驻（出）机构、区商务局、区城管委、区市场监管局、区环卫中心等部门，围绕服贸会筹备、食品卫生安全、安全生产等工作，到首钢园区红线内及周边工业企业、商业设施开展实地监督检查，督促主责单位履职尽责。</span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">区领导迟志禹、王智勇、葛强参加检查。</span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">来源：文投大数据媒体中心</span></p></div>
+                  <div class="desc">
+                    <div class="desc-left">
+                      <div style="font-size: 40px;color: #8B572A;flex: 0.4">政策原文</div>
+                      <div class="policy-explain">政策解读</div>
+                    </div>
+                    <div class="desc-right">
+                      <div>发文机构:{{address}}</div>
+                      <div>发布日期:{{time}}</div>
+                    </div>
+                  </div>
+                </div>
                   <div class="relation-policy">
                     <div style="font-size: 28px;font-family: AlibabaPuHuiTiM;color: #000000;;">政策关联</div>
                     <div class="relation-policy-item" v-for="(item, index) in list" :key="index">
@@ -36,7 +36,7 @@
                     <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
                     <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
                   </div>
-                  <div class="opration-block policy-opration-apply"><img src="../../images/policy-apply.png"/>去申报政策</div>
+                  <div class="opration-block policy-opration-apply"><img src="../../images/policy-apply.png"/>申报政策</div>
                 </div>
             </div>
         </div>
@@ -135,6 +135,7 @@
       align-items: flex-start;
       justify-content: center;
       //top: 36px;
+      padding: 0px 196px;
       @media screen and (max-width: 960px) {
         margin-top: 0;
       }
@@ -148,32 +149,34 @@
                     color: #000000;
                     margin-bottom: 26px;
                 }
-                .desc {
+            }
+            .desc {
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
+              &-left {
+                display: flex;
+                font-family: Helvetica;
+                width: 100%;
+                height: 62px;
+                .policy-explain {
+                  background-repeat: no-repeat;
                   display: flex;
-                  width: 100%;
-                  justify-content: space-between;
-                  &-left {
-                    display: flex;
-                    font-family: Helvetica;
-                    width: 100%;
-                    .policy-explain {
-                      background-repeat: no-repeat;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      background-size: 100% 100%;
-                      width: 262px;
-                      font-size: 32px;
-                      color: #FFFFFF;
-                      background-image: url('../../images/poliy-explain-bg.png')
-                    }
-                  }
-                  &-right {
-                    font-size: 18px;
-                    font-family: AlibabaPuHuiTiR;
-                    color: #2B292D;
-                  }
+                  justify-content: center;
+                  align-items: center;
+                  background-size: 100% 100%;
+                  width: 262px;
+                  font-size: 32px;
+                  color: #FFFFFF;
+                  background-image: url('../../images/poliy-explain-bg.png')
                 }
+              }
+              &-right {
+                width: 300px;
+                font-size: 18px;
+                font-family: AlibabaPuHuiTiR;
+                color: #2B292D;
+              }
             }
             .relation-policy {
               margin-top: 67px;

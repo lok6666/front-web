@@ -263,6 +263,9 @@ export default {
       width: 18px;
       margin-right: 3px;
     }
+    .nav-icon-0 {
+      background-image: url('../../images/zcpt-培训点播管理.png');
+    }
     .nav-icon-1 {
       background-image: url('../../images/政策匹配.png');
     }
@@ -336,7 +339,7 @@ export default {
           width: 200px;
           flex-direction: row-reverse;
           position: relative;
-          top: 15px;
+          top: 16px;
           z-index: 1;
           @media screen and (max-width: 922px){
             width: auto;
@@ -501,7 +504,7 @@ export default {
               height: 100%;
 
               &:hover {
-                color: #007fff;
+                // color: #007fff;
               }
             }
 

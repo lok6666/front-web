@@ -3,8 +3,11 @@
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
-        企业风貌
-        <p class="guide-agile">Cultural industry</p>
+        企业风采
+        <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
       </div>
       <div class="guide-excellent-busniess-content">
         <div :class="`guide-excellent-busniess-content-item item-icon item-icon-${index}`" @click="routeTo(item.id)" 
@@ -68,7 +71,7 @@ export default {
 
 <style lang="scss" scoped>
 .guide-wrap {
-    background: #F5F6F9;
+    //background: #F5F6F9;
     .container {
       margin: 0px 60px;
       .guide-excellent-busniess-content {

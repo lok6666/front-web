@@ -4,6 +4,7 @@
       :visible.sync="dialogVisible"
       custom-class="dialog-bg"
       :top="0"
+      :lock-scroll="false"
       :center="true"
       :show-close="false"
       :before-close="handleClose">
@@ -111,6 +112,10 @@ export default {
         .catch(_ => {});
     },
     select(options, index) {
+      this[options] = this[options].map(e => {
+        e.isSelect = false;
+        return e;
+      });
       this[options][index].isSelect = true;
     },
     calculate() {

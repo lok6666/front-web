@@ -72,12 +72,12 @@
           <div v-if="categoryId === 0">
             <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
             <policyList />
-            <userTable />
+            <userTable @checkAll="checkAll"/>
             <userTable2 />
             <userTable3 />
           </div>
           <div v-else-if="categoryId === 1" style="background-color: #fff">
-            <form-template style="padding: 50px 127px 100px 80px;"
+            <form-template style="padding: 50px 127px 100px 80px;display: grid;grid-template-columns: 400px 400px;"
               @likeCountChanges="likeCountChanges"
               :labelWidth="140"
               :formConfig="messageForm"
@@ -93,6 +93,12 @@
               :createForm="createForm"
               :showBtn="true"
               :disabled="false"/> 
+          </div>
+          <div v-else-if="categoryId === 5" style="background-color: #fff">
+              <userTable4 />
+          </div>
+          <div v-else-if="categoryId === 6" style="background-color: #fff">
+              <userTable5 />
           </div>
         </div>
         <div class="setting-box-right">
@@ -127,6 +133,8 @@ import policyList from "./components/policy.vue";
 import userTable from "./components/userTable.vue";
 import userTable2 from "./components/userTable2.vue";
 import userTable3 from "./components/userTable3.vue";
+import userTable4 from "./components/userTable4.vue";
+import userTable5 from "./components/userTable5.vue";
 import AppHeader from "@/components/Header/index";
 import FormTemplate from "@/components/Form/index.vue";
 import priceFormTemplate from "@/components/Form/priceForm.vue";
@@ -257,6 +265,8 @@ export default {
     userTable,
     userTable2,
     userTable3,
+    userTable4,
+    userTable5
   },
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
@@ -300,6 +310,9 @@ export default {
     },
     likeCountChanges(formConfig) {
       console.log('likeCountChanges', this.formConfig, formConfig);
+    },
+    checkAll(id) {
+      this.categoryId = id;
     }
   },
 };

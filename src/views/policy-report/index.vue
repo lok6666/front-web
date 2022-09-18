@@ -11,11 +11,11 @@
     </el-breadcrumb>
       <div class="search">
         <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
-        <template slot="append">
-        <div style="display: flex; align-item: center;">
-        <img src="../../images/search.png" style="width: 23px; height: 23px;" />查找
-        </div>
-        </template>
+        <i slot="suffix"
+                        class="el-input__icon el-icon-search"
+                        :style="'color:' + inputIconColor"
+                        @click="search"
+                        />
         </el-input>
       </div>
       <div v-for="(item, index) in policyList" :key="index" :class="`item-${index} policy-search-container-item`">
@@ -152,7 +152,7 @@ export default {
       align-items: center;
     }
     //偶数行
-    &-item:nth-of-type(even) {
+    &-item:nth-of-type(odd) {
       background: #fff
     }
   }

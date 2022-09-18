@@ -4,7 +4,10 @@
         <div class="guide-header">
           <img class="guide-header-logo" src="../../images/guide-logo.png" />
           流程图
-          <p class="guide-agile">Cultural industry</p>
+          <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
         </div>
         <div class="guide-flow-show">
         </div>

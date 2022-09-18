@@ -2,7 +2,12 @@
     <div class="app-container">
       <app-header :nav-item-active="-1" />
       <div class="new-more-search-bg">
-        <div style="display: flex;align-items: center;">{{message}}<p class="new-more-search-agile">Cultural industry</p></div>
+        <div style="display: flex;align-items: center;">{{message}}
+        <div class="new-more-search-agile">
+        <div class="limit-desc">Comperehensive platf</div>
+        Cultural industry
+        </div>
+        </div>
       </div>
       <div class="new-more-search-container">
       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;">
@@ -11,16 +16,27 @@
       </el-breadcrumb>
         <div class="search">
           <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
-          <template slot="append">
-          <div style="display: flex; align-item: center;">
-          <img src="../../images/search.png" style="width: 23px; height: 23px;" />查找
-          </div>
-          </template>
+          <i slot="suffix"
+                        class="el-input__icon el-icon-search"
+                        :style="'color:' + inputIconColor"
+                        @click="search"
+                        />
           </el-input>
         </div>
         <div v-for="(item, index) in policyList" :key="index" :class="`item-${index} new-more-search-container-item`">
           <div class="message">{{item.message}}</div>
           <div class="time">{{item.time}}</div>
+        </div>
+        <div class="pagination-block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 40, 70, 100]"
+            :page-size="100"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="100">
+          </el-pagination>
         </div>
       </div>
       <app-footer />
@@ -37,19 +53,33 @@
   import { updateUser, bindUsername } from "@/api/user.js";
   export default {
     name: "User",
-    props: {
-        message: {
-            type: String,
-            default() {
-                return 'AA'
-            }
-        },
-    },
     data() {
       return {
+        currentPage: 4,
         inputValue: '',
+        message: this.$route.query.message,
         categoryId: 0,
         policyList: [
+          {
+            message: "信息列表标题信息列表标题信息列表标题信息",
+            time: '2022/9/1'
+          },
+          {
+            message: "信息列表标题信息列表标题信息列表标题信息",
+            time: '2022/9/1'
+          },
+          {
+            message: "信息列表标题信息列表标题信息列表标题信息",
+            time: '2022/9/1'
+          },
+          {
+            message: "信息列表标题信息列表标题信息列表标题信息",
+            time: '2022/9/1'
+          },
+          {
+            message: "信息列表标题信息列表标题信息列表标题信息",
+            time: '2022/9/1'
+          },
           {
             message: "信息列表标题信息列表标题信息列表标题信息",
             time: '2022/9/1'
@@ -80,11 +110,14 @@
     computed: {
       ...mapGetters(["defaultAvatar", "device"]),
     },
-    created() {
-        console.log('created---', this.message);
-    },
     mounted() {},
     methods: {
+      handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      },
       select(index) {
         // Vue.set(vm.obj, propertyName, newValue);
         // this.btnList[index].isSelect = !this.btnList[index].isSelect;
@@ -132,7 +165,11 @@
           margin-left: 8px;
           font-size: 26px;
           font-family: AlibabaPuHuiTiM;
-          line-height: 35px;
+          margin-left: 8px;
+          .limit-desc {
+              font-size: 14px;
+              font-family: AlibabaPuHuiTiR;
+          }
       }
     }
     .search {
@@ -163,9 +200,15 @@
         align-items: center;
       }
       //偶数行
-      &-item:nth-of-type(even) {
+      &-item:nth-of-type(odd) {
         background: #fff
       }
+    }
+    .pagination-block {
+      display: flex;
+      justify-content: center;
+      height: 80px;
+      align-items: center;
     }
   }
   </style>

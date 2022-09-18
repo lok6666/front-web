@@ -2,7 +2,7 @@
 <div class="user-table-wrap apply-bg">
   <div class="user-table-title">
     <div class="user-table-service">已报名的服务</div>
-    <div class="user-table-all">
+    <div class="user-table-all" @click="checkAll">
         <img class="table-icon" src="../../../images/列表.png" style="width: 17px; heigth: 17px;"/>查看全部
     </div>
   </div>
@@ -69,6 +69,11 @@
           showKey: "date",
         },
       ]
+      }
+    },
+    methods: {
+      checkAll() {
+        this.$emit('checkAll', 5);
       }
     }
   }

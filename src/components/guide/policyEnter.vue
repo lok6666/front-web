@@ -6,14 +6,20 @@
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策查询
-            <p class="guide-agile">Cultural industry</p>
+            <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
         </div>
         <div class="divide"></div>
         <div class="policy-block apply" @click="$router.push('/policy-report')" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策申报
-            <p class="guide-agile">Cultural industry</p>
+            <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
         </div>
       </div>
     </div>

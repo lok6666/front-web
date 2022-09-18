@@ -17,7 +17,7 @@
           <div class="contact-title">联系我们</div>
           <div class="contact-content">
             <div class="contact-email">客服信箱：wentou@xxx.cn</div>
-            <div class="contact-telephone">政务服务热线：12345</div>
+            <div class="contact-telephone">客服热线：400-388-5996</div>
           </div>
         </div>
       </div>

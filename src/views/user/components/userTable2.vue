@@ -2,7 +2,7 @@
   <div class="user-table-wrap apply-bg">
     <div class="user-table-title">
       <div class="user-table-service">已申请的服务</div>
-      <div class="user-table-all">
+      <div class="user-table-all" @click="checkAll">
         <img
           class="table-icon"
           src="../../../images/列表.png"
@@ -91,6 +91,11 @@ export default {
       ],
     };
   },
+  methods: {
+    checkAll() {
+      this.$emit('checkAll', 6);
+    }
+  }
 };
 </script>
 

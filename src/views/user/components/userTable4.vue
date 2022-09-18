@@ -4,13 +4,6 @@
       <div class="user-table-service">
         已收藏的政策
       </div>
-      <div class="user-table-all" @click="checkAll">
-        <img
-          class="table-icon"
-          src="../../../images/列表.png"
-          style="width: 17px; heigth: 17px;"
-        />查看全部
-      </div>
     </div>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column v-for="(item, index) in tableItem" :key="index">
@@ -22,6 +15,17 @@
         </template>
       </el-table-column>
     </el-table>
+     <div class="pagination-block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage4"
+        :page-sizes="[10, 40, 70, 80]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="100">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -33,6 +37,7 @@ import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
+      currentPage4: 4,
       tableData: [
         {
           level: "石景山区2",
@@ -57,7 +62,41 @@ export default {
           title: "推进国际科技创新中心建设加快…",
           address: "上海市普陀区金沙江路",
           date: "2016.05.03",
+        },{
+          level: "石景山区2",
+          title: "推进国际科技创新中心建设加快…",
+          address: "上海市普陀区金沙江路",
+          date: "2016.05.03",
         },
+        {
+          level: "石景山区4",
+          title: "推进国际科技创新中心建设加快…",
+          address: "上海市普陀区金沙江路",
+          date: "2016.05.03",
+        },
+        {
+          level: "石景山区1",
+          title: "推进国际科技创新中心建设加快…",
+          address: "上海市普陀区金沙江路",
+          date: "2016.05.03",
+        },
+        {
+          level: "石景山区3",
+          title: "推进国际科技创新中心建设加快…",
+          address: "上海市普陀区金沙江路",
+          date: "2016.05.03",
+        },{
+          level: "石景山区2",
+          title: "推进国际科技创新中心建设加快…",
+          address: "上海市普陀区金沙江路",
+          date: "2016.05.03",
+        },
+        {
+          level: "石景山区4",
+          title: "推进国际科技创新中心建设加快…",
+          address: "上海市普陀区金沙江路",
+          date: "2016.05.03",
+        }
       ],
       tableItem: [
         {
@@ -84,8 +123,11 @@ export default {
     };
   },
   methods: {
-    checkAll() {
-      this.$emit('checkAll', 5);
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
 };
@@ -99,7 +141,6 @@ export default {
 .user-table-wrap {
   background: #ffffff;
   border-radius: 4px;
-  margin-top: 10px;
   padding-top: 12px;
   padding-left: 20px;
   padding-right: 20px;
@@ -140,6 +181,12 @@ export default {
       /* justify-content: center; */
       align-items: center;
     }
+  }
+  .pagination-block {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
   }
 }
 </style>

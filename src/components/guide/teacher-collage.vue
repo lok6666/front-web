@@ -4,7 +4,10 @@
         <div class="guide-header">
           <img class="guide-header-logo" src="../../images/guide-logo.png" />
           ta的课程
-          <p class="guide-agile">Cultural industry</p>
+          <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
         </div>
         <div class="guide-excellent-busniess-content">
           <div class="guide-excellent-busniess-content-item"

@@ -5,7 +5,10 @@
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         政策匹配
-        <p class="guide-agile">Cultural industry</p>
+        <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
       </div>
       <div class="guide-policy-desc">
         <div class="guide-policy-desc-policy">

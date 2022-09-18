@@ -4,13 +4,16 @@
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         产品大厅
-        <p class="guide-agile">Cultural industry</p>
+        <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
       </div>
       <div class="guide-Industrial-content">
         <div class="guide-Industrial-content-item" v-for="(item,index) in industrialList" :key="index">
           <div :class="`item-icon item-icon-${index}`"></div>{{item.industrialName}}
         </div>
-        <div class="guide-Industrial-content-item guide-Industrial-content-more">
+        <div class="guide-Industrial-content-item guide-Industrial-content-more" @click="$router.push('/archives')">
           <div :class="`item-icon item-icon-${index}`"></div>查看更多
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2>企业财务数据(单位万元)</h2>
+      <h2>企业财务数据</h2>
       <!--看了源码,为了required校验,必须在form标签循环-->
       <div style="display: grid;grid-template-columns: 450px 450px;">
         <el-form

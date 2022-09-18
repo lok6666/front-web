@@ -1,16 +1,7 @@
 <template>
-  <div class="user-table-wrap collect-bg">
+  <div class="user-table-wrap apply-bg">
     <div class="user-table-title">
-      <div class="user-table-service">
-        已收藏的政策
-      </div>
-      <div class="user-table-all" @click="checkAll">
-        <img
-          class="table-icon"
-          src="../../../images/列表.png"
-          style="width: 17px; heigth: 17px;"
-        />查看全部
-      </div>
+      <div class="user-table-service">已申请的服务</div>
     </div>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column v-for="(item, index) in tableItem" :key="index">
@@ -22,61 +13,83 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination-block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage4"
+        :page-sizes="[10, 40, 70, 100]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="100">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import levelImg from "@/images/等级.png";
-import policyTitleImg from "@/images/形状.png";
-import addressImg from "@/images/转发文.png";
+import levelImg from "@/images/修改名称.png";
+import policyTitleImg from "@/images/类别.png";
+import addressImg from "@/images/account.png";
+import statusImg from "@/images/符号-状态-警告.png";
 import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
+      currentPage4: 4,
       tableData: [
         {
           level: "石景山区2",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
+          address: "上海市普",
+          status: "已申请",
           date: "2016.05.03",
         },
         {
           level: "石景山区4",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
+          address: "上海市普",
+          status: "已申请",
           date: "2016.05.03",
         },
         {
           level: "石景山区1",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
+          address: "上海市普",
+          status: "已申请",
           date: "2016.05.03",
         },
         {
           level: "石景山区3",
           title: "推进国际科技创新中心建设加快…",
-          address: "上海市普陀区金沙江路",
+          address: "上海市普",
+          status: "已申请",
           date: "2016.05.03",
         },
       ],
       tableItem: [
         {
-          label: "级别",
+          label: "服务名称",
           src: levelImg,
           showKey: "level",
         },
         {
-          label: "政策标题",
+          label: "类别",
           src: policyTitleImg,
           showKey: "title",
         },
         {
-          label: "发文机构",
+          label: "招商服务",
           src: addressImg,
           showKey: "address",
         },
         {
-          label: "发布时间",
+          label: "状态",
+          src: statusImg,
+          showKey: "status",
+        },
+        {
+          label: "申请日期",
           src: dateImg,
           showKey: "date",
         },
@@ -84,22 +97,24 @@ export default {
     };
   },
   methods: {
-    checkAll() {
-      this.$emit('checkAll', 5);
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.collect-bg {
+.apply-bg {
   background-repeat: no-repeat !important;
-  background-image: url("../../../images/已收藏政策背景.png") !important;
+  background-image: url("../../../images/已申请服务背景.png") !important;
 }
 .user-table-wrap {
   background: #ffffff;
   border-radius: 4px;
-  margin-top: 10px;
   padding-top: 12px;
   padding-left: 20px;
   padding-right: 20px;
@@ -140,6 +155,12 @@ export default {
       /* justify-content: center; */
       align-items: center;
     }
+  }
+  .pagination-block {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
   }
 }
 </style>

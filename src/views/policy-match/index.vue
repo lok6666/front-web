@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+      <policy-calculate :dialogVisible="dialogVisible" @handleClose="dialogVisible = false"/>
       <app-header :nav-item-active="1" />
       <div class="policy-match-bg">
         <div>匹配结果</div>
@@ -30,7 +31,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="policy-calculate">政策计算器</div>
+                <div class="policy-calculate" @click="dialogVisible = true">政策计算器</div>
             </div>
         </div>
         <div class="policy-result">
@@ -38,15 +39,21 @@
             <div style="display: flex; justify-content: space-between; align-item:center;">
                 <div class="search">
                     <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
-                        <template slot="append">
-                        <div style="display: flex; align-item: center;">
-                        <img src="../../images/search.png" style="width: 23px; height: 23px;" />查找
-                        </div>
-                        </template>
+                        <i slot="suffix"
+                        class="el-input__icon el-icon-search"
+                        :style="'color:' + inputIconColor"
+                        @click="search"
+                        />
                     </el-input>
                 </div>
                 <div class="select">
-                    <div class="select-item" v-for="(item,index) in siftOptions" :key="index">{{item.label}}</div>
+                    <div
+                    class="select-item"
+                    :class="[siftIndex === index ? 'selected-item' : '']"
+                    v-for="(item,index) in siftOptions" :key="index"
+                    @click="selectSift(index)">
+                    {{item.label}}
+                    </div>
                 </div>
             </div>
             <div class="policy-list">
@@ -60,8 +67,12 @@
                   <div class="title">{{item.title}}</div>
                   <div class="content">{{item.content}}</div>
                   <div class="footer">
-                    发文部门:<div class="address">{{item.address}}</div>
-                    申报时间:<div class="time">{{item.time}}</div>
+                    <span style="display: flex;align-item: center;">
+                    <img style="margin-right: 3px;" src="../../images/发布部门.png"/>发文部门:</span>
+                    <div class="address">{{item.address}}</div>
+                    <span style="display: flex;align-item: center;">
+                    <img style="margin-right: 3px;" src="../../images/申报时间.png"/>申报时间:</span>
+                    <div class="time">{{item.time}}</div>
                   </div>
                 </div>
                 <div class="right">
@@ -79,6 +90,7 @@
   </template>
   
   <script>
+  import PolicyCalculate from '@/components/Policycalculate/index'
   import { mapGetters } from "vuex";
   import { getAccessToken } from "@/utils/auth";
   import AppHeader from "@/components/Header/index";
@@ -88,6 +100,8 @@
     name: "User",
     data() {
       return {
+        dialogVisible: false,
+        siftIndex: 0,
         inputValue: '',
         categoryId: 0,
         num: 50,
@@ -156,12 +170,23 @@
     components: {
       AppHeader,
       AppFooter,
+      PolicyCalculate
     },
     computed: {
       ...mapGetters(["defaultAvatar", "device"]),
     },
     mounted() {},
     methods: {
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      selectSift(index) {
+        this.siftIndex = index;
+      },
       select(index) {
         // Vue.set(vm.obj, propertyName, newValue);
         // this.btnList[index].isSelect = !this.btnList[index].isSelect;
@@ -260,6 +285,7 @@
                     display: grid;
                     grid-template-columns: repeat(9, 86px);
                     grid-gap: 10px 10px;
+                    cursor: pointer;
                 }
                 .button-new-tag {
                     background-color:rgba(0,0,255,0);
@@ -300,7 +326,7 @@
         .policy-list {
           margin-top: 30px;
           .list-item {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             height: 160px;
             background: #FFFFFF;
             display: flex;
@@ -394,6 +420,12 @@
           align-items: center;
           width: 280px;
           justify-content: space-around;
+          .select-item {
+            cursor: pointer;
+          }
+          .selected-item {
+            color: #D99447;
+          }
         }
       }
     }

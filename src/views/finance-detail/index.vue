@@ -9,7 +9,7 @@
     </div>
     <div class="finance-detail-container">
       <div class="finance-detail-header">
-        <div style="display: flex;width: 100%;justify-content: space-around;">
+        <div style="display: flex;width: 100%;justify-content: space-between;">
           <div style="display: flex;flex-direction: column;justify-content: space-around;">
             <div style="width: 980px;height: 95px;display: flex;justify-content: space-between;">
               <img class="header-logo" src="../../images/finance-header.png" />
@@ -24,7 +24,7 @@
             <div class="fw-model">
               <div class="fw-model-item" v-for="(i, index) in fwList" key="index">
                 <div class="title">{{ i.title }}</div>
-                <div class="data">
+                <div class="data" :class="i.class">
                   <span>{{ i.num }}</span>
                 </div>
               </div>
@@ -36,7 +36,6 @@
       <div class="finance-detail-content">
         <div class="title">项目详情</div>
         <div class="content">
-          <p>
           产品简介
           （一）审批高效。
           对于贷款资料齐全的业务，随到随审，原则上3个工作日内完成审批。
@@ -55,7 +54,7 @@
           提交材料
           无
           申请流程
-          无</p>
+          无
         </div>
       </div>
       <div class="finance-detail-other-content">
@@ -178,16 +177,19 @@ export default {
           title: "参考利率范围",
           num: "4.18%～5.25%",
           type: "天",
+          class: "rate-class"
         },
         {
           title: "期限",
           num: "1-60月",
           type: "天",
+          class: "limit-class"
         },
         {
           title: "额度:",
           num: "2000万",
           type: "天",
+          class: "ed-class"
         }
       ],
       categorys: [
@@ -330,12 +332,21 @@ export default {
           line-height: 25px;
           .title {
           }
+          .rate-class {
+            font-size: 40px;
+          }
+          .limit-class {
+            color: #4B4B4B;
+            font-size: 30px;
+          }
+          .ed-class {
+            color: #D0021B; 
+            font-size: 34px;
+          }
           .data {
             span {
-              font-size: 40px;
-              font-family: Futura-Bold, Futura;
-              font-weight: bold;
-              color: #222222;
+              
+              font-family: AlibabaPuHuiTiR;
               line-height: 53px;
             }
           }
@@ -355,9 +366,8 @@ export default {
         border-bottom: 1px solid #979797;
       }
       .content {
-        p {
-          padding-top: 28px;
-        }
+        padding-top: 28px;
+        line-height: 25px;
       }
     }
     .finance-detail-other-content {

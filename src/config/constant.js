@@ -278,12 +278,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   zczb: 1
 },{
@@ -292,12 +292,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   ns: 1
 },{
@@ -306,12 +306,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   ys: 1
 },{
@@ -320,12 +320,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   wns: 1
 },{
@@ -334,12 +334,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   lns: 1
 },{
@@ -348,12 +348,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   jns: 1
 },{
@@ -362,12 +362,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   zcze: 1
 },{
@@ -376,12 +376,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   fzze: 1
 },{
@@ -390,12 +390,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   ldfz: 1
 },{
@@ -404,12 +404,12 @@ const priceForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   syzqy: 1
 }];
@@ -419,12 +419,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   nsze: 1
 },{
@@ -433,12 +433,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   zzs: 1
 },{
@@ -447,12 +447,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   ns: 1
 },{
@@ -461,12 +461,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   njyf: 1
 },{
@@ -475,12 +475,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   qysds: 1
 },{
@@ -489,12 +489,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   gs: 1
 },{
@@ -503,12 +503,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   yhs: 1
 },{
@@ -517,12 +517,12 @@ const payTaxesForm = [{
   required: true,
   showSelect: true,
   options: [{
-      label: '100-400',
-      value: '100-400'
+      label: '100万-400万',
+      value: '100万-400万'
   },
   {
-      label: '400-900',
-      value: '400-900'
+      label: '400万-900万',
+      value: '400万-900万'
   }],
   other: 1
 }];
@@ -533,12 +533,12 @@ const createForm = [
     required: true,
     showSelect: true,
     options: [{
-        label: '100-400',
-        value: '100-400'
+        label: '100万-400万',
+        value: '100万-400万'
     },
     {
-        label: '400-900',
-        value: '400-900'
+        label: '400万-900万',
+        value: '400万-900万'
     }],
     csze: 1
   },{
@@ -547,12 +547,12 @@ const createForm = [
     required: true,
     showSelect: true,
     options: [{
-        label: '100-400',
-        value: '100-400'
+        label: '100万-400万',
+        value: '100万-400万'
     },
     {
-        label: '400-900',
-        value: '400-900'
+        label: '400万-900万',
+        value: '400万-900万'
     }],
     zsbl: 1
   }

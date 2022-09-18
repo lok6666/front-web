@@ -120,6 +120,7 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
+      padding: 0px 196px;
       //top: 36px;
       @media screen and (max-width: 960px) {
         margin-top: 0;

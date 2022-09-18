@@ -15,7 +15,7 @@
     font-size: 56px;
     font-family: AlibabaPuHuiTiR;
     color: #212121;
-    line-height: 77px;
+    // line-height: 77px;
     margin-bottom: 38px;
     &-logo {
         margin-right: 10px;
@@ -29,5 +29,9 @@
     font-size: 26px;
     font-family: AlibabaPuHuiTiM;
     color: #343434;
-    line-height: 35px;
+    .limit-desc {
+        font-size: 14px;
+        font-family: AlibabaPuHuiTiR;
+        color: #343434;
+    }
 }

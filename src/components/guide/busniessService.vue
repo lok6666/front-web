@@ -3,8 +3,11 @@
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
-        企业风貌
-        <p class="guide-agile">Cultural industry</p>
+        企业服务
+        <div class="guide-agile">
+            <div class="limit-desc">Comperehensive platf</div>
+            Cultural industry
+            </div>
       </div>
       <div class="guide-busniess-service-content">
         <div class="busniess-service">

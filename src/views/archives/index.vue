@@ -6,11 +6,11 @@
     </div>
     <div class="search">
       <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
-       <template slot="append">
-       <div style="display: flex; align-item: center;">
-       <img src="../../images/search.png" style="width: 23px; height: 23px;" />查找
-       </div>
-       </template>
+       <i slot="suffix"
+                  class="el-input__icon el-icon-search"
+                  :style="'color:' + inputIconColor"
+                  @click="search"
+                  />
       </el-input>
     </div>
     <div class="finance-container">
