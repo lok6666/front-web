@@ -4,7 +4,7 @@
     <img src="../../images/financeBg.png" style="width: 100%" />
     <div class="finance-container">
       <div class="select-btn">
-        <div>筛选条件:</div>
+        <div>金融机构:</div>
         <div v-for="(btn, index) in btnList" :key="index">
           <el-button
             class="button-new-tag "
@@ -13,6 +13,27 @@
             @click="select(index)"
             >{{ btn.message }}</el-button
           >
+        </div>
+      </div>
+      <div class="select-btn">
+        <div>利率范围:</div>
+        <div>
+          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低利率" v-model="minRate" :inline="true"></el-input>-
+          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高利率" v-model="maxRate" :inline="true"></el-input>
+        </div>
+      </div>
+      <div class="select-btn">
+        <div>贷款期限:</div>
+        <div>
+          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低期限" v-model="minRate" :inline="true"></el-input>-
+          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高期限" v-model="maxRate" :inline="true"></el-input>
+        </div>
+      </div>
+      <div class="select-btn">
+        <div>贷款额度:</div>
+        <div>
+          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低额度" v-model="minRate" :inline="true"></el-input>-
+          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高额度" v-model="maxRate" :inline="true"></el-input>
         </div>
       </div>
       <Loan :loanList="loanList"/>
@@ -35,39 +56,21 @@ export default {
   data() {
     return {
       categoryId: 0,
+      minRate: '',
+      maxRate: '',
       btnList: [
         {
           message: "不限",
           isSelect: false,
         },
         {
-          message: "条件一",
+          message: "建设银行",
           isSelect: false,
         },
         {
-          message: "条件一",
+          message: "北京银行",
           isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
+        }
       ],
       loanList: [
         {
@@ -211,6 +214,7 @@ export default {
     margin-right: 70px;
     padding-bottom: 60px;
     .select-btn {
+      margin-top: 10px;
       display: flex;
       align-items: center;
       .button-new-tag {
@@ -219,6 +223,11 @@ export default {
         line-height: 30px;
         padding-top: 0;
         padding-bottom: 0;
+      }
+      .button-new-tag-select {
+        border-radius: 5px;
+        background: #D99447;
+        border: 1px solid rgba(0,0,0,0);
       }
     }
   }

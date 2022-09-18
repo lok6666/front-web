@@ -98,7 +98,7 @@ div:focus {
 }
 //todo 暂时定义全局
 .dialog-bg {
-  height: 801px;
+  // height: 801px;
   width: 1104px;
   //padding-top: 176px;
   background-size: 100% 100%;
@@ -113,23 +113,30 @@ div:focus {
     align-items: center;
     padding-top: 142px;
     .select-btn {
-      display: flex;
-      margin-bottom: 31px;
+      // display: flex;
+      display: grid;
+      grid-template-columns: 15% 85%;
+      margin-bottom: 10px;
+      // margin-bottom: 20px;
       .title {
+        width:  100%;
         font-size: 20px;
         font-family: AlibabaPuHuiTiR;
         color: #FFFFFF;
-        padding-top: 10px;
+        padding-top: 23px;
       }
       .select-item {
-        display: grid;
-        grid-template-columns: repeat(9, 86px);
-        grid-gap: 10px 10px;
+        // display: contents;
+        div {
+          margin-right: 10px;
+          margin-top: 10px;
+          display: inline-block;
+        }
       }
       .button-new-tag {
         background-color:rgba(0,0,255,0);
         height: 40px;
-        width: 86px;
+        // width: 86px;
         font-size: 16px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;

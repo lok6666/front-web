@@ -14,16 +14,16 @@
           <div class="r-top">
             <div class="busniess-service-block finance">
               <div class="busniess-service-block-title">金融服务</div>
-              <div class="busniess-service-block-desc">金融服务的宣传推广词</div>
+              <div class="busniess-service-block-desc">贴心的金融服务管家</div>
             </div>
             <div class="busniess-service-block manage">
-              <div class="busniess-service-block-title">管家服务</div>
-              <div class="busniess-service-block-desc">大模块的宣传推广词</div>
+              <div class="busniess-service-block-title">灵活用工</div>
+              <div class="busniess-service-block-desc">省心的合法合规雇佣帮手</div>
             </div>
           </div>
           <div class="r-bottom">
               <div>培训中心</div>
-              <div style="font-size: 26px;">这里是相关内容一句话概括</div>
+              <div style="font-size: 26px;">专业的企业精英商学院</div>
           </div>
         </div>
       </div>

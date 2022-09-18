@@ -1,3 +1,20 @@
+const locationOptions1 = [
+  {
+    value: "china",
+    label: "中国",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "北京",
+    isSelect:　false
+  },
+  {
+    value: "shijingshan",
+    label: "石景山区",
+    isSelect:　false
+  }
+];
 
 const locationOptions = [
   {
@@ -69,14 +86,337 @@ const locationOptions = [
 const businessOptions = [
   {
     value: "1企业",
-    label: "1企业",
+    label: "高精尖产业",
     isSelect:　false
   },
   {
     value: "beijing",
-    label: "2企业",
+    label: "现代服务业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "新基建",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "商贸流通业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "新基建",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "商贸流通业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "数字创意",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "工业互联网",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "体育运动",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "文化旅游",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "智慧城市",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "其他",
+    isSelect:　false
+  },
+];
+const favourablebusinessOptions1 = [
+  {
+    value: "1企业",
+    label: "奖励",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "评选认定",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "资金扶持",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "降低成本",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "规范管理",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "简化审",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "其他",
     isSelect:　false
   }
+];
+const favourablebusinessOptions = [
+  {
+    value: "1企业",
+    label: "高精尖产业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "现代服务业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "新基建",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "商贸流通业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "新基建",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "商贸流通业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "数字创意",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "工业互联网",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "体育运动",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "文化旅游",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "智慧城市",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "其他",
+    isSelect:　false
+  },
+];
+const zzOptions = [
+  {
+    value: "1企业",
+    label: "国家高新技术企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "中关村高新企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "新双软认证企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "专精特新企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "专精特新小巨人企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "科技小巨人企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "瞪羚企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "瞪羚企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "科技型中小企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "展翼企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "隐形冠军企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "技术先进型服务企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "牛羚企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "独角兽企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "创新型企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "金种子企业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "中关村“十百千工程”企业基建",
+    isSelect:　false
+  },
+];
+const themeOptions = [
+  {
+    value: "1企业",
+    label: "技能培训",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "人才支持",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "节能环保",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "金融投资",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "国际化发展",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "创新创业",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "知识产权",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "社会保障",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "区域协同",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "招商引资",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "营商环境",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "乡村振兴",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "城市治理",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "产业促进",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "民生改善",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "生命健康",
+    isSelect:　false
+  },
+  {
+    value: "beijing",
+    label: "科技服务",
+    isSelect:　false
+  },
 ];
 const businessAttributeOptions = [
   {
@@ -114,28 +454,6 @@ const yearOptions = [
   {
     value: "beijing",
     label: "10年以上",
-    isSelect:　false
-  }
-];
-const themeOptions = [
-  {
-    value: "1企业",
-    label: "主题一",
-    isSelect:　false
-  },
-  {
-    value: "3-5年",
-    label: "主题二",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "主题三",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "主题四",
     isSelect:　false
   }
 ];
@@ -559,8 +877,12 @@ const createForm = [
 ];
 module.exports = {
   locationOptions,
+  locationOptions1,
   businessOptions,
+  zzOptions,
   businessAttributeOptions,
+  favourablebusinessOptions,
+  favourablebusinessOptions1,
   yearOptions,
   themeOptions,
   messageForm,

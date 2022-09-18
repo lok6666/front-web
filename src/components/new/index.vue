@@ -5,7 +5,7 @@
         <div>
           <span class="new-title" :class="[item.isSelect? 'new-title-select': '']" v-for="(item, index) in mainTabs" :key="index" @click="changeTab(index)">{{item.message}}{{index === 0 ? '/': ''}}</span>
        </div>
-        <span class="new-more" :message="test()" @click="routeTo('/new-more')">了解更多<div class="new-more-icon"></div></span>
+        <span class="new-more"  @click="routeTo('/new-more', message)">了解更多<div class="new-more-icon"></div></span>
       </div>
       <div class="new-content">
             <img style="margin-right: 20px;width: 427px; height: 304px;" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.qianlong.com%2F2019%2F0213%2F1550024337804.jpg&refer=http%3A%2F%2Fupload.qianlong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664933673&t=365d4ee62f00b425cb088bcaf8fb9ebd" alt="">
@@ -29,6 +29,7 @@ export default {
         {message: '最新新闻', itemType: 'newList', isSelect: true},
         {message: '最新政策', itemType: 'newPolicyList', isSelect: false}
       ],
+      message: '最新新闻',
       current: 1,
       newList: [{
         title: '石景山区启动开学保障执法检查 石景山园开展2022年“共产党员献爱心” 捐献活动',
@@ -53,6 +54,22 @@ export default {
       },{
         title: '市委常委、统战部部长游钧到八角街道接访下访',
         time: '2022/9/14',
+        detailType: '/new-detail'
+      },{
+        title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
+        time: '2022/9/13',
+        detailType: '/new-detail'
+      },{
+        title: '市委常委、统战部部长游钧到八角街道接访下访',
+        time: '2022/9/12',
+        detailType: '/new-detail'
+      },{
+        title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
+        time: '2022/9/11',
+        detailType: '/new-detail'
+      },{
+        title: '市委常委、统战部部长游钧到八角街道接访下访',
+        time: '2022/9/10',
         detailType: '/new-detail'
       }],
       contentList: [],
@@ -80,6 +97,14 @@ export default {
         title: '金顶街街道老楼加梯',
         time: '2022/9/12',
         detailType: '/policy-detail'
+      },{
+        title: '让居民幸福感再“梯”升',
+        time: '2022/9/11',
+        detailType: '/policy-detail'
+      },{
+        title: '金顶街街道老楼加梯',
+        time: '2022/9/10',
+        detailType: '/policy-detail'
       }]
     }
   },
@@ -87,14 +112,10 @@ export default {
     this.contentList = this.newList;
   },
   methods: {
-    test() {
-      let message = this.mainTabs.find(e => e.isSelect).message;
-      console.log('message', message);
-      return message;
-    },
     changeTab(i) {
       this.mainTabs.forEach((el, index) => {
         if(index === i) {
+          this.message = el.message;
           el.isSelect = true;
         }
         else {
@@ -103,8 +124,8 @@ export default {
       });
       this.contentList = this[this.mainTabs[i].itemType];
     },
-    routeTo(detailType) {
-      this.$router.push(detailType)
+    routeTo(detailType, message) {
+      this.$router.push(`${detailType}?message=${message}`);
     }
   },
   props: {
@@ -159,9 +180,10 @@ export default {
             display: inline-block;
             height: 25px;
             width: 21px;
-            background: url(https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPngb15678c90c3e40cdc3337341cdd296766fa5f68f7cdd680dcb7959d4e978f376)
+            background: url('../../images/了解更多.png')
                 0px 0px no-repeat;
             background-size: 21px 25px;
+            margin-left: 5px;
         }
     }
     .new-content {
@@ -170,7 +192,7 @@ export default {
         align-items: end;
         .new-content-list {
             width: 100%;
-            max-height: 242px;
+            max-height: 304px;
             overflow: scroll;
             color: #212121;
             &::-webkit-scrollbar {

@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2 style="margin-left: 20px;">基本信息</h2>
+    <div style="padding: 0px 127px 0px 80px;display: grid;grid-template-columns: 400px 400px;">
     <!--看了源码,为了required校验,必须在form标签循环-->
     <el-form
       ref="formRef"
@@ -99,10 +101,11 @@
         ></editor>
       </el-form-item>
     </el-form>
-    <div v-if="showBtn" style="float: right">
-      <el-button type="primary" @click="submitForm('formRef')">保存</el-button>
-      <el-button @click="resetForm('formRef')">取消</el-button>
-    </div>
+  </div>
+  <div v-if="showBtn" style="float: right;margin-right: 20px;">
+    <el-button type="primary" @click="submitForm('formRef')">保存</el-button>
+    <el-button @click="resetForm('formRef')">取消</el-button>
+  </div>
   </div>
 </template>
 

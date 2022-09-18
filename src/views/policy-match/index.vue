@@ -296,6 +296,11 @@
                     font-weight: 400;
                     border-radius: 5px;
                 }
+                .button-new-tag-select {
+                  border-radius: 5px;
+                  background: #D99447;
+                  border: 1px solid rgba(0,0,0,0);
+                }
             }
             .policy-calculate {
                 width: 160px;

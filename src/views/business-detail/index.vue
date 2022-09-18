@@ -41,12 +41,12 @@
           <div style="display: flex;align-items: center;">
             <img :src="busniessLogo" />
             <div class="busniess-detail-message">
-                <div>企业全称：北京福来刻文化传播有限公司</div>
-                <div>注册资本：北京福来刻文化传播有限公司</div>
-                <div>企业类型：北京福来刻文化传播有限公司</div>
-                <div>所属行业：北京福来刻文化传播有限公司</div>
-                <div>人员规模：北京福来刻文化传播有限公司</div>
-                <div>统一社会信用代码：北京福来刻文化传播有限公司</div>
+                <div>企业全称：北京文投大数据有限公司</div>
+                <div>注册资本：8000</div>
+                <div>企业类型：国有企业</div>
+                <div>所属行业：互联网和相关服务</div>
+                <div>人员规模：2000</div>
+                <div>统一社会信用代码：91110114MA017CY134</div>
             </div>
           </div>
           <div class="tag-list">
@@ -81,7 +81,7 @@ export default {
     return {
       categoryId: 0,
       busniessLogo,
-      tagList: ["AAAAAAA", "BBBBB", "2021年", "2021年纳税前十名税前十名企", "E"],
+      tagList: ["国有企业","高新技术企业", "专精特新企业", "瞪羚企业", "2021年纳税前十名税前十名企"],
       excellentBusniessList: [
         {
           excellentBusniessName: "文投大数据",
@@ -266,12 +266,12 @@ export default {
       display: flex;
       justify-content: space-between;
       &-message {
-        width: 319px;
+        width: 353px;
         height: 180px;
         font-size: 18px;
         font-family: AlibabaPuHuiTiR;
         color: #000000;
-        line-height: 25px;
+        line-height: 28px;
       }
       .tag-list {
         max-width: 330px;

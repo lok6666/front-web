@@ -16,7 +16,7 @@
     <div class="finance-container">
       <div style="margin: 36px 60px;">
         <div class="select-btn">
-          <div>服务分类:</div>
+          <div>产品类目:</div>
           <div v-for="(btn, index) in serviceList" :key="index">
             <el-button
               class="button-new-tag "
@@ -29,6 +29,8 @@
         </div>
         <div class="select-btn">
           <div>价格范围:</div>
+          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格"></el-input>-
+          <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格"></el-input>
           <div v-for="(btn, index) in priceList" :key="index">
             <el-button
               class="button-new-tag "
@@ -41,7 +43,7 @@
         </div>
         <div class="select-btn">
           <div>发布时间:</div>
-            <div v-for="(btn, index) in priceList" :key="index">
+            <div v-for="(btn, index) in timeList" :key="index">
               <el-button
                 class="button-new-tag "
                 :class="[btn.isSelect ? 'button-new-tag-select' : '']"
@@ -50,6 +52,7 @@
                 >{{ btn.message }}</el-button
               >
             </div>
+             <el-date-picker style="margin-left: 20px;" v-model="value2" type="datetimerange" align="right" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
         </div>
       </div>
       <protect/>
@@ -83,37 +86,19 @@ export default {
           isSelect: false,
         },
         {
+          message: "法律服务",
+          isSelect: false,
+        },
+        {
           message: "政策资质",
           isSelect: false,
         },
         {
-          message: "工商",
+          message: "知识产权",
           isSelect: false,
         },
         {
-          message: "审计",
-          isSelect: false,
-        }
-      ],
-      priceList: [
-        {
-          message: "不限",
-          isSelect: false,
-        },
-        {
-          message: "1-500",
-          isSelect: false,
-        },
-        {
-          message: "月计价",
-          isSelect: false,
-        },
-        {
-          message: "天计价",
-          isSelect: false,
-        },
-        {
-          message: "面议",
+          message: "工商财税",
           isSelect: false,
         }
       ],
@@ -123,19 +108,19 @@ export default {
           isSelect: false,
         },
         {
-          message: "当月",
+          message: "近7天",
           isSelect: false,
         },
         {
-          message: "三月半",
+          message: "近30天",
           isSelect: false,
         },
         {
-          message: "半年内",
+          message: "近半年",
           isSelect: false,
         },
         {
-          message: "一年内",
+          message: "近一年",
           isSelect: false,
         }
       ]
@@ -225,6 +210,11 @@ export default {
         line-height: 30px;
         padding-top: 0;
         padding-bottom: 0;
+      }
+      .button-new-tag-select {
+        border-radius: 5px;
+        background: #D99447;
+        border: 1px solid rgba(0,0,0,0);
       }
     }
   }

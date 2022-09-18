@@ -76,15 +76,15 @@
             <userTable2 />
             <userTable3 />
           </div>
-          <div v-else-if="categoryId === 1" style="background-color: #fff">
-            <form-template style="padding: 50px 127px 100px 80px;display: grid;grid-template-columns: 400px 400px;"
+          <div v-else-if="categoryId === 1">
+            <form-template
               @likeCountChanges="likeCountChanges"
               :labelWidth="140"
               :formConfig="messageForm"
               :showBtn="true"
               :disabled="false"/> 
           </div>
-          <div v-else-if="categoryId === 3" style="background-color: #fff">
+          <div v-else-if="categoryId === 3">
             <price-form-template style="padding: 50px 30px 100px 20px;"
               @likeCountChanges="likeCountChanges"
               :labelWidth="200"
@@ -94,10 +94,10 @@
               :showBtn="true"
               :disabled="false"/> 
           </div>
-          <div v-else-if="categoryId === 5" style="background-color: #fff">
+          <div v-else-if="categoryId === 5">
               <userTable4 />
           </div>
-          <div v-else-if="categoryId === 6" style="background-color: #fff">
+          <div v-else-if="categoryId === 6">
               <userTable5 />
           </div>
         </div>
@@ -549,6 +549,7 @@ export default {
       }
       .setting-box-center {
         width: 100%;
+        background-color: #fff
         //min-width: 732px;
       }
       .setting-box-right {

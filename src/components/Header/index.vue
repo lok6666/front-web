@@ -81,7 +81,7 @@
                     {{
                       navItemActive === 0?'首页'
                       :navItemActive===1?'金融服务'
-                        :navItemActive===2?'管家服务'
+                        :navItemActive===2?'灵活用工'
                           :navItemActive===3?'知识产权'
                             :navItemActive===4?'行业培训':'首页'
                     }}
@@ -150,7 +150,7 @@ export default {
           to: '/policy-match',
         },
         {
-          name: '人才服务',
+          name: '灵活用工',
           to: '/category'
         },
         {
