@@ -32,38 +32,38 @@ export default {
         {
           name: '卢孝华',
           userImg: userPicture,
-          desc: "10字个人评述信息",
-          tag: 'aaaa'
+          desc: "师德高尚",
+          tag: '名师'
         },
         {
-          name: '卢孝华',
+          name: '朱志涛',
           userImg: userPicture,
-          desc: "10字个人评述信息",
-          tag: 'aaaa'
+          desc: "为人师表",
+          tag: '名师'
         },
         {
-          name: '卢孝华',
+          name: '张全勇',
           userImg: userPicture,
-          desc: "10字个人评述信息",
-          tag: 'aaaa'
+          desc: "成绩突出",
+          tag: '名师'
         },
         {
-          name: '卢孝华',
+          name: '张宁',
           userImg: userPicture,
-          desc: "10字个人评述信息",
-          tag: 'aaaa'
+          desc: "工作认真",
+          tag: '金牌教师'
         },
         {
-          name: '卢孝华',
+          name: '李华',
           userImg: userPicture,
-          desc: "10字个人评述信息",
-          tag: 'aaaa'
+          desc: "勇于上升",
+          tag: '金牌教师'
         },
         {
-          name: '卢孝华',
+          name: '张强',
           userImg: userPicture,
-          desc: "10字个人评述信息",
-          tag: 'aaaa'
+          desc: "乐于奉献",
+          tag: '金牌教师'
         }
       ],
     };

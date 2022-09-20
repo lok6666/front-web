@@ -23,7 +23,7 @@
     </h2>
     <el-input v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
     <el-input v-else v-model="mobile" placeholder="手机号" />
-    <el-input v-if="active === 0" v-model="password" placeholder="密码" />
+    <el-input v-if="active === 0" type="password" v-model="password" placeholder="密码" />
     <el-input v-else v-model="code" placeholder="验证码">
       <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
       <el-button
@@ -47,7 +47,7 @@
         <span class="btn" @click="privacy">隐私政策</span>
       </span>
     </p>
-    <div class="third-login">
+    <!-- <div class="third-login">
       <p class="name">社交账号登录</p>
       <div class="icon-box">
         <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101881036&redirect_uri=https://www.poile.cn/oauth&state=1">
@@ -60,7 +60,7 @@
           <svg-icon icon-class="gitee-login" class="icon" />
         </a>
       </div>
-    </div>
+    </div> -->
   </el-dialog>
 </template>
 
@@ -89,8 +89,8 @@ export default {
   },
 
   mounted() {
-    this.username = this.login_username || ''
-    this.password = this.login_password || ''
+    this.username = this.login_username || '17732236736'
+    this.password = this.login_password || '123456'
     this.checked = getRemember() === '1'
   },
 

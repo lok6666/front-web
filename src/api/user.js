@@ -49,11 +49,29 @@ export function codeLogin(params) {
  * @description 获取用户信息
  * @param {String} token
  */
-export function getUserInfo(token) {
-  return request({
-    url: '/user/info',
-    method: 'get'
-  })
+export async function getUserInfo(token) {
+  // let result = await request({
+  //   url: '/user/info',
+  //   method: 'get'
+  // });
+  let result = {
+    code: 0,
+    message: '成功',
+    data: {
+      admin: 0,
+      birthday: "2022-09-03",
+      createTime: "2022-09-03 20:09:35",
+      gender: 1,
+      id: 89,
+      mobile: 17732236736,
+      nickname: "用户236736",
+      roles: ["ordinary"],
+      status: 0,
+      username: "sfsxz8"
+    }
+  };
+  console.log('result----', result);
+  return result;
 }
 
 /**

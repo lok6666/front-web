@@ -22,7 +22,10 @@
           style="display: flex;flex-direction: column;;width: 100%;padding: 0 27px;"
         >
           <div class="title">关于我们</div>
-          <div class="content">{{ showDesc }}</div>
+          <div class="content">
+            {{ showDesc }}
+            公司始终坚持以“满天星计划”党建品牌为引领，聚焦主责把握机遇、立足主业谋划布局，以文化为内核、科技为手段、数据为支撑，按照“数据+算法+算力”的产业技术创新体系，凝神聚力将公司打造成为全国文化中心建设文化大数据生产力的推动者、文化领域企业的算力支撑者商、不同文化业态应用场景的算法服务商、“文化+”行业的数据生产资料的集成商。
+          </div>
         </div>
       </div>
       <div>
@@ -69,8 +72,8 @@
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import AppHeader from "@/components/Header/index";
-import busniessLogo from "../../images/busneiss-logo.gif";
-import bank1 from "../../images/about-busniess.png";
+import busniessLogo from "../../images/busneiss-logo.png";
+import bank1 from "../../images/about-busneiss2.png";
 import bank2 from "../../images/bank1.png";
 import protect from "@/components/guide/protect.vue";
 import AppFooter from "@/components/footer/index";
@@ -81,19 +84,19 @@ export default {
     return {
       categoryId: 0,
       busniessLogo,
-      tagList: ["国有企业","高新技术企业", "专精特新企业", "瞪羚企业", "2021年纳税前十名税前十名企"],
+      tagList: ["国有企业","物联网", "文化产业", "大数据",  "高新技术企业", "瞪羚企业", "专精特新企业", "文化科技融合", "语音通信","中小微企业"],
       excellentBusniessList: [
         {
-          excellentBusniessName: "文投大数据",
+          excellentBusniessName: "中关村高新技术企业",
         },
         {
-          excellentBusniessName: "华录新媒",
+          excellentBusniessName: "高新技术企业证书",
         },
         {
-          excellentBusniessName: "畅游",
+          excellentBusniessName: "等保三级",
         },
         {
-          excellentBusniessName: "cri",
+          excellentBusniessName: "科博会",
         },
       ],
       // imgList: [
@@ -176,7 +179,7 @@ export default {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background: #ffffff;
+  // background: #ffffff;
   min-height: calc(100vh - 50px);
   position: relative;
 
@@ -195,7 +198,9 @@ export default {
     width: 100%;
     padding-bottom: 7px;
     background-size: cover;
-    background-image: url("../../images/business-detail-bg.png");
+    background-image: url("../../images/business-detail-bg1.png");
+    background-size: 100% 100%;
+    margin-top: 150px;
   }
   .busniess-detail-container {
     max-width: 1440px;
@@ -208,13 +213,14 @@ export default {
       width: 100%;
       display: flex;
       justify-content: space-between;
-      background: #fff;
+      // background: #fff;
       padding: 0 70px;
       .header-logo {
         position: relative;
         top: -127px;
         width: 485px;
         height: 435px;
+        box-shadow: -10px 10px 5px #888888;
       }
       .title {
         font-size: 30px;
@@ -224,8 +230,9 @@ export default {
         margin-bottom: 12px;
       }
       .content {
-        line-height: 20px;
-        font-size: 14px;
+        text-indent: 2em;
+        line-height: 25px;
+        font-size: 18px;
         font-family: AlibabaPuHuiTiR;
         color: #2c3241;
         //max-width: 777px;
@@ -245,19 +252,19 @@ export default {
       .item-icon {
         height: 210px;
         margin-bottom: 15px;
-        background-size: cover;
         background-repeat: no-repeat;
+        background-size: 100% 100%;
         &-0 {
-          background-image: url("../../images/collage1.png");
+          background-image: url("../../images/collage-0.jpg");
         }
         &-1 {
-          background-image: url("../../images/collage2.png");
+          background-image: url("../../images/collage-1.jpg");
         }
         &-2 {
-          background-image: url("../../images/collage3.png");
+          background-image: url("../../images/collage-2.jpg");
         }
         &-3 {
-          background-image: url("../../images/collage4.png");
+          background-image: url("../../images/collage-3.png");
         }
       }
     }
@@ -280,9 +287,10 @@ export default {
         max-width: 330px;
         display: flex;
         flex-wrap: wrap;
+        color: #FFFFFF;
         .tag-list-item {
             // color: #fff;
-            min-width: 117px;
+            // min-width: 117px;
             margin-right: 13px;
             border-radius: 16px;
             height: 32px;
@@ -304,6 +312,21 @@ export default {
           background: #f5a623;
         }
         .item-block-4 {
+          background: #d0021b;
+        }
+        .item-block-5 {
+          background: #038f6e;
+        }
+        .item-block-6 {
+          background: #f5a623;
+        }
+        .item-block-7 {
+          background: #d0021b;
+        }
+        .item-block-8 {
+          background: #f5a623;
+        }
+        .item-block-9 {
           background: #d0021b;
         }
       }

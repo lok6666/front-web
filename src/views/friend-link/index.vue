@@ -3,20 +3,50 @@
     <app-header :nav-item-active="4" />
     <div class="trade-bg">
       <div class="trade-title">行业培训</div>
-      <div class="fw-model">
-        <div class="fw-model-item" v-for="(i, index) in fwList" key="index">
-          <div class="title">{{ i.title }}</div>
-          <span class="data">{{ i.num }}</span>
-          <span class="type">{{i.type}}</span>
-        </div>
-      </div>
     </div>
     <div class="trade-container">
       <div class="trade-center">
-      <userTable/>
+      <div class="collage-video">
+        <video
+          ref="video"
+          class="video-js vjs-default-skin vjs-big-play-centered"
+          style="height: 644px; max-height: 1300px; width: 100%"
+          :poster="currentVideo.poster"
+          controls
+        >
+          <source
+            src="../../video/7ba8526361db302c7fb5236ff570a98e.mp4"
+            type="video/webm"
+          />
+        </video>
+      </div>
+      <div class="collage-list">
+        <div style="display: flex;align-items: center;margin-left: 41px;"><img src="../../images/collage-choose.png"/>系列选集</div>
+        <ul>
+          <li v-for="(item, index) in list" :key="index">{{item}}</li>
+        </ul>
+      </div>
+      <div>
+        <div class="header">
+          <div class="collage-title">系列课程往期回顾</div>
+          <div>查看全部</div>
+        </div>
+        <swiper class="swiper" :options="swiperOption">
+          <swiper-slide v-for="(item, index) in swiperConfig">
+            <div :class="`swiper-item swiper-item-${index}`"></div>
+            <div class="video-desc">
+              {{item.desc}}
+              <div>{{item.time}}</div>
+              <div>{{item.learnNum}}人参与学习</div>
+            </div>
+          </swiper-slide>
+          <!-- <div class="swiper-pagination" slot="pagination"></div> -->
+        </swiper>
+      </div>
+      <!-- <userTable/>
       <userTable2/>
       <teacher />
-      <collage />
+      <collage /> -->
       </div>
     </div>
     <app-footer />
@@ -27,10 +57,16 @@
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import loanBg1 from "../../images/loan-card-header1.png";
-import userTable from "./components/userTable.vue";
-import userTable2 from "./components/userTable2.vue";
-import collage from "@/components/guide/collage.vue";
-import teacher from "./components/teacher.vue";
+import collagePoster from "../../images/collage-poster.png";
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
+import { swiperConfig1 } from "@/config/index";
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import 'swiper/css/swiper.css';
+// import userTable from "./components/userTable.vue";
+// import userTable2 from "./components/userTable2.vue";
+// import collage from "@/components/guide/collage.vue";
+// import teacher from "./components/teacher.vue";
 import bank1 from "../../images/bank1.png";
 import AppHeader from "@/components/Header/index";
 import Loan from "@/components/loan/index";
@@ -40,170 +76,54 @@ export default {
   name: "User",
   data() {
     return {
+      player: null,
+      currentVideo: {
+        poster: collagePoster
+      },
+      swiperConfig: swiperConfig1,
       categoryId: 0,
-      btnList: [
-        {
-          message: "不限",
-          isSelect: false,
+      list: ['第一期', '第二期'],
+      swiperOption: {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        direction: 'horizontal',
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
         },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-        {
-          message: "条件一",
-          isSelect: false,
-        },
-      ],
-      fwList: [
-        {
-          title: "共有公开课程",
-          num: "1888",
-          type: "节",
-        },
-        {
-          title: "定制课程",
-          num: "2000",
-          type: "节",
-        },
-        {
-          title: "签约名师:",
-          num: "2000",
-          type: "位",
+        on: {
+          resize: () => {
+            this.$refs.swiper.$swiper.changeDirection(
+              window.innerWidth <= 960
+                ? 'vertical'
+                : 'horizontal'
+            )
+          }
         }
-      ],
-      loanList: [
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "200万",
-          loanBg: loanBg1,
-          bank: bank1,
-        },
-      ],
-      path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
+      }
     };
   },
   components: {
     AppHeader,
-    Loan,
-    userTable,
-    teacher,
-    collage,
-    userTable2,
+    Swiper,
+    SwiperSlide,
+    // Loan,
+    // userTable,
+    // teacher,
+    // collage,
+    // userTable2,
     AppFooter,
   },
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
   },
-  mounted() {},
+  mounted() {
+    this.player = videojs(this.$refs.video, this.options, () => {
+      console.log("播放器渲染完成");
+    });
+  },
   methods: {
     select(index) {
-      // Vue.set(vm.obj, propertyName, newValue);
-      // this.btnList[index].isSelect = !this.btnList[index].isSelect;
       console.log("this---------", this.btnList[index]);
     },
     detail(index) {
@@ -242,7 +162,7 @@ export default {
     color: #FFFFFF;
     width: 100%;
     padding-left: 78px;
-    padding-bottom: 7px;
+    padding-bottom: 20px;
     background-size: cover;
     background-image: url('../../images/行业培训Bg.png');
     .trade-title {
@@ -250,44 +170,104 @@ export default {
       font-family: AlibabaPuHuiTiH;
       color: #FFFFFF;
     }
-    .fw-model {
-      display: flex;
-      border-radius: 4px;
-      .fw-model-item {
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-        align-items: center;
-        font-size: 18px;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
-        color: #fff;
-        padding-right: 13px;
-        .title {
-        }
-        .data {
-          font-size: 40px;
-          font-family: Futura-Bold, Futura;
-          font-weight: bold;
-          color: #fff;
-          line-height: 53px;
-        }
-        .type {
-          border-right: solid;
-          padding-right: 20px;
-        }
-      }
-    }
   }
   .trade-container {
     max-width: 1440px;
-    margin-top: 31px;
     margin-left: 70px;
     margin-right: 70px;
     padding-bottom: 60px;
+    background-color: #DFAF75;
     .trade-center {
       width: 100%;
       min-width: 1298px;
+      .collage-list {
+        height: 78px;
+        background: #8B572A;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-family: AlibabaPuHuiTiR;
+        color: #FFFFFF;
+        line-height: 33px;
+        ul {
+          display: flex;
+          li {
+            color: #fff;
+            list-style: none;
+            margin-right: 27px;
+            border-right: solid #fff;
+            padding-right: 27px;
+          }
+        }
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: AlibabaPuHuiTiM;
+        color: #FFFFFF;
+        padding: 0px 36px;
+        .collage-title {
+          font-size: 42px;
+          line-height: 58px;
+          margin-bottom: 27px;
+          margin-top: 27px;
+          // padding: 0px 35px;
+        }
+        .collage-more {
+          color: #FFFFFF;
+          line-height: 33px;
+        }
+      }
+      .swiper {
+        // height: 126px;
+        // width: 100%;
+        // max-width: 1440px;
+        margin-left: 35px;
+        .swiper-slide {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          font-weight: bold;
+          font-size: 14px;
+          width: 240px !important;
+          .swiper-item {
+            width: 224px;
+            height: 126px;
+          }
+          .swiper-item-0 {
+            background-image: url('../../images/collage-bg-0.png');
+          }
+          .swiper-item-1 {
+            background-image: url('../../images/collage-bg-1.png');
+          }
+          .swiper-item-2 {
+            background-image: url('../../images/collage-bg-2.png');
+          }
+          .swiper-item-3 {
+            background-image: url('../../images/collage-bg-3.png');
+          }
+          .swiper-item-4 {
+            background-image: url('../../images/collage-bg-4.png');
+          }
+          .video-desc {
+            margin-top: 8px;
+            text-align: left;
+            width: 224px;
+            // width: 100%;
+            // height: 78px;
+            // padding-top: 22px;
+          }
+        }
+        .swiper-slide:nth-child(2n) {
+          width: 40%;
+        }
+        .swiper-slide:nth-child(3n) {
+          width: 20%;
+        }
+      }
     }
   }
 }
