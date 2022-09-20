@@ -1,3 +1,20 @@
+const xsOptions = [
+  {
+    value: "china",
+    label: "企事业单位",
+    isSelect:　false
+  },
+  {
+    value: "china",
+    label: "服务机构",
+    isSelect:　false
+  },
+  {
+    value: "china",
+    label: "服务机构",
+    isSelect:　false
+  }
+];
 const locationOptions1 = [
   {
     value: "china",
@@ -876,6 +893,7 @@ const createForm = [
   }
 ];
 module.exports = {
+  xsOptions,
   locationOptions,
   locationOptions1,
   businessOptions,

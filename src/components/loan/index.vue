@@ -64,7 +64,7 @@ export default {
 .finance-loan {
 margin-top: 40px;
 display: grid;
-grid-template-columns: repeat(4, 310px);
+grid-template-columns: repeat(4, 25%);
 grid-gap: 20px 20px;
 .finance-loan-item {
     height: 410px;

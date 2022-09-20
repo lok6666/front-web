@@ -36,25 +36,7 @@
       <div class="finance-detail-content">
         <div class="title">项目详情</div>
         <div class="content">
-          产品简介
-          （一）审批高效。
-          对于贷款资料齐全的业务，随到随审，原则上3个工作日内完成审批。
-          （二）利率优惠
-          1.符合再贷款政策支持名单内的小微企业，贷款利率最高为贷款发放时最近一次公布的一年期LPR减100基点。
-          2.不在上述名单内，但疫情期间直接参与防疫重点医用物品和生活物资生产、运输和销售的小微企业紧急融资需求，贷款利率最低为我行最低指导
-          （三）担保费优惠
-          担保公司在疫情期间给予符合要求的企业担保费优惠。
-          （四）应续尽续
-          对受疫情影响经营暂时出现困难但有发展前景的企业不抽贷、不断贷、不压贷，应续尽续。
-          适用客户
-          无
-          申请条件
-          1.符合《中国人民银行关于发放专项再贷款支持防控新型冠状病毒感染的肺炎疫情有关事项的通知》（银发〔2020〕28号，以下简称《通知》）要求，且符合监管部门对北京地区法人银行再贷款政策支持名单内的小微企业。
-          2.不在上述名单内，担疫情期间直接参与防疫的重点医用物品和生活物资生产、运输和销售的小微企业
-          提交材料
-          无
-          申请流程
-          无
+          <p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;">产品简介 </span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;">（一）审批高效。 对于贷款资料齐全的业务，随到随审，原则上3个工作日内完成审批。 </span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;">（二）利率优惠 1.符合再贷款政策支持名单内的小微企业，贷款利率最高为贷款发放时最近一次公布的一年期LPR减100基点。 2.不在上述名单内，但疫情期间直接参与防疫重点医用物品和生活物资生产、运输和销售的小微企业紧急融资需求，贷款利率最低为我行最低指导 （三）担保费优惠 担保公司在疫情期间给予符合要求的企业担保费优惠。 </span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;">（四）应续尽续 对受疫情影响经营暂时出现困难但有发展前景的企业不抽贷、不断贷、不压贷，应续尽续。</span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;"> 适用客户</span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;"> 无 </span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;">申请条件 </span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;">1.符合《中国人民银行关于发放专项再贷款支持防控新型冠状病毒感染的肺炎疫情有关事项的通知》（银发〔2020〕28号，以下简称《通知》）要求，且符合监管部门对北京地区法人银行再贷款政策支持名单内的小微企业。</span></p><p style="line-height: 1.5;"><span style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 16px;"> 2.不在上述名单内，担疫情期间直接参与防疫的重点医用物品和生活物资生产、运输和销售的小微企业 提交材料 无 申请流程 无</span></p>
         </div>
       </div>
       <div class="finance-detail-other-content">
@@ -368,6 +350,7 @@ export default {
       .content {
         padding-top: 28px;
         line-height: 25px;
+        font-family: AlibabaPuHuiTiR;
       }
     }
     .finance-detail-other-content {

@@ -23,6 +23,7 @@
                         />
           </el-input>
         </div>
+        <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">100</span>查询结果</div>
         <div v-for="(item, index) in policyList" :key="index" :class="`item-${index} new-more-search-container-item`">
           <div class="message">{{item.message}}</div>
           <div class="time">{{item.time}}</div>

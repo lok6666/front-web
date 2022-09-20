@@ -6,7 +6,6 @@
       :top="0"
       :lock-scroll="false"
       :center="true"
-      :show-close="true"
       :before-close="handleClose">
       <div style="font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;">政策计算器</div>
       <div style="margin-bottom: 25px;margin-top:5px;">请选择您的条件，我将为您计算出适合您的政</div>
@@ -27,7 +26,7 @@
           <div class="select-btn">
             <span class="title">企业组织形式:</span>
             <div class="select-item">
-              <div v-for="(btn, index) in businessOptions" :key="index">
+              <div v-for="(btn, index) in xsOptions" :key="index">
                 <el-button
                   class="button-new-tag"
                   :class="[btn.isSelect ? 'button-new-tag-select' : '']"
@@ -123,7 +122,7 @@
 
 <script>
 import {
-  locationOptions1, businessOptions, businessAttributeOptions, yearOptions, themeOptions,
+  locationOptions1, businessOptions, businessAttributeOptions, yearOptions, themeOptions,xsOptions,
   zzOptions, projectSubjectOptions, favourablebusinessOptions, favourablebusinessOptions1
 } from "@/config/constant.js";
 export default {
@@ -139,6 +138,7 @@ export default {
       businessAttributeOptions,
       yearOptions,
       themeOptions,
+      xsOptions
     }
   },
   props: {
@@ -149,13 +149,15 @@ export default {
   },
   methods: {
     handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          this.$forceUpdate();
-          this.$emit('handleClose');
-          done();
-        })
-        .catch(_ => {});
+      this.$forceUpdate();
+      this.$emit('handleClose');
+      // this.$confirm('确认关闭？')
+      //   .then(_ => {
+      //     this.$forceUpdate();
+      //     this.$emit('handleClose');
+      //     done();
+      //   })
+      //   .catch(_ => {});
     },
     select(options, index, more) {
       if(more === 'more') {

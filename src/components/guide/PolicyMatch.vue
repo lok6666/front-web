@@ -54,17 +54,17 @@ export default {
       fnList: [
         {
           title: '政策文件',
-          num: '88690',
+          num: '38690',
           type: '条'
         },
         {
           title: '匹配企业',
-          num: '88690',
+          num: '8869',
           type: '家'
         },
         {
           title: '政策兑现',
-          num: '88690',
+          num: '5709',
           type: '项'
         }
       ]

@@ -35,25 +35,25 @@ export default {
     return {
       tableData: [
         {
-          level: "石景山区",
+          level: "国家级",
           title: "石政办发〔2022〕6号...",
           address: "北京市星座大厦",
           date: "2016.05.09",
         },
         {
-          level: "石景山区",
+          level: "国家级",
           title: "北京市石景山区人民政府办公…",
           address: "北京市星座大厦",
           date: "2016.05.07",
         },
         {
-          level: "石景山区",
+          level: "国家级",
           title: "关于促进中关村虚拟现实…",
           address: "北京市星座大厦",
           date: "2016.05.05",
         },
         {
-          level: "石景山区",
+          level: "区级",
           title: "石景山区科普基地认定办法…",
           address: "北京市星座大厦",
           date: "2016.05.03",

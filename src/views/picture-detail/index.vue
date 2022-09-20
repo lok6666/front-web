@@ -80,11 +80,6 @@ export default {
         loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
       },
-      options: {
-        autoplay: true,
-        poster:
-          "http://minio.bjwcxf.com/cultural-image/shijingshan.png",
-      },
       swiperOptionThumbs: {
         loop: true,
         loopedSlides: 5, // looped slides should be the same
@@ -111,9 +106,6 @@ export default {
       swiperTop.controller.control = swiperThumbs;
       swiperThumbs.controller.control = swiperTop;
     });
-    // this.player = videojs(this.$refs.video, this.options, () => {
-    //   console.log("播放器渲染完成");
-    // });
   },
 
   methods: {

@@ -156,12 +156,12 @@ export default {
         legend: {},
         tooltip: {},
         dataset: {
-          dimensions: ["product", "2015", "2016", "2017"],
+          dimensions: ["product", "营收", "利润", "缴税"],
           source: [
-            { product: "Matcha Latte", 2015: 43.3, 2016: 85.8, 2017: 93.7 },
-            { product: "Milk Tea", 2015: 83.1, 2016: 73.4, 2017: 55.1 },
-            { product: "Cheese Cocoa", 2015: 86.4, 2016: 65.2, 2017: 82.5 },
-            { product: "Walnut Brownie", 2015: 72.4, 2016: 53.9, 2017: 39.1 },
+            { product: "1-3月", '营收': 43.3, '利润': 25.8, '缴税': 13.7 },
+            { product: "4-6月", '营收': 83.1, '利润': 73.4, '缴税': 55.1 },
+            { product: "7-9月", '营收': 86.4, '利润': 65.2, '缴税': 32.5 },
+            { product: "10-12月", '营收': 72.4, '利润': 53.9, '缴税': 39.1 },
           ],
         },
         xAxis: { type: "category" },

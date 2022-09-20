@@ -74,35 +74,35 @@ export default {
       }],
       contentList: [],
       newPolicyList: [{
-        title: '石景山区启动开学保障执法检查',
+        title: '国务院办公厅关于成立国家质量强国建设协调推进领导小组的通知',
         time: '2022/9/18',
         detailType: '/policy-detail'
       },{
-        title: '石景山园开展2022年“共产党员献爱心” 捐献活动',
+        title: '国务院办公厅关于同意建立国务院优化生育政策工作部际联席会议制度的函',
         time: '2022/9/17',
         detailType: '/policy-detail'
       },{
-        title: '市委常委、统战部部长游钧到八角街道接访下访',
+        title: '国务院关于取消和调整一批罚款事项的决定',
         time: '2022/9/15',
         detailType: '/policy-detail'
       },{
-        title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
+        title: '国务院关于同意枣庄市建设国家可持续发展议程创新示范区的批复',
         time: '2022/9/14',
         detailType: '/policy-detail'
       },{
-        title: '让居民幸福感再“梯”升',
+        title: '国务院关于同意鄂尔多斯市建设国家可持续发展议程创新示范区的批复',
         time: '2022/9/13',
         detailType: '/policy-detail'
       },{
-        title: '金顶街街道老楼加梯',
+        title: '国务院办公厅关于进一步推进省以下财政体制改革工作的指导意见',
         time: '2022/9/12',
         detailType: '/policy-detail'
       },{
-        title: '让居民幸福感再“梯”升',
+        title: '国务院关于“十四五”新型城镇化实施方案的批复',
         time: '2022/9/11',
         detailType: '/policy-detail'
       },{
-        title: '金顶街街道老楼加梯',
+        title: '国务院关于印发扎实稳住经济一揽子政策措施的通知',
         time: '2022/9/10',
         detailType: '/policy-detail'
       }]
