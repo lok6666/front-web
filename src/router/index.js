@@ -61,6 +61,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/picture-detail-1',
+    component: () => import('@/views/picture-detail-1/index'),
+    hidden: true
+  },
+  {
     path: '/new-detail',
     component: () => import('@/views/new-detail/index'),
     hidden: true

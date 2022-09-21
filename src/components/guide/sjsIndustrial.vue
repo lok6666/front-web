@@ -22,7 +22,7 @@
           />
         </video>
         <div class="guide-sjsIndustrial-show">
-          <div class="sjs-img-show sjsIndustrial-left">首钢园 SHOUGANG PARK</div>
+          <div class="sjs-img-show sjsIndustrial-left" @click="showPictureDetail1">首钢园 SHOUGANG PARK</div>
           <div class="sjsIndustrial-right">
             <div class="sjs-img-show r-top">中关村科幻产业创新中心</div>
             <div class="r-bottom">
@@ -59,6 +59,9 @@ export default {
   methods: {
     showPictureDetail() {
       this.$router.push('/picture-detail')
+    },
+    showPictureDetail1() {
+      this.$router.push('/picture-detail-1')
     }
   },
   props: {
