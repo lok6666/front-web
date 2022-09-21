@@ -9,7 +9,7 @@
                 </div>
             </div>
       </div>
-      <div class="user-policy-more">
+      <div class="user-policy-more" @click="checkAll">
             <img src="../../../images/CombinedShape2.png"/>
             <p>查看全部信息</p>
       </div>
@@ -52,6 +52,11 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    }
+  },
+  methods: {
+    checkAll() {
+      this.$emit('checkAll', 8);
     }
   }
 };

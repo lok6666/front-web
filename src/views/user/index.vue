@@ -71,7 +71,7 @@
         <div class="setting-box-center">
           <div v-if="categoryId === 0">
             <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
-            <policyList />
+            <policy @checkAll="checkAll"/>
             <userTable @checkAll="checkAll"/>
             <userTable2 />
             <userTable3 />
@@ -99,6 +99,9 @@
           </div>
           <div v-else-if="categoryId === 6">
               <userTable5 />
+          </div>
+          <div v-else-if="categoryId === 8">
+              <policyList />
           </div>
         </div>
         <div class="setting-box-right">
@@ -129,7 +132,8 @@ import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import {  messageForm, priceForm, payTaxesForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
-import policyList from "./components/policy.vue";
+import policy from "./components/policy.vue";
+import policyList from "./components/policyList.vue";
 import userTable from "./components/userTable.vue";
 import userTable2 from "./components/userTable2.vue";
 import userTable3 from "./components/userTable3.vue";
@@ -261,6 +265,7 @@ export default {
     FormTemplate,
     priceFormTemplate,
     echarts,
+    policy,
     policyList,
     userTable,
     userTable2,
