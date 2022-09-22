@@ -28,6 +28,7 @@
   <style lang="scss" scoped>
   .flow-bg {
     background: #fff;
+    padding-top: 31px;
   }
   .guide-wrap {
     .container {
@@ -37,7 +38,7 @@
             align-items: center;
           }
        .guide-flow-show {
-        background-image: url("../../images/flow.jpg");
+        background-image: url("../../images/flow.png");
         height: 600px;
         background-repeat: no-repeat;
         background-size: 100% 100%;
