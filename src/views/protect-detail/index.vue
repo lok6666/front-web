@@ -1,6 +1,20 @@
 <template>
   <div ref="container" class="home-container">
     <app-header />
+    <el-dialog
+      :visible.sync="applydialogVisible"
+      :center="true"
+      :before-close="closeDialog">
+      <form-template
+      style="padding: 0px 20px"
+      :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
+      @likeCountChanges="closeDialog"
+      :labelWidth="140"
+      title="服务申请"
+      :formConfig="applyMessageForm2"
+      :showBtn="true"
+      :disabled="false"/> 
+    </el-dialog>
     <div class="protect-detail-bg">国内商标注册业务</div>
     <div class="policy-container">
       <div class="side-left">
@@ -41,7 +55,7 @@
           <div class="title">
             <div>双享商标注册：商标注册不成功，免费再注册</div>
           </div>
-          <div class="protect-apply-btn">
+          <div class="protect-apply-btn" @click="applydialogVisible = true" >
             申请服务
           </div>
         </div>
@@ -53,6 +67,8 @@
 <script>
 import { mapGetters } from "vuex";
 import "swiper/css/swiper.css";
+import { applyMessageForm2 } from "@/config/constant.js";
+import FormTemplate from "@/components/Form/index.vue"
 import AppHeader from "@/components/Header/index";
 import AppFooter from "@/components/footer/index";
 import { pagePublishedArticle } from "@/api/article.js";
@@ -60,10 +76,13 @@ export default {
   name: "Index",
   components: {
     AppHeader,
+    FormTemplate,
     AppFooter
   },
   data() {
     return {
+      applydialogVisible: false,
+      applyMessageForm2,
       list: [{
         message: '⼊驻天猫京东等电商⽹站必须要有商标资质'
       },{
@@ -87,7 +106,10 @@ export default {
   },
 
   methods: {
-
+    closeDialog(done) {
+      this.applydialogVisible = false;
+      done();
+    }
   },
 };
 </script>

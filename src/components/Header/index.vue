@@ -2,16 +2,31 @@
 <template>
   <div class="main-header-box">
     <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose"></policy-calculate>
+    <el-dialog
+      :visible.sync="applydialogVisible"
+      :center="true"
+      :before-close="closeDialog">
+      <form-template
+      style="padding: 0px 20px"
+      :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
+      @likeCountChanges="closeDialog"
+      :labelWidth="140"
+      title="招商信息"
+      :formConfig="applyMessageForm"
+      :showBtn="true"
+      :disabled="false"/> 
+    </el-dialog>
+    <AI v-if="AIDialogVisible" @bClose="bClose"/>
     <img src="../../images/logo.png" @click="$router.push('/')" style="cursor:pointer;z-index: 251; position: fixed; left: 57px;">
     <header class="main-header">
         <div class="header">
           <div class="header-left">
-                <span><img src="../../images/sdzc.png" /></span>
-                <span><img class="index-icon" src="../../images/微信.png" />公众号</span>
-                <span><img class="index-icon" src="../../images/路径.png" />平台热线： 400-400-400</span>
+                <span @click="window.open('http://www.beijing.gov.cn/')"><img src="../../images/sdzc.png" /></span>
+                <span class="index-icon"><img src="../../images/微信.png" />公众号</span>
+                <span class="index-icon"><img src="../../images/路径.png" />平台热线: 010-56939760</span>
           </div>
           <div class="header-right">
-                  <span>
+                <span>
                     <!-- 搜索框 -->
                     <div class="search-box">
                       <el-input
@@ -30,9 +45,9 @@
                       </el-input>
                     </div>
                 </span>
-                <span><img class="index-icon" src="../../images/历史记录.png" />我的浏览记录</span>
-                <span><img class="index-icon" src="../../images/客服.png" />招商申请</span>
-                <span><img class="index-icon" src="../../images/客服.png" />线上客服</span>
+                <span class="index-icon"><img src="../../images/历史记录.png" />我的浏览记录</span>
+                <span class="index-icon" @click="applydialogVisible = true"><img src="../../images/客服.png"/>招商申请</span>
+                <span class="index-icon" @click="AIDialogVisible = true"><img src="../../images/客服.png"/>智能客服</span>
           </div>
         </div>
         <div class="content">
@@ -41,8 +56,8 @@
                 <span>助理企业梦想腾飞</span>
           </div>
           <div class="content-right">
-                <span @click="$router.push('/')" style="cursor: pointer;"><img class="index-icon" src="../../images/首页.png" />企业首页</span>
-                <span><img class="index-icon" src="../../images/CombinedShape.png" />+3</span>
+                <span @click="$router.push('/')" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
+                <span class="index-icon"><img src="../../images/CombinedShape.png" />+3</span>
                               <!-- 右边box -->
               <div class="right-box">
                 <!-- 登录·注册 -->
@@ -73,7 +88,7 @@
           </div>
         </div>
         <div class="footer">
-            <div class="footer-desc">石景山文化创意产业政企 综合服务平台</div>
+            <div class="footer-desc">石景山区文化产业综合服务平台</div>
             <div class="logo">
               <div v-if="device !== 'desktop'" class="menu-wrapper">
                 <el-dropdown trigger="click" placement="bottom">
@@ -105,7 +120,7 @@
                   :class="[navItemActive === index?'main-nav-item-active':'']"
                   @click="routerTo(nav.to, index)"
                 >
-                  <div :class="`index-icon nav-icon-${index}`"></div>
+                  <div :class="`nav-icon nav-icon-${index}`"></div>
                   {{ nav.name }}
                 </li>
               </ul>
@@ -117,8 +132,12 @@
   </div>
 </template>
 <script>
+import { messageForm, applyMessageForm } from "@/config/constant.js";
 import { mapGetters } from 'vuex'
+import AI from '@/components/AI/index'
 import PolicyCalculate from '@/components/Policycalculate/index'
+import FormTemplate from "@/components/Form/index.vue";
+// import customerService from '@/components/customer-service/index'
 import RegisterDialog from './RegisterDialog'
 import LoginDialog from './LoginDialog'
 export default {
@@ -126,7 +145,9 @@ export default {
   components: {
     PolicyCalculate,
     RegisterDialog,
-    LoginDialog
+    FormTemplate,
+    LoginDialog,
+    AI
   },
   props: {
     navItemActive: {
@@ -137,6 +158,10 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      applydialogVisible: false,
+      AIDialogVisible: false,
+      messageForm,
+      applyMessageForm,
       keyword: '',
       inputIconColor: '',
       navItems: [
@@ -183,13 +208,25 @@ export default {
   },
 
   methods: {
+    bClose() {
+      this.AIDialogVisible = false;
+    },
     routerTo(to, index) {
       if(to === '/policy-match') {
-        this.dialogVisible = true;
+        if(JSON.parse(window.localStorage.getItem('selectOptions'))) {
+          this.$router.push(to);
+          this.navItemActive = index;
+        } else {
+          this.dialogVisible = true;
+        }
       } else {
         this.$router.push(to);
         this.navItemActive = index;
       }
+    },
+    closeDialog(done) {
+      this.applydialogVisible = false;
+      done();
     },
     handleClose() {
       this.dialogVisible = false;
@@ -259,9 +296,16 @@ export default {
     color: #fff;
     z-index: 250;
     .index-icon {
+      cursor: pointer;
+      img {
+        height: 18px;
+        width: 18px;
+        margin-right: 3px;
+      }
+    }
+    .nav-icon {
       height: 18px;
       width: 18px;
-      margin-right: 3px;
     }
     .nav-icon-0 {
       background-image: url('../../images/zcpt-培训点播管理.png');

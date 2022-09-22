@@ -15,7 +15,7 @@
           controls
         >
           <source
-            src="../../video/7ba8526361db302c7fb5236ff570a98e.mp4"
+            src="../../video/6.mp4"
             type="video/webm"
           />
         </video>
@@ -152,24 +152,22 @@ export default {
     margin: 0;
   }
   .trade-bg {
+    padding-left: 73px;
+    padding-bottom: 123px;
     display: flex;
-    justify-content: end;
-    align-items: flex-start;
-    flex-direction: column;
-    height: 442px;
+    align-items: flex-end;
     font-size: 56px;
     font-family: AlibabaPuHuiTiR;
     color: #FFFFFF;
     width: 100%;
-    padding-left: 78px;
-    padding-bottom: 20px;
+    height: 442px;
     background-size: cover;
     background-image: url('../../images/行业培训Bg.png');
-    .trade-title {
-      font-size: 80px;
-      font-family: AlibabaPuHuiTiH;
-      color: #FFFFFF;
-    }
+    // .trade-title {
+    //   font-size: 80px;
+    //   font-family: AlibabaPuHuiTiH;
+    //   color: #FFFFFF;
+    // }
   }
   .trade-container {
     max-width: 1440px;

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 style="margin-left: 20px;">基本信息</h2>
-    <div style="padding: 0px 127px 0px 80px;display: grid;grid-template-columns: 400px 400px;">
+    <h2 style="margin-left: 20px;">{{title}}</h2>
+    <div :style="customStyle">
     <!--看了源码,为了required校验,必须在form标签循环-->
     <el-form
       ref="formRef"
@@ -74,7 +74,7 @@
           action="#"
           :show-file-list="false"
           v-if="item.upload"
-          @click="getIndex(i, item)"
+          @click.self="getIndex(i)"
           :before-upload="beforeAvatarUpload"
         >
           <img
@@ -90,20 +90,43 @@
             style="width: 178px; height: 178px"
             class="avatar"
           ></video>
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <!--照片墙-->
+        <el-upload
+          v-else-if="item.listupload"
+          list-type="picture-card"
+          :file-list="fileList"
+          @click.self="getIndex(i)"
+          :before-upload="beforeAvatarUpload1"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <!--认证资料-->
+        <el-upload
+          class="upload-demo"
+          v-else-if="item.zlupload"
+          drag
+          @click.self="getIndex(i)"
+          :before-upload="beforeAvatarUpload"
+          multiple>
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
         <!--富文本编辑-->
         <editor
           v-if="item.showWangEditor"
-          @click="getIndex(i)"
+          @click:native="getIndex(i)"
           :content="content"
           @handle="changeContent"
         ></editor>
       </el-form-item>
     </el-form>
   </div>
-  <div v-if="showBtn" style="float: right;margin-right: 20px;">
-    <el-button type="primary" @click="submitForm('formRef')">保存</el-button>
+  <div v-if="showBtn" style="text-align: right;">
+    <el-button type="primary" @click="submitForm('formRef')">提交</el-button>
     <el-button @click="resetForm('formRef')">取消</el-button>
   </div>
   </div>
@@ -111,6 +134,7 @@
 
 <script>
   // import { upLoad } from "@/config/api";
+  import request from '@/utils/request';
   export default {
   name: "User",
   props: {
@@ -119,6 +143,18 @@
       default() {
         return []
       }
+    },
+    insertUrl: {
+      type: String
+    },
+    customStyle: {
+      type: Object,
+      default() {
+        return ''
+      }
+    },
+    title: {
+      type: String
     },
     disabled: {
       type: Boolean,
@@ -141,7 +177,10 @@
   },
   data() {
     return {
-      categoryId: 0
+      categoryId: 0,
+      itemIndex: null,
+      fileList: [],
+      formData: {}
     };
   },
   components: {
@@ -174,11 +213,102 @@
       this.originalBirthday = userInfo.birthday;
       this.form.brief = userInfo.brief;
     },
+    // 获取索引
+    getIndex(i) {
+      this.itemIndex = i;
+      console.log('this.itemIndex', this.itemIndex);
+    },
     // 提交表单
     async submitForm(formName) {
-      console.log('this.', this.formConfig);
-      this.$emit('likeCountChanges', this.formConfig);
+      let formData = this.formData;
+      this.formConfig.forEach((v) => {
+        formData[v.prop] = v[v.prop];
+      });
+        this.$emit('likeCountChanges', this.formConfig);
+      },
+    async resetForm(formName) {
+        this.$emit('likeCountChanges', this.formConfig);
+      },
+      
+    beforeAvatarUpload(rawFile) {
+      var axios = require("axios");
+      var FormData = require("form-data");
+      var data = new FormData();
+      data.append("file", rawFile); // file 即选中的文件
+      data.append("userId", 1);
+      data.append("type", "image");
+      let formConfig = this.formConfig;
+      let itemIndex = this.itemIndex;
+      var config = {
+        method: "post",
+        url: `http://172.16.12.8:28182/upload`, //上传图片地址
+        type: 'image',
+        data: data
+      };
+      axios.defaults.crossDomain = true;
+      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+      axios(config)
+        .then(function (res) {
+          console.log('res', res);
+          debugger;
+          formConfig[itemIndex][uploadType.value === 'image' ? 'picture': 'video'] = 'http://' + res;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    beforeAvatarUpload1(rawFile) {
+      let fileList = this.fileList;
+      var axios = require("axios");
+      var FormData = require("form-data");
+      var data = new FormData();
+      data.append("file", rawFile); // file 即选中的文件
+      data.append("userId", 1);
+      data.append("type", "image");
+      var config = {
+        method: "post",
+        url: `http://172.16.12.8:28182/upload`, //上传图片地址
+        type: 'image',
+        data: data
+      };
+      axios.defaults.crossDomain = true;
+      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+      axios(config)
+        .then(function ({data}) {
+          fileList.push({
+            name: '1',
+            url: data
+        });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   },
 };
 </script>
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

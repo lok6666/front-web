@@ -166,7 +166,6 @@ export default {
     },
     search() {},
     select(options, index) {
-      debugger;
       console.log('this[options]0---', this[options]);
       // this[options] = this[options].map(e => {
       //     e.isSelect = false;

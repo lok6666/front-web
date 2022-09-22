@@ -16,8 +16,8 @@
         <div class="contact">
           <div class="contact-title">联系我们</div>
           <div class="contact-content">
-            <div class="contact-email">客服信箱：wentou@xxx.cn</div>
-            <div class="contact-telephone">客服热线：400-388-5996</div>
+            <div class="contact-email">客服信箱：wtdsj@bjwcxf.com</div>
+            <div class="contact-telephone">客服热线：010-56939760</div>
           </div>
         </div>
       </div>

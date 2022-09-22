@@ -73,24 +73,48 @@
             <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
             <policy @checkAll="checkAll"/>
             <userTable @checkAll="checkAll"/>
-            <userTable2 />
-            <userTable3 />
+            <userTable2 @checkAll="checkAll"/>
+            <userTable3 @checkAll="checkAll"/>
           </div>
           <div v-else-if="categoryId === 1">
             <form-template
+              style="padding: 0px 20px"
+              :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
               @likeCountChanges="likeCountChanges"
               :labelWidth="140"
+              title="基本信息"
               :formConfig="messageForm"
               :showBtn="true"
               :disabled="false"/> 
           </div>
+          <div v-else-if="categoryId === 2">
+            <form-template
+              style="padding: 0px 20px 20px 20px"
+              @likeCountChanges="likeCountChanges"
+              :labelWidth="140"
+              :insertUrl="entInfoInsert"
+              title="宣传信息管理"
+              :formConfig="propagandaForm"
+              :showBtn="true"
+              :disabled="false"/> 
+          </div>
           <div v-else-if="categoryId === 3">
-            <price-form-template style="padding: 50px 30px 100px 20px;"
+            <price-form-template
               @likeCountChanges="likeCountChanges"
               :labelWidth="200"
               :priceForm="priceForm"
               :payTaxesForm="payTaxesForm"
               :createForm="createForm"
+              :showBtn="true"
+              :disabled="false"/> 
+          </div>
+          <div v-else-if="categoryId === 4">
+            <form-template
+              style="padding: 0px 20px 20px 20px"
+              @likeCountChanges="likeCountChanges"
+              :labelWidth="140"
+              title="企业备案信息"
+              :formConfig="baForm"
               :showBtn="true"
               :disabled="false"/> 
           </div>
@@ -100,8 +124,21 @@
           <div v-else-if="categoryId === 6">
               <userTable5 />
           </div>
+          <div v-else-if="categoryId === 7">
+              <userTable6 />
+          </div>
           <div v-else-if="categoryId === 8">
               <policyList />
+          </div>
+          <div v-else-if="categoryId === 9">
+            <form-template
+              style="padding: 0px 20px 0px 20px"
+              @likeCountChanges="likeCountChanges"
+              :labelWidth="140"
+              title="账户信息"
+              :formConfig="accountForm"
+              :showBtn="true"
+              :disabled="false"/> 
           </div>
         </div>
         <div class="setting-box-right">
@@ -130,7 +167,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
-import {  messageForm, priceForm, payTaxesForm, createForm } from "@/config/constant.js";
+import { entInfoInsert } from "@/config/api";
+import {  propagandaForm, messageForm, priceForm, baForm, accountForm, payTaxesForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
 import policyList from "./components/policyList.vue";
@@ -139,6 +177,7 @@ import userTable2 from "./components/userTable2.vue";
 import userTable3 from "./components/userTable3.vue";
 import userTable4 from "./components/userTable4.vue";
 import userTable5 from "./components/userTable5.vue";
+import userTable6 from "./components/userTable6.vue";
 import AppHeader from "@/components/Header/index";
 import FormTemplate from "@/components/Form/index.vue";
 import priceFormTemplate from "@/components/Form/priceForm.vue";
@@ -152,6 +191,10 @@ export default {
       messageForm,
       priceForm,
       payTaxesForm,
+      entInfoInsert,
+      propagandaForm,
+      baForm,
+      accountForm,
       createForm,
       echartsOptions: {
         title: {
@@ -271,7 +314,8 @@ export default {
     userTable2,
     userTable3,
     userTable4,
-    userTable5
+    userTable5,
+    userTable6
   },
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),

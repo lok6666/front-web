@@ -29,7 +29,7 @@
               额度:
               <div class="item-num">{{ loan.quota }}</div>
             </div>
-            <div class="bank-detail" @click="detail(index)">查看详情</div>
+            <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
           </div>
         </div>
       </div>
@@ -51,10 +51,11 @@ export default {
     };
   },
   methods: {
-    detail(index) {
+    detail(loan, index) {
+      window.localStorage.setItem('loan-tail', JSON.stringify(loan));
       this.$router.push({
         path: `/finance-detail/:${index}`
-      })
+      });
     },
   },
 };

@@ -31,7 +31,7 @@
                   class="button-new-tag"
                   :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                   size="small"
-                  @click="select('businessOptions', index)"
+                  @click="select('xsOptions', index)"
                   >{{ btn.label }}</el-button>
               </div>
             </div>
@@ -138,7 +138,9 @@ export default {
       businessAttributeOptions,
       yearOptions,
       themeOptions,
-      xsOptions
+      xsOptions,
+      selectOptions: [],
+      optionsList: []
     }
   },
   props: {
@@ -151,27 +153,42 @@ export default {
     handleClose(done) {
       this.$forceUpdate();
       this.$emit('handleClose');
-      // this.$confirm('确认关闭？')
-      //   .then(_ => {
-      //     this.$forceUpdate();
-      //     this.$emit('handleClose');
-      //     done();
-      //   })
-      //   .catch(_ => {});
     },
     select(options, index, more) {
       if(more === 'more') {
-        this[options][index].isSelect = true;
+        this[options][index].isSelect = !this[options][index].isSelect;
+        // 更新选中列表
+        if(this[options][index].isSelect) {
+          this.selectOptions.push(this[options][index]);
+        } else {
+          this.selectOptions = this.selectOptions.filter(el => el.label !== this[options][index].label);
+        }
       } else {
-        this[options] = this[options].map(e => {
-          e.isSelect = false;
+        this[options] = this[options].map((e, i) => {
+          if(i === index) {
+            e.isSelect = !e.isSelect;
+            // 更新选中列表
+            if(e.isSelect) {
+              this.selectOptions.push(this[options][index]);
+            } else {
+              this.selectOptions = this.selectOptions.filter(el => el.label !== this[options][index].label);
+            }
+          }
           return e;
         });
-        this[options][index].isSelect = true;
       }
+      this.optionsList.push(options);
     },
     calculate() {
-      this.$router.push('/policy-match')
+      window.localStorage.setItem('selectOptions', JSON.stringify(this.selectOptions));
+      this.optionsList.forEach(element => {
+        element.forEach(e => {
+          el.isSelect = false;
+        });
+      });
+      this.$router.push('/policy-match');
+      this.optionsList = [];
+      this.dialogVisible = false;
     }
   }
 };

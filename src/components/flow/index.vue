@@ -2,7 +2,6 @@
     <div class="guide-wrap flow-bg">
       <div class="container">
         <div class="guide-header">
-          <img class="guide-header-logo" src="../../images/guide-logo.png" />
           流程图
           <div class="guide-agile">
             <div class="limit-desc">Comperehensive platf</div>

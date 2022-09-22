@@ -13,7 +13,7 @@
           <div class="guide-excellent-busniess-content-item"
               v-for="(item,index) in excellentBusniessList"
               :key="index">
-              <div :class="`item-icon item-icon-${index}`"></div>
+              <div :class="`item-icon item-icon-${index}`" :style="`background-image: url(${item.bg})`"></div>
               {{item.excellentBusniessName}}
           </div>
         </div>
@@ -26,42 +26,14 @@
     name: "excellent-busniess",
     data() {
       return {
-        excellentBusniessList: [{
-          excellentBusniessName: '文投大数据'
-        },
-        {
-          excellentBusniessName: '华录新媒'
-        },
-        {
-          excellentBusniessName: '畅游'
-        },
-        {
-          excellentBusniessName: 'cri'
-        },
-        {
-          excellentBusniessName: '六工汇'
-        },
-        {
-          excellentBusniessName: '红云'
-        },
-        {
-          excellentBusniessName: '漫游谷'
-        },
-        {
-          excellentBusniessName: '航天云网'
-        }]
       }
     },
     props: {
-      list: {
+      excellentBusniessList: {
         type: Array,
         default() {
           return [];
         },
-      },
-      loading: {
-        type: Boolean,
-        default: true
       }
     }
   };
@@ -75,7 +47,7 @@
   .guide-wrap {
       background: #FFFFFF;
       .container {
-        margin: 0px 60px;
+        margin: 10px 60px;
         padding-bottom: 58px;
         .guide-excellent-busniess-content {
             display: grid;
@@ -92,33 +64,6 @@
                   margin-bottom: 15px;
                   background-size: cover;
                   background-repeat: no-repeat;
-                  &-0 {
-                  background-image: url("../../images/collage1.png");
-                  }
-                  &-1 {
-                  background-image: url("../../images/collage2.png");
-                  }
-                  &-2 {
-                  background-image: url("../../images/collage3.png");
-                  }
-                  &-3 {
-                  background-image: url("../../images/collage4.png");
-                  }
-                  &-4 {
-                  background-image: url("../../images/collage5.png");
-                  }
-                  &-5 {
-                  background-image: url("../../images/collage6.png");
-                  }
-                  &-6 {
-                  background-image: url("../../images/collage7.png");
-                  }
-                  &-7 {
-                  background-image: url("../../images/collage8.png");
-                  }
-                  &-8 {
-                  background-image: url("../../images/collage9.png");
-                  }
               }
         }
       }

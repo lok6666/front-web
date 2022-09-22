@@ -30,7 +30,7 @@
                 />
               </video>
               <div class="video-desc">
-                {{item.desc}}
+                {{item.videoDesc}}
               </div>
             </div>
           </swiper-slide>
@@ -41,12 +41,12 @@
           ref="swiperThumbs"
         >
           <swiper-slide v-for="(item, index) in swiperConfig2"  :key="index">
-            <div v-bind:class="`swiper-bg swiper-slide-${index}`"></div>
-            <div class="swiper-desc">视频信息的文字介绍。</div>
+            <div v-bind:class="`swiper-bg swiper-slide-${index}`" :style="`background-image: url(${item.poster})`"></div>
+            <div class="swiper-desc">{{item.desc}}</div>
           </swiper-slide>
         </swiper>
       </div>
-      <imgEl />
+      <imgEl :excellentBusniessList="excellentBusniessList"/>
     </div>
     <app-footer />
   </div>
@@ -75,6 +75,38 @@ export default {
     return {
       player: null,
       swiperConfig2,
+      excellentBusniessList: [{
+        excellentBusniessName: '租赁部',
+        bg: 'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00228-773.jpg'
+      },
+      {
+        excellentBusniessName: '冬奥会',
+        bg: 'https://img1.baidu.com/it/u=4080935398,2327224438&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500'
+      },
+      {
+        excellentBusniessName: '三高炉',
+        bg: "https://img2.baidu.com/it/u=2098021062,2407661013&fm=253&fmt=auto&app=120&f=JPEG?w=729&h=500"
+      },
+      {
+        excellentBusniessName: '首钢乐园',
+        bg: "https://img2.baidu.com/it/u=1553228315,310649274&fm=253&fmt=auto&app=120&f=JPEG?w=749&h=500"
+      },
+      {
+        excellentBusniessName: '首钢旧址',
+        bg: "https://img1.baidu.com/it/u=2078752601,1190630527&fm=253&fmt=auto&app=120&f=JPEG?w=660&h=440"
+      },
+      {
+        excellentBusniessName: '冬日首钢',
+        bg: "https://img0.baidu.com/it/u=2821957628,2195078758&fm=253&fmt=auto&app=138&f=JPEG?w=711&h=500"
+      },
+      {
+        excellentBusniessName: '走心馆',
+        bg: "https://img2.baidu.com/it/u=3363086927,1001912848&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"
+      },
+      {
+        excellentBusniessName: '蒸汽朋克',
+        bg: "https://img1.baidu.com/it/u=2570294743,884006829&fm=253&fmt=auto&app=138&f=JPEG?w=750&h=500"
+      }],
       swiperOptionTop: {
         loop: true,
         loopedSlides: 5, // looped slides should be the same

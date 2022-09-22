@@ -8,11 +8,6 @@ const xsOptions = [
     value: "china",
     label: "服务机构",
     isSelect:　false
-  },
-  {
-    value: "china",
-    label: "服务机构",
-    isSelect:　false
   }
 ];
 const locationOptions1 = [
@@ -474,6 +469,7 @@ const yearOptions = [
     isSelect:　false
   }
 ];
+// 基本信息
 const messageForm = [
   {
       prop: "actId",
@@ -607,6 +603,195 @@ const messageForm = [
       showInput: true,
       hydm: '制造业'
 }];
+// 基本信息
+const applyMessageForm = [
+//   {
+//     prop: "entName",
+//     label: "企业名称",
+//     required: true,
+//     showInput: true
+// },
+// {
+//     prop: "busneiss_id",
+//     label: "企业id",
+//     required: true,
+//     showInput: true
+// },
+{
+    prop: "legalPerson",
+    label: "法人",
+    required: true,
+    showInput: true
+},
+{
+  prop: "legalIdCard",
+  label: "法人身份证",
+  required: true,
+  showInput: true
+},
+{
+  prop: "registerDistrict",
+  label: "目前所在区县",
+  required: true,
+  showInput: true
+},
+{
+  prop: "entIndustry",
+  label: "所在行业",
+  required: true,
+  showInput: true
+},
+{
+  prop: "entCode",
+  label: "企业社会统一代码",
+  required: true,
+  showInput: true
+},
+{
+  prop: "businessIncome",
+  label: "营业收入",
+  required: true,
+  showInput: true
+},
+{
+  prop: "person",
+  label: "联系人",
+  required: true,
+  showInput: true
+},
+{
+  prop: "telephone",
+  label: "联系方式",
+  required: true,
+  showInput: true
+}
+];
+
+// 基本信息
+const applyMessageForm1 = [
+  {
+    prop: "person",
+    label: "联系人",
+    required: true,
+    showInput: true,
+    person: '卢老师'
+  },
+  {
+    prop: "telephone",
+    label: "联系方式",
+    required: true,
+    showInput: true,
+    telephone: '13661163536'
+  }
+  ];
+
+// 贷款信息
+const applyMessageForm2 = [
+  {
+    prop: "person",
+    label: "联系人",
+    required: true,
+    showInput: true,
+    person: '卢老师'
+  },
+  {
+    prop: "telephone",
+    label: "联系方式",
+    required: true,
+    showInput: true,
+    telephone: '13661163536'
+  }
+  ];
+// 宣传资料
+const propagandaForm = [
+  {
+      prop: "bd_img",
+      label: "背景图",
+      required: true,
+      zlupload: true
+  },
+  {
+      prop: "description",
+      label: "描述",
+      required: true,
+      showInput: true
+  },
+  {
+      prop: "img_list",
+      label: "注册资本",
+      required: true,
+      listupload: true
+  },
+  {
+      prop: "logo_img",
+      label: "logo图标",
+      required: true,
+      upload: true
+  }];
+// 备案信息
+const baForm = [
+  {
+      prop: "name",
+      label: "法定代表人",
+      required: true,
+      showInput: true
+  },
+  {
+      prop: "zl",
+      label: "认证资料",
+      required: true,
+      zlupload: true
+  },
+  {
+      prop: "email",
+      label: "企业邮箱",
+      required: true,
+      showInput: true
+  },
+  {
+    prop: "phone",
+    label: "公司电话",
+    required: true,
+    showInput: true
+  },
+  {
+    prop: "phone",
+    label: "授权书过期日期",
+    required: true,
+    showDatePicker: true
+  }];
+  // 备案信息
+const accountForm = [
+  {
+      prop: "user_name",
+      label: "用户名",
+      required: true,
+      showInput: true
+  },
+  {
+      prop: "password",
+      label: "用户密码",
+      required: true,
+      showInput: true
+  },
+  {
+      prop: "user_icon",
+      label: "用户头像",
+      required: true,
+      upload: true
+  },
+  {
+    prop: "telePhone",
+    label: "电话",
+    required: true,
+    showInput: true
+  },
+  {
+    prop: "busneiss_name",
+    label: "企业名称",
+    required: true,
+    showDatePicker: true
+  }];
 const priceForm = [{
   prop: "zczb",
   label: "注净资产册资本",
@@ -904,6 +1089,12 @@ module.exports = {
   yearOptions,
   themeOptions,
   messageForm,
+  applyMessageForm,
+  applyMessageForm1,
+  applyMessageForm2,
+  baForm,
+  accountForm,
+  propagandaForm,
   priceForm,
   payTaxesForm,
   createForm

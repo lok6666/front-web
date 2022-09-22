@@ -76,7 +76,7 @@
     },
     methods: {
       checkAll() {
-        this.$emit('checkAll', 5);
+        this.$emit('checkAll', 7);
       }
     }
   }

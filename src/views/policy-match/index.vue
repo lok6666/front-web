@@ -24,7 +24,6 @@
                     <div v-for="(btn, index) in selectedOptions" :key="index">
                         <el-button
                         class="button-new-tag"
-                        :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                         size="small"
                         @click="select(index)"
                         >{{ btn.label }}</el-button>
@@ -59,29 +58,38 @@
             <div class="policy-list">
               <div class="list-item" v-for="(item, index) in policyList" :key="index">
                 <div class="left">
-                  <div style="width: 172px;"></div>
-                  <div class="tag-item location"><img src="../../images/location.png"/>{{item.location}}</div>
-                  <div class="tag-item process-1">{{item.process}}</div>
-                </div>
-                <div class="center">
-                  <div class="title">{{item.title}}</div>
+                  <div class="title">
+                    <div class="tag-block">
+                      <div class="tag-item location"><img src="../../images/location.png"/>{{item.location}}</div>
+                      <div class="tag-item process-1">{{item.process}}</div>
+                    </div>
+                  {{item.title}}</div>
                   <div class="content">{{item.content}}</div>
                   <div class="footer">
-                    <span style="display: flex;align-item: center;">
-                    <img style="margin-right: 3px;" src="../../images/发布部门.png"/>发文部门:</span>
+                    <span style="display: flex;align-item: center;">发文部门:</span>
                     <div class="address">{{item.address}}</div>
-                    <span style="display: flex;align-item: center;">
-                    <img style="margin-right: 3px;" src="../../images/申报时间.png"/>申报时间:</span>
+                    <span style="display: flex;align-item: center;">申报时间:</span>
                     <div class="time">{{item.time}}</div>
                   </div>
                 </div>
                 <div class="right">
-                  <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">评选认定中</div>
+                  <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.maxMoney ? `${item.maxMoney}万元`: '评选认定中'}}</div>
                   <div class="measure">
                     <div v-for="(item, index) in opacition" :key="index">{{item.message}}</div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="pagination-block">
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage4"
+                :page-sizes="[10, 20 ,40]"
+                :page-size="5"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="50">
+              </el-pagination>
             </div>
         </div>
       </div>
@@ -100,6 +108,7 @@
     name: "User",
     data() {
       return {
+        currentPage4: 4,
         dialogVisible: false,
         siftIndex: 0,
         inputValue: '',
@@ -107,19 +116,44 @@
         num: 50,
         price: '3,763.67',
         policyList: [{
-          title: '这里是内容展示信息这里是内容展示信息',
-          content: '政策主题： 主题内容展示超出…',
-          address: '北京市xx局',
-          time: '2022-09-03 至 20',
+          title: '《石景山区推进国际科技创新中心建设加快创新发展支持办法》的通知',
+          content: '政策主题： 发展规划;就业创业;科技创新',
+          address: '区科委',
+          time: '2022-08-01 03:57:00',
+          location: '北京市',
+          maxMoney: '100',
+          process: '进行中',
+        },
+        {
+          title: '《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知',
+          content: '政策主题： 发展规划;投资审批;就业创业',
+          address: '区政府办',
+          time: '2022-05-19 06:01:00',
           location: '北京市',
           process: '进行中',
         },
         {
-          title: '这里是内容展示信息这里是内容展示信息',
-          content: '政策主题： 主题内容展示超出…',
-          address: '北京市xx局',
-          time: '2022-09-03 至 20',
-          location: '北京市',
+          title: '《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知',
+          content: '高新技术企业;外资企业;中小企业',
+          address: '区经信局',
+          time: '2022-04-20 10:15:00',
+          location: '石景山',
+          process: '进行中',
+        },
+        {
+          title: '石景山区促进应用场景建设加快创新发展支持办法》的通知',
+          content: '科技创新 公共服务 发展规划 教育科研',
+          address: '区科学技术委员会',
+          time: '2019-12-16 04:17:00',
+          location: '石景山',
+          process: '进行中',
+        },
+        {
+          title: '《石景山区鼓励企业上市发展实施办法》的通知',
+          content: '发展规划 投资审批',
+          address: '区人民政府办公室',
+          time: '2022-04-20 10:15:00',
+          location: '石景山',
           process: '进行中',
         }],
         opacition: [{
@@ -148,23 +182,7 @@
                 isSelect:　false
             }
         ],
-        selectedOptions: [
-            {
-                value: "1企业",
-                label: "条件一",
-                isSelect:　false
-            },
-            {
-                value: "3-5年",
-                label: "条件二",
-                isSelect:　false
-            },
-            {
-                value: "beijing",
-                label: "条件三",
-                isSelect:　false
-            }
-        ]
+        selectedOptions: []
       };
     },
     components: {
@@ -175,8 +193,18 @@
     computed: {
       ...mapGetters(["defaultAvatar", "device"]),
     },
+    created() {
+      this.selectedOptions = JSON.parse(window.localStorage.getItem('selectOptions'));
+    },
     mounted() {},
     methods: {
+      search() {},
+      handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      },
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
@@ -284,22 +312,17 @@
                 .select-item {
                     display: grid;
                     grid-template-columns: repeat(9, 86px);
-                    grid-gap: 10px 10px;
+                    grid-gap: 10px 15px;
                     cursor: pointer;
                 }
                 .button-new-tag {
                     background-color:rgba(0,0,255,0);
-                    height: 40px;
-                    width: 86px;
+                    // height: 40px;
+                    // width: 86px;
                     font-size: 16px;
                     font-family: PingFangSC-Regular, PingFang SC;
                     font-weight: 400;
                     border-radius: 5px;
-                }
-                .button-new-tag-select {
-                  border-radius: 5px;
-                  background: #D99447;
-                  border: 1px solid rgba(0,0,0,0);
                 }
             }
             .policy-calculate {
@@ -321,12 +344,12 @@
         .title {
             display: flex;
             align-items: center;
-            font-size: 26px;
+            font-size: 20px;
             font-family: CKTKingKong;
             color: #000000;
             line-height: 35px;
-            margin-bottom: 17px;
-            margin-top: 20px;
+            // margin-bottom: 17px;
+            // margin-top: 20px;
         }
         .policy-list {
           margin-top: 30px;
@@ -337,51 +360,61 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-radius: 80px 20px 20px 80px;
+            border-radius: 10px;
             font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 600;
             color: #000000;
             display: flex;
             .left {
-              display: flex;
-              text-align: center;
-              flex-direction: column;
-              align-items: center;
-              font-size: 12px;
-              .tag-item {
-                padding: 0px 8px;
-                margin-top: 10px;
-                height: 24px;
-                border-radius: 3px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-              }
-              .location {
-                background: #D99447;
-              }
-              .process-1 {;
-                background: #00A870;
-              }
-              .process_2 {
-                background: #EEEEEE;
-              }
-            }
-            .center {
               height: 88%;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
               width: 100%;
-              border-right: 1px solid rgba(151,151,151, 0.28);
-              //font-weight: 500;
+              margin-left: 20px;
               .title {
-                font-size: 26px;
+                font-size: 18px;
+              }
+              .tag-block {
+                display: flex;
+                font-size: 12px;
+                .tag-item {
+                  padding: 0px 8px;
+                  margin-right: 5px;
+                  height: 24px;
+                  border-radius: 3px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+                .location {
+                  background: #D99447;
+                }
+                .process-1 {;
+                  background: #00A870;
+                }
+                .process_2 {
+                  background: #EEEEEE;
+                }
               }
               .content {
-                font-size: 18px;  
+                color: rgba(151,151,151, 0.5);
+                // font-size: 18px;  
+              }
+              .footer {
+                color: rgba(151,151,151, 0.5);
               }
             }
+            // .center {
+            //   height: 96%;
+            //   width: 100px;
+            //   height: 100%;
+            //   font-size: 30px;
+            //   display: flex;
+            //   color: #f28b11;
+            //   align-items: center;
+            //   border-right: 1px solid rgba(151,151,151, 0.28) !important;
+            // }
             .right {
               display: flex;
               flex-direction: column;
@@ -431,6 +464,12 @@
           .selected-item {
             color: #D99447;
           }
+        }
+        .pagination-block {
+          display: flex;
+          justify-content: center;
+          height: 80px;
+          align-items: center;
         }
       }
     }

@@ -71,6 +71,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
+import request from '@/utils/request';
+import {entInfoGetById} from '@/config/api.js'
 import AppHeader from "@/components/Header/index";
 import busniessLogo from "../../images/busneiss-logo.png";
 import bank1 from "../../images/about-busneiss2.png";
@@ -141,6 +143,13 @@ export default {
     },
   },
   created() {
+    request({
+      url: `${entInfoGetById}/1`,
+      method: 'get'
+    }).then(
+      res => {
+        console.log('res---', res);
+      });
     this.showImg = bank1;
     this.showDesc = '公司成立于2017年9月，为北京市文投集团的控股子公司，注册资本金8000万元。主营业务包括物联网业务、数据能力要素核验平台、产业服务平台、文化投资、智能语音通信。战略定位为全国文化中心建设文化大数据生产力的推动者、文化领域企业的算力支撑者、不同文化业态应用场景的算法服务者、“文化+”行业的数据生产资料的奠基者。';
   },

@@ -61,7 +61,7 @@ export default {
       this.$router.push('/picture-detail')
     },
     showPictureDetail1() {
-      this.$router.push('/picture-detail-1')
+      this.$router.push('/picture-detail2')
     }
   },
   props: {

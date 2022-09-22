@@ -4,7 +4,7 @@
     <div class="protect-bg">
       <div>产品大厅</div>
     </div>
-    <div class="search">
+    <!-- <div class="search">
       <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
        <i slot="suffix"
                   class="el-input__icon el-icon-search"
@@ -12,7 +12,7 @@
                   @click="search"
                   />
       </el-input>
-    </div>
+    </div> -->
     <div class="finance-container">
       <div style="margin: 36px 60px;">
         <div class="select-btn">
