@@ -3,7 +3,7 @@
     <div class="chatroom">
       <div class="header">
         <p>智能客服</p> 
-        <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="color: #909399;cursor: pointer;"></i>
+        <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="color: #fff;cursor: pointer;"></i>
       </div>
       <div class="content">
         <!-- 聊天区域 -->
@@ -355,7 +355,7 @@ export default {
     goDetail(item) {
       var that = this;
       axios({
-        url: `http://172.16.12.8:9288/getAnswer/${item.lawTitle}`,
+        url: `http://172.16.130.92:9288/getAnswer/${item.lawTitle}`,
         method: "get",
       }).then((res) => {
         that.chats.push({
@@ -403,7 +403,7 @@ export default {
       this.isLoading = 1; //加载中
       axios({
         url:
-          `http://172.16.12.8:9288/getSimilarQuestion/${message}`,
+          `http://172.16.130.92:9288/getSimilarQuestion/${message}`,
         method: "get",
       }).then((res) => {
         res.data.replyLawDatas = Object.keys(res.data).map((el) => {

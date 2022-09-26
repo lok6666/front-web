@@ -7,24 +7,7 @@
     <div class="trade-container">
       <div class="trade-center">
       <div class="collage-video">
-        <video
-          ref="video"
-          class="video-js vjs-default-skin vjs-big-play-centered"
-          style="height: 644px; max-height: 1300px; width: 100%"
-          :poster="currentVideo.poster"
-          controls
-        >
-          <source
-            src="../../video/6.mp4"
-            type="video/webm"
-          />
-        </video>
-      </div>
-      <div class="collage-list">
-        <div style="display: flex;align-items: center;margin-left: 41px;"><img src="../../images/collage-choose.png"/>系列选集</div>
-        <ul>
-          <li v-for="(item, index) in list" :key="index">{{item}}</li>
-        </ul>
+        <iframe style="width: 100%; height: 750px;" :src="`${serviceUrl}`"></iframe>
       </div>
       <div>
         <div class="header">
@@ -33,20 +16,14 @@
         </div>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="(item, index) in swiperConfig">
-            <div :class="`swiper-item swiper-item-${index}`"></div>
+            <img class="swiper-item" :src="item.serviceImages"  @click="chooseCollage(item)"/>
             <div class="video-desc">
-              {{item.desc}}
+              {{item.serviceName}}
               <div>{{item.time}}</div>
-              <div>{{item.learnNum}}人参与学习</div>
             </div>
           </swiper-slide>
-          <!-- <div class="swiper-pagination" slot="pagination"></div> -->
         </swiper>
       </div>
-      <!-- <userTable/>
-      <userTable2/>
-      <teacher />
-      <collage /> -->
       </div>
     </div>
     <app-footer />
@@ -58,15 +35,11 @@ import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import loanBg1 from "../../images/loan-card-header1.png";
 import collagePoster from "../../images/collage-poster.png";
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
 import { swiperConfig1 } from "@/config/index";
+import { trainingServicesList } from "@/config/api.js";
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
-// import userTable from "./components/userTable.vue";
-// import userTable2 from "./components/userTable2.vue";
-// import collage from "@/components/guide/collage.vue";
-// import teacher from "./components/teacher.vue";
+import request from '@/utils/request'
 import bank1 from "../../images/bank1.png";
 import AppHeader from "@/components/Header/index";
 import Loan from "@/components/loan/index";
@@ -80,9 +53,9 @@ export default {
       currentVideo: {
         poster: collagePoster
       },
-      swiperConfig: swiperConfig1,
+      serviceUrl: '',
+      swiperConfig: [],
       categoryId: 0,
-      list: ['第一期', '第二期'],
       swiperOption: {
         slidesPerView: 4,
         spaceBetween: 30,
@@ -107,20 +80,19 @@ export default {
     AppHeader,
     Swiper,
     SwiperSlide,
-    // Loan,
-    // userTable,
-    // teacher,
-    // collage,
-    // userTable2,
     AppFooter,
   },
-  computed: {
-    ...mapGetters(["defaultAvatar", "device"]),
+  created() {
+    request({
+        url: `${trainingServicesList}`,
+        method: 'post',
+        data: {}
+      }).then(res => {
+        this.swiperConfig = res.data.list;
+        this.serviceUrl = this.swiperConfig[0].serviceUrl;
+      });
   },
   mounted() {
-    this.player = videojs(this.$refs.video, this.options, () => {
-      console.log("播放器渲染完成");
-    });
   },
   methods: {
     select(index) {
@@ -131,6 +103,9 @@ export default {
         path: `/trade-detail/:${index}`
       })
     },
+    chooseCollage(item) {
+      this.serviceUrl = item.serviceUrl;
+    }
   },
 };
 </script>
@@ -161,13 +136,8 @@ export default {
     color: #FFFFFF;
     width: 100%;
     height: 442px;
-    background-size: cover;
+    background-size: 100% 142%;
     background-image: url('../../images/行业培训Bg.png');
-    // .trade-title {
-    //   font-size: 80px;
-    //   font-family: AlibabaPuHuiTiH;
-    //   color: #FFFFFF;
-    // }
   }
   .trade-container {
     max-width: 1440px;
@@ -178,26 +148,6 @@ export default {
     .trade-center {
       width: 100%;
       min-width: 1298px;
-      .collage-list {
-        height: 78px;
-        background: #8B572A;
-        display: flex;
-        align-items: center;
-        font-size: 24px;
-        font-family: AlibabaPuHuiTiR;
-        color: #FFFFFF;
-        line-height: 33px;
-        ul {
-          display: flex;
-          li {
-            color: #fff;
-            list-style: none;
-            margin-right: 27px;
-            border-right: solid #fff;
-            padding-right: 27px;
-          }
-        }
-      }
       .header {
         display: flex;
         align-items: center;
@@ -218,9 +168,6 @@ export default {
         }
       }
       .swiper {
-        // height: 126px;
-        // width: 100%;
-        // max-width: 1440px;
         margin-left: 35px;
         .swiper-slide {
           display: flex;
@@ -234,29 +181,14 @@ export default {
           .swiper-item {
             width: 224px;
             height: 126px;
-          }
-          .swiper-item-0 {
-            background-image: url('../../images/collage-bg-0.png');
-          }
-          .swiper-item-1 {
-            background-image: url('../../images/collage-bg-1.png');
-          }
-          .swiper-item-2 {
-            background-image: url('../../images/collage-bg-2.png');
-          }
-          .swiper-item-3 {
-            background-image: url('../../images/collage-bg-3.png');
-          }
-          .swiper-item-4 {
-            background-image: url('../../images/collage-bg-4.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            cursor: pointer;
           }
           .video-desc {
             margin-top: 8px;
             text-align: left;
             width: 224px;
-            // width: 100%;
-            // height: 78px;
-            // padding-top: 22px;
           }
         }
         .swiper-slide:nth-child(2n) {

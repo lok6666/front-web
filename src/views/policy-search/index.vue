@@ -59,7 +59,10 @@
             <div v-for="(item, index) in policyList" :key="index"
               :class="`item-${index} policy-search-container-item`">
               <div class="message">{{item.message}}</div>
-              <div class="time">{{item.time}}</div>
+              <div class="time">
+                <i :class="[item.collage? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click="check(index)"/>
+                {{item.time}}
+              </div>
             </div>
       </div>
       <div class="pagination-block">
@@ -170,39 +173,48 @@ export default {
       policyList: [
         {
           message: "石政办发〔2022〕6号 北京市石景山区人民政府办公室关于印发《石景山区推进国际科技创新中心建设加快创新发展支持办法》的通知",
-          time: '2022/9/19'
+          time: '2022/9/19',
+          collage: false
         },
         {
           message: "石政办发〔2022〕4号 北京市石景山区人民政府办公室关于印发《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知",
-          time: '2022/9/18'
+          time: '2022/9/18',
+          collage: false
         },
         {
           message: "石政发〔2021〕12号 北京市石景山区人民政府关于实施2022至2024年度促进就业优惠政策的通知",
-          time: '2022/9/17'
+          time: '2022/9/17',
+          collage: false
         },
         {
           message: "石政办发〔2019〕12号-北京市石景山区人民政府办公室关于印发《石景山区促进应用场景建设加快创新发展支持办法》的通知",
-          time: '2022/9/16'
+          time: '2022/9/16',
+          collage: false
         },
         {
           message: "石景山区科普基地认定办法",
-          time: '2022/9/15'
+          time: '2022/9/15',
+          collage: false
         },
         {
           message: "关于促进中关村虚拟现实产业创新发展的若干措施",
-          time: '2022/9/14'
+          time: '2022/9/14',
+          collage: false
         },
         {
           message: "石景山区关于促进冰雪体育产业快 速发展的若干措施(试行)",
-          time: '2022/9/13'
+          time: '2022/9/13',
+          collage: false
         },
         {
           message: "石景山区促进招商引资的支持办法",
-          time: '2022/9/12'
+          time: '2022/9/12',
+          collage: false
         },
         {
           message: "石政发〔2019〕7号- 北京市石景山区人民政府关于印发《石景山区鼓励企业上市发展实施办法》的通知",
-          time: '2022/9/11'
+          time: '2022/9/11',
+          collage: false
         }
       ]
     };
@@ -221,6 +233,10 @@ export default {
       },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+    },
+    check(index) {
+      console.log('index----', index);
+      this.policyList[index].collage = true
     },
     search() {},
     select(list,index) {

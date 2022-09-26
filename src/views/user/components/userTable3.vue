@@ -1,13 +1,13 @@
 <template>
 <div class="user-table-wrap apply-bg">
   <div class="user-table-title">
-    <div class="user-table-service">已报名的服务</div>
+    <div class="user-table-service">已报名的培训/活动</div>
     <div class="user-table-all" @click="checkAll">
         <img class="table-icon" src="../../../images/列表.png" style="width: 17px; heigth: 17px;"/>查看全部
     </div>
   </div>
   <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :width="[index === 0 || index === 2 ? '100': '']">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
@@ -27,50 +27,63 @@
     data() {
       return {
         tableData: [{
-          level: "国家级",
-          title: "石政办发〔2022〕6号...",
+          level: "2",
+          title: "全国工商联互联网营销师2022年第4期培训班",
           address: "北京市星座大厦",
-          date: "2016.05.13",
+          date1: "2016.05.13",
+          date2: "2016.05.27",
+          num: 10
         },
         {
-          level: "区级",
-          title: "北京市石景山区人民政府办公…",
+          level: "4",
+          title: "2022年文化产业高峰论坛",
           address: "北京市星座大厦",
-          date: "2016.05.11",
+          date1: "2016.05.11",
+          date2: "2016.05.20",
+          num: 20
         },
         {
-          level: "市级",
-          title: "关于促进中关村虚拟现实…",
+          level: "6",
+          title: "石景山区文化创意产业创业大赛",
           address: "北京市星座大厦",
-          date: "2016.05.04",
+          date1: "2016.05.04",
+          date2: "2016.07.20",
+          num: 200
         },
         {
-          level: "国家级",
-          title: "石景山区科普基地认定办法…",
+          level: "9",
+          title: "元宇宙现状与未来沙龙",
           address: "北京市星座大厦",
-          date: "2016.05.03",
+          date1: "2016.05.03",
+          date2: "2016.10.20",
+          num: 120
         }],
         tableItem: [
         {
-          label: "级别",
+          label: "序号",
           src: levelImg,
           showKey: "level",
         },
         {
-          label: "政策标题",
+          label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "title",
         },
         {
-          label: "发文机构",
+          label: "报名人数",
           src: dateImg,
-          showKey: "date",
+          showKey: "num",
         },
         {
-          label: "发布时间",
+          label: "举办日期",
           src: dateImg,
-          showKey: "date",
+          showKey: "date1",
         },
+        {
+          label: "报名日期",
+          src: dateImg,
+          showKey: "date2",
+        }
       ]
       }
     },

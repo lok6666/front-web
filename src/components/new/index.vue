@@ -48,23 +48,15 @@ export default {
         time: '2022/9/16',
         detailType: '/new-detail'
       },{
-        title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
+        title: '2021年数字经济背景下文化品牌价值提升与创新发展人才培养高级研修班成功举办',
         time: '2022/9/15',
-        detailType: '/new-detail'
-      },{
-        title: '市委常委、统战部部长游钧到八角街道接访下访',
-        time: '2022/9/14',
         detailType: '/new-detail'
       },{
         title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
         time: '2022/9/13',
         detailType: '/new-detail'
       },{
-        title: '市委常委、统战部部长游钧到八角街道接访下访',
-        time: '2022/9/12',
-        detailType: '/new-detail'
-      },{
-        title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
+        title: '第11届北京国际网络电影展荣誉盛典在北京举办',
         time: '2022/9/11',
         detailType: '/new-detail'
       },{
@@ -74,35 +66,35 @@ export default {
       }],
       contentList: [],
       newPolicyList: [{
-        title: '国务院办公厅关于成立国家质量强国建设协调推进领导小组的通知',
+        title: '关于印发《石景山区鼓励企业上市发展实施办法》的通知',
         time: '2022/9/18',
         detailType: '/policy-detail'
       },{
-        title: '国务院办公厅关于同意建立国务院优化生育政策工作部际联席会议制度的函',
+        title: '关于实施促进就业优惠政策的通知',
         time: '2022/9/17',
         detailType: '/policy-detail'
       },{
-        title: '国务院关于取消和调整一批罚款事项的决定',
+        title: '吸引和鼓励高层次 人才创业和工作计划实施办法(试行',
         time: '2022/9/15',
         detailType: '/policy-detail'
       },{
-        title: '国务院关于同意枣庄市建设国家可持续发展议程创新示范区的批复',
+        title: '关于印发《石景山区促进应用场景建设加快创新发展支持办法》的通知',
         time: '2022/9/14',
         detailType: '/policy-detail'
       },{
-        title: '国务院关于同意鄂尔多斯市建设国家可持续发展议程创新示范区的批复',
+        title: '提升科技创新能力促进知识产权服务业发展暂行办法',
         time: '2022/9/13',
         detailType: '/policy-detail'
       },{
-        title: '国务院办公厅关于进一步推进省以下财政体制改革工作的指导意见',
+        title: '关于印发《石景山区鼓励企业上市发展实施办法》的通知',
         time: '2022/9/12',
         detailType: '/policy-detail'
       },{
-        title: '国务院关于“十四五”新型城镇化实施方案的批复',
+        title: '关于印发《石景山区非物质文化遗产保护传承专项资金管理暂行办法》的通知',
         time: '2022/9/11',
         detailType: '/policy-detail'
       },{
-        title: '国务院关于印发扎实稳住经济一揽子政策措施的通知',
+        title: '关于促进楼宇经济高质量发展的若干措施',
         time: '2022/9/10',
         detailType: '/policy-detail'
       }]
@@ -199,6 +191,8 @@ export default {
               display: none;
             }
             &-item {
+                padding-right: 10px;
+                white-space: nowrap;
                 cursor: pointer;
                 display: flex;
                 justify-content: space-between;

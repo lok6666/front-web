@@ -17,7 +17,7 @@
           >
         </div>
       </div>
-      <div class="select-btn">
+      <!-- <div class="select-btn">
         <div>利率范围:</div>
         <div>
           <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低利率" v-model="minRate" :inline="true"></el-input>-
@@ -37,7 +37,7 @@
           <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低额度" v-model="minRate" :inline="true"></el-input>-
           <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高额度" v-model="maxRate" :inline="true"></el-input>
         </div>
-      </div>
+      </div> -->
       <Loan :loanList="loanList"/>
     </div>
     <app-footer />
@@ -47,20 +47,108 @@
 <script>
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
-import loanBg0 from "../../images/loan-card-header0.png";
+// import { bjDataJron, jsDataJron } from "@/config/constant.js";
 import loanBg1 from "../../images/loan-card-header1.png";
-import loanBg2 from "../../images/loan-card-header2.png";
-import loanBg3 from "../../images/loan-card-header3.png";
-import loanBg4 from "../../images/loan-card-header4.png";
-import loanBg5 from "../../images/loan-card-header5.png";
-import bj_bank from "../../images/bank1.png";
-import jt_bank from "../../images/jt_bank.png";
-import hx_bank from "../../images/hx_bank.png";
-import zs_bank from "../../images/zs_bank.png";
+import bj_bank from "../../images/bj_bank.png";
+import jh_bank from "../../images/bank2.png";
 import AppHeader from "@/components/Header/index";
 import Loan from "@/components/loan/index";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
+const bjDataJron = [
+  {
+    title: "善新贷",
+    num: "3.19% ",
+    bank: "建设银行",
+    limit: "1-36月",
+    quota: "500万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '专精特新','正常经营', '信用良好']
+  },
+  {
+    title: "信用快贷",
+    num: "3.95% ",
+    bank: "建设银行",
+    limit: "1-12月",
+    quota: "300万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '正常经营', '信用良好']
+  },
+  {
+    title: "科技云贷",
+    num: "4.45%",
+    bank: "建设银行",
+    limit: "1-12月",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '正常经营', '信用良好', '知识产权']
+  },
+  {
+    title: "政采云贷",
+    num: "4.45%",
+    bank: "建设银行",
+    limit: "1-12月",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '正常经营', '信用良好', '政府采购中标通知']
+  }
+];
+const jsDataJron = [
+  {
+    title: "创业担保贷",
+    num: "2.2%",
+    bank: "北京银行",
+    limit: "1-24月",
+    quota: "300万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '小微企业']
+  },
+  {
+    title: "科企贷",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "随借随还",
+    quota: "300万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['石景山', '中型企业']
+  },
+  {
+    title: "银税贷",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "随借随还",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '大型企业']
+  },
+  {
+    title: "融信宝",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "1-24月",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '大型企业','正常经营', '信用良好',]
+  },
+  {
+    title: "票易贷",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "随借随还",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '正常经营', '信用良好']
+  }
+];
 export default {
   name: "User",
   data() {
@@ -82,62 +170,7 @@ export default {
           isSelect: false,
         }
       ],
-      loanList: [
-        {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "100万",
-          loanBg: loanBg0,
-          bank: bj_bank,
-        },
-        {
-          title: "小额智融宝",
-          num: "4.23% - 5.15%",
-          bank: "北京银行",
-          limit: "1-30",
-          quota: "300万",
-          loanBg: loanBg1,
-          bank: hx_bank,
-        },
-        {
-          title: "科创e贷",
-          num: "4.19% - 5.30%",
-          bank: "北京银行",
-          limit: "1-40",
-          quota: "1000万",
-          loanBg: loanBg2,
-          bank: hx_bank,
-        },
-        {
-          title: "高新e贷",
-          num: "3.59% - 5.30%",
-          bank: "北京银行",
-          limit: "1-35",
-          quota: "400万",
-          loanBg: loanBg3,
-          bank: hx_bank,
-        },
-        {
-          title: "小企业流动资金贷款",
-          num: "4.08% - 5.15%",
-          bank: "北京银行",
-          limit: "1-27",
-          quota: "500万",
-          loanBg: loanBg4,
-          bank: jt_bank,
-        },
-        {
-          title: "创业贷",
-          num: "3.59% - 4.35%",
-          bank: "北京银行",
-          limit: "1-50",
-          quota: "150万",
-          loanBg: loanBg5,
-          bank: zs_bank,
-        }
-      ],
+      loanList: bjDataJron.concat(jsDataJron),
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
     };
   },
@@ -152,8 +185,6 @@ export default {
   mounted() {},
   methods: {
     select(index) {
-      // Vue.set(vm.obj, propertyName, newValue);
-      // this.btnList[index].isSelect = !this.btnList[index].isSelect;
       console.log("this---------", this.btnList[index]);
     },
     detail(index) {
@@ -187,7 +218,7 @@ export default {
     width: 100%;
     height: 442px;
     background-size: cover;
-    background-image: url('../../images/financeBg.png');
+    background-image: url('../../images/finance-bg.png');
   }
   @media screen and (max-width: 922px) {
     padding: 0;

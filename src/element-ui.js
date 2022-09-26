@@ -27,6 +27,7 @@ import {
   Form,
   FormItem,
   Tag,
+  Tabs,
   Icon,
   Upload,
   Spinner,
@@ -81,6 +82,7 @@ Vue.use(Step)
 Vue.use(Aside)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
+Vue.use(Tabs)
 Vue.use(Loading)
 Vue.use(Drawer)
 // 这里有个奇怪的bug,需要复值，要不然报is not defined

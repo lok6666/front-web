@@ -1,7 +1,7 @@
 <template>
   <div class="user-table-wrap apply-bg">
     <div class="user-table-title">
-      <div class="user-table-service">已申请的服务</div>
+      <div class="user-table-service">我的服务</div>
     </div>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column v-for="(item, index) in tableItem" :key="index">
@@ -21,7 +21,7 @@
         :page-sizes="[10, 40, 70, 100]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="100">
+        :total="5">
       </el-pagination>
     </div>
   </div>
@@ -39,33 +39,40 @@ export default {
       currentPage4: 4,
       tableData: [
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "专利申请",
+          level: "著作权申请",
+          title: "知识产权",
+          address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.19",
+          date: "2022.05.09",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "招商银行",
+          level: "专利申请",
+          title: "知识产权",
+          address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.13",
+          date: "2022.05.07",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "招商银行",
+          level: "专精特新",
+          title: "政策资质",
+          address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.08",
+          date: "2022.05.05",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "招商银行",
+          level: "著作权申请",
+          title: "知识产权",
+          address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.03",
+          date: "2022.05.04",
         },
+        {
+          level: "专利申请",
+          title: "知识产权",
+          address: "北京文投大数据",
+          status: "已申请",
+          date: "2022.05.03",
+        }
       ],
       tableItem: [
         {

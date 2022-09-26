@@ -11,7 +11,7 @@
       </div>
       <div class="user-policy-more" @click="checkAll">
             <img src="../../../images/CombinedShape2.png"/>
-            <p>查看全部信息</p>
+            <p>查看全部消息</p>
       </div>
     </div>
   </div>
@@ -25,20 +25,20 @@ export default {
       mainTabs: ['最新', '热门'],
       current: 1,
       newList: [{
-        title: '关于促进中关村虚拟现实产业创新发展的若干',
-        time: '2022/9/17'
+        title: '平台新上线了“专精特新中心企业”资质申请服务包，请您及时关注',
+        time: '2022/9/22'
       },{
-        title: '石景山区关于促进冰雪体育产业快 速发展的若干措施(试行)',
-        time: '2022/9/16'
+        title: '建设银行信用快贷产品申请已被受理，请您耐心等待。',
+        time: '2022/9/20'
       },{
-        title: '石景山区促进招商引资的支持办法',
-        time: '2022/9/13'
+        title: '石景山区政府办印发了《石景山区继续加大中小微企业帮扶力度加快困难企业...',
+        time: '2022/5/19'
       },{
-        title: '石政发〔2019〕7号- 北京市石景山区人民政府关于印发...',
-        time: '2022/9/12'
+        title: '文化产业高峰论坛将于首钢园举办，如有需要请您及时报名。',
+        time: '2022/5/04'
       },{
-        title: '北京市石景山区人民政府办公室关于印发《石景山区推进国际科技创...',
-        time: '2022/9/11'
+        title: '石景山区经信局印发了《石景山区关于促进 “专精特新”中小企业高质量发展的...',
+        time: '2022/4/20'
       }]
     }
   },
@@ -92,9 +92,12 @@ export default {
               display: none;
             }
             &-item {
+                // width: 659px;
                 display: flex;
                 justify-content: space-between;
                 line-height: 5px;
+                // white-space: nowrap;
+                // text-overflow:ellipsis;
             }
             &-time {
                 font-weight: 300;

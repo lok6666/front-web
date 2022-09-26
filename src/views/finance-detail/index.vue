@@ -4,13 +4,13 @@
     <el-dialog
       :visible.sync="applydialogVisible"
       :center="true"
+      width="450px"
+      title="服务申请"
       :before-close="closeDialog">
       <form-template
-      style="padding: 0px 20px"
-      :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
+      style="width: 400px;padding: 0px 20px"
       @likeCountChanges="closeDialog"
-      :labelWidth="140"
-      title="服务申请"
+      :labelWidth="80"
       :formConfig="applyMessageForm2"
       :showBtn="true"
       :disabled="false"/> 
@@ -20,15 +20,17 @@
       <div style="width: 1285px;display: flex;"><div style="width: 310px;height: 10px;"></div>
         {{loanTail.title}}
       </div>
-    </div>
+    </div>                     
     <div class="finance-detail-container">
       <div class="finance-detail-header">
         <div style="display: flex;width: 100%;justify-content: space-between;">
           <div style="display: flex;flex-direction: column;justify-content: space-around;">
             <div style="width: 980px;height: 95px;display: flex;justify-content: space-between;">
-              <img class="header-logo" :src="loanTail.loanBg" />
+              <img class="header-logo" :src="loanTail.bank" />
               <div style="display: flex;justify-content: space-around;width: 100%;">
-                <img :src="loanTail.bank" />
+                  <div style="display: flex;align-items: center;justify-content: center;">
+                    <div style="background: #ecf5ff;padding: 4px 8px;margin:0 5px 0px;height: 24px" v-for="(item, index) in loanTail.tagList">{{item}}</div>
+                  </div>
                 <div style="display: flex;align-items: center;">
                   <img src="../../images/safe.png" />
                   <div>担保方式:信用</div>
@@ -45,11 +47,11 @@
               <div class="fw-model-item">
                 <div class="title">期限</div>
                 <div class="data limit-class">
-                  <span>{{ loanTail.limit }}月</span>
+                  <span>{{ loanTail.limit }}</span>
                 </div>
               </div>
               <div class="fw-model-item">
-                <div class="title">参考利率范围</div>
+                <div class="title">额度</div>
                 <div class="data ed-class">
                   <span>{{ loanTail.quota }}</span>
                 </div>
@@ -86,13 +88,105 @@ import loanBg2 from "../../images/loan-card-header2.png";
 import loanBg3 from "../../images/loan-card-header3.png";
 import loanBg4 from "../../images/loan-card-header4.png";
 import loanBg5 from "../../images/loan-card-header5.png";
-import bj_bank from "../../images/bank1.png";
-import jt_bank from "../../images/jt_bank.png";
-import hx_bank from "../../images/hx_bank.png";
-import zs_bank from "../../images/zs_bank.png";
 import Loan from "@/components/loan/index";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
+import bj_bank from "../../images/bj_bank.png";
+import jh_bank from "../../images/bank2.png";
+const bjDataJron = [
+  {
+    title: "善新贷",
+    num: "3.19% ",
+    bank: "建设银行",
+    limit: "1-36月",
+    quota: "500万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '专精特新','正常经营', '信用良好']
+  },
+  {
+    title: "信用快贷",
+    num: "3.95% ",
+    bank: "建设银行",
+    limit: "1-12月",
+    quota: "300万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '正常经营', '信用良好']
+  },
+  {
+    title: "科技云贷",
+    num: "4.45%",
+    bank: "建设银行",
+    limit: "1-12月",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '正常经营', '信用良好', '知识产权']
+  },
+  {
+    title: "政采云贷",
+    num: "4.45%",
+    bank: "建设银行",
+    limit: "1-12月",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: jh_bank,
+    tagList: ['北京市', '正常经营', '信用良好', '政府采购中标通知']
+  }
+];
+const jsDataJron = [
+  {
+    title: "创业担保贷",
+    num: "2.2%",
+    bank: "北京银行",
+    limit: "1-24月",
+    quota: "300万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '小微企业']
+  },
+  {
+    title: "科企贷",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "随借随还",
+    quota: "300万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['石景山', '中型企业']
+  },
+  {
+    title: "银税贷",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "随借随还",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '大型企业']
+  },
+  {
+    title: "融信宝",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "1-24月",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '大型企业','正常经营', '信用良好',]
+  },
+  {
+    title: "票易贷",
+    num: "LPR加减点",
+    bank: "北京银行",
+    limit: "随借随还",
+    quota: "200万",
+    loanBg: loanBg1,
+    bank: bj_bank,
+    tagList: ['北京市', '正常经营', '信用良好']
+  }
+];
 export default {
   name: "User",
   data() {
@@ -101,62 +195,7 @@ export default {
       applydialogVisible: false,
       applyMessageForm2,
       loanTail: JSON.parse(window.localStorage.getItem('loan-tail')),
-      loanList: [
-      {
-          title: "短贷宝",
-          num: "4.18% - 5.25%",
-          bank: "北京银行",
-          limit: "1-60",
-          quota: "100万",
-          loanBg: loanBg0,
-          bank: bj_bank,
-        },
-        {
-          title: "小额智融宝",
-          num: "4.23% - 5.15%",
-          bank: "北京银行",
-          limit: "1-30",
-          quota: "300万",
-          loanBg: loanBg1,
-          bank: hx_bank,
-        },
-        {
-          title: "科创e贷",
-          num: "4.19% - 5.30%",
-          bank: "北京银行",
-          limit: "1-40",
-          quota: "1000万",
-          loanBg: loanBg2,
-          bank: hx_bank,
-        },
-        {
-          title: "高新e贷",
-          num: "3.59% - 5.30%",
-          bank: "北京银行",
-          limit: "1-35",
-          quota: "400万",
-          loanBg: loanBg3,
-          bank: hx_bank,
-        },
-        {
-          title: "小企业流动资金贷款",
-          num: "4.08% - 5.15%",
-          bank: "北京银行",
-          limit: "1-27",
-          quota: "500万",
-          loanBg: loanBg4,
-          bank: jt_bank,
-        },
-        {
-          title: "创业贷",
-          num: "3.59% - 4.35%",
-          bank: "北京银行",
-          limit: "1-50",
-          quota: "150万",
-          loanBg: loanBg5,
-          bank: zs_bank,
-        }
-      ],
+      loanList: JSON.parse(window.localStorage.getItem('loan-tail')).bank.includes('bank2') ? jsDataJron : bjDataJron,
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
       files: [],
       loading: false,
@@ -260,6 +299,7 @@ export default {
         top: -127px;
         width: 310px;
         height: 237px;
+        box-shadow: -10px 10px 5px #888888;
       }
       .fw-model {
         display: flex;

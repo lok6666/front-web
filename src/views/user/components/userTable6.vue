@@ -37,63 +37,73 @@ export default {
   data() {
     return {
       currentPage4: 4,
-      tableData: [
-        {
-          level: "12",
-          title: "DSF24",
-          address: "招商报名",
-          status: "2016.03.08",
-          date: "2016.05.29",
+      tableData: [{
+          level: "2",
+          title: "全国工商联互联网营销师2022年第4期培训班",
+          address: "北京市星座大厦",
+          date1: "2022.05.13",
+          date2: "2022.05.27",
+          num: 10
         },
         {
-          level: "345",
-          title: "DED23",
-          address: "运动健康线上培训",
-          status: "2016.04.03",
-          date: "2016.06.13",
+          level: "4",
+          title: "2022年文化产业高峰论坛",
+          address: "北京市星座大厦",
+          date1: "2022.05.11",
+          date2: "2022.05.20",
+          num: 20
         },
         {
-          level: "67",
-          title: "323D2",
-          address: "全民阅读活动报名",
-          status: "2016.05.08",
-          date: "2016.05.08",
+          level: "6",
+          title: "石景山区文化创意产业创业大赛",
+          address: "北京市星座大厦",
+          date1: "2022.05.04",
+          date2: "2022.07.20",
+          num: 200
         },
         {
-          level: "11",
-          title: "REG54",
-          address: "郎园艺术展",
-          status: "2016.05.08",
-          date: "2016.05.03",
+          level: "8",
+          title: "元宇宙现状与未来沙龙",
+          address: "北京市星座大厦",
+          date1: "2022.05.11",
+          date2: "2022.05.17",
+          num: 20
         },
-      ],
+        {
+          level: "9",
+          title: "全国工商联互联网营销师2022年第3期培训班",
+          address: "北京市星座大厦",
+          date1: "2022.01.03",
+          date2: "2022.01.20",
+          num: 120
+        }],
       tableItem: [
         {
-          label: "活动id",
+          label: "序号",
           src: levelImg,
           showKey: "level",
         },
         {
-          label: "企业id",
+          label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "title",
         },
         {
-          label: "活动名称",
-          src: addressImg,
-          showKey: "address",
-        },
-        {
-          label: "开始时间",
-          src: statusImg,
-          showKey: "status",
-        },
-        {
-          label: "结束时间",
+          label: "报名人数",
           src: dateImg,
-          showKey: "date",
+          showKey: "num",
         },
-      ],
+        {
+          label: "举办日期",
+          src: dateImg,
+          showKey: "date2",
+        },
+        {
+          label: "报名日期",
+          src: dateImg,
+          showKey: "date1",
+        }
+      ]
     };
   },
   methods: {

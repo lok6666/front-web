@@ -21,7 +21,7 @@
                 class="bankBg"
                 :style="`background-image: url(${loan.bank})`"
               ></div>
-              <div class="limit">期限:{{ loan.limit }}月</div>
+              <div class="limit">期限:{{ loan.limit }}</div>
             </div>
             <div
               style="height: 66px; width: 135px;display: flex;flex-direction: column;align-items: center;justify-content: center;"
@@ -65,7 +65,7 @@ export default {
 .finance-loan {
 margin-top: 40px;
 display: grid;
-grid-template-columns: repeat(4, 25%);
+grid-template-columns: repeat(4, 310px);
 grid-gap: 20px 20px;
 .finance-loan-item {
     height: 410px;
@@ -74,6 +74,8 @@ grid-gap: 20px 20px;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     .item-intro {
+    background-repeat: no-repeat;
+    background-size: 201% 100%;
     height: 172px;
     color: #fff;
     display: flex;
@@ -96,6 +98,7 @@ grid-gap: 20px 20px;
         .bankBg {
         height: 58px;
         width: 142px;
+        background-size: cover;
         }
         .limit {
         margin-left: 20px;

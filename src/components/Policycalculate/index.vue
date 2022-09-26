@@ -6,7 +6,9 @@
       :top="0"
       :lock-scroll="false"
       :center="true"
+      :show-close="false"
       :before-close="handleClose">
+      <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="color: #000;cursor: pointer;position: absolute;top: 51px;right: 17px;"></i>
       <div style="font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;">政策计算器</div>
       <div style="margin-bottom: 25px;margin-top:5px;">请选择您的条件，我将为您计算出适合您的政</div>
       <div class="calculate-warpper">
@@ -121,6 +123,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import {
   locationOptions1, businessOptions, businessAttributeOptions, yearOptions, themeOptions,xsOptions,
   zzOptions, projectSubjectOptions, favourablebusinessOptions, favourablebusinessOptions1
@@ -149,7 +153,13 @@ export default {
       default: false
     },
   },
+  computed: {
+    ...mapGetters(["data_selection"]),
+  },
   methods: {
+    bClose() {
+      this.$emit('handleClose');
+    },
     handleClose(done) {
       this.$forceUpdate();
       this.$emit('handleClose');
@@ -179,16 +189,17 @@ export default {
       }
       this.optionsList.push(options);
     },
-    calculate() {
-      window.localStorage.setItem('selectOptions', JSON.stringify(this.selectOptions));
-      this.optionsList.forEach(element => {
-        element.forEach(e => {
-          el.isSelect = false;
-        });
-      });
-      this.$router.push('/policy-match');
+    async calculate() {
+      let that = this;
+      await this.$store.dispatch('data/setSelection', _.cloneDeep(this.selectOptions));
+       this.optionsList.forEach(element => {
+        that[element].forEach(el => {
+           el.isSelect = false;
+         });
+       });
       this.optionsList = [];
-      this.dialogVisible = false;
+      this.selectOptions = [];
+      that.$emit('handleClose');
     }
   }
 };

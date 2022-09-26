@@ -4,13 +4,13 @@
     <el-dialog
       :visible.sync="applydialogVisible"
       :center="true"
+      width="450px"
+      title="灵活用工申请"
       :before-close="closeDialog">
       <form-template
-      style="padding: 0px 20px"
-      :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
+      style="width: 400px;padding: 0px 20px"
       @likeCountChanges="closeDialog"
       :labelWidth="140"
-      title="灵活用工申请"
       :formConfig="applyMessageForm1"
       :showBtn="true"
       :disabled="false"/> 

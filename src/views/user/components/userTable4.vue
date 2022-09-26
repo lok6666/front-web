@@ -2,7 +2,7 @@
   <div class="user-table-wrap collect-bg">
     <div class="user-table-title">
       <div class="user-table-service">
-        已收藏的政策
+        我的政策
       </div>
     </div>
     <el-table :data="tableData" style="width: 100%">
@@ -23,7 +23,7 @@
         :page-sizes="[10, 40, 70, 80]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="100">
+        :total="10">
       </el-pagination>
     </div>
   </div>
@@ -40,63 +40,70 @@ export default {
       currentPage4: 4,
       tableData: [
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.19",
+          level: "区级",
+          title: "石政办发〔2022〕6号...",
+          address: "石景山区政府",
+          date: "2022.05.19",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.18",
+          level: "区级",
+          title: "北京市石景山区人民政府办公…",
+          address: "石景山区政府",
+          date: "2022.05.17",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.17",
+          level: "区级",
+          title: "关于促进中关村虚拟现实…",
+          address: "石景山区政府",
+          date: "2022.05.15",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.16",
+          level: "区级",
+          title: "石景山区科普基地认定办法…",
+          address: "石景山区政府",
+          date: "2022.05.13",
         },{
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.13",
+          title: "关于印发《石景山区推进国际科...",
+          time: '2022/9/19',
+          address: "石景山区政府",
+          level: "区级",
+          date: "2022.05.10",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.11",
+          title: "关于印发《石景山区继续加大...",
+          time: '2022/9/18',
+          level: "区级",
+          address: "石景山区政府",
+          date: "2022.05.09",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.08",
+          title: "北京市石景山区人民政府关于...",
+          time: '2022/9/17',
+          level: "区级",
+          date: "2022.05.08",
+          address: "石景山区政府",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.07",
-        },{
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.05",
+          title: "关于印发《石景山区促进应用...",
+          time: '2022/9/16',
+          level: "区级",
+          date: "2022.05.06",
+          address: "石景山区政府",
         },
         {
-          level: "石景山区",
-          title: "推进国际科技创新中心建设加快…",
-          address: "北京市星座大厦",
-          date: "2016.05.03",
-        }
+          title: "石景山区科普基地认定办法",
+          time: '2022/9/15',
+          level: "区级",
+          date: "2022.05.05",
+          address: "石景山区政府",
+        },
+        {
+          title: "关于促进中关村虚拟现实产...",
+          time: '2022/9/14',
+          level: "区级",
+          date: "2022.05.03",
+          address: "石景山区政府",
+        },
       ],
       tableItem: [
         {

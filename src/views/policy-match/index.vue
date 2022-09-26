@@ -24,7 +24,9 @@
                     <div v-for="(btn, index) in selectedOptions" :key="index">
                         <el-button
                         class="button-new-tag"
-                        size="small"
+                        size="mini"
+                        type="warning"
+                        plain
                         @click="select(index)"
                         >{{ btn.label }}</el-button>
                     </div>
@@ -34,36 +36,41 @@
             </div>
         </div>
         <div class="policy-result">
-            <div class="title"><img src="../../images/result-bg.png"/>计算结果</div>
-            <div style="display: flex; justify-content: space-between; align-item:center;">
-                <div class="search">
-                    <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
-                        <i slot="suffix"
-                        class="el-input__icon el-icon-search"
-                        :style="'color:' + inputIconColor"
-                        @click="search"
-                        />
-                    </el-input>
-                </div>
-                <div class="select">
-                    <div
-                    class="select-item"
-                    :class="[siftIndex === index ? 'selected-item' : '']"
-                    v-for="(item,index) in siftOptions" :key="index"
-                    @click="selectSift(index)">
-                    {{item.label}}
-                    </div>
-                </div>
-            </div>
+            <div class="policy-result-title">
+                <div style="display: flex;align-items: center;"><img src="../../images/result-bg.png"/>计算结果</div>
+                <div style="display: flex; justify-content: space-between; align-item:center;width: 80%;">
+                  <div class="search">
+                      <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
+                          <i slot="suffix"
+                          class="el-input__icon el-icon-search"
+                          :style="'color:' + inputIconColor"
+                          @click="search"
+                          />
+                      </el-input>
+                  </div>
+                  <div class="select">
+                      <div
+                      class="select-item"
+                      :class="[siftIndex === index ? 'selected-item' : '']"
+                      v-for="(item,index) in siftOptions" :key="index"
+                      @click="selectSift(index)">
+                      {{item.label}}
+                      </div>
+                  </div>
+              </div>
+          </div>
             <div class="policy-list">
               <div class="list-item" v-for="(item, index) in policyList" :key="index">
                 <div class="left">
                   <div class="title">
                     <div class="tag-block">
+                      <div class="tag-item" style="background: #409eff;">
+                        <i :class="[item.collage? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click="check(index)" />收藏
+                      </div>
                       <div class="tag-item location"><img src="../../images/location.png"/>{{item.location}}</div>
                       <div class="tag-item process-1">{{item.process}}</div>
                     </div>
-                  {{item.title}}</div>
+                    {{item.title}}</div>
                   <div class="content">{{item.content}}</div>
                   <div class="footer">
                     <span style="display: flex;align-item: center;">发文部门:</span>
@@ -123,6 +130,7 @@
           location: '北京市',
           maxMoney: '100',
           process: '进行中',
+          collage: false
         },
         {
           title: '《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知',
@@ -131,6 +139,7 @@
           time: '2022-05-19 06:01:00',
           location: '北京市',
           process: '进行中',
+          collage: false
         },
         {
           title: '《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知',
@@ -139,6 +148,7 @@
           time: '2022-04-20 10:15:00',
           location: '石景山',
           process: '进行中',
+          collage: false
         },
         {
           title: '石景山区促进应用场景建设加快创新发展支持办法》的通知',
@@ -147,6 +157,7 @@
           time: '2019-12-16 04:17:00',
           location: '石景山',
           process: '进行中',
+          collage: false
         },
         {
           title: '《石景山区鼓励企业上市发展实施办法》的通知',
@@ -155,6 +166,7 @@
           time: '2022-04-20 10:15:00',
           location: '石景山',
           process: '进行中',
+          collage: false
         }],
         opacition: [{
           message: '奖励措施'
@@ -191,13 +203,21 @@
       PolicyCalculate
     },
     computed: {
-      ...mapGetters(["defaultAvatar", "device"]),
+      ...mapGetters(["defaultAvatar", "device", "data_selection"]),
     },
     created() {
-      this.selectedOptions = JSON.parse(window.localStorage.getItem('selectOptions'));
+      this.selectedOptions = this.data_selection;
+    },
+    updated() {
+      this.selectedOptions = this.data_selection;
+      console.log('updated--', this.data_selection);
     },
     mounted() {},
     methods: {
+      check(index) {
+        console.log('index----', index);
+        this.policyList[index].collage = !this.policyList[index].collage
+      },
       search() {},
       handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
@@ -298,28 +318,30 @@
         }
         &-footer {
             display: flex;
-            justify-content: space-around;
-            margin-top: 24px;
+            justify-content: space-between;
+            margin: 24px 10px 0px 10px;
             .select-btn {
                 display: flex;
+                align-items: baseline;
                 margin-bottom: 31px;
                 .title {
                     font-size: 20px;
                     font-family: AlibabaPuHuiTiR;
                     padding-top: 10px;
                     color: #212121;
+                    margin-right: 20px;
                 }
                 .select-item {
-                    display: grid;
-                    grid-template-columns: repeat(9, 86px);
-                    grid-gap: 10px 15px;
+                    display: flex;
+                    // grid-template-columns: repeat(9, 86px);
+                    // grid-gap: 10px 15px;
                     cursor: pointer;
+                    div {
+                      margin-right: 5px;
+                    }
                 }
                 .button-new-tag {
-                    background-color:rgba(0,0,255,0);
-                    // height: 40px;
-                    // width: 86px;
-                    font-size: 16px;
+                    font-size: 12px;
                     font-family: PingFangSC-Regular, PingFang SC;
                     font-weight: 400;
                     border-radius: 5px;
@@ -341,6 +363,18 @@
         }
       }
       .policy-result {
+        &-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 20px;
+            margin-top: 20px;
+            font-family: CKTKingKong;
+            color: #000000;
+            line-height: 35px;
+            // margin-bottom: 17px;
+            // margin-top: 20px;
+        }
         .title {
             display: flex;
             align-items: center;
@@ -378,6 +412,7 @@
               .tag-block {
                 display: flex;
                 font-size: 12px;
+                color: #fff;
                 .tag-item {
                   padding: 0px 8px;
                   margin-right: 5px;

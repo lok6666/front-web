@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <app-header :nav-item-active="-1" />
+    <AI v-if="AIDialogVisible" @bClose="bClose"/>
     <img src="../../images/userBg.png" style="width: 100%" />
     <div class="user-caontainer">
       <div class="user-header">
@@ -78,8 +79,8 @@
           </div>
           <div v-else-if="categoryId === 1">
             <form-template
-              style="padding: 0px 20px"
-              :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
+              style="padding: 0px 20px;"
+              :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px','margin': `0px 0px 0px 100px`}"
               @likeCountChanges="likeCountChanges"
               :labelWidth="140"
               title="基本信息"
@@ -90,8 +91,9 @@
           <div v-else-if="categoryId === 2">
             <form-template
               style="padding: 0px 20px 20px 20px"
+              :customStyle="{'margin': `0px 0px 0px 100px`}"
               @likeCountChanges="likeCountChanges"
-              :labelWidth="140"
+              :labelWidth="100"
               :insertUrl="entInfoInsert"
               title="宣传信息管理"
               :formConfig="propagandaForm"
@@ -100,8 +102,9 @@
           </div>
           <div v-else-if="categoryId === 3">
             <price-form-template
+              style="padding:20px 20px 20px;"
               @likeCountChanges="likeCountChanges"
-              :labelWidth="200"
+              :labelWidth="220"
               :priceForm="priceForm"
               :payTaxesForm="payTaxesForm"
               :createForm="createForm"
@@ -111,6 +114,7 @@
           <div v-else-if="categoryId === 4">
             <form-template
               style="padding: 0px 20px 20px 20px"
+              :customStyle="{'margin': `0px 0px 0px 100px`}"
               @likeCountChanges="likeCountChanges"
               :labelWidth="140"
               title="企业备案信息"
@@ -132,7 +136,8 @@
           </div>
           <div v-else-if="categoryId === 9">
             <form-template
-              style="padding: 0px 20px 0px 20px"
+              style="padding: 0px 20px 20px 20px"
+              :customStyle="{'margin': `0px 0px 0px 100px`}"
               @likeCountChanges="likeCountChanges"
               :labelWidth="140"
               title="账户信息"
@@ -146,7 +151,7 @@
             <div class="enterprise-service-echarts-title">企业服务占比：</div>
             <echarts :echartsOptions="echartsOptions2" id="2"  height="260"/>
           </div>
-          <div class="enterprise-service-manage">
+          <div class="enterprise-service-manage" @click="AIDialogVisible = true">
             <div class="enterprise-service-manage-bg"></div>
             <div class="enterprise-service-manage-content">
               <div class="enterprise-service-manage-content-title">
@@ -171,6 +176,7 @@ import { entInfoInsert } from "@/config/api";
 import {  propagandaForm, messageForm, priceForm, baForm, accountForm, payTaxesForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
+import AI from '@/components/AI/index'
 import policyList from "./components/policyList.vue";
 import userTable from "./components/userTable.vue";
 import userTable2 from "./components/userTable2.vue";
@@ -187,9 +193,10 @@ export default {
   name: "User",
   data() {
     return {
-      categoryId: 0,
+      categoryId: Number(this.$route.query.categoryId) || 0,
       messageForm,
       priceForm,
+      AIDialogVisible: false,
       payTaxesForm,
       entInfoInsert,
       propagandaForm,
@@ -203,19 +210,18 @@ export default {
         legend: {},
         tooltip: {},
         dataset: {
-          dimensions: ["product", "营收", "利润", "缴税"],
+          dimensions: ["product", "营业收入", "利润总额", "纳税总额", '资产总额', '负债总额'],
           source: [
-            { product: "1-3月", '营收': 43.3, '利润': 25.8, '缴税': 13.7 },
-            { product: "4-6月", '营收': 83.1, '利润': 73.4, '缴税': 55.1 },
-            { product: "7-9月", '营收': 86.4, '利润': 65.2, '缴税': 32.5 },
-            { product: "10-12月", '营收': 72.4, '利润': 53.9, '缴税': 39.1 },
+            { product: "2022月", '营业收入': 43.3, '利润总额': 25.8, '纳税总额': 13.7, '资产总额': 100, '负债总额': 30},
+            { product: "2021月", '营业收入': 83.1, '利润总额': 73.4, '纳税总额': 55.1, '资产总额': 70, '负债总额': 21},
+            { product: "2020月", '营业收入': 86.4, '利润总额': 65.2, '纳税总额': 32.5, '资产总额': 40, '负债总额': 10},
           ],
         },
         xAxis: { type: "category" },
         yAxis: {},
         // Declare several bar series, each will be mapped
         // to a column of dataset.source by default.
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
+        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }],
       },
       echartsOptions2: {
         tooltip: {
@@ -237,9 +243,9 @@ export default {
             },
             data: [
               { value: 1048, name: '金融服务' },
-              { value: 735, name: '知识产权' },
+              { value: 735, name: '灵活用工' },
               { value: 580, name: '企业服务' },
-              { value: 484, name: '培训服务' }
+              { value: 484, name: '行业培训' }
             ]
           }
         ]
@@ -305,6 +311,7 @@ export default {
   components: {
     AppHeader,
     AppFooter,
+    AI,
     FormTemplate,
     priceFormTemplate,
     echarts,
@@ -326,7 +333,9 @@ export default {
       return val;
     },
   },
-
+  created() {
+    console.log('this----------', this.$route.query);
+  },
   mounted() {
     this.init();
   },
@@ -345,6 +354,9 @@ export default {
       this.form.birthday = userInfo.birthday;
       this.originalBirthday = userInfo.birthday;
       this.form.brief = userInfo.brief;
+    },
+    bClose() {
+      this.AIDialogVisible = false;
     },
     handleClose(done) {
       this.$confirm('确认关闭？')

@@ -24,7 +24,7 @@
           </el-input>
         </div>
         <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">100</span>查询结果</div>
-        <div v-for="(item, index) in policyList" :key="index" :class="`item-${index} new-more-search-container-item`">
+        <div v-for="(item, index) in contentList" :key="index" :class="`item-${index} new-more-search-container-item`">
           <div class="message">{{item.message}}</div>
           <div class="time">{{item.time}}</div>
         </div>
@@ -34,7 +34,7 @@
             @current-change="handleCurrentChange"
             :current-page="currentPage"
             :page-sizes="[10, 40, 70, 100]"
-            :page-size="100"
+            :page-size="10"
             layout="total, sizes, prev, pager, next, jumper"
             :total="100">
           </el-pagination>
@@ -59,47 +59,81 @@
         currentPage: 4,
         inputValue: '',
         message: this.$route.query.message,
+        contentList: [],
         categoryId: 0,
+        newList: [{
+          message: '石景山区启动开学保障执法检查 石景山园开展2022年“共产党员献爱心” 捐献活动',
+          time: '2022/9/19',
+          detailType: '/new-detail'
+        },{
+          message: '石景山区市场监管局全力做好服贸会食品和特种设备安全服务保障工作',
+          time: '2022/9/18',
+          detailType: '/new-detail'
+        },{
+          message: '金顶街街道老楼加梯',
+          time: '2022/9/17',
+          detailType: '/new-detail'
+        },{
+          message: '让居民幸福感再“梯”升',
+          time: '2022/9/16',
+          detailType: '/new-detail'
+        },{
+          message: '2021年数字经济背景下文化品牌价值提升与创新发展人才培养高级研修班成功举办',
+          time: '2022/9/15',
+          detailType: '/new-detail'
+        },{
+          message: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
+          time: '2022/9/13',
+          detailType: '/new-detail'
+        },{
+          message: '第11届北京国际网络电影展荣誉盛典在北京举办',
+          time: '2022/9/11',
+          detailType: '/new-detail'
+        },{
+          message: '市委常委、统战部部长游钧到八角街道接访下访',
+          time: '2022/9/10',
+          detailType: '/new-detail'
+        }],
         policyList: [
           {
-            message: "2022年第16届动漫游戏产业发展国际论坛即将启幕",
-            time: '2022/9/19'
+            message: "关于印发《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知",
+            time: '2019/9/19'
           },
           {
-            message: "2022年北京市文化企业“投贷奖”项目申报解读",
-            time: '2022/9/18'
+            message: "关于印发《石景山区关于促进 “专精特新”中小企业高质量发展的若干措施》的通知",
+            time: '2019/9/18'
           },
           {
-            message: "关于启动2022年北京市文化企业“投贷奖”项目申报工作的通知",
-            time: '2022/9/17'
+            message: "关于印发《石景山区加快“新基建”促进新一代信息技术产业发展暂行办法》的通知",
+            time: '2019/9/17'
           },
           {
-            message: "第三届“好汉杯”八达岭长城文创大赛公告",
-            time: '2022/9/16'
+            message: "关于印发《石景山区关于支持中小微企业应对疫情影响保持平稳发展的若干措施》的通知",
+            time: '2019/9/16'
           },
           {
-            message: "领航中国·新兴产业投融资合作大会”参展报名通知",
-            time: '2022/9/1'
+            message: "关于印发《石景山区关于共同应对新型冠状病毒感染的肺炎疫情支持企业发展的若干措施（暂行）》的通知",
+            time: '2019/9/1'
           },
           {
-            message: "新一批“国家对外文化贸易基地”开始申报",
-            time: '2022/9/15'
+            message: "政府关于印发《石景山区鼓励企业上市发展实施办法》的通知",
+            time: '2019/9/15'
           },
           {
-            message: "炉音乐会”即将再次奏响，2022北京西山永定河文化节开幕式现场提前探访",
-            time: '2022/9/14'
+            message: "关于印发《中关村科技园区石景山园加快创新发展的支持办法》的通知",
+            time: '2019/9/14'
           },
           {
-            message: "2022年度北京文化消费品牌榜征集公告",
-            time: '2022/9/13'
+            message: "石景山区促进文化创意产业发展暂行办法",
+            time: '2019/9/13'
           },
           {
-            message: "关于征集2022年度北京文化消费促进行动合作单位的通知",
-            time: '2022/9/12'
+            message: "石景山区吸引和鼓励高层次 人才创业和工作计划实施办法(试行",
+            time: '2019/9/12'
           },
           {
-            message: "PIN行宇宙——DADA数字艺术创意大赛作品征集中",
-            time: '2022/9/11'
+            message: "石景山区关于促进楼宇经济高质量发展的若干措施",
+            time: '2019/9/11'
           }
         ]
       };
@@ -111,6 +145,9 @@
     computed: {
       ...mapGetters(["defaultAvatar", "device"]),
     },
+     created() {
+       this.contentList = this.$route.query.message === '最新新闻' ? this.newList : this.policyList;
+     },
     mounted() {},
     methods: {
       search() {

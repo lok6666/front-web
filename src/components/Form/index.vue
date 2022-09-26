@@ -13,7 +13,7 @@
       size="mini"
       class="demo-dynamic"
       :label-width="`${labelWidth}px`"
-      label-position="right"
+      label-position="left"
     >
       <el-form-item
         :rules="[{ required: item.required, message: `${item.label}为必填项` }]"
@@ -23,6 +23,8 @@
         {{ item[i] }}
         <!--输入框-->
         <el-input v-model="item[item.prop]" v-if="item.showInput" />
+         <!--textarea输入框-->
+        <el-input style="width: 200px" type="textarea" :rows="3" v-model="item[item.prop]" v-if="item.showTextarea" />
         <!--时间选择器-->
         <el-date-picker
           v-model="item[item.prop]"
@@ -71,7 +73,6 @@
         <!--上传图片-->
         <el-upload
           class="avatar-uploader"
-          action="#"
           :show-file-list="false"
           v-if="item.upload"
           @click.self="getIndex(i)"
@@ -249,8 +250,6 @@
       axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       axios(config)
         .then(function (res) {
-          console.log('res', res);
-          debugger;
           formConfig[itemIndex][uploadType.value === 'image' ? 'picture': 'video'] = 'http://' + res;
         })
         .catch(function (error) {
