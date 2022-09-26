@@ -5,13 +5,13 @@
     <el-dialog
       :visible.sync="applydialogVisible"
       :center="true"
+      title="招商信息"
       :before-close="closeDialog">
       <form-template
-      style="padding: 0px 20px"
-      :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px'}"
-      @likeCountChanges="closeDialog"
+      style="padding: 0px 20px 20px 20px"
+      :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
+      @likeCountChanges="likeCountChanges"
       :labelWidth="140"
-      title="招商信息"
       :formConfig="applyMessageForm"
       :showBtn="true"
       :disabled="false"/> 
@@ -21,8 +21,10 @@
     <header class="main-header">
         <div class="header">
           <div class="header-left">
-                <span @click="window.open('http://www.beijing.gov.cn/')"><img src="../../images/sdzc.png" /></span>
-                <span class="index-icon"><img src="../../images/微信.png" />公众号</span>
+                <span @click="window.open('http://www.beijing.gov.cn/')"><img style="width: 45px;height: 45px;"  src="../../images/sdzc.png" /></span>
+                <span @click="wxdialogVisible = !wxdialogVisible" class="index-icon"><img src="../../images/微信.png" />公众号</span>
+                <img style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
+                      v-if="wxdialogVisible" src="../../images/wx-wt.png"/>
                 <span class="index-icon"><img src="../../images/路径.png" />平台热线: 010-56939760</span>
           </div>
           <div class="header-right">
@@ -45,8 +47,7 @@
                       </el-input>
                     </div>
                 </span>
-                <span class="index-icon"><img src="../../images/历史记录.png" />我的浏览记录</span>
-                <span class="index-icon" @click="applydialogVisible = true"><img src="../../images/客服.png"/>招商申请</span>
+                <span class="index-icon" @click="applydialogVisible = true"><img src="../../images/招商.png"/>招商申请</span>
                 <span class="index-icon" @click="AIDialogVisible = true"><img src="../../images/客服.png"/>智能客服</span>
           </div>
         </div>
@@ -56,37 +57,43 @@
                 <span>助理企业梦想腾飞</span>
           </div>
           <div class="content-right">
-                <span @click="$router.push('/')" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
-                <span class="index-icon"><img src="../../images/CombinedShape.png" />+3</span>
-                              <!-- 右边box -->
+                <span @click="$router.push('/business-detail')" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
+                <span class="index-icon" @click="$router.push('/user/info?categoryId=8')"><img src="../../images/CombinedShape.png" />+3</span>
+              <!-- 右边box -->
               <div class="right-box">
                 <!-- 登录·注册 -->
                 <div v-if="!userInfo" class="nologin">
-                  <img src="../../images/默认头像.png" style="width: 50px; height: 50px; margin-right: 14px;">
+                  <img src="../../images/默认头像.png" style="width: 50px; height: 50px; margin-right: 14px;margin: 5px 16px 0px 30px;">
                   <div class="login-btn" @click="loClick">登录</div><div class="reg-btn" @click="reClick">注册</div>
                 </div>
                 <div v-else class="logined">
-                  <router-link to="/user" class="console">个人中心</router-link>
-                  <el-dropdown trigger="click" placement="bottom">
-                    <div class="avatar-wrapper">
-                      <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
+                  <div class="avatar-wrapper">
+                    <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
+                  </div>
+                    <div style="display: flex;align-items: center;flex-direction: column;">
+                      <div style="display: flex;width: 100%">
+                      <router-link to="/user" class="console">个人中心</router-link>
+                      <el-dropdown trigger="click" placement="bottom">
+                        <div style="display: inline-block;margin-left: 10px;width:1px;height:1px;border:5px solid transparent;border-top-color:black;"></div>
+                        <el-dropdown-menu slot="dropdown">
+                          <router-link v-if="!userInfo.mobile" to="/bind-mobile">
+                            <el-dropdown-item>绑定手机号</el-dropdown-item>
+                          </router-link>
+                          <router-link v-if="!userInfo.email" to="/email-validate">
+                            <el-dropdown-item>绑定邮箱</el-dropdown-item>
+                          </router-link>
+                          <el-dropdown-item>
+                            <span style="display:block;" @click="logout">退 出</span>
+                          </el-dropdown-item>
+                        </el-dropdown-menu>
+                      </el-dropdown>
                     </div>
-                    <el-dropdown-menu slot="dropdown">
-                      <router-link v-if="!userInfo.mobile" to="/bind-mobile">
-                        <el-dropdown-item>绑定手机号</el-dropdown-item>
-                      </router-link>
-                      <router-link v-if="!userInfo.email" to="/email-validate">
-                        <el-dropdown-item>绑定邮箱</el-dropdown-item>
-                      </router-link>
-                      <el-dropdown-item>
-                        <span style="display:block;" @click="logout">退 出</span>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
+                    <div style="width: 100%;font-size: 14px;">北京文投大数据有限公司</div>
+                    </div>
+                  </div>
                 </div>
               </div>
           </div>
-        </div>
         <div class="footer">
             <div class="footer-desc">石景山区文化产业综合服务平台</div>
             <div class="logo">
@@ -133,7 +140,9 @@
 </template>
 <script>
 import { messageForm, applyMessageForm } from "@/config/constant.js";
+import { entApplyInsert } from "@/config/api.js";
 import { mapGetters } from 'vuex'
+import request from '@/utils/request'
 import AI from '@/components/AI/index'
 import PolicyCalculate from '@/components/Policycalculate/index'
 import FormTemplate from "@/components/Form/index.vue";
@@ -158,6 +167,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      wxdialogVisible: false,
       applydialogVisible: false,
       AIDialogVisible: false,
       messageForm,
@@ -197,7 +207,8 @@ export default {
     ...mapGetters([
       'userInfo',
       'defaultAvatar',
-      'device'
+      'device',
+      'data_selection'
     ])
   },
 
@@ -211,9 +222,20 @@ export default {
     bClose() {
       this.AIDialogVisible = false;
     },
+    likeCountChanges(formData) {
+      console.log('likeCountChanges', formData);
+      request({
+        url: `${entApplyInsert}`,
+        method: 'post',
+        data: formData
+      }).then(
+        res => {
+          this.applydialogVisible = false;
+        })
+    },
     routerTo(to, index) {
       if(to === '/policy-match') {
-        if(JSON.parse(window.localStorage.getItem('selectOptions'))) {
+        if(this.data_selection.length) {
           this.$router.push(to);
           this.navItemActive = index;
         } else {
@@ -230,6 +252,7 @@ export default {
     },
     handleClose() {
       this.dialogVisible = false;
+      this.$router.push('/policy-match');
     },
     // 抽屉关闭
     drawerClose() {
@@ -380,7 +403,7 @@ export default {
         .right-box {
           display: flex;
           align-items: center;
-          width: 200px;
+          // width: 200px;
           flex-direction: row-reverse;
           position: relative;
           top: 16px;
@@ -394,9 +417,10 @@ export default {
             justify-content: center;
             align-items: center;
             color: #fff;
-            width: 200px;
+            // width: 200px;
             height: 80px;
             background: #FFFFFF;
+            padding-right: 46px;
             border-radius: 46px 0px 0px 46px;
             font-size: 20px;
             font-family: AlibabaPuHuiTiR;
@@ -424,7 +448,8 @@ export default {
             justify-content: center;
             align-items: center;
             color: #fff;
-            width: 200px;
+            padding-right: 46px;
+            // width: 200px;
             height: 80px;
             background: #FFFFFF;
             border-radius: 46px 0px 0px 46px;
@@ -437,7 +462,9 @@ export default {
               font-weight: 600;
               padding: 0 8px;
               margin-right: 8px;
-              border-right: 1px solid hsla(0,0%,59.2%,.2);
+              display: flex;
+              align-items: center;
+              // border-right: 1px solid hsla(0,0%,59.2%,.2);
 
               @media screen and (max-width: 922px){
                 font-weight: 700;
@@ -445,7 +472,7 @@ export default {
             }
 
             .avatar-wrapper {
-              margin-top: 5px;
+              margin: 5px 16px 0px 30px;
               position: relative;
 
               .user-avatar {

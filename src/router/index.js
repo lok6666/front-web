@@ -71,6 +71,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/collage-detail',
+    component: () => import('@/views/collage-detail/index'),
+    hidden: true
+  },
+  {
     path: '/teacher-detail',
     component: () => import('@/views/teacher-detail/index'),
     hidden: true

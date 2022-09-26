@@ -102,12 +102,10 @@
           </div>
           <div v-else-if="categoryId === 3">
             <price-form-template
-              style="padding:20px 20px 20px;"
+              style="padding:20px 20px 20px; min-height: 700px;"
               @likeCountChanges="likeCountChanges"
               :labelWidth="220"
               :priceForm="priceForm"
-              :payTaxesForm="payTaxesForm"
-              :createForm="createForm"
               :showBtn="true"
               :disabled="false"/> 
           </div>
@@ -173,7 +171,7 @@
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import { entInfoInsert } from "@/config/api";
-import {  propagandaForm, messageForm, priceForm, baForm, accountForm, payTaxesForm, createForm } from "@/config/constant.js";
+import {  propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
 import AI from '@/components/AI/index'
@@ -197,7 +195,6 @@ export default {
       messageForm,
       priceForm,
       AIDialogVisible: false,
-      payTaxesForm,
       entInfoInsert,
       propagandaForm,
       baForm,

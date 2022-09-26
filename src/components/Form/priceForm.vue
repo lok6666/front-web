@@ -1,10 +1,13 @@
 <template>
     <div>
-      <h2 style="display: inline; margin-bottom: 20px;">企业财务数据(万元)</h2>
+      <h2 style="display: inline; margin-bottom: 20px;">企业财务数据</h2>
       <el-tabs v-model="activeName" @tab-click="handleClick" style="margin: 10p x 0px;">
         <el-tab-pane label="2022年" name="first"></el-tab-pane>
         <el-tab-pane label="2021年" name="second"></el-tab-pane>
         <el-tab-pane label="2020年" name="third"></el-tab-pane>
+      </el-tabs>
+      <el-tabs v-model="activeName" @tab-click="handleClick" style="margin: 10p x 0px;">
+        <el-tab-pane :label="i.label" :name="i.label" v-for="(i, index) in yearOptions" :key="index"></el-tab-pane>
       </el-tabs>
       <!--看了源码,为了required校验,必须在form标签循环-->
       <div style="display: grid;grid-template-columns: 450px 450px;">
@@ -26,6 +29,8 @@
           :prop="item.prop"
           :label="item.label"
         >
+           <!--输入框-->
+          <el-input v-model="item[item.prop]" v-if="item.showInput" />
           <!--todo有待改造-->
           <el-select
             v-model="item[item.prop]"
@@ -97,6 +102,43 @@
         value: 2022,
         categoryId: 0,
         activeName: 'first',
+        yearOptions: [{
+          value: '选项2',
+          label: '1-12月'
+        }, {
+          value: '选项3',
+          label: '1-11月'
+        }, {
+          value: '选项4',
+          label: '1-10月'
+        }, {
+          value: '选项5',
+          label: '1-9月'
+        }, {
+          value: '选项1',
+          label: '1-8月'
+        }, {
+          value: '选项2',
+          label: '1-7月'
+        }, {
+          value: '选项3',
+          label: '1-6月'
+        }, {
+          value: '选项4',
+          label: '1-5月'
+        }, {
+          value: '选项5',
+          label: '1-4月'
+        }, {
+          value: '选项2',
+          label: '1-3月'
+        }, {
+          value: '选项3',
+          label: '1-2月'
+        }, {
+          value: '选项4',
+          label: '1月'
+        }],
         options: [{
           value: '选项1',
           label: '2022'

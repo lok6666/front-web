@@ -225,7 +225,7 @@
       this.formConfig.forEach((v) => {
         formData[v.prop] = v[v.prop];
       });
-        this.$emit('likeCountChanges', this.formConfig);
+        this.$emit('likeCountChanges', formData);
       },
     async resetForm(formName) {
         this.$emit('likeCountChanges', this.formConfig);
