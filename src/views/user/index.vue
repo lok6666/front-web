@@ -2,7 +2,7 @@
   <div class="app-container">
     <app-header :nav-item-active="-1" />
     <AI v-if="AIDialogVisible" @bClose="bClose"/>
-    <img src="../../images/userBg.png" style="width: 100%" />
+    <img src="../../images/userBg.png" style="width: 100%;height: 362px;" />
     <div class="user-caontainer">
       <div class="user-header">
         <img src="../../images/total.png" />
@@ -202,23 +202,29 @@ export default {
       createForm,
       echartsOptions: {
         title: {
-          text: '财政数据图'
+          text: '财税数据'
         },
         legend: {},
         tooltip: {},
         dataset: {
-          dimensions: ["product", "营业收入", "利润总额", "纳税总额", '资产总额', '负债总额'],
+          dimensions: ["product", "营业收入",  "纳税总额", '资产总额', '负债总额'],
           source: [
-            { product: "2022月", '营业收入': 43.3, '利润总额': 25.8, '纳税总额': 13.7, '资产总额': 100, '负债总额': 30},
-            { product: "2021月", '营业收入': 83.1, '利润总额': 73.4, '纳税总额': 55.1, '资产总额': 70, '负债总额': 21},
-            { product: "2020月", '营业收入': 86.4, '利润总额': 65.2, '纳税总额': 32.5, '资产总额': 40, '负债总额': 10},
+            { product: "2022年", '营业收入': 2987.3,  '纳税总额': 30.1 , '资产总额': 10153.9, '负债总额': 991.4 },
+            { product: "2021年", '营业收入': 4512.2,  '纳税总额': 3.6, '资产总额': 10639.2, '负债总额': 1226.2},
+            { product: "2020年", '营业收入': 1874.0,  '纳税总额': 71.4, '资产总额': 9591.2, '负债总额': 1361.1}    
           ],
         },
         xAxis: { type: "category" },
-        yAxis: {},
+        yAxis: {
+          name: "单位（万元）",
+          axisLabel: {
+            //这种做法就是在y轴的数据的值旁边拼接单位，貌似也挺方便的
+            formatter: "{value} 万元",
+          },
+        },
         // Declare several bar series, each will be mapped
         // to a column of dataset.source by default.
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }],
+        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }],
       },
       echartsOptions2: {
         tooltip: {
@@ -607,7 +613,8 @@ export default {
       }
       .setting-box-center {
         width: 100%;
-        background-color: #fff
+        background-color: #fff;
+        padding-bottom: 20px;
         //min-width: 732px;
       }
       .setting-box-right {

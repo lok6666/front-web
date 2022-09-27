@@ -38,28 +38,28 @@ export default {
           title: "知识产权",
           address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.09",
+          date: "2022.08.09",
         },
         {
           level: "专利申请",
           title: "知识产权",
           address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.07",
+          date: "2022.08.07",
         },
         {
           level: "著作权申请",
           title: "知识产权",
           address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.04",
+          date: "2022.08.04",
         },
         {
           level: "专利申请",
           title: "知识产权",
           address: "北京文投大数据",
           status: "已申请",
-          date: "2016.05.03",
+          date: "2022.08.03",
         }
       ],
       tableItem: [

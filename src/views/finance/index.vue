@@ -64,7 +64,9 @@ const bjDataJron = [
     quota: "500万",
     loanBg: loanBg1,
     bank: jh_bank,
-    tagList: ['北京市', '专精特新','正常经营', '信用良好']
+    tagList: ['北京市', '专精特新','正常经营', '信用良好'],
+    browseNum: 1100,
+    applyNum: 42
   },
   {
     title: "信用快贷",
@@ -74,7 +76,9 @@ const bjDataJron = [
     quota: "300万",
     loanBg: loanBg1,
     bank: jh_bank,
-    tagList: ['北京市', '正常经营', '信用良好']
+    tagList: ['北京市', '正常经营', '信用良好'],
+    browseNum: 3020,
+    applyNum: 20
   },
   {
     title: "科技云贷",
@@ -84,7 +88,9 @@ const bjDataJron = [
     quota: "200万",
     loanBg: loanBg1,
     bank: jh_bank,
-    tagList: ['北京市', '正常经营', '信用良好', '知识产权']
+    tagList: ['北京市', '正常经营', '信用良好', '知识产权'],
+    browseNum: 1240,
+    applyNum: 27
   },
   {
     title: "政采云贷",
@@ -94,7 +100,9 @@ const bjDataJron = [
     quota: "200万",
     loanBg: loanBg1,
     bank: jh_bank,
-    tagList: ['北京市', '正常经营', '信用良好', '政府采购中标通知']
+    tagList: ['北京市', '正常经营', '信用良好', '政府采购中标通知'],
+    browseNum: 3302,
+    applyNum: 44
   }
 ];
 const jsDataJron = [
@@ -106,7 +114,9 @@ const jsDataJron = [
     quota: "300万",
     loanBg: loanBg1,
     bank: bj_bank,
-    tagList: ['北京市', '小微企业']
+    tagList: ['北京市', '小微企业'],
+    browseNum: 1243,
+    applyNum: 14
   },
   {
     title: "科企贷",
@@ -116,7 +126,9 @@ const jsDataJron = [
     quota: "300万",
     loanBg: loanBg1,
     bank: bj_bank,
-    tagList: ['石景山', '中型企业']
+    tagList: ['石景山', '中型企业'],
+    browseNum: 1243,
+    applyNum: 14
   },
   {
     title: "银税贷",
@@ -126,7 +138,9 @@ const jsDataJron = [
     quota: "200万",
     loanBg: loanBg1,
     bank: bj_bank,
-    tagList: ['北京市', '大型企业']
+    tagList: ['北京市', '大型企业'],
+    browseNum: 1552,
+    applyNum: 34
   },
   {
     title: "融信宝",
@@ -136,7 +150,9 @@ const jsDataJron = [
     quota: "200万",
     loanBg: loanBg1,
     bank: bj_bank,
-    tagList: ['北京市', '大型企业','正常经营', '信用良好',]
+    tagList: ['北京市', '大型企业','正常经营', '信用良好'],
+    browseNum: 2193,
+    applyNum: 50
   },
   {
     title: "票易贷",
@@ -146,7 +162,9 @@ const jsDataJron = [
     quota: "200万",
     loanBg: loanBg1,
     bank: bj_bank,
-    tagList: ['北京市', '正常经营', '信用良好']
+    tagList: ['北京市', '正常经营', '信用良好'],
+    browseNum: 1693,
+    applyNum: 28
   }
 ];
 export default {

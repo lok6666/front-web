@@ -93,7 +93,7 @@ export default {
 .user-policy-list-wrap {
   background: #FFFFFF;
   border-radius: 4px;
-  margin-top: 10px;
+  // margin-top: 10px;
   .user-table-title {
     display: flex;
     justify-content: flex-end;

@@ -30,12 +30,17 @@
               <div class="item-num">{{ loan.quota }}</div>
             </div>
             <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
+            <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
+              <div>{{loan.browseNum}}次浏览</div>
+              <div>{{loan.applyNum}}次申请</div>
+            </div>
           </div>
         </div>
       </div>
 </template>
 
 <script>
+import _ from 'lodash';
 export default {
   name: "User",
   props: {
@@ -52,6 +57,7 @@ export default {
   },
   methods: {
     detail(loan, index) {
+      this.$store.dispatch('data/setLoanDetail', _.cloneDeep(loan));
       window.localStorage.setItem('loan-tail', JSON.stringify(loan));
       this.$router.push({
         path: `/finance-detail/:${index}`

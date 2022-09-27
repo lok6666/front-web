@@ -146,7 +146,7 @@ export default {
     max-width: 1440px;
     margin-left: 70px;
     margin-right: 70px;
-    padding-bottom: 60px;
+    // padding-bottom: 60px;
     background-color: #DFAF75;
     .trade-center {
       width: 100%;

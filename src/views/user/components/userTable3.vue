@@ -7,7 +7,7 @@
     </div>
   </div>
   <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index" :width="[index === 0 || index === 2 ? '100': '']">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :align="item.align" :min-width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
@@ -30,32 +30,32 @@
           level: "2",
           title: "全国工商联互联网营销师2022年第4期培训班",
           address: "北京市星座大厦",
-          date1: "2016.05.13",
-          date2: "2016.05.27",
+          date1: "2022.05.13",
+          date2: "2022.05.27",
           num: 10
         },
         {
           level: "4",
           title: "2022年文化产业高峰论坛",
           address: "北京市星座大厦",
-          date1: "2016.05.11",
-          date2: "2016.05.20",
+          date1: "2022.05.11",
+          date2: "2022.05.20",
           num: 20
         },
         {
           level: "6",
           title: "石景山区文化创意产业创业大赛",
           address: "北京市星座大厦",
-          date1: "2016.05.04",
-          date2: "2016.07.20",
+          date1: "2022.05.04",
+          date2: "2022.07.20",
           num: 200
         },
         {
           level: "9",
           title: "元宇宙现状与未来沙龙",
           address: "北京市星座大厦",
-          date1: "2016.05.03",
-          date2: "2016.10.20",
+          date1: "2022.05.03",
+          date2: "2022.10.20",
           num: 120
         }],
         tableItem: [
@@ -63,26 +63,36 @@
           label: "序号",
           src: levelImg,
           showKey: "level",
+          align: 'center',
+          width: '25'
         },
         {
           label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "title",
+          align: 'left',
+          width: '120'
         },
         {
           label: "报名人数",
           src: dateImg,
           showKey: "num",
-        },
-        {
-          label: "举办日期",
-          src: dateImg,
-          showKey: "date1",
+          align: 'left',
+          width: '50'
         },
         {
           label: "报名日期",
           src: dateImg,
+          showKey: "date1",
+          align: 'left',
+          width: '50'
+        },
+        {
+          label: "举办日期",
+          src: dateImg,
           showKey: "date2",
+          align: 'left',
+          width: '50'
         }
       ]
       }

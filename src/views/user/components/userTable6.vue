@@ -4,7 +4,7 @@
       <div class="user-table-service">我的活动</div>
     </div>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;">{{ item.label }}</div>
         </template>
@@ -82,26 +82,31 @@ export default {
           label: "序号",
           src: levelImg,
           showKey: "level",
+          width: '100'
         },
         {
           label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "title",
+          width: '350'
         },
         {
           label: "报名人数",
           src: dateImg,
           showKey: "num",
+          width: '150'
         },
         {
           label: "举办日期",
           src: dateImg,
           showKey: "date2",
+          width: '150'
         },
         {
           label: "报名日期",
           src: dateImg,
           showKey: "date1",
+          width: '150'
         }
       ]
     };

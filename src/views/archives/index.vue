@@ -204,6 +204,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
+      height: 40px;
       .button-new-tag {
         margin-left: 10px;
         height: 32px;

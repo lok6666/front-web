@@ -21,7 +21,7 @@
     <header class="main-header">
         <div class="header">
           <div class="header-left">
-                <span @click="window.open('http://www.beijing.gov.cn/')"><img style="width: 45px;height: 45px;"  src="../../images/sdzc.png" /></span>
+                <span @click="openWtUrl()"><img style="cursor:pointer;width: 45px;height: 45px;"  src="../../images/sdzc.png" /></span>
                 <span @click="wxdialogVisible = !wxdialogVisible" class="index-icon"><img src="../../images/微信.png" />公众号</span>
                 <img style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
                       v-if="wxdialogVisible" src="../../images/wx-wt.png"/>
@@ -54,7 +54,7 @@
         <div class="content">
           <div class="content-left">
                 <span style="font-size: 30px;font-weight: bold;font-family: SourceHanSerifSC-Bold, SourceHanSerifSC;">石文创服</span>
-                <span>助理企业梦想腾飞</span>
+                <span>助力企业梦想腾飞</span>
           </div>
           <div class="content-right">
                 <span @click="$router.push('/business-detail')" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
@@ -219,6 +219,9 @@ export default {
   },
 
   methods: {
+    openWtUrl() {
+      window.open('http://www.bjwt.com/')
+    },
     bClose() {
       this.AIDialogVisible = false;
     },

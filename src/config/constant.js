@@ -475,8 +475,7 @@ const messageForm = [
       prop: "actId",
       label: "企业名称",
       required: true,
-      showInput: true,
-      actId: 1
+      showInput: true
   },
   {
       prop: "qyzzxs",
@@ -485,23 +484,12 @@ const messageForm = [
       showCheckbox: true,
       qyzzxs: ['国有企业'],
       options: ['国有企业', '私营企业']
-/*             options: [{
-        label: '国有企业',
-      {
-        label: '私营企业'
-      },
-      {
-        label: '集体企业'
-      },
-      {
-        label: '事业单位'
-      },
-      {
-        label: '外资企业'
-      },
-      {
-        label: '其他'
-      }] */
+  },
+  {
+    prop: "zczb",
+    label: "注册资本",
+    required: true,
+    showInput: true
   },
   {
       prop: "startTime",
@@ -510,18 +498,32 @@ const messageForm = [
       showDatePicker: true
   },
   {
-      prop: "zczb",
-      label: "注册资本",
-      required: true,
-      showInput: true,
-      zczb: 1
-  },
-  {
       prop: "address",
       label: "注册地址",
       required: true,
       showInput: true,
       address: '星座大厦'
+  },
+  {
+    prop: "bgdz",
+    label: "办公地址",
+    required: true,
+    showInput: true,
+    bgdz: '星座大厦'
+  },
+  {
+    prop: "businessName",
+    label: "企业负责人",
+    required: true,
+    showInput: true,
+    businessName: '石鑫哲'
+  },
+  {
+      prop: "busTelPhone",
+      label: "负责人电话",
+      required: true,
+      showInput: true,
+      busTelPhone: '17732335555'
   },
   {
       prop: "personName",
@@ -535,74 +537,51 @@ const messageForm = [
       label: "联系人电话",
       required: true,
       showInput: true,
-      telPhone: '17732335555'
-  },
-  {
-      prop: "businessName",
-      label: "企业负责人",
-      required: true,
-      showInput: true,
-      businessName: '石鑫哲'
-  },
-  {
-      prop: "busTelPhone",
-      label: "联系人电话",
-      required: true,
-      showInput: true,
-      busTelPhone: '17732335555'
-  },
-  {
-      prop: "bgdz",
-      label: "办公地址",
-      required: true,
-      showInput: true,
-      bgdz: '星座大厦'
+      telPhone: '17732336725'
   },
   {
       prop: "registType",
       label: "公司登记注册类型",
       required: true,
-      showInput: true,
-      registType: 1
+      showInput: true
   },
   {
-      prop: "round",
-      label: "主营业务及经营范围",
-      required: true,
-      showInput: true,
-      round: '1'
-  },
-  {
-      prop: "code",
-      label: "统一社会信用代码",
-      required: true,
-      showInput: true,
-      code: 10000
-  },{
-      prop: "num",
-      label: "员工人数",
-      required: true,
-      showInput: true,
-      num: 1
-  },{
-      prop: "square",
-      label: "办公面积",
-      required: true,
-      showInput: true,
-      square: 20
-  },{
-      prop: "hydm",
-      label: "行业代码",
-      required: true,
-      showInput: true,
-      hydm: 20
+    prop: "code",
+    label: "统一社会信用代码",
+    required: true,
+    showInput: true,
+    code: 10000
+  }
+  ,{
+    prop: "hydm",
+    label: "行业代码",
+    required: true,
+    showInput: true,
+    hydm: 20
   },{
       prop: "hymc",
       label: "行业名称",
       required: true,
       showInput: true,
       hydm: '制造业'
-}];
+  },{
+      prop: "num",
+      label: "员工人数",
+      required: true,
+      showInput: true
+  },{
+      prop: "square",
+      label: "办公面积",
+      required: true,
+      showInput: true,
+      square: 20
+  },
+  {
+      prop: "round",
+      label: "经营范围",
+      required: true,
+      showInput: true
+  }];
 // 基本信息
 const applyMessageForm = [
 //   {
@@ -618,38 +597,8 @@ const applyMessageForm = [
 //     showInput: true
 // },
 {
-    prop: "legalPerson",
-    label: "法人",
-    required: true,
-    showInput: true
-},
-{
-  prop: "legalIdCard",
-  label: "法人身份证",
-  required: true,
-  showInput: true
-},
-{
-  prop: "registerDistrict",
-  label: "目前所在区县",
-  required: true,
-  showInput: true
-},
-{
-  prop: "entIndustry",
-  label: "所在行业",
-  required: true,
-  showInput: true
-},
-{
-  prop: "entCode",
-  label: "企业社会统一代码",
-  required: true,
-  showInput: true
-},
-{
-  prop: "businessIncome",
-  label: "营业收入",
+  prop: "entName",
+  label: "企业名称",
   required: true,
   showInput: true
 },
@@ -664,7 +613,130 @@ const applyMessageForm = [
   label: "联系方式",
   required: true,
   showInput: true
+},
+{
+    prop: "legalPerson",
+    label: "法人",
+    showInput: true
+},
+// {
+//   prop: "telephone",
+//   label: "法人手机号",
+//   required: true,
+//   showInput: true
+// },
+{
+  prop: "legalIdCard",
+  label: "法人身份证",
+  showInput: true
+},
+{
+  prop: "registerDistrict",
+  label: "公司地址",
+  showInput: true
+},
+{
+  prop: "entIndustry",
+  label: "所在行业",
+  showInput: true
+},
+{
+  prop: "entCode",
+  label: "企业社会统一代码",
+  showInput: true
+},
+{
+  prop: "telephone",
+  label: "备注",
+  showTextarea: true
+},
+{
+  prop: "businessIncome",
+  label: "营业收入",
+  showInput: true
 }
+];
+
+const activtyForm = [
+  {
+    prop: "activityName",
+    label: "活动名称",
+    required: true,
+    showInput: true,
+  },
+  {
+    prop: "activityAddress",
+    label: "活动地址",
+    required: true,
+    showInput: true 
+  },
+  {
+    prop: "activityDateFrom",
+    label: "活动开始时间",
+    placeholder: "活动开始时间",
+    required: true,
+    showDatePicker: true
+  },
+  {
+    prop: "activityDateTo",
+    label: "活动结束时间",
+    required: true,
+    showDatePicker: true,
+    
+  },
+  {
+    prop: "telName",
+    label: "联络人",
+    required: true,
+    showInput: true,   
+  },
+  {
+    prop: "phone",
+    label: "联络人电话",
+    required: true,
+    showInput: true,    
+  },
+  {
+    prop: "activityNumber",
+    label: "参加人数",
+    required: true,
+    showInput: true    
+  },
+  {
+    prop: "activityStatus",
+    label: "活动状态",
+    options: [
+      {
+        label: '报名中',
+        value: '1'
+      },
+      {
+        label: '报名结束，进行中',
+        value: '2'
+      },
+      {
+        label: '已结束',
+        value: '3'
+      }
+    ],
+    required: true,
+    showSelect: true,
+    
+  },
+  {
+    prop: "applyTimeFrom",
+    label: "活动报名开始日期",
+    required: true,
+    showDatePicker: true,
+    
+  },
+  {
+    prop: "applyTimeTo",
+    label: "活动报名结束日期",
+    required: true,
+    showDatePicker: true,
+    
+  }
 ];
 
 // 基本信息
@@ -705,26 +777,32 @@ const applyMessageForm2 = [
 // 宣传资料
 const propagandaForm = [
   {
+    prop: "description",
+    label: "企业简介",
+    required: true,
+    showTextarea: true
+  },
+  {
+    prop: "description",
+    label: "产品介绍",
+    required: true,
+    showTextarea: true
+  },
+  {
       prop: "bd_img",
       label: "背景图",
       required: true,
       zlupload: true
   },
   {
-      prop: "description",
-      label: "描述",
-      required: true,
-      showInput: true
-  },
-  {
       prop: "img_list",
-      label: "注册资本",
+      label: "荣誉资质",
       required: true,
-      listupload: true
+      zlupload: true
   },
   {
       prop: "logo_img",
-      label: "logo图标",
+      label: "企业logo",
       required: true,
       upload: true
   }];
@@ -779,271 +857,125 @@ const accountForm = [
       label: "用户头像",
       required: true,
       upload: true
-  },
-  {
-    prop: "telePhone",
-    label: "电话",
-    required: true,
-    showInput: true
-  },
-  {
-    prop: "busneiss_name",
-    label: "企业名称",
-    required: true,
-    showDatePicker: true
   }];
 const priceForm = [{
-  prop: "zczb",
-  label: "注净资产册资本",
-  required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  zczb: 1
-},{
-  prop: "ns",
-  label: "纳税额(不含个人所得税)",
-  required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  ns: 1
-},{
   prop: "ys",
   label: "营业收入",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  ys: 1
+  showInput: true,
 },{
   prop: "wns",
-  label: "其中：文化及相关产业营业收入",
+  label: "文化产业相关营业收入",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  wns: 1
+  showInput: true,
+
 },{
   prop: "lns",
   label: "利润总额",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  lns: 1
+  showInput: true,
+
 },{
   prop: "jns",
   label: "净利润",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  jns: 1
+  showInput: true,
+
 },{
   prop: "zcze",
   label: "资产总额",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  zcze: 1
+  showInput: true,
+
+},{
+  prop: "zczb",
+  label: "净资产",
+  required: true,
+  showInput: true,
+
 },{
   prop: "fzze",
   label: "负债总额",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  fzze: 1
+  showInput: true,
+
 },{
   prop: "ldfz",
-  label: "流动负债",
-  required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  ldfz: 1
-},{
-  prop: "syzqy",
   label: "所有者权益",
   required: true,
-  showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
-  syzqy: 1
+  showInput: true,
+
+},{
+  prop: "ns",
+  label: "纳税额(不含个人所得税)",
+  required: true,
+  showInput: true,
+
+},{
+  prop: "syzqy",
+  label: "增值税",
+  required: true,
+  showInput: true,
+
+},{
+  prop: "ldfz",
+  label: "企业所得税",
+  required: true,
+  showInput: true,
+
+},{
+  prop: "syzqy",
+  label: "个人所得税",
+  required: true,
+  showInput: true,
 }];
 const payTaxesForm = [{
   prop: "nsze",
   label: "纳税总额(不含个人所得税)",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   nsze: 1
 },{
   prop: "zzs",
   label: "增值税",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   zzs: 1
 },{
   prop: "csss",
   label: "城市维护建设税",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   ns: 1
 },{
   prop: "njyf",
   label: "纳教育费附加",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   njyf: 1
 },{
   prop: "qysds",
   label: "企业所得税",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   qysds: 1
 },{
   prop: "gs",
   label: "关税",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   gs: 1
 },{
   prop: "yhs",
   label: "印花税",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   yhs: 1
 },{
   prop: "other",
   label: "其他",
   required: true,
   showSelect: true,
-  options: [{
-      label: '100万-400万',
-      value: '100万-400万'
-  },
-  {
-      label: '400万-900万',
-      value: '400万-900万'
-  }],
   other: 1
 }];
 const createForm = [
@@ -1097,5 +1029,6 @@ module.exports = {
   propagandaForm,
   priceForm,
   payTaxesForm,
-  createForm
+  createForm,
+  activtyForm
 }

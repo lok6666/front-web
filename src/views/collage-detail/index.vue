@@ -6,30 +6,23 @@
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>课程详情</el-breadcrumb-item>
       </el-breadcrumb>
-      <div class="policy-container">
+      <div class="collage-container">
         <div class="side-left">
             <div class="left">
                 <div class="teacher-name">
-                  <img src="../../images/user-logo.png"/>
-                  卢孝华
+                  <img src="../../images/avatar.png" style="width: 100px; height: 100px;margin-bottom: 23px;"/>
+                  文投大数据
                 </div>
-                <div class="teacher-desc">金牌教师</div>
+                <div class="teacher-desc">文化赋能</div>
                 <div class="teacher-time">
-                  <div style="font-size: 46px;font-family: AlibabaPuHuiTiM;">9:30</div>
+                  <div style="font-size: 46px;font-family: AlibabaPuHuiTiM;">{{data_collagedetail.xs}}</div>
                   <div>{{data_collagedetail.activTime}}</div>
                 </div>
                 <div class="block"><img src="../../images/basic-location-black.png"/>定位</div>
                 <div class="block"><img src="../../images/apply.png"/>报名</div>
             </div>
             <div class="content">
-                <div class="content-header">
-                    <div class="title">{{title}}</div>
-                    <div class="desc">
-                        <div style="flex: 0.2;">发布日期:{{time}}</div>
-                        <div>来源:{{address}}</div>
-                    </div>
-                </div>
-                <div class="content-center"><p><span style="color: rgb(47, 46, 63); font-size: 24px;">9月3日，区委书记常卫到服贸会区企指挥部检查服贸会疫情防控和服务保障工作。区委副书记、政法委书记刘海涛参加检查。</span></p><p style="text-align: center;"><img src="http://minio.bjwcxf.com/cultural-image/2022-09-16/1663299087366.jpg" alt="使用说明" data-href="http://minio.bjwcxf.com/cultural-image/2022-09-16/1663299087366.jpg" style="width: 100%;"></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">常卫指出，今天是服贸会公众开放日首日，观展人员数量较前两日有所增长。要压紧压实各方责任，严格落实落细各项措施，全力做好服贸会疫情防控和服务保障工作，确保万无一失。 常卫强调，要严格登录厅人员进入查验，严防“北京健康宝”异常、核酸检测不符合规定的人员入内。做好服务保障人员检录，确保一人一证，不得转借、出售、私自带人出入。做好弹窗人员处理工作，保障服贸会防疫安全。各场馆要加强远端管控，做好引导疏导、人员限流，降低人员聚集风险。 要强化交通接驳，增加班车频次，宣传倡导绿色交通出行方式，缓解周边交通压力。加强停车场动态监测，推进停车资源高效利用。做好场馆周边交通保障，加强巡逻劝导。要加强场馆运行和环境保障，严格展台用电安全巡查检查，做好园区垃圾分类收集清运，加大卫生间等设施消毒消杀和清理频次，确保安全有序稳定。要优化餐饮服务，做好食品供应保障，加大抽查检查，筑牢食品安全防线。要强化会展及配套活动组织，做好招商招展和促消费工作。</span></p><p style="text-align: right;"><span style="color: rgb(47, 46, 63); font-size: 24px;">区领导迟志禹、王智勇、葛强参加检查。</span></p><p style="text-align: right;"><span style="color: rgb(47, 46, 63); font-size: 24px;">来源：文投大数据媒体中心</span></p></div>
+                <div class="content-center"><p style="text-align: left; line-height: 2;"><img src="http://minio.bjwcxf.com/cultural-image/2022-09-27/95862e14411d9e4babad29055e7723e.jpg" alt="使用说明" data-href="http://minio.bjwcxf.com/cultural-image/2022-09-27/95862e14411d9e4babad29055e7723e.jpg" style=""></p><h1><span style="color: rgb(33, 33, 33);">第16届动漫游戏产业发展国际论坛</span></h1><p style="line-height: 2;"><span style="font-size: 16px;"><strong>由市文旅局、市文资中心、经开区管委会主办，市文促中心承办的第16届动漫游戏产业发展国际论坛将于9月2日（星期五）举办。</strong></span></p><p style="line-height: 2;"><span style="font-size: 16px;"><strong>“动漫游戏产业发展国际论坛”（以下简称“论坛”）是北京市文化产业领域的重要论坛活动之一，自创办以来充分发挥引领和带动作用，已经成为动漫游戏领域技术展示、品牌推介、信息交汇、行业交流、国际合作的重要品牌活动。</strong></span></p><p style="text-align: center; line-height: 2;"><br></p></div>
             </div>
             <div class="right">
                 <div class="collage-title">培训课程</div>
@@ -56,8 +49,6 @@
     },
     data() {
       return {
-        title: '石景山：以精准有力监督推动服贸会顺利举办',
-        address: '文投大数据媒体中心',
         time: '2022-9-7',
         list: [{
         title: '石景山区启动开学保障执法检查 石景山园开展2022年“共产党员献爱心” 捐献活动',
@@ -125,11 +116,11 @@
     overflow-x: hidden;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
-    .policy-container {
+    .collage-container {
       width: 100%;
       box-sizing: border-box;
       margin: 0 auto;
-      margin-bottom: 104px;
+      // margin-bottom: 104px;
       max-width: $ContentContainerW;
       position: relative;
       display: flex;
@@ -143,6 +134,7 @@
       .side-left {
         display: flex;
         .left {
+          padding-top: 36px;
           width: 200px;
           display: flex;
           flex-direction: column;
@@ -190,28 +182,6 @@
         }
         .content {
           width: 640px;
-            .content-header {
-                margin-bottom: 25px;
-                .title {
-                    font-size: 48px;
-                    font-family: AlibabaPuHuiTiB;
-                    color: #000000;
-                    margin-bottom: 26px;
-                }
-                .desc {
-                  display: flex;
-                  width: 100%;
-                  justify-content: space-between;
-                  font-size: 18px;
-                  font-family: AlibabaPuHuiTiR;
-                  color: #2B292D;
-                }
-            }
-            .content-center {
-              padding-top: 39px;
-              border-top: 1px solid #8B572A;
-              border-bottom: 1px solid #8B572A;
-            }
         }
         .right {
           margin-left: 16px;

@@ -1,6 +1,7 @@
   const state = {
     selection: [],
-    collagedetail: {}
+    collagedetail: {},
+    loandetail: {}
   }
   
   const mutations = {
@@ -9,6 +10,9 @@
     },
     SET_COLLAGEDEIL: (state, value) => {
       state.collagedetail = value
+    },
+    SET_LOANDETAIL: (state, value) => {
+      state.loandetail = value
     }
   }
   
@@ -24,6 +28,14 @@
     collagedetail({ commit }, params) {
       return new Promise((resolve, reject) => {
         commit('SET_COLLAGEDEIL', params)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    },
+    setLoanDetail({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        commit('SET_LOANDETAIL', params)
         resolve()
       }).catch(error => {
         reject(error)

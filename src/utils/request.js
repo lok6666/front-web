@@ -29,8 +29,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-
-    if (res.code !== 0) {
+    console.log('res----', res);
+    if (res.code !== 0 && res.code !== '2000') {
       // 凭证无效或过期
       if (res.code === 1006 || res.code === 1009) {
         store.dispatch('user/resetToken')
@@ -51,18 +51,18 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      // return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
   },
   error => {
     console.log('err' + error)
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    // Message({
+    //   message: error.message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
     return {code: 0, message: 'suc'}
     // return Promise.reject(error)
   }

@@ -13,7 +13,7 @@
       </div>
     </div>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="[item.label === '政策标题'? '340': '150']">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
@@ -35,29 +35,29 @@ export default {
     return {
       tableData: [
         {
-          level: "国家级",
-          title: "石政办发〔2022〕6号...",
-          address: "北京市星座大厦",
-          date: "2016.05.09",
+          level: "石景山区",
+          title: "石景山区关于对租赁非国有房屋科技型孵化器减免中小微...",
+          address: "石景山区政府",
+          date: "2022.06.21",
         },
         {
-          level: "国家级",
-          title: "北京市石景山区人民政府办公…",
-          address: "北京市星座大厦",
-          date: "2016.05.07",
+          level: "石景山区",
+          title: "2022“北京·景贤杯”创新创业大赛公告...",
+          address: "石景山区政府",
+          date: "2022.06.20",
         },
         {
-          level: "国家级",
-          title: "关于促进中关村虚拟现实…",
-          address: "北京市星座大厦",
-          date: "2016.05.05",
+          level: "石景山区",
+          title: "“中国创翼”·“创业北京”暨石景山区第三届创业创新大赛...",
+          address: "石景山区政府",
+          date: "2022.04.07",
         },
         {
-          level: "区级",
-          title: "石景山区科普基地认定办法…",
-          address: "北京市星座大厦",
-          date: "2016.05.03",
-        },
+          level: "石景山区",
+          title: "关于开展2022年度“景贤计划”人才项目立项申报工作的通知...",
+          address: "石景山区政府",
+          date: "2022.03.29",
+        }
       ],
       tableItem: [
         {

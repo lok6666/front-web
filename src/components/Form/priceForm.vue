@@ -6,7 +6,7 @@
         <el-tab-pane label="2021年" name="second"></el-tab-pane>
         <el-tab-pane label="2020年" name="third"></el-tab-pane>
       </el-tabs>
-      <el-tabs v-model="activeName" @tab-click="handleClick" style="margin: 10p x 0px;">
+      <el-tabs v-model="activeName1" @tab-click="handleClick" style="margin: 10px 0px 30px;">
         <el-tab-pane :label="i.label" :name="i.label" v-for="(i, index) in yearOptions" :key="index"></el-tab-pane>
       </el-tabs>
       <!--看了源码,为了required校验,必须在form标签循环-->
@@ -102,6 +102,7 @@
         value: 2022,
         categoryId: 0,
         activeName: 'first',
+        activeName1: '1-12月',
         yearOptions: [{
           value: '选项2',
           label: '1-12月'
@@ -118,25 +119,25 @@
           value: '选项1',
           label: '1-8月'
         }, {
-          value: '选项2',
+          value: '选项6',
           label: '1-7月'
         }, {
-          value: '选项3',
+          value: '选项7',
           label: '1-6月'
         }, {
-          value: '选项4',
+          value: '选项8',
           label: '1-5月'
         }, {
-          value: '选项5',
+          value: '选项9',
           label: '1-4月'
         }, {
-          value: '选项2',
+          value: '选项10',
           label: '1-3月'
         }, {
-          value: '选项3',
+          value: '选项11',
           label: '1-2月'
         }, {
-          value: '选项4',
+          value: '选项12',
           label: '1月'
         }],
         options: [{
