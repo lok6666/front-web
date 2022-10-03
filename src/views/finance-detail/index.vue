@@ -238,7 +238,7 @@ export default {
     ...mapGetters(["defaultAvatar", "device", "data_loandetail"]),
     headers() {
       var val = {
-        Authorization: "Bearer " + getAccessToken(),
+        Authorization:getAccessToken(),
       };
       return val;
     },

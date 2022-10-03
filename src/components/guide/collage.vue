@@ -9,43 +9,28 @@
             Cultural industry
             </div>
       </div>
-      <el-dialog
-        :visible.sync="applydialogVisible"
-        :center="true"
-        title="活动报名"
-        :before-close="closeDialog">
-        <form-template
-        style="padding: 0px 20px 20px 20px"
-        :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
-        @likeCountChanges="likeCountChanges"
-        :labelWidth="140"
-        :formConfig="activtyForm"
-        :showBtn="true"
-        :disabled="false"/> 
-      </el-dialog>
       <div style="padding: 0 70px;">
         <div class="collage-block">
           <img :src="indexCollage.bdImg" />
           <div style="margin-left: 18px;">
-            <div class="title">{{indexCollage.collageName}}</div>
+            <div class="title">{{indexCollage.activityName}}</div>
             <div class="desc">{{indexCollage.desc}}</div>
             <div class="apply-time-and-location">
               <div class="applyTime">报名时间:{{indexCollage.applyTimeFrom}}</div>
-              <div class="location">培训地点:{{indexCollage.location}}</div>
+              <div class="location">培训地点:{{indexCollage.activityAddress}}</div>
             </div>
             <div class="footer">
               <div class="apply-num">
                   <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;color: #000000;">报名人数/总数</div>
-                  <div class="apply-count"><img src="../../images/apply-user.png" />{{indexCollage.num}}/{{indexCollage.totalNum}}</div>
+                  <div class="apply-count"><img src="../../images/apply-user.png" />{{indexCollage.num}}/{{indexCollage.activiactivityNumber}}</div>
               </div>
               <div class="other">
                 <div class="other-item" style="border: 2px solid #8B572A;">
                   <div style="font-family: AlibabaPuHuiTiM;font-size: 36px;">{{indexCollage.xs}}</div>
-                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activTime}}</div>
-                  <div>2022</div>
+                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activityDateFrom}}</div>
                 </div>
                 <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
-                <div class="other-item apply"><img src="../../images/user-plus.png" @click="applydialogVisible = true"/>报名</div>
+                <div class="other-item apply"><img src="../../images/user-plus.png" @click="applyAcitivty()"/>报名</div>
               </div>
             </div>
           </div>
@@ -55,9 +40,31 @@
               v-for="(item,index) in collageList"
               :key="index">
               <img :src="item.bdImg" />
+              <el-dialog
+                :visible.sync="applydialogVisible"
+                :center="true"
+                title="活动报名"
+                width="880px"
+                :before-close="closeDialog">
+                <div>活动名称:{{indexCollage.activityName}}</div>
+                <div>活动名称:{{indexCollage.location}}</div>
+                <div>活动开始时间:{{'xxx'}}</div>
+                <div>活动结束时间:{{'xxx'}}</div>
+                <div>活动报名开始时间:{{'xxx'}}</div>
+                <div>活动报名结束时间:{{'xxx'}}</div>
+                <form-template
+                v-if="applydialogVisible"
+                style="padding: 0px 20px 20px 20px;"
+                :customStyle="{display: 'grid', 'grid-template-columns': '380px 380px','margin': `0px 0px 0px 30px`}"
+                @likeCountChanges="likeCountChanges(item.id, $event)"
+                :labelWidth="140"
+                :formConfig="activtyForm"
+                :showBtn="true"
+                :disabled="false"/> 
+              </el-dialog>
               <div style="width: 100%">
-                <div class="title">{{item.collageName}}</div>
-                <div class="desc">{{item.desc}}</div>
+                <div class="title">{{item.activityName}}</div>
+                <div class="desc">{{item.activityAbstract}}</div>
                 <!-- <div class="apply-time-and-location">
                   <div class="applyTime">报名时间:{{item.applyTimeFrom}}</div>
                   <div class="location">培训地点:{{item.location}}</div>
@@ -65,8 +72,7 @@
                 <div class="other">
                   <div class="other-item" style="border: 2px solid #8B572A;">
                     <div style="font-family: AlibabaPuHuiTiM;font-size: 36px;">{{item.xs}}</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activTime}}</div>
-                    <div>2022</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activityDateFrom}}</div>
                   </div>
                   <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
                   <div class="other-item apply"><img src="../../images/user-plus.png" @click="applydialogVisible = true"/>报名</div>
@@ -81,7 +87,9 @@
 </template>
 
 <script>
+import request from '@/utils/request';
 import { activtyForm } from "@/config/constant.js";
+import { actionAll, activityApplyAddOne } from "@/config/api.js";
 import collagePoster from "../../images/collage-poster.png";
 import FormTemplate from "@/components/Form/index.vue";
 import collageBg0 from "../../images/collage-bg-0.png";
@@ -96,11 +104,12 @@ export default {
   name: "excellent-busniess",
   data() {
     return {
+      companyid: window.localStorage.getItem('USERID'),
       applydialogVisible: false,
       activtyForm,
       indexCollage: {
-        collageName: '如何赋能实体、联动营销”主题沙龙',
-        desc: `数藏营销具有哪些优势?谁在玩数藏营销?
+        activityName: '如何赋能实体、联动营销”主题沙龙',
+        activityAbstract: `数藏营销具有哪些优势?谁在玩数藏营销?
         企业在数藏营销落地化
 
 方面做了哪些实践?有什么可复制的经验分享吗?
@@ -114,46 +123,46 @@ export default {
 数藏有哪些新的可能性?数藏x
 
 元宇宙，新赛道谁能率先领跑?`,
-        location: '北京市东城区',
+        activityAddress: '北京市东城区',
         applyTimeFrom: '2022-09-25',
         num: 19,
         xs: `14:00`,
         basicLocation,
         userPlus,
-        totalNum: 40,
-        activTime: '9月27日',
+        activiactivityNumber: 40,
+        activityDateFrom: '9月27日',
         bdImg: collageBg0
       },
       collageList: [{
-        collageName: '2022城市更新高级研修班',
-        desc: '系统提升城市更新主管单位及项目团队的专业能力与管理能力，为城市更新与文化产业高质量协同发展提供人才支撑。',
-        location: '北京-紫竹院香格里拉',
+        activityName: '2022城市更新高级研修班',
+        activityAbstract: '系统提升城市更新主管单位及项目团队的专业能力与管理能力，为城市更新与文化产业高质量协同发展提供人才支撑。',
+        activityAddress: '北京-紫竹院香格里拉',
         applyTimeFrom: '2022-09-30',
         num: 19,
         xs: `9:30`,
-        totalNum: 40,
-        activTime: '9月21日',
+        activiactivityNumber: 40,
+        activityDateFrom: '9月21日',
         bdImg: collageBg1
       },
       {
-        collageName: '第16届动漫游戏产业发展国际论坛',
-        desc: '由市文旅局、市文资中心、经开区管委会主办，市文促中心承办的第 16 届动漫游戏产业发展国际论坛将于 9 月 2 日（星期五）举办。',
-        location: '北京-紫竹院香格里拉',
+        activityName: '第16届动漫游戏产业发展国际论坛',
+        activityAbstract: '由市文旅局、市文资中心、经开区管委会主办，市文促中心承办的第 16 届动漫游戏产业发展国际论坛将于 9 月 2 日（星期五）举办。',
+        activityAddress: '北京-紫竹院香格里拉',
         applyTimeFrom: '2022-09-30',
         num: 19,
         xs: `9:00`,
-        totalNum: 40,
-        activTime: '09月02日',
+        activiactivityNumber: 40,
+        activityDateFrom: '09月02日',
         bdImg: collageBg2
       },{
-        collageName: '手作活动邀您纸上徜徉大运河',
-        desc: '由北京文化艺术基金支持的“千年水道，文明纸现”大运河文化非遗纸艺展系列的12个大运河主题156场。',
-        location: '南锣鼓巷福祥胡同',
+        activityName: '手作活动邀您纸上徜徉大运河',
+        activityAbstract: '由北京文化艺术基金支持的“千年水道，文明纸现”大运河文化非遗纸艺展系列的12个大运河主题156场。',
+        activityAddress: '南锣鼓巷福祥胡同',
         applyTimeFrom: '2022-09-30',
         num: 19,
         xs: `10:00`,
-        totalNum: 40,
-        activTime: '03月01日',
+        activiactivityNumber: 40,
+        activityDateFrom: '03月01日',
         bdImg: collageBg3
       }]
     }
@@ -173,15 +182,50 @@ export default {
       default: true
     }
   },
+  created() {
+    request({
+        url: `${actionAll}`,
+        method: 'post',
+        data: {}
+      })
+      .then((res) => {
+          console.log('res----', res.data.list);
+          this.collageList = res.data.list;
+      })
+  },
   mounted() {
-    debugger;
   },
   methods: {
     routerTo(item) {
       this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
       this.$router.push("/collage-detail");
     },
-    likeCountChanges(formConfig) {
+    applyAcitivty() {
+      this.applydialogVisible = true;
+    },
+    likeCountChanges(id, formData) {
+      request({
+        url: `${activityApplyAddOne}`,
+        method: 'post',
+        data: {
+          act_id: id,
+          companyid: this.companyid,
+          ...formData
+        }
+      }).then((res) => {
+        // todo 修改后台返回字段
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          });
+          this.applyMessageForm = this.applyMessageForm.map((e, b) => {
+            let result = { ...e };  
+            delete result[e.prop];
+            return result;
+          });
+          this.applydialogVisible = false;
+        })
       this.applydialogVisible = false;
     },
 }

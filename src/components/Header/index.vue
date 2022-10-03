@@ -6,8 +6,10 @@
       :visible.sync="applydialogVisible"
       :center="true"
       title="招商信息"
+      width="880px"
       :before-close="closeDialog">
       <form-template
+      v-if="applydialogVisible"
       style="padding: 0px 20px 20px 20px"
       :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
       @likeCountChanges="likeCountChanges"
@@ -142,6 +144,7 @@
 import { messageForm, applyMessageForm } from "@/config/constant.js";
 import { entApplyInsert } from "@/config/api.js";
 import { mapGetters } from 'vuex'
+import { MessageBox, Message } from 'element-ui'
 import request from '@/utils/request'
 import AI from '@/components/AI/index'
 import PolicyCalculate from '@/components/Policycalculate/index'
@@ -166,6 +169,7 @@ export default {
   },
   data() {
     return {
+      companyid: 1,
       dialogVisible: false,
       wxdialogVisible: false,
       applydialogVisible: false,
@@ -230,9 +234,22 @@ export default {
       request({
         url: `${entApplyInsert}`,
         method: 'post',
-        data: formData
-      }).then(
-        res => {
+        data: {
+          id: this.companyid,
+          ...formData
+        }
+      }).then((res) => {
+        // todo 修改后台返回字段
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          });
+          this.applyMessageForm = this.applyMessageForm.map((e, b) => {
+            let result = { ...e };  
+            delete result[e.prop];
+            return result;
+          });
           this.applydialogVisible = false;
         })
     },

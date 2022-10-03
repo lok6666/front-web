@@ -8,8 +8,8 @@
     :lock-scroll="false"
   > <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;"/>
     <h2><img src="../../images/nobgcolor-wtlogo.png"/>注册文投账号</h2>
-    <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" />
-    <el-input v-model="mobile" placeholder="手机号用于登录和找回密码" />
+    <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" @blur="checkUserName"/>
+    <el-input v-model="mobile" placeholder="手机号用于登录和找回密码"  @blur="checkMobile"/>
     <el-input v-model="code" placeholder="验证码">
       <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
       <el-button
@@ -21,7 +21,7 @@
         style="margin-top: 6px;"
       >{{ codeCount }}s</el-button>
     </el-input>
-    <el-input v-model="password" placeholder="密码不能少于6位数" />
+    <el-input v-model="password" type="password" placeholder="密码不能少于6位数" />
     <el-button style="background: #D99447;border-radius: 30px;border: none;" type="primary" size="medium" :loading="loading" @click="submit">注册</el-button>
     <p>注册登录即表示同意
     <span style="color: #007fff;">
@@ -34,7 +34,7 @@
 
 <script>
 import { sendCode } from '@/api/code.js'
-import { register } from '@/api/user.js'
+import { register, validate } from '@/api/user.js'
 import { validMobile } from '@/utils/validate.js'
 export default {
   data() {
@@ -57,7 +57,28 @@ export default {
       this.code = ''
       this.password = ''
     },
-
+    // 校验用户名
+    checkUserName() {
+      validate({
+        username: this.username
+      }).catch(e => {
+          this.$message({
+            message: '用户名已注册',
+            type: 'erroe'
+          })
+      })
+    },
+    // 校验手机号
+    checkMobile() {
+      validate({
+        contactsPhone: this.mobile
+      }).catch(e => {
+          this.$message({
+            message: '手机号已注册',
+            type: 'erroe'
+          })
+      })
+    },
     open() {
       this.visible = true
     },
@@ -90,8 +111,8 @@ export default {
             new Promise(async(resolve, reject) => {
               try {
                 await this.$store.dispatch('user/accountLogin', params)
-                const { roles } = await this.$store.dispatch('user/getUserInfo')
-                const accessRoutes = await this.$store.dispatch('permission/generateRoutes', roles)
+                // const { roles } = await this.$store.dispatch('user/getUserInfo')
+                const accessRoutes = await this.$store.dispatch('permission/generateRoutes', ["ordinary"])
                 this.$router.addRoutes(accessRoutes)
                 this.$message({
                   message: '注册成功',

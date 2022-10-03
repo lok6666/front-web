@@ -1,14 +1,14 @@
 import request from '@/utils/request'
-
+import { authSendVerCode } from "@/config/api.js";
 
 /**
  * 发送验证码
  * @param {Object} params
  */
-export function sendCode(params) {
+export function sendCode({mobile}) {
   return request({
-    url: '/sms/send',
+    url: authSendVerCode,
     method: 'post',
-    params: params
+    params: {phoneNumber: mobile}
   })
 }

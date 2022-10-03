@@ -1,17 +1,14 @@
 import request from '@/utils/request'
-
+import { authRegister, authVerify, login } from "@/config/api.js";
 /**
  * 账号登录
  * @param {Object} params
  */
 export function accountLogin(params) {
   return request({
-    url: '/account/login',
-    headers: {
-      'Authorization': 'Basic cGM6MTIzNDU2'
-    },
+    url: login,
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -93,8 +90,13 @@ export function logout(params) {
  * 用户注册
  * @param {Object} data
  */
-export function register(data) {
-  return request.post('/user/register', data)
+export function register({username, mobile, password, code}) {
+  return request.post(authRegister, {
+    username,
+    password,
+    contactsPhone: mobile,
+    verCode: code
+  })
 }
 
 /**
@@ -219,4 +221,18 @@ export function bindMobile(params) {
       method: 'post',
       params: params
     })
+}
+
+
+
+/**
+ * 验证用户名和手机号
+ * @param {Object} params
+ */
+ export function validate(data) {
+  return request({
+    url: authVerify,
+    method: 'post',
+    data: {...data}
+  })
 }

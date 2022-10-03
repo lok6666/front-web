@@ -89,7 +89,7 @@ export default {
   },
 
   mounted() {
-    this.username = this.login_username || '17732236736'
+    this.username = this.login_username || 'root'
     this.password = this.login_password || '123456'
     this.checked = getRemember() === '1'
   },

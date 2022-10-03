@@ -15,7 +15,7 @@ service.interceptors.request.use(
   config => {
     // 添加请求头
     if (store.getters.token) {
-      config.headers['Authorization'] = 'Bearer ' + getAccessToken()
+      config.headers['Authorization'] = getAccessToken()
     }
     return config
   },
@@ -51,7 +51,7 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
       }
-      // return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res
     }

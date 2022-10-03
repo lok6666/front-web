@@ -26,7 +26,7 @@
             :key="index"
             class="left-list-item"
             :class="{ 'left-list-item-active': categoryId === category.id }"
-            @click="chageTab(category.id)"
+            @click="chageTab(category.id, category.formType)"
           >
             <div
               :class="[categoryId === category.id? `user-icon-${category.id}-active`:  `user-icon-${category.id}`]"
@@ -42,7 +42,7 @@
             :key="index"
             class="left-list-item"
             :class="{ 'left-list-item-active': categoryId === property.id }"
-            @click="chageTab(property.id)"
+            @click="chageTab(property.id, property.formType)"
           >
             <div
             :class="[categoryId === property.id? `user-icon-${property.id}-active`:  `user-icon-${property.id}`]"
@@ -58,7 +58,7 @@
             :key="index"
             class="left-list-item"
             :class="{ 'left-list-item-active': categoryId === service.id }"
-            @click="chageTab(service.id)"
+            @click="chageTab(service.id, service.formType)"
           >
             <div
             :class="[categoryId === service.id? `user-icon-${service.id}-active`:  `user-icon-${service.id}`]"
@@ -81,7 +81,7 @@
             <form-template
               style="padding: 0px 20px;"
               :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px','margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges"
+              @likeCountChanges="likeCountChanges(isExist?  entInfoUpdate : entInfoInsert, 'POST', $event)"
               :labelWidth="140"
               title="基本信息"
               :formConfig="messageForm"
@@ -92,9 +92,8 @@
             <form-template
               style="padding: 0px 20px 20px 20px"
               :customStyle="{'margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges"
+              @likeCountChanges="likeCountChanges(isExist?   entPropagateUpdate : entPropagateInsert, 'POST', $event)"
               :labelWidth="100"
-              :insertUrl="entInfoInsert"
               title="宣传信息管理"
               :formConfig="propagandaForm"
               :showBtn="true"
@@ -103,7 +102,7 @@
           <div v-else-if="categoryId === 3">
             <price-form-template
               style="padding:20px 20px 20px; min-height: 700px;"
-              @likeCountChanges="likeCountChanges"
+              @likeCountChanges="likeCountChanges(isExist?   entIncomeUpdate : entIncomeInsert, 'POST', $event)"
               :labelWidth="220"
               :priceForm="priceForm"
               :showBtn="true"
@@ -113,7 +112,7 @@
             <form-template
               style="padding: 0px 20px 20px 20px"
               :customStyle="{'margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges"
+              @likeCountChanges="likeCountChanges(isExist?  entFilingUpdate : entFilingInsert, 'POST', $event)"
               :labelWidth="140"
               title="企业备案信息"
               :formConfig="baForm"
@@ -136,7 +135,7 @@
             <form-template
               style="padding: 0px 20px 20px 20px"
               :customStyle="{'margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges"
+              @likeCountChanges="likeCountChanges(isExist?  entInfoUpdate : entInfoInsert, 'POST', $event)"
               :labelWidth="140"
               title="账户信息"
               :formConfig="accountForm"
@@ -170,11 +169,25 @@
 <script>
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
-import { entInfoInsert } from "@/config/api";
-import {  propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
+import {
+  entInfoInsert,
+  entInfoUpdate,
+  entInfoGetById,
+  entPropagateInsert,
+  entPropagateUpdate,
+  entPropagateGetById,
+  entIncomeInsert,
+  entIncomeUpdate,
+  entIncomeGetById,
+  entFilingUpdate,
+  entFilingInsert,
+  entFilingGetById
+ } from "@/config/api";
+import { propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
-import AI from '@/components/AI/index'
+import AI from '@/components/AI/index';
+import request from '@/utils/request';
 import policyList from "./components/policyList.vue";
 import userTable from "./components/userTable.vue";
 import userTable2 from "./components/userTable2.vue";
@@ -192,10 +205,29 @@ export default {
   data() {
     return {
       categoryId: Number(this.$route.query.categoryId) || 0,
+      userId: window.localStorage.getItem('USERID'),
+      categoryObj: {
+        1: entInfoGetById,
+        2: entPropagateGetById,
+        3: entIncomeGetById,
+        4: entFilingGetById
+      },
+      entInfoInsert,
+      entInfoUpdate,
+      entInfoGetById,
+      entPropagateInsert,
+      entPropagateUpdate,
+      entPropagateGetById,
+      entIncomeInsert,
+      entIncomeUpdate,
+      entIncomeGetById,
+      entFilingUpdate,
+      entFilingInsert,
+      entFilingGetById,
+      isExist: false,
+      AIDialogVisible: false,
       messageForm,
       priceForm,
-      AIDialogVisible: false,
-      entInfoInsert,
       propagandaForm,
       baForm,
       accountForm,
@@ -276,13 +308,13 @@ export default {
         },
       ],
       categorys: [
-        { id: 0, name: "首页" },
-        { id: 1, name: "基本信息维护" },
-        { id: 2, name: "宣传资料" },
+        { id: 0, name: "首页"},
+        { id: 1, name: "基本信息", formType:　'messageForm' },
+        { id: 2, name: "宣传资料", formType:　'propagandaForm' },
       ],
       propertys: [
-        { id: 3, name: "财税数据填报" },
-        { id: 4, name: "企业备案信息" },
+        { id: 3, name: "财税数据填报", formType:　'priceForm'  },
+        { id: 4, name: "企业备案信息", formType:　'baForm'  },
       ],
       services: [
         { id: 5, name: "我的政策" },
@@ -331,13 +363,21 @@ export default {
     ...mapGetters(["defaultAvatar", "device"]),
     headers() {
       var val = {
-        Authorization: "Bearer " + getAccessToken(),
+        Authorization:getAccessToken(),
       };
       return val;
     },
   },
-  created() {
-    console.log('this----------', this.$route.query);
+  async created() {
+/*     let {data} = await request({url: `${this.categoryObj[this.categoryId]/this.companyid}`, method: 'GET'});
+    this.isExist = data ? true: false;
+    this.messageForm = this.messageForm.map((e, b) => {
+      let result = { ...e };  
+      if(data[e.prop]) {
+        result[e.prop] = data[e.prop];
+      };
+      return result;
+    }); */
   },
   mounted() {
     this.init();
@@ -368,12 +408,28 @@ export default {
         })
         .catch(_ => {});
     },
-    chageTab(id) {
-      console.log('chageTab-----', id);
+    async chageTab(id, formType) {
       this.categoryId = id;
+      // 企业id
+      let {data} = await request({url: `${this.categoryObj[this.categoryId]}/${this.userId}`, method: 'GET'});
+      this.isExist = data ? true: false;
+      this[formType] = data ? this[formType].map((e, b) => {
+        let result = { ...e };
+        result[e.prop] = data[e.prop];
+        return result;
+      }) : this[formType];
+      console.log('this[formType]=====-----', data, this[formType]);
     },
-    likeCountChanges(formConfig) {
-      console.log('likeCountChanges', this.formConfig, formConfig);
+    likeCountChanges(url, method = 'POST', formData) {
+      request({
+        url: `${url}`,
+        method,
+        // todo 考虑 id怎么传进去
+        data: {
+          id: this.userId,
+          ...formData,
+        }
+      })
     },
     checkAll(id) {
       this.categoryId = id;

@@ -82,7 +82,7 @@
       ...mapGetters(["defaultAvatar", "device"]),
       headers() {
         var val = {
-          Authorization: "Bearer " + getAccessToken(),
+          Authorization:getAccessToken(),
         };
         return val;
       },

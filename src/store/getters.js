@@ -11,5 +11,6 @@ const getters = {
   login_password: state => state.login.password,
   data_selection: state => state.data.selection,
   data_collagedetail: state => state.data.collagedetail,
+  data_loandetail: state => state.data.loandetail,
 }
 export default getters

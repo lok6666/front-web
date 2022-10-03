@@ -472,130 +472,100 @@ const yearOptions = [
 // 基本信息
 const messageForm = [
   {
-      prop: "actId",
+      prop: "entName",
       label: "企业名称",
       required: true,
       showInput: true
   },
   {
-      prop: "qyzzxs",
-      label: "企业组织形式",
-      required: true,
-      showCheckbox: true,
-      qyzzxs: ['国有企业'],
-      options: ['国有企业', '私营企业']
-  },
-  {
-    prop: "zczb",
-    label: "注册资本",
-    required: true,
-    showInput: true
-  },
-  {
-      prop: "startTime",
-      label: "注册日期",
-      required: true,
-      showDatePicker: true
-  },
-  {
-      prop: "address",
-      label: "注册地址",
-      required: true,
-      showInput: true,
-      address: '星座大厦'
-  },
-  {
-    prop: "bgdz",
-    label: "办公地址",
+    prop: "contactPerson",
+    label: "联系人",
     required: true,
     showInput: true,
-    bgdz: '星座大厦'
   },
   {
-    prop: "businessName",
-    label: "企业负责人",
-    required: true,
-    showInput: true,
-    businessName: '石鑫哲'
-  },
-  {
-      prop: "busTelPhone",
-      label: "负责人电话",
-      required: true,
-      showInput: true,
-      busTelPhone: '17732335555'
-  },
-  {
-      prop: "personName",
-      label: "联系人",
-      required: true,
-      showInput: true,
-      personName: '石鑫哲'
-  },
-  {
-      prop: "telPhone",
+      prop: "contactTelephone",
       label: "联系人电话",
       required: true,
       showInput: true,
       telPhone: '17732336725'
   },
   {
-      prop: "registType",
-      label: "公司登记注册类型",
-      required: true,
-      showInput: true
+    prop: "workAddress",
+    label: "办公地址",
+    showInput: true,
+    bgdz: '星座大厦'
   },
   {
-    prop: "code",
+    prop: "busneissLeader",
+    label: "企业负责人",
+    showInput: true,
+  },
+  {
+    prop: "leaderTelephone",
+    label: "负责人电话",
+    showInput: true
+  },
+  {
+    prop: "regCode",
     label: "统一社会信用代码",
-    required: true,
     showInput: true,
     code: 10000
-  }
-  ,{
-    prop: "hydm",
-    label: "行业代码",
-    required: true,
-    showInput: true,
-    hydm: 20
-  },{
-      prop: "hymc",
-      label: "行业名称",
-      required: true,
-      showInput: true,
-      hydm: '制造业'
-  },{
-      prop: "num",
-      label: "员工人数",
-      required: true,
-      showInput: true
-  },{
-      prop: "square",
-      label: "办公面积",
-      required: true,
-      showInput: true,
-      square: 20
   },
   {
-      prop: "round",
-      label: "经营范围",
-      required: true,
-      showInput: true
+    prop: "tadeName",
+    label: "行业名称",
+    showInput: true,
+  },
+  {
+    prop: "peopleNum",
+    label: "员工人数",
+    showInput: true
+  },
+  {
+    prop: "workSquare",
+    label: "办公面积",
+    showInput: true
+  },
+  {
+    prop: "tadeName",
+    label: "业务领域",
+    options: [
+      {
+        label: '报名中',
+        value: '1'
+      }
+    ],
+    required: true,
+    showSelect: true,
+  },
+  {
+    prop: "peopleNum",
+    label: "企业资质",
+    options: [
+      {
+        label: '报名中',
+        value: '1'
+      }
+    ],
+    required: true,
+    showSelect: true,
+  },
+  {
+    prop: "workSquare",
+    label: "企业规模",
+    options: [
+      {
+        label: '报名中',
+        value: '1'
+      }
+    ],
+    required: true,
+    showSelect: true,
   }];
-// 基本信息
+
+// 招商申请
 const applyMessageForm = [
-//   {
-//     prop: "entName",
-//     label: "企业名称",
-//     required: true,
-//     showInput: true
-// },
-// {
-//     prop: "busneiss_id",
-//     label: "企业id",
-//     required: true,
-//     showInput: true
-// },
 {
   prop: "entName",
   label: "企业名称",
@@ -603,13 +573,13 @@ const applyMessageForm = [
   showInput: true
 },
 {
-  prop: "person",
+  prop: "contactsName",
   label: "联系人",
   required: true,
   showInput: true
 },
 {
-  prop: "telephone",
+  prop: "contactsPhone",
   label: "联系方式",
   required: true,
   showInput: true
@@ -619,15 +589,9 @@ const applyMessageForm = [
     label: "法人",
     showInput: true
 },
-// {
-//   prop: "telephone",
-//   label: "法人手机号",
-//   required: true,
-//   showInput: true
-// },
 {
-  prop: "legalIdCard",
-  label: "法人身份证",
+  prop: "legalId",
+  label: "法人联系方式",
   showInput: true
 },
 {
@@ -646,7 +610,7 @@ const applyMessageForm = [
   showInput: true
 },
 {
-  prop: "telephone",
+  prop: "applyInfo",
   label: "备注",
   showTextarea: true
 },
@@ -658,85 +622,90 @@ const applyMessageForm = [
 ];
 
 const activtyForm = [
+  // {
+  //   prop: "activityName",
+  //   label: "活动名称",
+  //   required: true,
+  //   showInput: true,
+  // },
+  // {
+  //   prop: "activityAddress",
+  //   label: "活动地址",
+  //   required: true,
+  //   showInput: true 
+  // },
+  // {
+  //   prop: "activityDateFrom",
+  //   label: "活动开始时间",
+  //   placeholder: "活动开始时间",
+  //   required: true,
+  //   showDatePicker: true
+  // },
+  // {
+  //   prop: "activityDateTo",
+  //   label: "活动结束时间",
+  //   required: true,
+  //   showDatePicker: true,
+  // },
   {
-    prop: "activityName",
-    label: "活动名称",
-    required: true,
-    showInput: true,
-  },
-  {
-    prop: "activityAddress",
-    label: "活动地址",
-    required: true,
-    showInput: true 
-  },
-  {
-    prop: "activityDateFrom",
-    label: "活动开始时间",
-    placeholder: "活动开始时间",
-    required: true,
-    showDatePicker: true
-  },
-  {
-    prop: "activityDateTo",
-    label: "活动结束时间",
-    required: true,
-    showDatePicker: true,
-    
-  },
-  {
-    prop: "telName",
+    prop: "personName",
     label: "联络人",
     required: true,
     showInput: true,   
   },
   {
-    prop: "phone",
+    prop: "telPhone",
     label: "联络人电话",
     required: true,
     showInput: true,    
+  },
+  {
+    prop: "duties",
+    label: "职务",
+    required: true,
+    showInput: true    
   },
   {
     prop: "activityNumber",
     label: "参加人数",
     required: true,
     showInput: true    
-  },
-  {
-    prop: "activityStatus",
-    label: "活动状态",
-    options: [
-      {
-        label: '报名中',
-        value: '1'
-      },
-      {
-        label: '报名结束，进行中',
-        value: '2'
-      },
-      {
-        label: '已结束',
-        value: '3'
-      }
-    ],
-    required: true,
-    showSelect: true,
-    
-  },
-  {
-    prop: "applyTimeFrom",
-    label: "活动报名开始日期",
-    required: true,
-    showDatePicker: true,
-    
-  },
-  {
-    prop: "applyTimeTo",
-    label: "活动报名结束日期",
-    required: true,
-    showDatePicker: true,
-    
   }
+  // {
+  //   prop: "activityStatus",
+  //   label: "活动状态",
+  //   options: [
+  //     {
+  //       label: '报名中',
+  //       value: '1'
+  //     },
+  //     {
+  //       label: '报名结束，进行中',
+  //       value: '2'
+  //     },
+  //     {
+  //       label: '已结束',
+  //       value: '3'
+  //     }
+  //   ],
+  //   required: true,
+  //   showSelect: true,
+    
+  // },
+  // {
+  //   prop: "applyTimeFrom",
+  //   label: "活动报名开始日期",
+  //   required: true,
+  //   showDatePicker: true,
+    
+  // },
+  // {
+  //   prop: "applyTimeTo",
+  //   label: "活动报名结束日期",
+  //   required: true,
+  //   showDatePicker: true,
+    
+  // }
 ];
 
 // 基本信息
@@ -777,71 +746,68 @@ const applyMessageForm2 = [
 // 宣传资料
 const propagandaForm = [
   {
-    prop: "description",
+    prop: "busneissDesc",
     label: "企业简介",
-    required: true,
     showTextarea: true
   },
   {
-    prop: "description",
+    prop: "productDesc",
     label: "产品介绍",
-    required: true,
     showTextarea: true
   },
   {
-      prop: "bd_img",
+      prop: "bgImg",
       label: "背景图",
-      required: true,
-      zlupload: true
+      upload: true
   },
   {
-      prop: "img_list",
+      prop: "fileList",
       label: "荣誉资质",
-      required: true,
-      zlupload: true
+      zlupload: true,
+      fileList: []
   },
   {
-      prop: "logo_img",
+      prop: "logoImg",
       label: "企业logo",
-      required: true,
       upload: true
   }];
 // 备案信息
 const baForm = [
   {
-      prop: "name",
+      prop: "representativePeople",
       label: "法定代表人",
       required: true,
       showInput: true
   },
   {
-      prop: "zl",
+      prop: "authenticationData",
       label: "认证资料",
       required: true,
       zlupload: true
   },
   {
-      prop: "email",
+      prop: "busneissEmail",
       label: "企业邮箱",
       required: true,
       showInput: true
   },
   {
-    prop: "phone",
+    prop: "entPhone",
     label: "公司电话",
     required: true,
     showInput: true
   },
   {
-    prop: "phone",
+    prop: "authorDate",
     label: "授权书过期日期",
     required: true,
     showDatePicker: true
   }];
+
   // 备案信息
 const accountForm = [
   {
-      prop: "user_name",
+      prop: "userName",
       label: "用户名",
       required: true,
       showInput: true
@@ -853,78 +819,80 @@ const accountForm = [
       showInput: true
   },
   {
-      prop: "user_icon",
+      prop: "userIcon",
       label: "用户头像",
       required: true,
       upload: true
   }];
+  
+// 财税数据
 const priceForm = [{
-  prop: "ys",
+  prop: "businessIncome",
   label: "营业收入",
   required: true,
   showInput: true,
 },{
-  prop: "wns",
+  prop: "cultureIncome",
   label: "文化产业相关营业收入",
   required: true,
   showInput: true,
 
 },{
-  prop: "lns",
+  prop: "totalProfit",
   label: "利润总额",
   required: true,
   showInput: true,
 
 },{
-  prop: "jns",
+  prop: "netProfit",
   label: "净利润",
   required: true,
   showInput: true,
 
 },{
-  prop: "zcze",
+  prop: "totalAssets",
   label: "资产总额",
   required: true,
   showInput: true,
 
 },{
-  prop: "zczb",
+  prop: "netAssets",
   label: "净资产",
   required: true,
   showInput: true,
 
 },{
-  prop: "fzze",
+  prop: "totalLiability",
   label: "负债总额",
   required: true,
   showInput: true,
 
 },{
-  prop: "ldfz",
+  prop: "equity",
   label: "所有者权益",
   required: true,
   showInput: true,
 
 },{
-  prop: "ns",
+  prop: "payTaxes",
   label: "纳税额(不含个人所得税)",
   required: true,
   showInput: true,
 
 },{
-  prop: "syzqy",
+  prop: "addedTax",
   label: "增值税",
   required: true,
   showInput: true,
 
 },{
-  prop: "ldfz",
+  prop: "corporateIncomeTax",
   label: "企业所得税",
   required: true,
   showInput: true,
 
 },{
-  prop: "syzqy",
+  prop: "individualIncomeTax",
   label: "个人所得税",
   required: true,
   showInput: true,

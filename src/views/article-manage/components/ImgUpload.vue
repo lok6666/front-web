@@ -56,7 +56,7 @@ export default {
   computed: {
     headers() {
       var val = {
-        Authorization: 'Bearer ' + getAccessToken()
+        Authorization: getAccessToken()
       }
       return val
     }

@@ -99,6 +99,7 @@
     },
     data() {
       return {
+        formData: {},
         value: 2022,
         categoryId: 0,
         activeName: 'first',
@@ -190,8 +191,11 @@
       },
       // 提交表单
       async submitForm(formName) {
-        console.log('this.', this.formConfig);
-        this.$emit('likeCountChanges', this.formConfig);
+        let formData = this.formData;
+        this.priceForm.forEach((v) => {
+          formData[v.prop] = v[v.prop];
+        });
+        this.$emit('likeCountChanges', formData);
       }
     },
   };
