@@ -71,8 +71,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getAccessToken } from "@/utils/auth";
-import loanBg1 from "../../images/loan-card-header1.png";
+import { getAccessToken } from "@/utils/auth";;
 import bank1 from "../../images/bank1.png";
 import AppHeader from "@/components/Header/index";
 import AppFooter from "@/components/footer/index";

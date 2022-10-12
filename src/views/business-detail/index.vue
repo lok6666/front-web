@@ -2,7 +2,7 @@
   <div class="app-container">
     <app-header :nav-item-active="-1" />
     <!--980+305-->
-    <div class="busniess-detail-bg">
+    <div class="busniess-detail-bg" :style="`background-image: url(${busneissMessage.bgImg})`">
       <div style="display: flex;">
         <!--img占位图-->
         <div style="width: 485px;height: 10px;"></div>
@@ -17,14 +17,13 @@
     </div>
     <div class="busniess-detail-container">
       <div class="busniess-detail-cotent">
-        <img class="header-logo" :src="showImg" />
+        <img class="header-logo" :src="busneissMessage.logoImg" />
         <div
           style="display: flex;flex-direction: column;;width: 100%;padding: 0 27px;"
         >
           <div class="title">关于我们</div>
           <div class="content">
-            {{ showDesc }}
-            公司始终坚持以“满天星计划”党建品牌为引领，聚焦主责把握机遇、立足主业谋划布局，以文化为内核、科技为手段、数据为支撑，按照“数据+算法+算力”的产业技术创新体系，凝神聚力将公司打造成为全国文化中心建设文化大数据生产力的推动者、文化领域企业的算力支撑者商、不同文化业态应用场景的算法服务商、“文化+”行业的数据生产资料的集成商。
+            {{ busneissMessage.busneissDesc }}
           </div>
         </div>
       </div>
@@ -35,16 +34,22 @@
             v-for="(item, index) in excellentBusniessList"
             :key="index"
           >
-            <div :class="`item-icon item-icon-${index}`"></div>
+            <div :class="`item-icon item-icon-${index}`" :style="`background-image: url(${item.url})`"></div>
             {{ item.excellentBusniessName }}
           </div>
         </div>
-        <protect />
+        <div class="guide-header">
+          <img class="guide-header-logo" src="../../images/guide-logo.png" />
+          我的产品
+        </div>
+        <div class="guide-excellent-busniess-content" v-html="busneissMessage.productDesc">
+          
+        </div>
         <div class="busniess-detail">
           <div style="display: flex;align-items: center;">
             <img :src="busniessLogo" style="height: 180px; margin-right: 10px;"/>
             <div class="busniess-detail-message">
-                <div>企业全称：北京文投大数据有限公司</div>
+                <div>企业全称：{{busneissMessage2.entName}}</div>
                 <div>注册资本：8000万元</div>
                 <div>企业类型：国有企业</div>
                 <div>所属行业：互联网和相关服务</div>
@@ -72,12 +77,13 @@
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import request from '@/utils/request';
-import {entInfoGetById} from '@/config/api.js'
+import { MessageBox } from 'element-ui'
+import {entPropagateGetById} from '@/config/api.js'
 import AppHeader from "@/components/Header/index";
 import busniessLogo from "../../images/busneiss-logo.png";
 import bank1 from "../../images/about-busneiss2.png";
 import bank2 from "../../images/bank1.png";
-import protect from "@/components/guide/protect.vue";
+// import protect from "@/components/guide/protect.vue";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
@@ -101,36 +107,14 @@ export default {
           excellentBusniessName: "科博会",
         },
       ],
-      // imgList: [
-      //   {
-      //     imgSrc: bank2,
-      //     desc:
-      //       "1中国石油化工集团有限公司（以下简称公司）的前身是成立于1983年7月的中国石油化工总公司。1998年7月，按照党中央关于实施石油石化行业战略性重组的部署，在原中国石油化工总公司基础上重组成立中国石油化工集团公司，2018年8月，经公司制改制为中国石油化工集团有限公司。公司是特大型石油石化企业集团，注册资本3265亿元人民币，董事长为法定代表人，总部设在北京。公司对其全资企业、控股企业、参股企业的有关国有资产行使资产受益、重大决策和选择管理者等出资人的权力，对国有资产依法进行经营、管理和监督，并相应承担保值增值责任。 公司主营业务范围包括：实业投资及投资管理；石油、天然气的勘探、开采、储运（含管道运输）、销售和综合利用；煤炭生产、销售、储存、运输；石油炼制；成品油储存、运输、批发和零售；石油化工、天然气化工、煤化工及其他化工产品的生产、销售、储存、运输；新能源产品的生产、销售、储存、运输；新能源汽车充换电业务及相关服务；石油石化工程的勘探、设计、咨询、施工、安装；石油石化设备检修、维修；机电设备研发、制造与销售；电力、蒸汽、水务和工业气体的生产销售；技术、电子商务及信息、替代能源产品的研究、开发、应用、咨询服务；自营和代理有关商品和技术的进出口；对外工程承包、招标采购、劳务输出；国际化仓储与物流业务等。",
-      //   },
-      //   {
-      //     imgSrc: bank2,
-      //     desc:
-      //       "2中国石油化工集团有限公司（以下简称公司）的前身是成立于1983年7月的中国石油化工总公司。1998年7月，按照党中央关于实施石油石化行业战略性重组的部署，在原中国石油化工总公司基础上重组成立中国石油化工集团公司，2018年8月，经公司制改制为中国石油化工集团有限公司。公司是特大型石油石化企业集团，注册资本3265亿元人民币，董事长为法定代表人，总部设在北京。公司对其全资企业、控股企业、参股企业的有关国有资产行使资产受益、重大决策和选择管理者等出资人的权力，对国有资产依法进行经营、管理和监督，并相应承担保值增值责任。 公司主营业务范围包括：实业投资及投资管理；石油、天然气的勘探、开采、储运（含管道运输）、销售和综合利用；煤炭生产、销售、储存、运输；石油炼制；成品油储存、运输、批发和零售；石油化工、天然气化工、煤化工及其他化工产品的生产、销售、储存、运输；新能源产品的生产、销售、储存、运输；新能源汽车充换电业务及相关服务；石油石化工程的勘探、设计、咨询、施工、安装；石油石化设备检修、维修；机电设备研发、制造与销售；电力、蒸汽、水务和工业气体的生产销售；技术、电子商务及信息、替代能源产品的研究、开发、应用、咨询服务；自营和代理有关商品和技术的进出口；对外工程承包、招标采购、劳务输出；国际化仓储与物流业务等。",
-      //   },
-      //   {
-      //     imgSrc: bank2,
-      //     desc:
-      //       "中国石油化工集团有限公司（以下简称公司）的前身是成立于1983年7月的中国石油化工总公司。1998年7月，按照党中央关于实施石油石化行业战略性重组的部署，在原中国石油化工总公司基础上重组成立中国石油化工集团公司，2018年8月，经公司制改制为中国石油化工集团有限公司。公司是特大型石油石化企业集团，注册资本3265亿元人民币，董事长为法定代表人，总部设在北京。公司对其全资企业、控股企业、参股企业的有关国有资产行使资产受益、重大决策和选择管理者等出资人的权力，对国有资产依法进行经营、管理和监督，并相应承担保值增值责任。 公司主营业务范围包括：实业投资及投资管理；石油、天然气的勘探、开采、储运（含管道运输）、销售和综合利用；煤炭生产、销售、储存、运输；石油炼制；成品油储存、运输、批发和零售；石油化工、天然气化工、煤化工及其他化工产品的生产、销售、储存、运输；新能源产品的生产、销售、储存、运输；新能源汽车充换电业务及相关服务；石油石化工程的勘探、设计、咨询、施工、安装；石油石化设备检修、维修；机电设备研发、制造与销售；电力、蒸汽、水务和工业气体的生产销售；技术、电子商务及信息、替代能源产品的研究、开发、应用、咨询服务；自营和代理有关商品和技术的进出口；对外工程承包、招标采购、劳务输出；国际化仓储与物流业务等。",
-      //   },
-      //   {
-      //     imgSrc: bank2,
-      //     desc:
-      //       "中国石油化工集团有限公司（以下简称公司）的前身是成立于1983年7月的中国石油化工总公司。1998年7月，按照党中央关于实施石油石化行业战略性重组的部署，在原中国石油化工总公司基础上重组成立中国石油化工集团公司，2018年8月，经公司制改制为中国石油化工集团有限公司。公司是特大型石油石化企业集团，注册资本3265亿元人民币，董事长为法定代表人，总部设在北京。公司对其全资企业、控股企业、参股企业的有关国有资产行使资产受益、重大决策和选择管理者等出资人的权力，对国有资产依法进行经营、管理和监督，并相应承担保值增值责任。 公司主营业务范围包括：实业投资及投资管理；石油、天然气的勘探、开采、储运（含管道运输）、销售和综合利用；煤炭生产、销售、储存、运输；石油炼制；成品油储存、运输、批发和零售；石油化工、天然气化工、煤化工及其他化工产品的生产、销售、储存、运输；新能源产品的生产、销售、储存、运输；新能源汽车充换电业务及相关服务；石油石化工程的勘探、设计、咨询、施工、安装；石油石化设备检修、维修；机电设备研发、制造与销售；电力、蒸汽、水务和工业气体的生产销售；技术、电子商务及信息、替代能源产品的研究、开发、应用、咨询服务；自营和代理有关商品和技术的进出口；对外工程承包、招标采购、劳务输出；国际化仓储与物流业务等。",
-      //   },
-      // ],
-      showImg: "",
-      showDesc: "",
+      busneissMessage: {},
+      busneissMessage2: {},
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
     };
   },
   components: {
     AppHeader,
-    protect,
+    // protect,
     AppFooter,
   },
   computed: {
@@ -142,9 +126,36 @@ export default {
       return val;
     },
   },
-  created() {
-    this.showImg = bank1;
-    this.showDesc = '公司成立于2017年9月，为北京市文投集团的控股子公司，注册资本金8000万元。主营业务包括物联网业务、数据能力要素核验平台、产业服务平台、文化投资、智能语音通信。战略定位为全国文化中心建设文化大数据生产力的推动者、文化领域企业的算力支撑者、不同文化业态应用场景的算法服务者、“文化+”行业的数据生产资料的奠基者。';
+  async created() {
+    let that = this;
+    request({
+        url: `${entPropagateGetById}`,
+        method: 'get',
+        params: {
+          entId: window.localStorage.getItem('USERID')
+        }
+      })
+      .then(({data}) => {
+        //如果未添加宣传资料
+        if(!data) {
+          MessageBox({
+            title: '温馨提示',
+            center: true,
+            message: '请点击个人中心添加宣传资料',
+            showConfirmButton: false,
+            beforeClose:(action, instance, done) => {
+              this.$router.push('/user/info');
+              done();
+            }
+          })
+        } else {
+          that.busneissMessage = {...data};
+          that.excellentBusniessList = JSON.parse(data.honorImg);
+        }
+      });
+      const { data } = await this.$store.dispatch('user/getUserInfo');
+      console.log('data------', data);
+      that.busneissMessage2 = {...data};
   },
   mounted() {
     this.init();
@@ -152,23 +163,6 @@ export default {
 
   methods: {
     // 初始化
-    init() {
-      const userInfo = this.$store.getters.userInfo;
-      this.userInfo = userInfo;
-      this.username = userInfo.username;
-      this.form.nickname = userInfo.nickname;
-      this.form.mobile = this.sensitiveMobile(userInfo.mobile);
-      this.form.email = this.sensitiveEmail(userInfo.email);
-      this.form.gender = userInfo.gender;
-      this.originalGender = userInfo.gender;
-      this.form.birthday = userInfo.birthday;
-      this.originalBirthday = userInfo.birthday;
-      this.form.brief = userInfo.brief;
-    },
-    changeImg({ imgSrc, desc }) {
-      this.showImg = imgSrc;
-      this.showDesc = desc;
-    },
   },
 };
 </script>
@@ -256,18 +250,6 @@ export default {
         margin-bottom: 15px;
         background-repeat: no-repeat;
         background-size: 100% 100%;
-        &-0 {
-          background-image: url("../../images/collage-0.jpg");
-        }
-        &-1 {
-          background-image: url("../../images/collage-1.jpg");
-        }
-        &-2 {
-          background-image: url("../../images/collage-2.jpg");
-        }
-        &-3 {
-          background-image: url("../../images/collage-3.png");
-        }
       }
     }
     .busniess-detail {

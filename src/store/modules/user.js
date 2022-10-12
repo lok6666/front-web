@@ -30,8 +30,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       accountLogin(params).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.access_token)
-        setAccessToken(data.access_token)
+        commit('SET_TOKEN', data.token)
+        window.localStorage.setItem('USERID', data.userId);
+        location.reload();
+        setAccessToken(data.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -46,8 +48,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       thirdLogin(params).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.access_token)
-        setAccessToken(data.access_token)
+        commit('SET_TOKEN', data.token)
+        setAccessToken(data.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -62,8 +64,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       codeLogin(params).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.access_token)
-        setAccessToken(data.access_token)
+        commit('SET_TOKEN', data.token)
+        setAccessToken(data.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -101,20 +103,23 @@ const actions = {
    */
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      const access_token = state.token
+      const token = state.token
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       commit('SET_USER_INFO', '')
+      window.localStorage.setItem('userinfo', {})
+      window.localStorage.setItem('selection-detail', {})
+      window.localStorage.setItem('collage-detail', {});
       removeAccessToken()
       resetRouter()
       const params = {
-        access_token: access_token
+        token: token
       }
-      logout(params).then(res => {
+      // logout(params).then(res => {
         resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 

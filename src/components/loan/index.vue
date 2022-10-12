@@ -7,32 +7,32 @@
         >
           <div
             class="item-intro"
-            :style="`background-image: url(${loan.loanBg})`"
+            :style="`background-image: url(${loanBg})`"
           >
-            <div style="flex: 0.6;font-size: 24px;">{{ loan.title }}</div>
+            <div style="flex: 0.6;font-size: 24px;">{{ loan.serviceName }}</div>
             <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">
               参考利率
             </div>
-            <div style="font-size: 34px;">{{ loan.num }}</div>
+            <div style="font-size: 34px;">{{ loan.serviceRange }}</div>
           </div>
           <div class="item-content">
             <div class="bank">
               <div
                 class="bankBg"
-                :style="`background-image: url(${loan.bank})`"
+                :style="`background-image: url(${loan.serviceImages})`"
               ></div>
-              <div class="limit">期限:{{ loan.limit }}</div>
+              <div class="limit">期限:{{ loan.serviceTerm }}</div>
             </div>
             <div
               style="height: 66px; width: 135px;display: flex;flex-direction: column;align-items: center;justify-content: center;"
             >
               额度:
-              <div class="item-num">{{ loan.quota }}</div>
+              <div class="item-num">{{ loan.serviceQuota }}</div>
             </div>
             <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
-              <div>{{loan.browseNum}}次浏览</div>
-              <div>{{loan.applyNum}}次申请</div>
+              <div>{{loan.serviceHits}}次浏览</div>
+              <div>{{loan.serviceTurnover}}次申请</div>
             </div>
           </div>
         </div>
@@ -41,6 +41,7 @@
 
 <script>
 import _ from 'lodash';
+import loanBg from "../../images/loan-card-header1.png";
 export default {
   name: "User",
   props: {
@@ -53,12 +54,12 @@ export default {
   },
   data() {
     return {
+      loanBg
     };
   },
   methods: {
     detail(loan, index) {
       this.$store.dispatch('data/setLoanDetail', _.cloneDeep(loan));
-      window.localStorage.setItem('loan-tail', JSON.stringify(loan));
       this.$router.push({
         path: `/finance-detail/:${index}`
       });

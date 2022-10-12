@@ -29,8 +29,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    console.log('res----', res);
-    if (res.code !== 0 && res.code !== '2000') {
+    // console.log('res----', res);
+    // 从新登录
+    if(res.code === '4003') {
+      store.commit('login/CHANGE_VISIBLE', true)
+      return Promise.reject(new Error(res.msg || 'Error'))
+    }
+    else if (res.code !== 0 && res.code !== '2000') {
       // 凭证无效或过期
       if (res.code === 1006 || res.code === 1009) {
         store.dispatch('user/resetToken')

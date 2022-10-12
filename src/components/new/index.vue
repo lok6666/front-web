@@ -5,14 +5,14 @@
         <div>
           <span class="new-title" :class="[item.isSelect? 'new-title-select': '']" v-for="(item, index) in mainTabs" :key="index" @click="changeTab(index)">{{item.message}}{{index === 0 ? '/': ''}}</span>
        </div>
-        <span class="new-more"  @click="routeTo('/new-more', message)">了解更多<div class="new-more-icon"></div></span>
+        <span class="new-more"  @click="routeTo2()">了解更多<div class="new-more-icon"></div></span>
       </div>
       <div class="new-content">
             <img style="margin-right: 20px;width: 427px; height: 304px;" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.qianlong.com%2F2019%2F0213%2F1550024337804.jpg&refer=http%3A%2F%2Fupload.qianlong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664933673&t=365d4ee62f00b425cb088bcaf8fb9ebd" alt="">
             <div class="new-content-list">
-                <div class="new-content-list-item" @click="routeTo(item.detailType)" v-for="(item, index) in contentList" :key="index">
-                    <p class="new-content-list-title">{{item.title}}</p>
-                    <p class="new-content-list-time">{{item.time}}</p>
+                <div class="new-content-list-item" @click="routeTo(item)" v-for="(item, index) in contentList" :key="index">
+                    <span class="new-content-list-item-title">{{item.title || item.policyTitle}}</span>
+                    <span class="new-content-list-item-time">{{item.releaseDate || item.policyTime}}</span>
                 </div>
             </div>
       </div>
@@ -21,6 +21,9 @@
 </template>
 
 <script>
+import { articleList, indexPolicyList } from "@/config/api.js";
+import request from '@/utils/request';
+import _ from 'lodash';
 export default {
   name: "new",
   data() {
@@ -31,77 +34,35 @@ export default {
       ],
       message: '最新新闻',
       current: 1,
-      newList: [{
-        title: '石景山区启动开学保障执法检查 石景山园开展2022年“共产党员献爱心” 捐献活动',
-        time: '2022/9/19',
-        detailType: '/new-detail'
-      },{
-        title: '石景山区市场监管局全力做好服贸会食品和特种设备安全服务保障工作',
-        time: '2022/9/18',
-        detailType: '/new-detail'
-      },{
-        title: '金顶街街道老楼加梯',
-        time: '2022/9/17',
-        detailType: '/new-detail'
-      },{
-        title: '让居民幸福感再“梯”升',
-        time: '2022/9/16',
-        detailType: '/new-detail'
-      },{
-        title: '2021年数字经济背景下文化品牌价值提升与创新发展人才培养高级研修班成功举办',
-        time: '2022/9/15',
-        detailType: '/new-detail'
-      },{
-        title: '迎接“服贸会”，广宁街道各社区开展消防安全主题宣传活动',
-        time: '2022/9/13',
-        detailType: '/new-detail'
-      },{
-        title: '第11届北京国际网络电影展荣誉盛典在北京举办',
-        time: '2022/9/11',
-        detailType: '/new-detail'
-      },{
-        title: '市委常委、统战部部长游钧到八角街道接访下访',
-        time: '2022/9/10',
-        detailType: '/new-detail'
-      }],
-      contentList: [],
-      newPolicyList: [{
-        title: '关于印发《石景山区鼓励企业上市发展实施办法》的通知',
-        time: '2022/9/18',
-        detailType: '/policy-detail'
-      },{
-        title: '关于实施促进就业优惠政策的通知',
-        time: '2022/9/17',
-        detailType: '/policy-detail'
-      },{
-        title: '吸引和鼓励高层次 人才创业和工作计划实施办法(试行',
-        time: '2022/9/15',
-        detailType: '/policy-detail'
-      },{
-        title: '关于印发《石景山区促进应用场景建设加快创新发展支持办法》的通知',
-        time: '2022/9/14',
-        detailType: '/policy-detail'
-      },{
-        title: '提升科技创新能力促进知识产权服务业发展暂行办法',
-        time: '2022/9/13',
-        detailType: '/policy-detail'
-      },{
-        title: '关于印发《石景山区鼓励企业上市发展实施办法》的通知',
-        time: '2022/9/12',
-        detailType: '/policy-detail'
-      },{
-        title: '关于印发《石景山区非物质文化遗产保护传承专项资金管理暂行办法》的通知',
-        time: '2022/9/11',
-        detailType: '/policy-detail'
-      },{
-        title: '关于促进楼宇经济高质量发展的若干措施',
-        time: '2022/9/10',
-        detailType: '/policy-detail'
-      }]
+      newList: [],
+      policyList: [],
+      contentList: []
     }
   },
   created() {
-    this.contentList = this.newList;
+    let that = this;
+    // 最新新闻
+    request({
+      url: `${articleList}`,
+      method: 'post',
+      data: {
+        pageNum: 1,
+        pageSize: 10,
+        recommend: 1,
+        deleteState: 0
+      }
+    }).then(res => {
+      that.newList = res.data.list;
+      that.contentList = res.data.list;
+    });
+    request({
+      url: `${indexPolicyList}`,
+      method: 'post',
+      data: {
+      }
+    }).then(res => {
+      that.policyList = res.data;
+    });
   },
   methods: {
     changeTab(i) {
@@ -114,10 +75,14 @@ export default {
           el.isSelect = false;
         }
       });
-      this.contentList = this[this.mainTabs[i].itemType];
+      // todo 切换数据
+      this.contentList = this.mainTabs[i].message === '最新新闻' ? this.newList : this.policyList;
+    }, 
+    routeTo(item) {
+      this.$router.push(`${this.message === '最新新闻' ? '/new-detail' : '/policy-detail'}/:artId=${item.id}`);
     },
-    routeTo(detailType, message) {
-      this.$router.push(`${detailType}?message=${message}`);
+    routeTo2() {
+      this.message === '最新新闻' ?this.$router.push(`/new-more?message=${this.message}`) :this.$router.push(`/policy-search`) ;
     }
   },
   props: {
@@ -137,7 +102,6 @@ export default {
 
 <style lang="scss" scoped>
 .new-wrap {
-  padding-bottom: 60px;
   .container {
     margin: 60px 92px 60px;
     .new-header {
@@ -183,7 +147,7 @@ export default {
         flex-direction: row;
         align-items: end;
         .new-content-list {
-            width: 100%;
+            width: 816px;
             max-height: 304px;
             overflow: scroll;
             color: #212121;
@@ -191,12 +155,20 @@ export default {
               display: none;
             }
             &-item {
+                line-height: 30px;
                 padding-right: 10px;
                 white-space: nowrap;
                 cursor: pointer;
                 display: flex;
                 justify-content: space-between;
-                line-height: 5px;
+                &-title {
+                  width: 626px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 1;
+                  -webkit-box-orient: vertical;
+                }
             }
         }
     }

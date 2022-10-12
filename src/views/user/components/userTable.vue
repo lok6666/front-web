@@ -13,12 +13,12 @@
       </div>
     </div>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="[item.label === '政策标题'? '340': '150']">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{ scope.row[item.showKey] }}</span>
+          <span>{{item.showKey === 'policyTime' ? scope.row[item.showKey].replace('00:00:00', ''): scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -26,6 +26,10 @@
 </template>
 
 <script>
+import {
+  entPolicyCollectList
+ } from "@/config/api";
+ import request from '@/utils/request';
 import levelImg from "@/images/等级.png";
 import policyTitleImg from "@/images/形状.png";
 import addressImg from "@/images/转发文.png";
@@ -33,55 +37,45 @@ import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
-      tableData: [
-        {
-          level: "石景山区",
-          title: "石景山区关于对租赁非国有房屋科技型孵化器减免中小微...",
-          address: "石景山区政府",
-          date: "2022.06.21",
-        },
-        {
-          level: "石景山区",
-          title: "2022“北京·景贤杯”创新创业大赛公告...",
-          address: "石景山区政府",
-          date: "2022.06.20",
-        },
-        {
-          level: "石景山区",
-          title: "“中国创翼”·“创业北京”暨石景山区第三届创业创新大赛...",
-          address: "石景山区政府",
-          date: "2022.04.07",
-        },
-        {
-          level: "石景山区",
-          title: "关于开展2022年度“景贤计划”人才项目立项申报工作的通知...",
-          address: "石景山区政府",
-          date: "2022.03.29",
-        }
-      ],
+      tableData: [],
       tableItem: [
         {
           label: "级别",
           src: levelImg,
-          showKey: "level",
+          showKey: "policyLevel",
+          width: 50
         },
         {
           label: "政策标题",
           src: policyTitleImg,
-          showKey: "title",
+          showKey: "policyTitle",
+          width: 340
         },
         {
           label: "发文机构",
           src: addressImg,
-          showKey: "address",
+          showKey: "policyAgency",
+          width: 200
         },
         {
           label: "发布时间",
           src: dateImg,
-          showKey: "date",
+          showKey: "policyTime",
+          width: 100
         },
       ],
     };
+  },
+  created() {
+    request({
+      url: `${entPolicyCollectList}`,
+      method: 'post',
+      data: {
+        entId: window.localStorage.getItem('USERID')
+      }
+    }).then(res => {
+      this.tableData = res.data.list.length > 5 ? res.data.list.slice(0, 5) : res.data.list;
+    });
   },
   methods: {
     checkAll() {

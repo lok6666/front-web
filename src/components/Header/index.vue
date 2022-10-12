@@ -33,7 +33,7 @@
                 <span>
                     <!-- 搜索框 -->
                     <div class="search-box">
-                      <el-input
+                      <!-- <el-input
                         v-model="keyword"
                         size="medium"
                         placeholder="搜索文章"
@@ -46,7 +46,7 @@
                         :style="'color:' + inputIconColor"
                         @click="search"
                         />
-                      </el-input>
+                      </el-input> -->
                     </div>
                 </span>
                 <span class="index-icon" @click="applydialogVisible = true"><img src="../../images/招商.png"/>招商申请</span>
@@ -59,8 +59,8 @@
                 <span>助力企业梦想腾飞</span>
           </div>
           <div class="content-right">
-                <span @click="$router.push('/business-detail')" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
-                <span class="index-icon" @click="$router.push('/user/info?categoryId=8')"><img src="../../images/CombinedShape.png" />+3</span>
+                <span @click="busneissIndex()" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
+                <!-- <span class="index-icon" @click="$router.push('/user/info?categoryId=8')"><img src="../../images/CombinedShape.png" />+3</span> -->
               <!-- 右边box -->
               <div class="right-box">
                 <!-- 登录·注册 -->
@@ -90,7 +90,7 @@
                         </el-dropdown-menu>
                       </el-dropdown>
                     </div>
-                    <div style="width: 100%;font-size: 14px;">北京文投大数据有限公司</div>
+                    <div style="width: 100%;font-size: 14px;">{{entName}}</div>
                     </div>
                   </div>
                 </div>
@@ -169,7 +169,8 @@ export default {
   },
   data() {
     return {
-      companyid: 1,
+      entName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
+      companyid: window.localStorage.getItem('USERID'),
       dialogVisible: false,
       wxdialogVisible: false,
       applydialogVisible: false,
@@ -223,6 +224,9 @@ export default {
   },
 
   methods: {
+    busneissIndex() {
+      this.$router.push(`/business-detail/`);
+    },
     openWtUrl() {
       window.open('http://www.bjwt.com/')
     },
@@ -235,7 +239,6 @@ export default {
         url: `${entApplyInsert}`,
         method: 'post',
         data: {
-          id: this.companyid,
           ...formData
         }
       }).then((res) => {

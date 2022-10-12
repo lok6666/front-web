@@ -16,7 +16,11 @@
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{ scope.row[item.showKey] }}</span>
+          <span>{{ item.showKey === 'dockStatus'
+          ?  applyStatusObj[scope.row[item.showKey]] 
+          : item.showKey === 'serviceType'
+          ? applyStatus1Obj[scope.row[item.showKey]] 
+          :scope.row[item.showKey] }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -24,6 +28,10 @@
 </template>
 
 <script>
+import {
+  entServiceDockingList
+ } from "@/config/api";
+ import request from '@/utils/request';
 import levelImg from "@/images/修改名称.png";
 import policyTitleImg from "@/images/类别.png";
 import addressImg from "@/images/account.png";
@@ -32,64 +40,58 @@ import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
-      tableData: [
-        {
-          level: "著作权申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.08.09",
-        },
-        {
-          level: "专利申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.08.07",
-        },
-        {
-          level: "著作权申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.08.04",
-        },
-        {
-          level: "专利申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.08.03",
-        }
-      ],
+      tableData: [],
+      applyStatusObj: {
+        0: '申请中',
+        1: '已受理'
+      },
+      applyStatus1Obj: {
+        0: '税务服务',
+        1: '注销及其他',
+        2: '工商业务类',
+        3: '资质类',
+        4: '公司变更',
+        5: '财税服务'
+      },
       tableItem: [
         {
           label: "服务名称",
           src: levelImg,
-          showKey: "level",
+          showKey: "serviceName",
         },
         {
           label: "类别",
           src: policyTitleImg,
-          showKey: "title",
+          showKey: "serviceType",
         },
         {
           label: "服务商",
           src: addressImg,
-          showKey: "address",
+          showKey: "supplierName",
         },
         {
           label: "状态",
           src: statusImg,
-          showKey: "status",
+          showKey: "dockStatus",
         },
         {
           label: "申请日期",
           src: dateImg,
-          showKey: "date",
+          showKey: "dockTime",
         },
       ],
     };
+  },
+  created() {
+    request({
+      url: `${entServiceDockingList}`,
+      method: 'post',
+      data: {
+        companyid: window.localStorage.getItem('USERID')
+      }
+    }).then(res => {
+      this.tableData = res.data.list.length > 5 ? res.data.list.slice(0, 5) : res.data.list;
+    });
   },
   methods: {
     checkAll() {

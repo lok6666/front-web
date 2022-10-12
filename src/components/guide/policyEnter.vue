@@ -1,21 +1,47 @@
 <template>
   <div class="guide-wrap policy-enter-bg">
+    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose"/>
+      <el-dialog
+          :visible.sync="applydialogVisible"
+          :center="true"
+          title="政策申报"
+          style="overflow: scroll;"
+          top="0"
+          width="80%"
+          :lock-scroll="false"
+          :before-close="closeDialog">
+<!--           <form-template
+          v-if="applydialogVisible"
+          style="padding: 0px 20px 20px 20px;"
+          :customStyle="{display: 'grid', 'grid-template-columns': '380px 380px','margin': `0px 0px 0px 30px`}"
+          @likeCountChanges="likeCountChanges(applyId, $event)"
+          :labelWidth="140"
+          :formConfig="applyForm"
+          :showBtn="true"
+          :disabled="false"/>  -->
+          <iframe style="width: 100%; height: 1000px;border: none;" src="https://wwo.wps.cn/office/w/2c9ebac580c36fc50183ca284d771141?_w_userid=3&_w_filetype=db&_w_filepath=%E7%A9%BA%E6%96%87%E6%A1%A3.docx&_w_appid=5b8f173bd752464d81b7aa78001c697f&_w_redirectkey=123456&_w_signature=enR248IrgRS1JbWCRfwDC3IDJJA%3D" />
+          <el-button
+            type="primary"
+            style="width: 100%;margin-top: 20px;"
+            @click="submit"
+          >{{'提交' }}</el-button>
+      </el-dialog>
     <div class="container">
       <div class="guide-policyEnter-content">
-        <div class="policy-block search" @click="$router.push('/policy-search')" >
+        <div class="policy-block search" @click="applydialogVisible = true" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
-            政策查询
+            政策申报
             <div class="guide-agile">
             <div class="limit-desc">Comperehensive platf</div>
             Cultural industry
             </div>
         </div>
         <div class="divide"></div>
-        <div class="policy-block apply" @click="$router.push('/policy-report')" >
+        <div class="policy-block apply" @click="dialogVisible = true" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
-            政策申报
+            政策匹配
             <div class="guide-agile">
             <div class="limit-desc">Comperehensive platf</div>
             Cultural industry
@@ -27,8 +53,19 @@
 </template>
 
 <script>
+import { applyForm } from "@/config/constant.js";
+import PolicyCalculate from '@/components/Policycalculate/index'
+import FormTemplate from "@/components/Form/index.vue";
+import { Message } from 'element-ui'
 export default {
   name: "policyEnter",
+  data() {
+    return {
+      applyForm,
+      dialogVisible: false,
+      applydialogVisible: false
+    }
+  },
   props: {
     list: {
       type: Array,
@@ -39,6 +76,24 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    }
+  },
+  components: {
+    PolicyCalculate,
+    FormTemplate
+  },
+  methods: {
+    handleClose() {
+      this.dialogVisible = false;
+      this.$router.push('/policy-match');
+    },
+    submit() {
+      Message({
+        message: '保存成功',
+        type: 'success',
+        duration: 5 * 1000
+      });
+      this.applydialogVisible = false;
     }
   }
 };
@@ -57,16 +112,17 @@ export default {
         justify-content: space-between;
         margin-top: 20px;
         .policy-block {
-        display: flex;
-        align-items: end;
-        justify-content: center;
-        width: 596px;
-        font-size: 56px;
-        padding-bottom: 33px;
-        color: #212121;
-        height: 517px;
-        background-size: cover !important;
-        background-repeat: no-repeat;
+          cursor: pointer;
+          display: flex;
+          align-items: end;
+          justify-content: center;
+          width: 596px;
+          font-size: 56px;
+          padding-bottom: 33px;
+          color: #212121;
+          height: 517px;
+          background-size: cover !important;
+          background-repeat: no-repeat;
         }
         .search {
         background: url("../../images/政策查询.png");

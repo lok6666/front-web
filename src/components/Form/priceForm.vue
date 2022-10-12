@@ -1,12 +1,12 @@
 <template>
     <div>
-      <h2 style="display: inline; margin-bottom: 20px;">企业财务数据</h2>
-      <el-tabs v-model="activeName" @tab-click="handleClick" style="margin: 10p x 0px;">
-        <el-tab-pane label="2022年" name="first"></el-tab-pane>
-        <el-tab-pane label="2021年" name="second"></el-tab-pane>
-        <el-tab-pane label="2020年" name="third"></el-tab-pane>
+      <h2 style="display: inline; margin-bottom: 20px;">企业财务数据(万元)</h2>
+      <el-tabs v-model="activeYear" @tab-click="handleClickYear" style="margin: 10p x 0px;">
+        <el-tab-pane label="2022年" name="2022"></el-tab-pane>
+        <el-tab-pane label="2021年" name="2021"></el-tab-pane>
+        <el-tab-pane label="2020年" name="2020"></el-tab-pane>
       </el-tabs>
-      <el-tabs v-model="activeName1" @tab-click="handleClick" style="margin: 10px 0px 30px;">
+      <el-tabs v-model="activeMonth" @tab-click="handleClickMonth" style="margin: 10px 0px 30px;">
         <el-tab-pane :label="i.label" :name="i.label" v-for="(i, index) in yearOptions" :key="index"></el-tab-pane>
       </el-tabs>
       <!--看了源码,为了required校验,必须在form标签循环-->
@@ -56,16 +56,15 @@
   </template>
   
   <script>
-    // import { upLoad } from "@/config/api";
+  import {
+    entIncomeGetById
+  } from "@/config/api";
+  import { priceForm } from "@/config/constant.js";
+  import _ from 'lodash';
+  import request from '@/utils/request';
     export default {
     name: "User",
     props: {
-      priceForm: {
-        type: Object,
-        default() {
-          return []
-        }
-      },
       payTaxesForm: {
         type: Object,
         default() {
@@ -99,11 +98,12 @@
     },
     data() {
       return {
+        priceForm: priceForm,
         formData: {},
         value: 2022,
         categoryId: 0,
-        activeName: 'first',
-        activeName1: '1-12月',
+        activeYear: '2021',
+        activeMonth: '1-12月',
         yearOptions: [{
           value: '选项2',
           label: '1-12月'
@@ -161,33 +161,38 @@
     },
     components: {
     },
-    updated() {
-      console.log('this---------', this.formConfig);
-    },
-    mounted() {
-      this.init();
+    created() {
+      this.getPolicyList();
     },
   
     methods: {
-      // 初始化
-      init() {
-        // const userInfo = this.$store.getters.userInfo;
-        const userInfo = {
-          username: 'cesium',
-          mobile: '17722331111',
-          email: 'xxx@wtdsj.com',
-  
-        };
-        this.userInfo = userInfo;
-        this.username = userInfo.username;
-        this.form.nickname = userInfo.nickname;
-        this.form.mobile = this.sensitiveMobile(userInfo.mobile);
-        this.form.email = this.sensitiveEmail(userInfo.email);
-        this.form.gender = userInfo.gender;
-        this.originalGender = userInfo.gender;
-        this.form.birthday = userInfo.birthday;
-        this.originalBirthday = userInfo.birthday;
-        this.form.brief = userInfo.brief;
+      getPolicyList() {
+        let that = this;
+        request({
+          url: `${entIncomeGetById}`,
+          method: 'get',
+          params: {
+            entId: window.localStorage.getItem('USERID'),
+            incomeMonth: this.activeMonth,
+            incomeYear: this.activeYear
+          }
+        }).then(res => {
+          this.priceForm = _.cloneDeep(this.priceForm.map((v) => {
+           v[v.prop] = res.data ? res.data[v.prop] : '';
+          !v[v.prop] ? delete v[v.prop] : '';
+            return v;
+          }));
+        });
+      },
+      handleClickYear(tab, event) {
+        console.log('handleClickYear----', this.activeYear);
+        // this.activeYear = tab.$options.propsData.name;
+        this.getPolicyList();
+      },
+      handleClickMonth(tab, event) {
+        console.log('handleClickMonth----', this.activeMonth);
+        // this.incomeMonth = tab.$options.propsData.name;
+        this.getPolicyList();
       },
       // 提交表单
       async submitForm(formName) {
@@ -195,6 +200,8 @@
         this.priceForm.forEach((v) => {
           formData[v.prop] = v[v.prop];
         });
+        formData.incomeYear = this.activeYear;
+        formData.incomeMonth = this.activeMonth;
         this.$emit('likeCountChanges', formData);
       }
     },

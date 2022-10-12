@@ -9,52 +9,19 @@
       :before-close="closeDialog">
       <form-template
       style="width: 400px;padding: 0px 20px"
-      @likeCountChanges="closeDialog"
+      @likeCountChanges="likeCountChanges"
       :labelWidth="80"
       :formConfig="applyMessageForm2"
       :showBtn="true"
       :disabled="false"/> 
     </el-dialog>
-    <div class="protect-detail-bg">国内商标注册业务</div>
+    <div class="protect-detail-bg">{{busneissData.serviceName}}</div>
     <div class="policy-container">
       <div class="side-left">
-        <div class="protect-block">
-          <div class="title">
-            <div>商标是重要的无形资产</div>
-            <div>可以帮助企业</div>
-          </div>
-          <div class="protect-show">
-            <div v-for="(item, index) in list" :key="index">
-              <div :class="`protect-show-block img-bg-${index}`"></div>
-              <div class="protect-message">{{item.message}}</div>
-            </div>
-          </div>
-          <div class="protect--big-show">
-            <div :class="`protect-show-block`"></div>
-            <div class="protect-message">打造知名品牌，积累知名度，使企业维持商品备份</div>
-          </div>
-        </div>
-        <div class="protect-regist">
-          <div class="title">
-            <div>商标注册相关问题</div>
-          </div>
-          <div class="protect-regist-show">
-            <div v-for="(item, index) in list" :key="index">
-              <div :class="`protect-show-block img-bg-${index}`"></div>
-            </div>
-          </div>
-        </div>
-        <div class="protect-regist-process">
-          <div class="title">
-            <div>商标注册流程:</div>
-          </div>
-          <div class="protect-regist-process-bg">
-          </div>
+        <div class="protect-block" v-html="busneissData.serviceSynopsis">
+          
         </div>
         <div class="protect-apply">
-          <div class="title">
-            <div>双享商标注册：商标注册不成功，免费再注册</div>
-          </div>
           <div class="protect-apply-btn" @click="applydialogVisible = true" >
             申请服务
           </div>
@@ -67,6 +34,9 @@
 <script>
 import { mapGetters } from "vuex";
 import "swiper/css/swiper.css";
+import { entServiceDockingInsert } from "@/config/api.js";
+import request from '@/utils/request';
+import { MessageBox, Message } from 'element-ui'
 import { applyMessageForm2 } from "@/config/constant.js";
 import FormTemplate from "@/components/Form/index.vue"
 import AppHeader from "@/components/Header/index";
@@ -83,6 +53,7 @@ export default {
     return {
       applydialogVisible: false,
       applyMessageForm2,
+      busneissData: null,
       list: [{
         message: '⼊驻天猫京东等电商⽹站必须要有商标资质'
       },{
@@ -94,12 +65,14 @@ export default {
       }]
     };
   },
-  created() {},
+  created() {
+    this.busneissData = this.data_busneissdetail || window.localStorage.getItem('busneiss-detail');
+  },
   computed: {
     orderBy() {
       return this.mainActive === 0 ? "publish_time" : "view_count";
     },
-    ...mapGetters(["device"]),
+    ...mapGetters(["device", "data_busneissdetail"]),
   },
 
   mounted() {
@@ -109,7 +82,34 @@ export default {
     closeDialog(done) {
       this.applydialogVisible = false;
       done();
-    }
+    },
+    likeCountChanges(formData) {
+      request({
+        url: `${entServiceDockingInsert}`,
+        method: 'post',
+        data: {
+          serviceName: this.data_busneissdetail.serviceName,
+          serviceId: this.data_busneissdetail.id,
+          companyId: window.localStorage.getItem('USERID'),
+          companyName: window.localStorage.getItem('userinfo').entName,
+          ...formData
+        }
+      }).then((res) => {
+        // todo 修改后台返回字段
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          });
+          this.applyMessageForm2 = this.applyMessageForm2.map((e, b) => {
+            let result = { ...e };  
+            delete result[e.prop];
+            return result;
+          });
+          this.applydialogVisible = false;
+        })
+      this.applydialogVisible = false;
+    },
   },
 };
 </script>
@@ -162,125 +162,31 @@ export default {
         flex-direction: column;
         align-items: center;
       }
+      .protect-apply {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
         .title {
-          height: 201px;
-          font-size: 36px;
-          font-family: AlibabaPuHuiTiB;
-          color: #2B292D;
+          height: 44px;
+          font-size: 16px;
+          font-family: AlibabaPuHuiTiR;
+          color: #8B8B8B;
+          line-height: 22px;
+        }
+        .protect-apply-btn {
+          width: 460px;
+          height: 82px;
+          background: #B48859;
+          border-radius: 20px;
+          font-size: 24px;
+          font-family: AlibabaPuHuiTiM;
+          color: #FFFFFF;
           display: flex;
           justify-content: center;
-          flex-direction: column;
           align-items: center;
         }
-        .protect-show {
-          display: grid;
-          grid-template-columns: 50% 50%;
-          grid-gap: 20px 10px;
-          .protect-show-block {
-            width: 608px;
-            height: 230px;
-          }
-          .img-bg-0 {
-            background-image: url('../../images/protect-0-bg.png');
-          }
-          .img-bg-1 {
-            background-image: url('../../images/protect-1-bg.png');
-          }
-          .img-bg-2 {
-            background-image: url('../../images/protect-2-bg.png');
-          }
-          .img-bg-3 {
-            background-image: url('../../images/protect-3-bg.png');
-          }
-          .protect-message {
-            height: 155px;
-            width: 608px;
-            font-size: 30px;
-            font-family: AlibabaPuHuiTiM;
-            color: #2C3241;
-            line-height: 34px;
-            background: #FFFFFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-        }
-        .protect-regist {
-          
-          .protect-regist-show {
-            display: flex;
-          }
-          .protect-show-block {
-            width: 325px;
-            height: 525px;
-            margin-right: 10px;
-          }
-          .img-bg-0 {
-            background-image: url('../../images/regist-0-bg.png');
-          }
-          .img-bg-1 {
-            background-image: url('../../images/regist-1-bg.png');
-          }
-          .img-bg-2 {
-            background-image: url('../../images/regist-2-bg.png');
-          }
-          .img-bg-3 {
-            background-image: url('../../images/regist-3-bg.png');
-          }
-        }
-        .protect-regist-process {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: 91px;
-          &-bg {
-            height: 376px;
-            width: 1030px;
-            background-image: url('../../images/商标注册流程.png');
-          }
-        }
-        .protect--big-show {
-          .protect-show-block {
-            width: 1232px;
-            height: 226px;
-            background-image: url('../../images/protect-big-show.png');
-          }
-          .protect-message {
-            background: #FFFFFF;
-            font-size: 36px;
-            font-family: AlibabaPuHuiTiB;
-            color: #2B292D;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-          }
-        }
-        .protect-apply {
-          display: flex;
-          flex-direction: column;
-          /* justify-content: center; */
-          align-items: center;
-          .title {
-            height: 44px;
-            font-size: 16px;
-            font-family: AlibabaPuHuiTiR;
-            color: #8B8B8B;
-            line-height: 22px;
-          }
-          .protect-apply-btn {
-            width: 460px;
-            height: 82px;
-            background: #B48859;
-            border-radius: 20px;
-            font-size: 24px;
-            font-family: AlibabaPuHuiTiM;
-            color: #FFFFFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-        }
+      }
       @media screen and (max-width: 960px) {
         width: 100%;
       }

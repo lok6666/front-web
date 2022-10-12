@@ -2,15 +2,15 @@
   <div class="app-container">
     <app-header :nav-item-active="-1" />
     <div class="policy-search-bg">
-      <div style="display: flex;align-items: center;">政策查询<p class="policy-search-agile">Cultural industry</p></div>
+      <div style="display: flex;align-items: center;">政策申报<p class="policy-search-agile">Cultural industry</p></div>
     </div>
     <div class="policy-search-container">
     <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>政策查询</el-breadcrumb-item>
+      <el-breadcrumb-item>政策申报</el-breadcrumb-item>
     </el-breadcrumb>
       <div class="search">
-        <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
+        <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入政策标题" @change="inputConfirm">
        <i slot="suffix"
                         class="el-input__icon el-icon-search"
                         :style="'color:' + inputIconColor"
@@ -25,7 +25,7 @@
               class="button-new-tag "
               :class="[btn.isSelect ? 'button-new-tag-select' : '']"
               size="small"
-              @click="select('btnList1', index)"
+              @click="select('btnList1', index, 'policyLevel')"
               >{{ btn.message }}</el-button
             >
         </div>
@@ -37,12 +37,29 @@
               class="button-new-tag"
               :class="[btn.isSelect ? 'button-new-tag-select' : '']"
               size="small"
-              @click="select('btnList2', index)"
+              @click="select('btnList2', index, 'time')"
               >{{ btn.message }}</el-button>
         </div>
-        <el-date-picker style="margin-left: 20px;" v-model="value2" type="datetimerange" align="right" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
+        <el-date-picker style="margin-left: 20px;"
+        @click="date"
+        v-model="value2"
+        type="datetimerange"
+        align="right"
+        start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
       </div>
       <div class="select-btn">
+        <div>政策类型:</div>
+          <div v-for="(btn, index) in btnList4" :key="index">
+            <el-button
+              class="button-new-tag"
+              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+              size="small"
+              @click="select('btnList4', index, 'policyKind')"
+              >{{ btn.message }}</el-button
+            >
+        </div>
+      </div>
+<!--       <div class="select-btn">
         <div>惠企方式:</div>
           <div v-for="(btn, index) in btnList3" :key="index">
             <el-button
@@ -53,15 +70,15 @@
               >{{ btn.message }}</el-button
             >
         </div>
-      </div>
+      </div> -->
       <div style="margin-top: 30px;">
-            <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">100</span>查询结果</div>
+            <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">{{total}}</span>查询结果</div>
             <div v-for="(item, index) in policyList" :key="index"
-              :class="`item-${index} policy-search-container-item`">
-              <div class="message">{{item.message}}</div>
+              :class="`item-${index} policy-search-container-item`" @click="routeTo(item)">
+              <div class="message">{{item.policyTitle}}</div>
               <div class="time">
-                <i :class="[item.collage? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click="check(index)"/>
-                {{item.time}}
+                <i :class="[item.isCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)"/>
+                {{item.policyTime}}
               </div>
             </div>
       </div>
@@ -69,11 +86,11 @@
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="pageNum"
           :page-sizes="[10, 40, 70, 100]"
           :page-size="100"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="100">
+          :total="total">
         </el-pagination>
       </div>
     </div>
@@ -82,9 +99,11 @@
 </template>
 
 <script>
+import { collagePolicyList, entPolicyCollectInsert, entPolicyCollectDelete } from "@/config/api.js";
+import request from '@/utils/request';
+import _ from 'lodash';
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
-import loanBg1 from "../../images/loan-card-header1.png";
 import bank1 from "../../images/bank1.png";
 import AppHeader from "@/components/Header/index";
 import AppFooter from "@/components/footer/index";
@@ -93,53 +112,93 @@ export default {
   name: "User",
   data() {
     return {
-      currentPage: 4,
       inputValue: '',
+      total: 0,
+      policyKind: '',
+      startTime: '',
+      endTime: '',
+      policyTitle: '',
+      policyLevel: '',
       categoryId: 0,
+      pageSize: 100,
+      value2: '',
+      pageNum: 1,
+      policyList: [],
       btnList1: [
         {
           message: "不限",
-          isSelect: false,
+          isSelect: true,
+          value: '',
         },
         {
           message: "国家级",
           isSelect: false,
+          value: 3,
         },
         {
           message: "北京市",
           isSelect: false,
+          value: 2,
         },
         {
           message: "石景山区",
           isSelect: false,
+          value: 1,
         }
       ],
       btnList2: [
         {
           message: "不限",
-          isSelect: false,
+          isSelect: true,
+          value: 0
         },
         {
           message: "近7天",
           isSelect: false,
+          value: 7
         },
         {
           message: "近30天",
           isSelect: false,
+          value: 30
         },
         {
           message: "近半年",
           isSelect: false,
+          value: 180
         },
         {
           message: "近一年",
+          isSelect: false,
+          value: 360
+        }
+      ],
+      btnList4: [
+        {
+          message: "不限",
+          value: '',
+          isSelect: true,
+        },
+        {
+          message: "政策解读",
+          value: '政策解读',
+          isSelect: false,
+        },
+        {
+          message: "政策文件",
+          value: '政策文件',
+          isSelect: false,
+        },
+        {
+          message: "通知公告",
+          value: '通知公告',
           isSelect: false,
         }
       ],
       btnList3: [
         {
           message: "不限",
-          isSelect: false,
+          isSelect: true,
         },
         {
           message: "奖励",
@@ -169,53 +228,6 @@ export default {
           message: "其他",
           isSelect: false,
         }
-      ],
-      policyList: [
-        {
-          message: "石政办发〔2022〕6号 北京市石景山区人民政府办公室关于印发《石景山区推进国际科技创新中心建设加快创新发展支持办法》的通知",
-          time: '2022/9/19',
-          collage: false
-        },
-        {
-          message: "石政办发〔2022〕4号 北京市石景山区人民政府办公室关于印发《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知",
-          time: '2022/9/18',
-          collage: false
-        },
-        {
-          message: "石政发〔2021〕12号 北京市石景山区人民政府关于实施2022至2024年度促进就业优惠政策的通知",
-          time: '2022/9/17',
-          collage: false
-        },
-        {
-          message: "石政办发〔2019〕12号-北京市石景山区人民政府办公室关于印发《石景山区促进应用场景建设加快创新发展支持办法》的通知",
-          time: '2022/9/16',
-          collage: false
-        },
-        {
-          message: "石景山区科普基地认定办法",
-          time: '2022/9/15',
-          collage: false
-        },
-        {
-          message: "关于促进中关村虚拟现实产业创新发展的若干措施",
-          time: '2022/9/14',
-          collage: false
-        },
-        {
-          message: "石景山区关于促进冰雪体育产业快 速发展的若干措施(试行)",
-          time: '2022/9/13',
-          collage: false
-        },
-        {
-          message: "石景山区促进招商引资的支持办法",
-          time: '2022/9/12',
-          collage: false
-        },
-        {
-          message: "石政发〔2019〕7号- 北京市石景山区人民政府关于印发《石景山区鼓励企业上市发展实施办法》的通知",
-          time: '2022/9/11',
-          collage: false
-        }
       ]
     };
   },
@@ -226,25 +238,103 @@ export default {
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
   },
-  mounted() {},
+  created() {
+    this.getPolicyList();
+  },
+  mounted() {
+  },
+  watch: {
+    value2:　function (val, oldVal) {
+      this.endTime = val[1].getTime()/1000;
+      this.startTime = val[0].getTime()/1000;
+      this.getPolicyList();
+    }
+  },
   methods: {
+    inputConfirm(val) {
+      console.log('inputConfirm-----', val);
+      this.policyTitle = val;
+      this.getPolicyList();
+    },
+    getPolicyList() {
+      let that = this;
+      request({
+        url: `${collagePolicyList}`,
+        method: 'post',
+        data: {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          policyKind: this.policyKind,
+          policyLevel: this.policyLevel,
+          startTime: this.startTime,
+          endTime: this.endTime,
+          policyTitle: this.policyTitle,
+          entId: window.localStorage.getItem('USERID')
+        }
+      }).then(res => {
+        console.log('getPolicyList', res);
+        that.policyList = res.data.list;
+        that.total = res.data.total;
+      });
+    },
+    routeTo(item, message = '政策') {
+      this.$router.push(`${this.message === '最新新闻' ? '/new-detail' : '/policy-detail'}/:artId=${item.id}`);
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.getPolicyList();
       },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pageNum = val;
+      this.getPolicyList();
     },
     check(index) {
-      console.log('index----', index);
-      this.policyList[index].collage = true
+      this.policyList[index].isCollect
+      ? request({
+          url: `${entPolicyCollectDelete}`,
+          method: 'delete',
+          data: {
+            entId: window.localStorage.getItem('USERID'),
+            policyId: this.policyList[index].id,
+            isCollect: this.policyList[index].isCollect
+          }
+        })
+       
+      : request({
+          url: `${entPolicyCollectInsert}`,
+          method: 'post',
+          data: {
+            entId: window.localStorage.getItem('USERID'),
+            policyId: this.policyList[index].id,
+            isCollect: this.policyList[index].isCollect
+          }
+        });
+      this.policyList[index].isCollect = this.policyList[index].isCollect === 0 ? 1 : 0;
+      this.policyList = _.cloneDeep(this.policyList);
     },
-    search() {},
-    select(list,index) {
+    search() {
+
+    },
+    select(list,index, type) {
       this[list] = this[list].map(e => {
           e.isSelect = false;
           return e;
         });
       this[list][index].isSelect = true;
+      
+      if(type === 'time') {
+        let ed = new Date();
+        let sd = new Date(ed.getTime() - this[list][index].value*24*60*60*1000);
+        this.endTime = ed.getTime()/1000;
+        this.startTime = sd.getTime()/1000;
+        // this.endTime = `${ed.getFullYear()}-${ed.getMonth()}-${ed.getDate()} ${ed.getHours()}:${ed.getMinutes()}:${ed.getSeconds()}`;
+        // this.startTime = `${sd.getFullYear()}-${sd.getMonth()}-${sd.getDate()} ${sd.getHours()}:${sd.getMinutes()}:${sd.getSeconds()}`;
+      } else {
+        this[type] = this[list][index].value;
+      }
+      this.getPolicyList();
     },
     detail(index) {
       this.$router.push({
@@ -327,6 +417,7 @@ export default {
       }
     }
     &-item {
+      cursor: pointer;
       padding-left: 21px;
       padding-right: 45px;
       min-width: 1304px;

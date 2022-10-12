@@ -47,7 +47,6 @@
   import { mapGetters } from "vuex";
   import { getAccessToken } from "@/utils/auth";
   import AppHeader from "@/components/Header/index";
-  import loanBg1 from "../../images/loan-card-header1.png";
   import teacgerCollage from "@/components/guide/teacher-collage.vue";
   import bank1 from "../../images/bank1.png";
   import AppFooter from "@/components/footer/index";

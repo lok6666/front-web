@@ -12,5 +12,8 @@ const getters = {
   data_selection: state => state.data.selection,
   data_collagedetail: state => state.data.collagedetail,
   data_loandetail: state => state.data.loandetail,
+  data_busneissdetail: state => state.data.busneissdetail,
+  data_newdetail: state => state.data.newdetail,
+  data_policydetail: state => state.data.policydetail
 }
 export default getters

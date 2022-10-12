@@ -10,11 +10,11 @@
             </div>
       </div>
       <div style="padding: 0 70px;">
-        <div class="collage-block">
-          <img :src="indexCollage.bdImg" />
+        <div class="collage-block" @click="routerTo(indexCollage)">
+          <img :src="indexCollage.activityThumbnail" style="width: 600px;"/>
           <div style="margin-left: 18px;">
             <div class="title">{{indexCollage.activityName}}</div>
-            <div class="desc">{{indexCollage.desc}}</div>
+            <div class="desc">{{indexCollage.activityAbstract}}</div>
             <div class="apply-time-and-location">
               <div class="applyTime">报名时间:{{indexCollage.applyTimeFrom}}</div>
               <div class="location">培训地点:{{indexCollage.activityAddress}}</div>
@@ -22,46 +22,39 @@
             <div class="footer">
               <div class="apply-num">
                   <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;color: #000000;">报名人数/总数</div>
-                  <div class="apply-count"><img src="../../images/apply-user.png" />{{indexCollage.num}}/{{indexCollage.activiactivityNumber}}</div>
+                  <div class="apply-count">{{indexCollage.applyNum}}/{{indexCollage.activityNum}}</div>
               </div>
               <div class="other">
                 <div class="other-item" style="border: 2px solid #8B572A;">
-                  <div style="font-family: AlibabaPuHuiTiM;font-size: 36px;">{{indexCollage.xs}}</div>
                   <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activityDateFrom}}</div>
                 </div>
                 <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
-                <div class="other-item apply"><img src="../../images/user-plus.png" @click="applyAcitivty()"/>报名</div>
+                <div class="other-item apply"><img src="../../images/user-plus.png" @click="applyAcitivty(indexCollage.id)"/>报名</div>
               </div>
             </div>
           </div>
         </div>
+        <el-dialog
+          :visible.sync="applydialogVisible"
+          :center="true"
+          title="活动报名"
+          width="880px"
+          :before-close="closeDialog">
+          <form-template
+          v-if="applydialogVisible"
+          style="padding: 0px 20px 20px 20px;"
+          :customStyle="{display: 'grid', 'grid-template-columns': '380px 380px','margin': `0px 0px 0px 30px`}"
+          @likeCountChanges="likeCountChanges(applyId, $event)"
+          :labelWidth="140"
+          :formConfig="activtyForm"
+          :showBtn="true"
+          :disabled="false"/> 
+        </el-dialog>
         <div class="guide-excellent-busniess-content">
           <div class="guide-excellent-busniess-content-item"
               v-for="(item,index) in collageList"
               :key="index">
-              <img :src="item.bdImg" />
-              <el-dialog
-                :visible.sync="applydialogVisible"
-                :center="true"
-                title="活动报名"
-                width="880px"
-                :before-close="closeDialog">
-                <div>活动名称:{{indexCollage.activityName}}</div>
-                <div>活动名称:{{indexCollage.location}}</div>
-                <div>活动开始时间:{{'xxx'}}</div>
-                <div>活动结束时间:{{'xxx'}}</div>
-                <div>活动报名开始时间:{{'xxx'}}</div>
-                <div>活动报名结束时间:{{'xxx'}}</div>
-                <form-template
-                v-if="applydialogVisible"
-                style="padding: 0px 20px 20px 20px;"
-                :customStyle="{display: 'grid', 'grid-template-columns': '380px 380px','margin': `0px 0px 0px 30px`}"
-                @likeCountChanges="likeCountChanges(item.id, $event)"
-                :labelWidth="140"
-                :formConfig="activtyForm"
-                :showBtn="true"
-                :disabled="false"/> 
-              </el-dialog>
+              <img  class="activityThumbnail" :src="item.activityThumbnail" />
               <div style="width: 100%">
                 <div class="title">{{item.activityName}}</div>
                 <div class="desc">{{item.activityAbstract}}</div>
@@ -71,11 +64,12 @@
                 </div> -->
                 <div class="other">
                   <div class="other-item" style="border: 2px solid #8B572A;">
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 36px;">{{item.xs}}</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activityDateFrom}}</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 36px;">{{new Date(item.activityDateFrom).getFullYear()}}</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getMonth()}}-{{new Date(item.activityDateFrom).getDate()}}</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getHours()}}:{{new Date(item.activityDateFrom).getMinutes()}}</div>
                   </div>
                   <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
-                  <div class="other-item apply"><img src="../../images/user-plus.png" @click="applydialogVisible = true"/>报名</div>
+                  <div class="other-item apply"><img src="../../images/user-plus.png" @click="applyAcitivty(item.id)"/>报名</div>
                 </div>
               </div>
               <div class="check-data" @click="routerTo(item)">查看日程</div>
@@ -107,64 +101,9 @@ export default {
       companyid: window.localStorage.getItem('USERID'),
       applydialogVisible: false,
       activtyForm,
-      indexCollage: {
-        activityName: '如何赋能实体、联动营销”主题沙龙',
-        activityAbstract: `数藏营销具有哪些优势?谁在玩数藏营销?
-        企业在数藏营销落地化
-
-方面做了哪些实践?有什么可复制的经验分享吗?
-
-数藏 赋能私域，
-
-怎么玩才能抓住用户的心?数字藏品怎样
-
-激活线下? 影视联合
-
-数藏有哪些新的可能性?数藏x
-
-元宇宙，新赛道谁能率先领跑?`,
-        activityAddress: '北京市东城区',
-        applyTimeFrom: '2022-09-25',
-        num: 19,
-        xs: `14:00`,
-        basicLocation,
-        userPlus,
-        activiactivityNumber: 40,
-        activityDateFrom: '9月27日',
-        bdImg: collageBg0
-      },
-      collageList: [{
-        activityName: '2022城市更新高级研修班',
-        activityAbstract: '系统提升城市更新主管单位及项目团队的专业能力与管理能力，为城市更新与文化产业高质量协同发展提供人才支撑。',
-        activityAddress: '北京-紫竹院香格里拉',
-        applyTimeFrom: '2022-09-30',
-        num: 19,
-        xs: `9:30`,
-        activiactivityNumber: 40,
-        activityDateFrom: '9月21日',
-        bdImg: collageBg1
-      },
-      {
-        activityName: '第16届动漫游戏产业发展国际论坛',
-        activityAbstract: '由市文旅局、市文资中心、经开区管委会主办，市文促中心承办的第 16 届动漫游戏产业发展国际论坛将于 9 月 2 日（星期五）举办。',
-        activityAddress: '北京-紫竹院香格里拉',
-        applyTimeFrom: '2022-09-30',
-        num: 19,
-        xs: `9:00`,
-        activiactivityNumber: 40,
-        activityDateFrom: '09月02日',
-        bdImg: collageBg2
-      },{
-        activityName: '手作活动邀您纸上徜徉大运河',
-        activityAbstract: '由北京文化艺术基金支持的“千年水道，文明纸现”大运河文化非遗纸艺展系列的12个大运河主题156场。',
-        activityAddress: '南锣鼓巷福祥胡同',
-        applyTimeFrom: '2022-09-30',
-        num: 19,
-        xs: `10:00`,
-        activiactivityNumber: 40,
-        activityDateFrom: '03月01日',
-        bdImg: collageBg3
-      }]
+      applyId: null,
+      indexCollage: {},
+      collageList: []
     }
   },
   components: {
@@ -189,8 +128,9 @@ export default {
         data: {}
       })
       .then((res) => {
-          console.log('res----', res.data.list);
-          this.collageList = res.data.list;
+          // console.log('res----', res.data.list);
+          this.indexCollage = res.data.list[0];
+          this.collageList = res.data.list.slice(1, 4);
       })
   },
   mounted() {
@@ -200,7 +140,8 @@ export default {
       this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
       this.$router.push("/collage-detail");
     },
-    applyAcitivty() {
+    applyAcitivty(id) {
+      this.applyId = id;
       this.applydialogVisible = true;
     },
     likeCountChanges(id, formData) {
@@ -219,7 +160,7 @@ export default {
             type: 'success',
             duration: 5 * 1000
           });
-          this.applyMessageForm = this.applyMessageForm.map((e, b) => {
+          this.activtyForm = this.activtyForm.map((e, b) => {
             let result = { ...e };  
             delete result[e.prop];
             return result;
@@ -253,6 +194,10 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
+          .activityThumbnail {
+            height: 186px;
+            width: 416px;
+          }
           .title {
             font-size: 36px;
             font-family: AlibabaPuHuiTiB;
@@ -261,13 +206,22 @@ export default {
             margin: 0 5px;
             display: flex;
             align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .desc {
             // width: 576px;
             // height: 184px;
             margin: 8px 5px 10px 5px;
+            height: 45px;
             font-size: 20px;
             font-family: AlibabaPuHuiTiB;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
           .apply-time-and-location {
             font-size: 24px;
@@ -337,6 +291,11 @@ export default {
           height: 184px;
           font-size: 20px;
           font-family: AlibabaPuHuiTiB;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
         .apply-time-and-location {
           font-size: 24px;

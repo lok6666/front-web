@@ -66,7 +66,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/new-detail',
+    path: '/new-detail/:artId/',
     component: () => import('@/views/new-detail/index'),
     hidden: true
   },
@@ -81,7 +81,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/policy-detail',
+    path: '/policy-detail/:artId/',
     component: () => import('@/views/policy-detail/index'),
     hidden: true
   },

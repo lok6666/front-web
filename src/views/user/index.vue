@@ -7,7 +7,7 @@
       <div class="user-header">
         <img src="../../images/total.png" />
         <span style="display: inline-block; margin-left: 20px; width: 100%">
-          <h1>北京文投大数据有限公司</h1>
+          <h1>{{entName}}</h1>
           <div class="fw-model">
             <div class="fw-model-item" v-for="(i, index) in fwList" key="index">
               <div class="title">{{ i.title }}</div>
@@ -104,7 +104,6 @@
               style="padding:20px 20px 20px; min-height: 700px;"
               @likeCountChanges="likeCountChanges(isExist?   entIncomeUpdate : entIncomeInsert, 'POST', $event)"
               :labelWidth="220"
-              :priceForm="priceForm"
               :showBtn="true"
               :disabled="false"/> 
           </div>
@@ -143,7 +142,7 @@
               :disabled="false"/> 
           </div>
         </div>
-        <div class="setting-box-right">
+        <!-- <div class="setting-box-right">
           <div class="enterprise-service">
             <div class="enterprise-service-echarts-title">企业服务占比：</div>
             <echarts :echartsOptions="echartsOptions2" id="2"  height="260"/>
@@ -159,7 +158,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <app-footer />
@@ -178,10 +177,10 @@ import {
   entPropagateGetById,
   entIncomeInsert,
   entIncomeUpdate,
-  entIncomeGetById,
   entFilingUpdate,
   entFilingInsert,
-  entFilingGetById
+  entFilingGetById,
+  entPolicyCollectList
  } from "@/config/api";
 import { propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
@@ -199,6 +198,7 @@ import AppHeader from "@/components/Header/index";
 import FormTemplate from "@/components/Form/index.vue";
 import priceFormTemplate from "@/components/Form/priceForm.vue";
 import AppFooter from "@/components/footer/index";
+import { MessageBox, Message } from 'element-ui'
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",
@@ -206,10 +206,10 @@ export default {
     return {
       categoryId: Number(this.$route.query.categoryId) || 0,
       userId: window.localStorage.getItem('USERID'),
+      entName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
       categoryObj: {
         1: entInfoGetById,
         2: entPropagateGetById,
-        3: entIncomeGetById,
         4: entFilingGetById
       },
       entInfoInsert,
@@ -220,7 +220,6 @@ export default {
       entPropagateGetById,
       entIncomeInsert,
       entIncomeUpdate,
-      entIncomeGetById,
       entFilingUpdate,
       entFilingInsert,
       entFilingGetById,
@@ -288,23 +287,23 @@ export default {
       fwList: [
         {
           title: "已在平台注册",
-          num: "1213",
+          num: JSON.parse(window.localStorage.getItem('userinfo')).registTimes,
           type: "天",
         },
         {
           title: "共被访问次数",
-          num: "82.5",
-          type: "w",
+          num: JSON.parse(window.localStorage.getItem('userinfo')).hits,
+          type: "",
         },
         {
-          title: "适用政策",
-          num: "90",
-          type: "条",
+          title: "已报名活动",
+          num: JSON.parse(window.localStorage.getItem('userinfo')).policyCount,
+          type: "场",
         },
         {
-          title: "已申请/已执行",
-          num: "99+",
-          type: "项服务",
+          title: "我的政策",
+          num: JSON.parse(window.localStorage.getItem('userinfo')).serviceCount,
+          type: "项",
         },
       ],
       categorys: [
@@ -368,17 +367,6 @@ export default {
       return val;
     },
   },
-  async created() {
-/*     let {data} = await request({url: `${this.categoryObj[this.categoryId]/this.companyid}`, method: 'GET'});
-    this.isExist = data ? true: false;
-    this.messageForm = this.messageForm.map((e, b) => {
-      let result = { ...e };  
-      if(data[e.prop]) {
-        result[e.prop] = data[e.prop];
-      };
-      return result;
-    }); */
-  },
   mounted() {
     this.init();
   },
@@ -387,16 +375,6 @@ export default {
     // 初始化
     init() {
       const userInfo = this.$store.getters.userInfo;
-      this.userInfo = userInfo;
-      this.username = userInfo.username;
-      this.form.nickname = userInfo.nickname;
-      this.form.mobile = this.sensitiveMobile(userInfo.mobile);
-      this.form.email = this.sensitiveEmail(userInfo.email);
-      this.form.gender = userInfo.gender;
-      this.originalGender = userInfo.gender;
-      this.form.birthday = userInfo.birthday;
-      this.originalBirthday = userInfo.birthday;
-      this.form.brief = userInfo.brief;
     },
     bClose() {
       this.AIDialogVisible = false;
@@ -411,25 +389,41 @@ export default {
     async chageTab(id, formType) {
       this.categoryId = id;
       // 企业id
-      let {data} = await request({url: `${this.categoryObj[this.categoryId]}/${this.userId}`, method: 'GET'});
-      this.isExist = data ? true: false;
-      this[formType] = data ? this[formType].map((e, b) => {
-        let result = { ...e };
-        result[e.prop] = data[e.prop];
-        return result;
-      }) : this[formType];
-      console.log('this[formType]=====-----', data, this[formType]);
+      if(this.categoryObj[this.categoryId]) {
+        let {data} = await request({
+          url: `${this.categoryObj[this.categoryId]}`,
+          method: 'GET',
+          params: {
+            entId: `${this.userId}`,
+            incomeYear: '2021',
+            incomeMonth: '1-12月'
+          }});
+        this.isExist = data ? true: false;
+        this.id = data.id;
+        this[formType] = data ? this[formType].map((e, b) => {
+          let result = { ...e };
+          result[e.prop] = data[e.prop];
+          return result;
+        }) : this[formType];
+      };
     },
-    likeCountChanges(url, method = 'POST', formData) {
+    likeCountChanges(url, method = 'POST', formData) {;
       request({
         url: `${url}`,
         method,
         // todo 考虑 id怎么传进去
         data: {
-          id: this.userId,
+          entId: this.userId,
+          id: this.id,
           ...formData,
         }
-      })
+      }).then(res => {
+        Message({
+            message: '提交成功',
+            type: 'success',
+            duration: 5 * 1000
+          });
+      });
     },
     checkAll(id) {
       this.categoryId = id;

@@ -12,32 +12,32 @@
             <div class="content">
                 <div class="content-header">
                     <div class="title">{{title}}</div>
-                <div class="content-center"><p><img src="http://minio.bjwcxf.com/cultural-image/2022-09-16/微信截图_20220916111246.png" alt="使用说明" data-href="http://minio.bjwcxf.com/cultural-image/2022-09-16/微信截图_20220916111246.png" style=""/></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">连日来，石景山区纪委监委将服务保障服贸会各项任务落实情况作为当前最重要的任务，注重强化展会期间监督，督促主责单位以“首善标准”做好各项服务保障工作。 </span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">为切实做到统一领导、有序监督，区纪委监委成立专项监督组，建立主要领导牵头总领、相关监督室统筹协调、各派驻（出）机构协作配合的监督机制，紧密围绕区服贸会属地筹办工作任务清单、督办事项清单，强化跟踪督办。区委常委、区纪委书记、区监委主任王晓东多次带队到首钢园展区，围绕展厅运行、疫情防控、现场秩序、交通保障等重点任务落实情况开展监督检查，确保各项任务不折不扣执行到位。</span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">结合服贸会保障任务重、涉及单位多等特点，区纪委监委注重加强统筹协作，牢固树立“一盘棋”思想，充分发挥“室组地”联动优势，主动对接首钢集团纪委，联合相关派驻（出）机构、区商务局、区城管委、区市场监管局、区环卫中心等部门，围绕服贸会筹备、食品卫生安全、安全生产等工作，到首钢园区红线内及周边工业企业、商业设施开展实地监督检查，督促主责单位履职尽责。</span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">区领导迟志禹、王智勇、葛强参加检查。</span></p><p><span style="color: rgb(47, 46, 63); font-size: 24px;">来源：文投大数据媒体中心</span></p></div>
+                <div class="content-center" v-html="policyDetail.policyContent"></div>
                   <div class="desc">
                     <div class="desc-left">
-                      <div style="font-size: 40px;color: #8B572A;flex: 0.4">政策原文</div>
-                      <div class="policy-explain">政策解读</div>
+                      <!-- <div style="font-size: 40px;color: #8B572A;flex: 0.4">政策原文</div>
+                      <div class="policy-explain">政策解读</div> -->
                     </div>
                     <div class="desc-right">
-                      <div>发文机构:{{address}}</div>
-                      <div>发布日期:{{time}}</div>
+                      <div>发文机构:{{policyDetail.policySource}}</div>
+                      <div>发布日期:{{policyDetail.policyTime}}</div>
                     </div>
                   </div>
                 </div>
                   <div class="relation-policy">
-                    <div style="font-size: 28px;font-family: AlibabaPuHuiTiM;color: #000000;;">政策关联</div>
-                    <div class="relation-policy-item" v-for="(item, index) in list" :key="index">
-                      <div style="color: #8B572A;">{{item.title}}</div>
-                      <div>{{item.time}}</div>
+                    <div style="font-size: 28px;font-family: AlibabaPuHuiTiM;color: #000000;margin-bottom: 20px;">政策关联</div>
+                    <div class="relation-policy-item" v-for="(item, index) in list" :key="index" @click="routeTo(item)">
+                      <div style="color: #8B572A;">{{item.noticeTitle}}</div>
+                      <!-- <div>{{item.storageTime}}</div> -->
                     </div>
                   </div>
-                <div class="content-footer policy-opration">
+                <!-- <div class="content-footer policy-opration">
                   <div style="display: flex;">
                     <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
                     <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
                   </div>
-                  <div class="opration-block policy-opration-apply"><img src="../../images/policy-apply.png"/>申报政策</div>
-                </div>
+                  <div class="opration-block policy-opration-apply" @click="applydialogVisible = true"><img src="../../images/policy-apply.png"/>申报政策</div>
+                </div> -->
             </div>
         </div>
       </div>
@@ -45,6 +45,9 @@
     </div>
   </template>
   <script>
+  import { applyPolicyForm } from "@/config/constant.js";
+  import { policyRelationList, policyDetail } from "@/config/api.js";
+  import request from '@/utils/request';
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
   import AppHeader from "@/components/Header/index";
@@ -58,28 +61,56 @@
     },
     data() {
       return {
-        title: '石景山：以精准有力监督推动服贸会顺利举办',
-        address: '文投大数据媒体中心',
+        policyDetail: {},
+        applydialogVisible: false,
         time: '2022-9-7',
-        list: [{
-          title: '图解：石景山区推进国际科技创新中心建设加快创新发展支持办法',
-          time: '2022/9/19'
-        },{
-          title: '石政办发〔2022〕6号 北京市石景山区人民政府办公室关于印发《石景山区推进国际科技创新中心建设加快创新发展支持办法》的通知',
-          time: '2022/9/17'
-        },{
-          title: '​石经信局〔2022〕8 号 关于印发《石景山区关于促进 “专精特新”中小企业高质量发展的若干措施》的通知',
-          time: '2022/9/16'
-        },{
-          title: '​北京市人民政府关于印发《北京市统筹疫情防控和稳定经济增长的实施方案》的通知',
-          time: '2022/9/31'
-        },{
-          title: '石景山区启动开学保障执法检查',
-          time: '2022/9/11'
-        }]
+        list: []
       };
     },
-    created() {},
+    created() {
+      let that = this;
+      request({
+        url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
+        method: 'get'
+      }).then(res => {
+        that.policyDetail = res.data;
+        request({
+          url: `${policyRelationList}`,
+          method: 'post',
+          data: {
+            policyId: res.data.id,
+            relationType: "政策解读",
+          }
+        }).then(res => {
+          that.list = res.data.list;
+        });
+      });
+    },
+    watch: {
+      $route: {
+        handler: function(val, oldVal){
+          let that = this;
+          request({
+          url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
+          method: 'get'
+          }).then(res => {
+            that.newDetail = res.data;
+            request({
+              url: `${policyRelationList}`,
+              method: 'post',
+              data: {
+                policyId: res.data.id,
+                relationType: "政策解读",
+              }
+            }).then(res => {
+              that.list = res.data.list;
+            });
+        });
+        },
+        // 深度观察监听
+        deep: true
+      }
+    },
     computed: {
       orderBy() {
         return this.mainActive === 0 ? "publish_time" : "view_count";
@@ -91,7 +122,9 @@
     },
   
     methods: {
-
+      routeTo(item) {
+        this.$router.push(`/policy-detail/:artId=${item.noticeId}`);
+      }
     },
   };
   </script>
@@ -187,6 +220,7 @@
                 font-family: AlibabaPuHuiTiR;
                 width: 100%;
                 display: flex;
+                cursor: pointer;
                 justify-content: space-between;
               }
             }

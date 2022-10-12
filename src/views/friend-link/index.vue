@@ -34,7 +34,6 @@
 <script>
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
-import loanBg1 from "../../images/loan-card-header1.png";
 import collagePoster from "../../images/collage-poster.png";
 import collage from '@/components/guide/collage.vue'
 import { swiperConfig1 } from "@/config/index";

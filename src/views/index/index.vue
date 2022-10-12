@@ -15,10 +15,10 @@
         </div>
         <new/>
         <policy-enter/>
-        <sjs-industrial />
-        <policyMatch />
+        <!-- <policyMatch /> -->
         <busniess-service />
         <industrial />
+        <sjs-industrial />
         <ExcellentBusniess />
         <bank />
       </div>

@@ -9,7 +9,8 @@
       :before-close="closeDialog">
       <form-template
       style="width: 400px;padding: 0px 20px"
-      @likeCountChanges="closeDialog"
+      @likeCountChanges="likeCountChanges"
+      @closeDialog="closeDialog"
       :labelWidth="140"
       :formConfig="applyMessageForm1"
       :showBtn="true"
@@ -55,6 +56,9 @@
 </template>
 
 <script>
+import { recruitServiceDockingApply } from "@/config/api.js";
+import request from '@/utils/request';
+import { MessageBox, Message } from 'element-ui'
 import { applyMessageForm1 } from "@/config/constant.js";
 import { mapGetters } from 'vuex'
 import { categoryList } from '@/api/category.js'
@@ -118,6 +122,34 @@ export default {
     closeDialog(done) {
       this.applydialogVisible = false;
       done();
+    },
+    likeCountChanges(formData) {
+      request({
+        url: `${recruitServiceDockingApply}`,
+        method: 'post',
+        data: {
+          serviceName: '灵活用工',
+          serviceType: '灵活用工',
+          supplierId: '70eb9ce38dfa4437b0ea3787b608e732',
+          companyId: window.localStorage.getItem('USERID'),
+          companyName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
+          ...formData
+        }
+      }).then((res) => {
+        // todo 修改后台返回字段
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          });
+          this.applyMessageForm1 = this.applyMessageForm1.map((e, b) => {
+            let result = { ...e };  
+            delete result[e.prop];
+            return result;
+          });
+          this.applydialogVisible = false;
+        })
+      this.applydialogVisible = false;
     }
   }
 }

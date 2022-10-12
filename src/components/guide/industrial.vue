@@ -10,8 +10,8 @@
             </div>
       </div>
       <div class="guide-Industrial-content">
-        <div class="guide-Industrial-content-item" v-for="(item,index) in industrialList" :key="index">
-          <div :class="`item-icon item-icon-${index}`"></div>{{item.industrialName}}
+        <div class="guide-Industrial-content-item" v-for="(item,index) in industrialList" :key="index" @click="routeTo(item)">
+          <div :class="`item-icon item-icon-${index}`"></div>{{item.serviceName}}
         </div>
         <div class="guide-Industrial-content-item guide-Industrial-content-more" @click="$router.push('/archives')">
           <div :class="`item-icon item-icon-${index}`"></div>查看更多
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { entServiceDockingAll } from "@/config/api.js";
+import request from '@/utils/request';
 export default {
   name: "Industrial",
   data() {
@@ -47,6 +49,25 @@ export default {
       {
         industrialName: '工商财税(套餐三)'
       }]
+    }
+  },
+  created() {
+    request({
+        url: `${entServiceDockingAll}`,
+        method: 'post',
+        data: {}
+      })
+      .then((res) => {
+          this.industrialList = res.data.list.length > 7 ? res.data.list.slice(0, 7): res.data.list;
+      })
+  },
+  methods: {
+    routeTo(item) {
+      this.$store.dispatch('data/setBusneissDetail', _.cloneDeep(item));
+      window.localStorage.setItem('busneiss-detail', JSON.stringify(item));
+      this.$router.push({
+        path: `/protect-detail/:${item.id}`
+      })
     }
   }
 };

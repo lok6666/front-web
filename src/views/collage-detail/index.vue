@@ -11,23 +11,23 @@
             <div class="left">
                 <div class="teacher-name">
                   <img src="../../images/avatar.png" style="width: 100px; height: 100px;margin-bottom: 23px;"/>
-                  文投大数据
+                  {{data_collagedetail.activityName}}
                 </div>
-                <div class="teacher-desc">文化赋能</div>
+                <!-- <div class="teacher-desc">文化赋能</div> -->
                 <div class="teacher-time">
                   <div style="font-size: 46px;font-family: AlibabaPuHuiTiM;">{{data_collagedetail.xs}}</div>
-                  <div>{{data_collagedetail.activTime}}</div>
+                  <div>{{data_collagedetail.activityDateFrom}}</div>
                 </div>
                 <div class="block"><img src="../../images/basic-location-black.png"/>定位</div>
                 <div class="block"><img src="../../images/apply.png"/>报名</div>
             </div>
             <div class="content">
-                <div class="content-center"><p style="text-align: left; line-height: 2;"><img src="http://minio.bjwcxf.com/cultural-image/2022-09-27/95862e14411d9e4babad29055e7723e.jpg" alt="使用说明" data-href="http://minio.bjwcxf.com/cultural-image/2022-09-27/95862e14411d9e4babad29055e7723e.jpg" style=""></p><h1><span style="color: rgb(33, 33, 33);">第16届动漫游戏产业发展国际论坛</span></h1><p style="line-height: 2;"><span style="font-size: 16px;"><strong>由市文旅局、市文资中心、经开区管委会主办，市文促中心承办的第16届动漫游戏产业发展国际论坛将于9月2日（星期五）举办。</strong></span></p><p style="line-height: 2;"><span style="font-size: 16px;"><strong>“动漫游戏产业发展国际论坛”（以下简称“论坛”）是北京市文化产业领域的重要论坛活动之一，自创办以来充分发挥引领和带动作用，已经成为动漫游戏领域技术展示、品牌推介、信息交汇、行业交流、国际合作的重要品牌活动。</strong></span></p><p style="text-align: center; line-height: 2;"><br></p></div>
+                <div class="content-center" v-html="data_collagedetail.activityContent"></div>
             </div>
             <div class="right">
                 <div class="collage-title">培训课程</div>
-                <div class="collage-desc">{{data_collagedetail.desc}}</div>
-                <img src="../../images/collage-time.jpg" />
+                <div class="collage-desc">{{data_collagedetail.activityAbstract}}</div>
+                <img :src="data_collagedetail.activityImg" style="width: 380px; height: 456px;"/>
             </div>
         </div>
       </div>
@@ -49,6 +49,7 @@
     },
     data() {
       return {
+        data_collagedetail: JSON.parse(window.localStorage.getItem('collage-detail')),
         time: '2022-9-7',
         list: [{
         title: '石景山区启动开学保障执法检查 石景山园开展2022年“共产党员献爱心” 捐献活动',
@@ -80,10 +81,10 @@
     mounted() {
     },
     computed: {
-        ...mapGetters(["data_collagedetail"]),
+        ...mapGetters([""]),
     },
     created() {
-        console.log('data_collagedetail--------', this.data_collagedetail);
+        // console.log('data_collagedetail--------', this.data_collagedetail);
     }
   };
   </script>
@@ -150,13 +151,13 @@
             flex-direction: column;
             margin-bottom: 20px;
           }
-          .teacher-desc {
+/*           .teacher-desc {
             font-size: 18px;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             color: #222222;
             margin-bottom: 67px;
-          }
+          } */
           .teacher-time {
             display: flex;
             flex-direction: column;
@@ -182,6 +183,13 @@
         }
         .content {
           width: 640px;
+          &-center {
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // display: -webkit-box;
+            // -webkit-line-clamp: 2;
+            // -webkit-box-orient: vertical;
+          }
         }
         .right {
           margin-left: 16px;
@@ -197,6 +205,11 @@
             font-family: AlibabaPuHuiTiM;
             color: #B48859;
             line-height: 27px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
         }
         @media screen and (max-width: 960px) {

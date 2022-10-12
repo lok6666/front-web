@@ -1,5 +1,6 @@
 'use strict'
 const path = require('path')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const defaultSettings = require('./src/settings.js')
 const webpack = require('webpack')
 

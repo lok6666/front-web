@@ -9,7 +9,7 @@
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{ scope.row[item.showKey] }}</span>
+          <span>{{ item.showKey === 'dockStatus' ? option[scope.row[item.showKey]] : scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -17,17 +17,21 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="pageNum"
         :page-sizes="[10, 40, 70, 100]"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="5">
+        :total="total">
       </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  entServiceDockingList
+ } from "@/config/api";
+ import request from '@/utils/request';
 import levelImg from "@/images/修改名称.png";
 import policyTitleImg from "@/images/类别.png";
 import addressImg from "@/images/account.png";
@@ -37,78 +41,71 @@ export default {
   data() {
     return {
       currentPage4: 4,
-      tableData: [
-        {
-          level: "著作权申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.05.09",
-        },
-        {
-          level: "专利申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.05.07",
-        },
-        {
-          level: "专精特新",
-          title: "政策资质",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.05.05",
-        },
-        {
-          level: "著作权申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.05.04",
-        },
-        {
-          level: "专利申请",
-          title: "知识产权",
-          address: "北京文投大数据",
-          status: "已申请",
-          date: "2022.05.03",
-        }
-      ],
+      pageSize: 10,
+      pageNum: 1,
+      total: 0,
+      tableData: [],
+      option: {
+        0: '待对接',
+        1: '已对接'
+      },
       tableItem: [
         {
           label: "服务名称",
           src: levelImg,
-          showKey: "level",
+          showKey: "serviceName",
         },
         {
           label: "类别",
           src: policyTitleImg,
-          showKey: "title",
+          showKey: "serviceType",
         },
         {
           label: "服务商",
           src: addressImg,
-          showKey: "address",
+          showKey: "supplierName",
         },
         {
           label: "状态",
           src: statusImg,
-          showKey: "status",
+          showKey: "dockStatus",
         },
         {
           label: "申请日期",
           src: dateImg,
-          showKey: "date",
+          showKey: "dockTime",
         },
       ],
     };
   },
+  created() {
+    this.getPolicyList();
+  },
   methods: {
+    getPolicyList() {
+      let that = this;
+      request({
+      url: `${entServiceDockingList}`,
+      method: 'post',
+      data: {
+        companyid: window.localStorage.getItem('USERID'),
+        pageNum: this.pageNum,
+        pageSize: this.pageSize
+      }
+    }).then(res => {
+      that.tableData = res.data.list;
+      that.total = res.data.total;
+    });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.getPolicyList();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pageNum = val;
+      this.getPolicyList();
     }
   }
 };

@@ -4,8 +4,8 @@
       <div class="user-policy-content">
             <div class="user-policy-content-list">
                 <div class="user-policy-content-list-item" v-for="(item, index) in newList" :key="index">
-                    <p class="user-policy-content-list-title">{{item.title}}</p>
-                    <p class="user-policy-content-list-time">{{item.time}}</p>
+                    <p class="user-policy-content-list-title">{{item.messageContent}}</p>
+                    <p class="user-policy-content-list-time">{{item.messageTime}}</p>
                 </div>
             </div>
       </div>
@@ -18,28 +18,17 @@
 </template>
 
 <script>
+import {
+  messageList
+ } from "@/config/api";
+ import request from '@/utils/request';
 export default {
   name: "user-policy",
   data() {
     return {
       mainTabs: ['最新', '热门'],
       current: 1,
-      newList: [{
-        title: '平台新上线了“专精特新中心企业”资质申请服务包，请您及时关注',
-        time: '2022/9/22'
-      },{
-        title: '建设银行信用快贷产品申请已被受理，请您耐心等待。',
-        time: '2022/9/20'
-      },{
-        title: '石景山区政府办印发了《石景山区继续加大中小微企业帮扶力度加快困难企业...',
-        time: '2022/5/19'
-      },{
-        title: '文化产业高峰论坛将于首钢园举办，如有需要请您及时报名。',
-        time: '2022/5/04'
-      },{
-        title: '石景山区经信局印发了《石景山区关于促进 “专精特新”中小企业高质量发展的...',
-        time: '2022/4/20'
-      }]
+      newList: []
     }
   },
   props: {
@@ -53,6 +42,17 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  created() {
+    let that = this;
+    request({
+      url: `${messageList}`,
+      method: 'post',
+      data: {
+        entId: `${this.userId}`
+    }}).then(res => {
+      that.newList = res.data.list;
+    });
   },
   methods: {
     checkAll() {

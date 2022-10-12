@@ -27,7 +27,6 @@
                         size="mini"
                         type="warning"
                         plain
-                        @click="select(index)"
                         >{{ btn.label }}</el-button>
                     </div>
                     </div>
@@ -206,7 +205,7 @@
       ...mapGetters(["defaultAvatar", "device", "data_selection"]),
     },
     created() {
-      this.selectedOptions = this.data_selection;
+      this.selectedOptions = this.data_selection || JSON.parse(window.localStorage.getItem('selection-detail'));
     },
     updated() {
       this.selectedOptions = this.data_selection;

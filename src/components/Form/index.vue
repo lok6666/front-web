@@ -24,7 +24,7 @@
         <!--输入框-->
         <el-input v-model="item[item.prop]" v-if="item.showInput" />
          <!--textarea输入框-->
-        <el-input style="width: 200px" type="textarea" :rows="3" v-model="item[item.prop]" v-if="item.showTextarea" />
+        <el-input style="width: 500px" type="textarea" :rows="4" v-model="item[item.prop]" v-if="item.showTextarea" />
         <!--时间选择器-->
         <el-date-picker
           v-model="item[item.prop]"
@@ -71,26 +71,29 @@
           ></el-checkbox>
         </el-checkbox-group>
         <!--上传图片-->
-        <el-upload
-          class="avatar-uploader"
-          :show-file-list="false"
-          v-if="item.upload"
-          :before-upload="beforeAvatarUploadSingle"
-        >
-          <img
-            v-if="item[item.prop]"
-            :src="item[item.prop]"
-            style="width: 178px; height: 178px"
-            class="avatar"
-          />
-          <i v-else class="el-icon-plus avatar-uploader-icon"  @click="getIndex(i)"></i>
-        </el-upload>
+        <div @click="getIndex(i)" v-else-if="item.upload">
+          <el-upload
+            class="avatar-uploader"
+            :show-file-list="false"
+            :before-upload="beforeAvatarUploadSingle"
+          >
+            <img
+              v-if="item[item.prop]"
+              :src="item[item.prop]"
+              style="width: 178px; height: 178px"
+              class="avatar"
+            />
+            <i v-else class="el-icon-plus avatar-uploader-icon"  @click="getIndex(i)"></i>
+          </el-upload>
+        </div>
         <!--照片墙-->
         <div @click="getIndex(i)" v-else-if="item.zlupload">
           <el-upload
             class="upload-demo"
+            :indexValue="i"
+            ref="uploadSingle"
             drag
-            :file-list="item.fileList"
+            :file-list="item[item.prop] ? JSON.parse(item[item.prop]): ''"
             :on-remove="handleRemove"
             :before-upload="beforeAvatarUpload"
             multiple>
@@ -99,13 +102,22 @@
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </div>
-        <!--富文本编辑-->
-        <editor
-          v-if="item.showWangEditor"
-          @click:native="getIndex(i)"
-          :content="content"
-          @handle="changeContent"
-        ></editor>
+        <div style="border: 1px solid #ccc;width: 723px" v-if="item.showWangEditor" @click="getIndex(i)">
+          <Toolbar
+              style="border-bottom: 1px solid #ccc"
+              :editor="editor"
+              :defaultConfig="toolbarConfig"
+              :mode="mode"
+          />
+          <Editor
+              style="height: 500px; overflow-y: hidden;"
+              v-model="item[item.prop]"
+              :defaultConfig="editorConfig"
+              :mode="mode"
+              @onCreated="onCreated"
+              @onChange="onChange"
+          />
+      </div>
       </el-form-item>
     </el-form>
   </div>
@@ -117,9 +129,10 @@
 </template>
 
 <script>
-  // import { upLoad } from "@/config/api";
+  import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+  import { upload } from "@/config/api.js";
   import request from '@/utils/request';
-  import _ from 'lodash'
+  import _ from 'lodash';
   export default {
   name: "User",
   props: {
@@ -160,14 +173,38 @@
       }
     }
   },
+  components: { Editor, Toolbar },
   data() {
     return {
       categoryId: 0,
       itemIndex: null,
-      formData: {}
+      formData: {},
+      editor: null,
+      toolbarConfig: {
+          // toolbarKeys: [ /* 显示哪些菜单，如何排序、分组 */ ],
+          // excludeKeys: [ /* 隐藏哪些菜单 */ ],
+      },
+      editorConfig: {
+          placeholder: '请输入内容...',
+          // autoFocus: false,
+          // 所有的菜单配置，都要在 MENU_CONF 属性下
+          MENU_CONF: {}
+      }
     };
   },
+  beforeDestroy() {
+      const editor = this.editor
+      if (editor == null) return
+      editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
+  },
   methods: {
+    onCreated(editor) {
+        this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
+    },
+    onChange(editor) {
+        this.formConfig[this.itemIndex][this.formConfig[this.itemIndex].prop] = editor.getHtml();
+        console.log('onChange', this.formConfig[this.itemIndex].prop, editor.getHtml()) // onChange 时获取编辑器最新内容
+    },
     // 获取索引
     getIndex(i) {
       this.itemIndex = i;
@@ -182,16 +219,22 @@
         this.$emit('likeCountChanges', formData);
       },
     async resetForm(formName) {
-        this.$emit('likeCountChanges', this.formConfig);
+        this.$emit('closeDialog', this.formConfig);
       },
-    handleRemove(file, fileList) {
+    handleRemove(file) {
       let index = '';
-      this.formConfig[file.itemIndex].fileList.forEach((item, i) => {
+      let that = this;
+      let itemIndex = this.$refs.uploadSingle[0].$attrs.indexValue;
+      let fileList = that.formConfig[itemIndex][that.formConfig[itemIndex].prop];
+      let list = fileList? JSON.parse(fileList): [];
+      list.forEach((item, i) => {
         if(item.name === file.name) {
           index = i;
         };
       });
-      this.formConfig[file.itemIndex].fileList.splice(index, 1);
+      list.splice(index, 1);
+      that.formConfig[itemIndex][that.formConfig[itemIndex].prop] = JSON.stringify(list);
+      that.formConfig = _.cloneDeep(that.formConfig);
     },
     beforeAvatarUpload(rawFile) {
       var axios = require("axios");
@@ -201,10 +244,10 @@
       data.append("userId", 1);
       data.append("type", "image");
       let that = this;
-      let itemIndex = this.itemIndex;
+      let itemIndex = this.$refs.uploadSingle[0].$attrs.indexValue;
       var config = {
         method: "post",
-        url: `http://172.16.110.101:28191/upload`, //上传图片地址
+        url: `${upload}`, //上传图片地址
         type: 'image',
         data: data
       };
@@ -212,12 +255,14 @@
       axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       axios(config)
         .then(function ({data}) {
-          that.formConfig[itemIndex].fileList.push({
+          let fileList = that.formConfig[itemIndex][that.formConfig[itemIndex].prop];
+          let list = fileList? JSON.parse(fileList): [];
+          list.push({
             name: data.substring(data.lastIndexOf('\/') + 1),
             url: data,
             itemIndex
           });
-          that.formConfig[itemIndex][that.formConfig[itemIndex].prop] = that.formConfig[itemIndex].fileList;
+          that.formConfig[itemIndex][that.formConfig[itemIndex].prop] = JSON.stringify(list);
           that.formConfig = _.cloneDeep(that.formConfig);
         })
         .catch(function (error) {
@@ -235,7 +280,7 @@
       let itemIndex = this.itemIndex;
       var config = {
         method: "post",
-        url: `http://172.16.110.101:28191/upload`, //上传图片地址
+        url: `${upload}`, //上传图片地址
         type: 'image',
         data: data
       };
@@ -278,3 +323,4 @@
     display: block;
   }
 </style>
+<style src="@wangeditor/editor/dist/css/style.css"></style>

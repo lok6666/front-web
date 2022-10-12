@@ -46,127 +46,15 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { financialServicesAll } from "@/config/api.js";
 import { getAccessToken } from "@/utils/auth";
-// import { bjDataJron, jsDataJron } from "@/config/constant.js";
-import loanBg1 from "../../images/loan-card-header1.png";
+import request from '@/utils/request';
 import bj_bank from "../../images/bj_bank.png";
 import jh_bank from "../../images/bank2.png";
 import AppHeader from "@/components/Header/index";
 import Loan from "@/components/loan/index";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
-const bjDataJron = [
-  {
-    title: "善新贷",
-    num: "3.19% ",
-    bank: "建设银行",
-    limit: "1-36月",
-    quota: "500万",
-    loanBg: loanBg1,
-    bank: jh_bank,
-    tagList: ['北京市', '专精特新','正常经营', '信用良好'],
-    browseNum: 1100,
-    applyNum: 42
-  },
-  {
-    title: "信用快贷",
-    num: "3.95% ",
-    bank: "建设银行",
-    limit: "1-12月",
-    quota: "300万",
-    loanBg: loanBg1,
-    bank: jh_bank,
-    tagList: ['北京市', '正常经营', '信用良好'],
-    browseNum: 3020,
-    applyNum: 20
-  },
-  {
-    title: "科技云贷",
-    num: "4.45%",
-    bank: "建设银行",
-    limit: "1-12月",
-    quota: "200万",
-    loanBg: loanBg1,
-    bank: jh_bank,
-    tagList: ['北京市', '正常经营', '信用良好', '知识产权'],
-    browseNum: 1240,
-    applyNum: 27
-  },
-  {
-    title: "政采云贷",
-    num: "4.45%",
-    bank: "建设银行",
-    limit: "1-12月",
-    quota: "200万",
-    loanBg: loanBg1,
-    bank: jh_bank,
-    tagList: ['北京市', '正常经营', '信用良好', '政府采购中标通知'],
-    browseNum: 3302,
-    applyNum: 44
-  }
-];
-const jsDataJron = [
-  {
-    title: "创业担保贷",
-    num: "2.2%",
-    bank: "北京银行",
-    limit: "1-24月",
-    quota: "300万",
-    loanBg: loanBg1,
-    bank: bj_bank,
-    tagList: ['北京市', '小微企业'],
-    browseNum: 1243,
-    applyNum: 14
-  },
-  {
-    title: "科企贷",
-    num: "LPR加减点",
-    bank: "北京银行",
-    limit: "随借随还",
-    quota: "300万",
-    loanBg: loanBg1,
-    bank: bj_bank,
-    tagList: ['石景山', '中型企业'],
-    browseNum: 1243,
-    applyNum: 14
-  },
-  {
-    title: "银税贷",
-    num: "LPR加减点",
-    bank: "北京银行",
-    limit: "随借随还",
-    quota: "200万",
-    loanBg: loanBg1,
-    bank: bj_bank,
-    tagList: ['北京市', '大型企业'],
-    browseNum: 1552,
-    applyNum: 34
-  },
-  {
-    title: "融信宝",
-    num: "LPR加减点",
-    bank: "北京银行",
-    limit: "1-24月",
-    quota: "200万",
-    loanBg: loanBg1,
-    bank: bj_bank,
-    tagList: ['北京市', '大型企业','正常经营', '信用良好'],
-    browseNum: 2193,
-    applyNum: 50
-  },
-  {
-    title: "票易贷",
-    num: "LPR加减点",
-    bank: "北京银行",
-    limit: "随借随还",
-    quota: "200万",
-    loanBg: loanBg1,
-    bank: bj_bank,
-    tagList: ['北京市', '正常经营', '信用良好'],
-    browseNum: 1693,
-    applyNum: 28
-  }
-];
 export default {
   name: "User",
   data() {
@@ -188,7 +76,7 @@ export default {
           isSelect: false,
         }
       ],
-      loanList: bjDataJron.concat(jsDataJron),
+      loanList: [],
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
     };
   },
@@ -199,6 +87,17 @@ export default {
   },
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
+  },
+  created() {
+    request({
+        url: `${financialServicesAll}`,
+        method: 'post',
+        data: {}
+      })
+      .then((res) => {
+          // console.log('res----', res.data.list);
+          this.loanList = res.data.list;
+      })
   },
   mounted() {},
   methods: {

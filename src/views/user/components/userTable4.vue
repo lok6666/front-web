@@ -6,12 +6,12 @@
       </div>
     </div>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{ scope.row[item.showKey] }}</span>
+          <span>{{item.showKey === 'policyTime' ? scope.row[item.showKey].replace('00:00:00', ''): scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -19,17 +19,21 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="pageNum"
         :page-sizes="[10, 40, 70, 80]"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="10">
+        :total="total">
       </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  entPolicyCollectList
+ } from "@/config/api";
+ import request from '@/utils/request';
 import levelImg from "@/images/等级.png";
 import policyTitleImg from "@/images/形状.png";
 import addressImg from "@/images/转发文.png";
@@ -37,104 +41,66 @@ import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
-      currentPage4: 4,
-      tableData: [
-        {
-          level: "区级",
-          title: "石政办发〔2022〕6号...",
-          address: "石景山区政府",
-          date: "2022.05.19",
-        },
-        {
-          level: "区级",
-          title: "北京市石景山区人民政府办公…",
-          address: "石景山区政府",
-          date: "2022.05.17",
-        },
-        {
-          level: "区级",
-          title: "关于促进中关村虚拟现实…",
-          address: "石景山区政府",
-          date: "2022.05.15",
-        },
-        {
-          level: "区级",
-          title: "石景山区科普基地认定办法…",
-          address: "石景山区政府",
-          date: "2022.05.13",
-        },{
-          title: "关于印发《石景山区推进国际科...",
-          time: '2022/9/19',
-          address: "石景山区政府",
-          level: "区级",
-          date: "2022.05.10",
-        },
-        {
-          title: "关于印发《石景山区继续加大...",
-          time: '2022/9/18',
-          level: "区级",
-          address: "石景山区政府",
-          date: "2022.05.09",
-        },
-        {
-          title: "北京市石景山区人民政府关于...",
-          time: '2022/9/17',
-          level: "区级",
-          date: "2022.05.08",
-          address: "石景山区政府",
-        },
-        {
-          title: "关于印发《石景山区促进应用...",
-          time: '2022/9/16',
-          level: "区级",
-          date: "2022.05.06",
-          address: "石景山区政府",
-        },
-        {
-          title: "石景山区科普基地认定办法",
-          time: '2022/9/15',
-          level: "区级",
-          date: "2022.05.05",
-          address: "石景山区政府",
-        },
-        {
-          title: "关于促进中关村虚拟现实产...",
-          time: '2022/9/14',
-          level: "区级",
-          date: "2022.05.03",
-          address: "石景山区政府",
-        },
-      ],
+      pageSize: 10,
+      pageNum: 1,
+      total: 0,
+      tableData: [],
       tableItem: [
         {
           label: "级别",
           src: levelImg,
-          showKey: "level",
+          showKey: "policyLevel",
+          width: 50
         },
         {
           label: "政策标题",
           src: policyTitleImg,
-          showKey: "title",
+          showKey: "policyTitle",
+          width: 340
         },
         {
           label: "发文机构",
           src: addressImg,
-          showKey: "address",
+          showKey: "policyAgency",
+          width: 200
         },
         {
           label: "发布时间",
           src: dateImg,
-          showKey: "date",
+          showKey: "policyTime",
+          width: 100
         },
       ],
     };
   },
+  created() {
+    this.getPolicyList();
+  },
   methods: {
+    getPolicyList() {
+      let that = this;
+      request({
+        url: `${entPolicyCollectList}`,
+        method: 'post',
+        data: {
+          entId: window.localStorage.getItem('USERID'),
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        }
+      }).then(res => {
+        that.tableData = res.data.list;
+        that.total = res.data.total;
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.getPolicyList();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pageNum = val;
+      this.getPolicyList();
     }
   }
 };

@@ -7,8 +7,8 @@
       <div class="user-policy-list-content">
             <div class="user-policy-list-content-list">
                 <div class="user-policy-list-content-list-item" v-for="(item, index) in newList" :key="index">
-                    <p class="user-policy-list-content-list-title">{{item.title}}</p>
-                    <p class="user-policy-list-content-list-time">{{item.time}}</p>
+                    <p class="user-policy-list-content-list-title">{{item.messageContent}}</p>
+                    <p class="user-policy-list-content-list-time">{{item.messageTime}}</p>
                 </div>
             </div>
       </div>
@@ -16,11 +16,11 @@
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
+            :current-page="pageNum"
             :page-sizes="[10, 40, 70, 80]"
-            :page-size="100"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="8">
+            :total="total">
         </el-pagination>
         </div>
     </div>
@@ -28,38 +28,19 @@
 </template>
 
 <script>
+import {
+  messageList
+ } from "@/config/api";
+ import request from '@/utils/request';
 export default {
   name: "user-policy",
   data() {
     return {
-      currentPage4: 4,
-      mainTabs: ['最新', '热门'],
+      total: 0,
+      pageSize: 10,
+      pageNum: 1,
       current: 1,
-      newList: [{
-        title: '平台新上线了“建设银行-善心贷”金融产品，请您及时关注',
-        time: '2022/9/22'
-      },{
-        title: '平台新上线了“北京银行-科创贷”金融产品，请您及时关注',
-        time: '2022/9/22'
-      },{
-        title: '平台新上线了“北京银行-创业担保贷”金融产品，请您及时关注',
-        time: '2022/9/22'
-      },{
-        title: '平台新上线了“专精特新中心企业”资质申请服务包，请您及时关注',
-        time: '2022/9/22'
-      },{
-        title: '建设银行信用快贷产品申请已被受理，请您耐心等待。',
-        time: '2022/9/20'
-      },{
-        title: '石景山区政府办印发了《石景山区继续加大中小微企业帮扶力度加快困难企业...',
-        time: '2022/5/19'
-      },{
-        title: '文化产业高峰论坛将于首钢园举办，如有需要请您及时报名。',
-        time: '2022/5/04'
-      },{
-        title: '石景山区经信局印发了《石景山区关于促进 “专精特新”中小企业高质量发展的...',
-        time: '2022/4/20'
-      }]
+      newList: []
     }
   },
   props: {
@@ -74,12 +55,33 @@ export default {
       default: true
     }
   },
+  created() {
+    this.getNewList();
+  },
   methods: {
+    getNewList() {
+      let that = this;
+      request({
+        url: `${messageList}`,
+        method: 'post',
+        data: {
+          entId: `${this.userId}`,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+      }}).then(res => {
+        that.newList = res.data.list;
+        that.total = res.data.total;
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.getNewList();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pageNum = val;
+      this.getNewList();
     }
   }
 };

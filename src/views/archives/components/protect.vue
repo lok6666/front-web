@@ -3,15 +3,15 @@
     <div class="container">
       <div class="guide-excellent-busniess-content">
         <div class="guide-excellent-busniess-content-item"
-            @click="routeTo(item.id)" 
+            @click="routeTo(item)" 
             v-for="(item,index) in excellentBusniessList"
             :key="index">
-            <div :class="`item-icon item-icon-${index}`"></div>
-            <div>{{item.excellentBusniessName}}</div>
-            <div style="color: red;margin-top: 10px;">{{item.money}}</div>
+            <div :style="`background-image: url(${item.serviceImage})`" class="item-icon"></div>
+            <div>{{item.serviceName}}</div>
+            <div style="color: red;margin-top: 10px;">{{item.servicePrice}}</div>
             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;padding: 0 10px;margin-top: 20px;">
-              <div>{{item.browseNum}}次浏览</div>
-              <div>{{item.applyNum}}次申请</div>
+              <div>{{item.serviceHits}}次浏览</div>
+              <div>{{item.serviceTurnover}}次申请</div>
             </div>
         </div>
       </div>
@@ -20,73 +20,13 @@
 </template>
 
 <script>
+import { entServiceDockingAll } from "@/config/api.js";
+import request from '@/utils/request';
 export default {
   name: "excellent-busniess",
   data() {
     return {
-      excellentBusniessList: [{
-        excellentBusniessName: '国内商标注册',
-        browseNum: '100',
-        money: '780-1280元',
-        applyNum: '200',
-        id: 0
-      },
-      {
-        excellentBusniessName: '著作权申请',
-        browseNum: '140',
-        money: '800元',
-        applyNum: '210',
-        id: 1
-      },
-      {
-        excellentBusniessName: '专利申请',
-        browseNum: '600',
-        money: '875元',
-        applyNum: '700',
-        id: 2
-      },
-      {
-        excellentBusniessName: '政策资质-国高新认证',
-        browseNum: '800',
-        money: '20000元起',
-        applyNum: '200',
-        id: 3
-      },
-      {
-        excellentBusniessName: '政策资质-创新型中小企业',
-        browseNum: '600',
-        money: '4000元起',
-        applyNum: '900',
-        id: 4
-      },
-      {
-        excellentBusniessName: '政策资质-专精特新中小企业',
-        browseNum: '300',
-        money: '6000元起',
-        applyNum: '221',
-        id: 5
-      },
-      {
-        excellentBusniessName: '公司注册套餐产品一',
-        browseNum: '1890',
-        money: '5000元',
-        applyNum: '5400',
-        id: 5
-      },
-      {
-        excellentBusniessName: '公司注册套餐产品二',
-        browseNum: '1180',
-        money: '6000元',
-        applyNum: '2090',
-        id: 6
-      },
-      {
-        excellentBusniessName: '公司注册套餐产品三',
-        browseNum: '180',
-        money: '780元',
-        applyNum: '2010',
-        id: 7
-      }]
+      excellentBusniessList: []
     }
   },
   props: {
@@ -101,10 +41,23 @@ export default {
       default: true
     }
   },
+  created() {
+    request({
+        url: `${entServiceDockingAll}`,
+        method: 'post',
+        data: {}
+      })
+      .then((res) => {
+          // console.log('res----', res.data.list);
+          this.excellentBusniessList = res.data.list;
+      })
+  },
   methods: {
-    routeTo(index) {
+    routeTo(item) {
+      this.$store.dispatch('data/setBusneissDetail', _.cloneDeep(item));
+      window.localStorage.setItem('busneiss-detail', JSON.stringify(item));
       this.$router.push({
-        path: `/protect-detail/:${index}`
+        path: `/protect-detail/:${item.id}`
       })
     }
   }
@@ -135,33 +88,6 @@ export default {
                 margin-bottom: 15px;
                 background-size: cover;
                 background-repeat: no-repeat;
-                &-0 {
-                background-image: url("../../../images/proect0.png");
-                }
-                &-1 {
-                background-image: url("../../../images/proect1.png");
-                }
-                &-2 {
-                background-image: url("../../../images/proect2.png");
-                }
-                &-3 {
-                background-image: url("../../../images/proect3.png");
-                }
-                &-4 {
-                background-image: url("../../../images/proect4.png");
-                }
-                &-5 {
-                background-image: url("../../../images/proect5.png");
-                }
-                &-6 {
-                background-image: url("../../../images/proect6.png");
-                }
-                &-7 {
-                background-image: url("../../../images/proect7.png");
-                }
-                &-8 {
-                background-image: url("../../../images/proect8.png");
-                }
             }
       }
     }

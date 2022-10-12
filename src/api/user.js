@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { authRegister, authVerify, login } from "@/config/api.js";
+import { authRegister, authVerify, entInfoGetById, login } from "@/config/api.js";
 /**
  * 账号登录
  * @param {Object} params
@@ -47,28 +47,29 @@ export function codeLogin(params) {
  * @param {String} token
  */
 export async function getUserInfo(token) {
-  // let result = await request({
-  //   url: '/user/info',
-  //   method: 'get'
-  // });
-  let result = {
-    code: 0,
-    message: '成功',
-    data: {
-      admin: 0,
-      birthday: "2022-09-03",
-      createTime: "2022-09-03 20:09:35",
-      gender: 1,
-      id: 89,
-      mobile: 17732236736,
-      nickname: "用户236736",
-      roles: ["ordinary"],
-      status: 0,
-      username: "sfsxz8"
-    }
-  };
-  console.log('result----', result);
-  return result;
+  let result = await request({
+     url: `${entInfoGetById}/${ window.localStorage.getItem('USERID')}`,
+     method: 'get'
+  });
+  window.localStorage.setItem('userinfo', JSON.stringify(result.data));
+  result.roles = ["ordinary"];
+  // let result = {
+  //   code: 0,
+  //   message: '成功',
+  //   data: {
+  //     admin: 0,
+  //     birthday: "2022-09-03",
+  //     createTime: "2022-09-03 20:09:35",
+  //     gender: 1,
+  //     id: 89,
+  //     mobile: 17732236736,
+  //     nickname: "用户236736",
+  //     roles: ["ordinary"],
+  //     status: 0,
+  //     username: "sfsxz8"
+  //   }
+  // };
+  return {data: result};
 }
 
 /**

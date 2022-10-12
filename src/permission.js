@@ -61,7 +61,7 @@ router.beforeEach(async(to, from, next) => {
          // 获取用户线信息，从用户信息中获取角色
         const { roles } = await store.dispatch('user/getUserInfo')
         // 根据角色动态加载路由
-        const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+        const accessRoutes = await store.dispatch('permission/generateRoutes', ["ordinary"])
         // 添加动态路由
         router.addRoutes(accessRoutes)
         next('/user/info')
@@ -88,7 +88,7 @@ router.beforeEach(async(to, from, next) => {
           const { roles } = await store.dispatch('user/getUserInfo')
 
           // 根据角色动态加载路由
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', ["ordinary"])
 
           // 添加动态路由
           router.addRoutes(accessRoutes)

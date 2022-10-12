@@ -17,17 +17,21 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="pageNum"
         :page-sizes="[10, 40, 70, 100]"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="100">
+        :total="total">
       </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+  import {
+    activityApplyList
+  } from "@/config/api";
+ import request from '@/utils/request';
 import levelImg from "@/images/修改名称.png";
 import policyTitleImg from "@/images/类别.png";
 import addressImg from "@/images/account.png";
@@ -36,87 +40,67 @@ import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
-      currentPage4: 4,
-      tableData: [{
-          level: "2",
-          title: "全国工商联互联网营销师2022年第4期培训班",
-          address: "北京市星座大厦",
-          date1: "2022.05.13",
-          date2: "2022.05.27",
-          num: 10
-        },
-        {
-          level: "4",
-          title: "2022年文化产业高峰论坛",
-          address: "北京市星座大厦",
-          date1: "2022.05.11",
-          date2: "2022.05.20",
-          num: 20
-        },
-        {
-          level: "6",
-          title: "石景山区文化创意产业创业大赛",
-          address: "北京市星座大厦",
-          date1: "2022.05.04",
-          date2: "2022.07.20",
-          num: 200
-        },
-        {
-          level: "8",
-          title: "元宇宙现状与未来沙龙",
-          address: "北京市星座大厦",
-          date1: "2022.05.11",
-          date2: "2022.05.17",
-          num: 20
-        },
-        {
-          level: "9",
-          title: "全国工商联互联网营销师2022年第3期培训班",
-          address: "北京市星座大厦",
-          date1: "2022.01.03",
-          date2: "2022.01.20",
-          num: 120
-        }],
+      pageSize: 10,
+      pageNum: 1,
+      total: 0,
+      tableData: [],
       tableItem: [
         {
           label: "序号",
           src: levelImg,
-          showKey: "level",
-          width: '100'
+          showKey: "actId",
         },
         {
           label: "培训/活动名称",
           src: policyTitleImg,
-          showKey: "title",
-          width: '350'
+          showKey: "actName",
         },
         {
           label: "报名人数",
           src: dateImg,
-          showKey: "num",
-          width: '150'
-        },
-        {
-          label: "举办日期",
-          src: dateImg,
-          showKey: "date2",
-          width: '150'
+          showKey: "applyCount",
         },
         {
           label: "报名日期",
           src: dateImg,
-          showKey: "date1",
-          width: '150'
+          showKey: "activityDateFrom",
+        },
+        {
+          label: "举办日期",
+          src: dateImg,
+          showKey: "applyTimeTo",
         }
       ]
     };
   },
+  created() {
+    this.getPolicyList();
+  },
   methods: {
+    getPolicyList() {
+      let that = this;
+      request({
+        url: `${activityApplyList}`,
+        method: 'post',
+        data: {
+          entId: window.localStorage.getItem('USERID'),
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        }
+      }).then(res => {
+        that.tableData = res.data.list;
+        that.total = res.data.total;
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.getPolicyList();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pageNum = val;
+      this.getPolicyList();
     }
   }
 };

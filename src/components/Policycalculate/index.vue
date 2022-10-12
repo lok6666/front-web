@@ -20,7 +20,124 @@
                   class="button-new-tag"
                   :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                   size="small"
-                  @click="select('locationOptions', index)"
+                  @click="select('locationOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">产业空间:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in industrialOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('industrialOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">地域:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in regionOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('regionOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">上市状态:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in equityMarketOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('equityMarketOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">研发机构:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in developmentOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('developmentOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">项目分类:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in projectOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('projectOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">企业分类:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in busneissOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('busneissOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">组织形式:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in organizationOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('organizationOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">创新成果:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in createOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('createOptions', index, 'single')"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">财务数据:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in taxOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('taxOptions', index, 'single')"
                   >{{ btn.label }}</el-button>
               </div>
             </div>
@@ -33,13 +150,13 @@
                   class="button-new-tag"
                   :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                   size="small"
-                  @click="select('xsOptions', index)"
+                  @click="select('xsOptions', index, 'single')"
                   >{{ btn.label }}</el-button>
               </div>
             </div>
           </div>
           <div class="select-btn">
-            <span class="title">主要业务:</span>
+            <span class="title">业务领域:</span>
             <div class="select-item">
               <div v-for="(btn, index) in favourablebusinessOptions" :key="index">
                 <el-button
@@ -126,8 +243,9 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import {
-  locationOptions1, businessOptions, businessAttributeOptions, yearOptions, themeOptions,xsOptions,
-  zzOptions, projectSubjectOptions, favourablebusinessOptions, favourablebusinessOptions1
+  industrialOptions, regionOptions, equityMarketOptions, locationOptions1, organizationOptions, createOptions,
+  businessAttributeOptions, yearOptions, themeOptions,xsOptions, developmentOptions, projectOptions, ywOptions,
+  zzOptions, projectSubjectOptions, favourablebusinessOptions, favourablebusinessOptions1, busneissOptions, taxOptions
 } from "@/config/constant.js";
 export default {
   name: "Advantage",
@@ -136,9 +254,17 @@ export default {
       zzOptions,
       favourablebusinessOptions,
       favourablebusinessOptions1,
+      createOptions,
+      taxOptions,
       projectSubjectOptions,
+      industrialOptions: industrialOptions,
+      equityMarketOptions: equityMarketOptions,
+      developmentOptions: developmentOptions,
+      projectOptions: projectOptions,
+      regionOptions: regionOptions,
       locationOptions: locationOptions1,
-      businessOptions,
+      busneissOptions,
+      organizationOptions: organizationOptions,
       businessAttributeOptions,
       yearOptions,
       themeOptions,
@@ -164,25 +290,32 @@ export default {
       this.$forceUpdate();
       this.$emit('handleClose');
     },
-    select(options, index, more) {
-      if(more === 'more') {
+    select(options, index, type) {
+      // 多选
+      if(type === 'more') {
         this[options][index].isSelect = !this[options][index].isSelect;
         // 更新选中列表
+        // 选中放到选中列表
         if(this[options][index].isSelect) {
           this.selectOptions.push(this[options][index]);
+           // 取消则过滤选中列表
         } else {
           this.selectOptions = this.selectOptions.filter(el => el.label !== this[options][index].label);
         }
       } else {
+        // 单选
         this[options] = this[options].map((e, i) => {
           if(i === index) {
             e.isSelect = !e.isSelect;
-            // 更新选中列表
-            if(e.isSelect) {
-              this.selectOptions.push(this[options][index]);
-            } else {
-              this.selectOptions = this.selectOptions.filter(el => el.label !== this[options][index].label);
-            }
+          }
+          else {
+            e.isSelect = false;
+          }
+          // 更新选中列表
+          if(e.isSelect) {
+            this.selectOptions.push(this[options][i]);
+          } else {
+            this.selectOptions = this.selectOptions.filter(el => el.label !== this[options][i].label);
           }
           return e;
         });
@@ -192,6 +325,7 @@ export default {
     async calculate() {
       let that = this;
       await this.$store.dispatch('data/setSelection', _.cloneDeep(this.selectOptions));
+      // 清空选中的列表select状态
        this.optionsList.forEach(element => {
         that[element].forEach(el => {
            el.isSelect = false;
