@@ -22,8 +22,9 @@
           
         </div>
         <div class="protect-apply">
-          <div class="protect-apply-btn" @click="applydialogVisible = true" >
-            申请服务
+          <div class="protect-apply-btn">
+            <span>联系人:{{busneissData.supplierPerson}}</span>
+            <span>联系电话:{{busneissData.supplierContactX}}</span>
           </div>
         </div>
       </div>
@@ -66,7 +67,7 @@ export default {
     };
   },
   created() {
-    this.busneissData = this.data_busneissdetail || window.localStorage.getItem('busneiss-detail');
+    this.busneissData = JSON.parse(window.localStorage.getItem('busneiss-detail'));
   },
   computed: {
     orderBy() {
@@ -158,9 +159,12 @@ export default {
     }
     .side-left {
       .protect-block {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        background: #fff;
+        width: 1000px;
+        padding: 20px 20px 0px 20px;
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
       }
       .protect-apply {
         display: flex;
@@ -183,6 +187,7 @@ export default {
           font-family: AlibabaPuHuiTiM;
           color: #FFFFFF;
           display: flex;
+          flex-direction: column;
           justify-content: center;
           align-items: center;
         }

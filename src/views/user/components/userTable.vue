@@ -12,11 +12,12 @@
         />查看全部
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="item.width">
+    <el-table :data="tableData" style="width: 100%" @row-click="routeTo">
+      <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="item.width" style="custor: pointer;">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
+
         <template slot-scope="scope">
           <span>{{item.showKey === 'policyTime' ? scope.row[item.showKey].replace('00:00:00', ''): scope.row[item.showKey]}}</span>
         </template>
@@ -80,6 +81,9 @@ export default {
   methods: {
     checkAll() {
       this.$emit('checkAll', 5);
+    },
+    routeTo(item) {
+      this.$router.push(`/policy-detail/:artId=${item.policyId}`);
     }
   }
 };

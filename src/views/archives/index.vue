@@ -19,9 +19,9 @@
           </div>
         </div>
         <div class="select-btn">
-          <div>价格范围:</div>
-          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格"></el-input>-
-          <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格"></el-input>
+          <div>价格范围(元):</div>
+          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
+          <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input>
           <div v-for="(btn, index) in priceList" :key="index">
             <el-button
               class="button-new-tag "
@@ -51,12 +51,12 @@
             @click="routeTo(item)" 
             v-for="(item,index) in excellentBusniessList"
             :key="index">
-            <div :style="`background-image: url(${item.serviceImage})`" class="item-icon"></div>
+            <div class="item-icon"  :style="`background-image: url(${item.serviceImage})`"></div>
             <div>{{item.serviceName}}</div>
             <div style="color: red;margin-top: 10px;">{{item.servicePrice}}</div>
             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;padding: 0 10px;margin-top: 20px;">
               <div>{{item.serviceHits}}次浏览</div>
-              <div>{{item.serviceTurnover}}次申请</div>
+              <div>{{item.supplierName}}</div>
             </div>
         </div>
       </div>
@@ -81,11 +81,14 @@ export default {
   data() {
     return {
       inputValue: '',
+      minValue: '',
+      maxValue: '',
       value2: '',
       categoryId: 0,
       serviceType: '',
       startTime: '',
       endTime: '',
+      timer: null,
       excellentBusniessList: [],
       serviceList: [
         {
@@ -168,6 +171,13 @@ export default {
   },
   mounted() {},
   methods: {
+    changePrice(value, type) {
+      if(this.timer) clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this[type] = value;
+        this.getEntServiceDockingList();
+      }, 1000);     
+    },
     getEntServiceDockingList() {
       request({
         url: `${entServiceDockingAll}`,
@@ -175,7 +185,9 @@ export default {
         data: {
           serviceType: this.serviceType,
           startTime: this.startTime,
-          endTime: this.startTime
+          endTime: this.startTime,
+          servicePriceStart: this.minValue,
+          servicePriceEnd: this.maxValue
         }
       })
       .then((res) => {
@@ -275,6 +287,7 @@ export default {
         background: #fff;
       }
         .item-icon {
+            width: 100%;
             height: 117px;
             margin-bottom: 15px;
             background-size: cover;

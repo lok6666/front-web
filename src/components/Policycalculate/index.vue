@@ -12,20 +12,7 @@
       <div style="font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;">政策计算器</div>
       <div style="margin-bottom: 25px;margin-top:5px;">请选择您的条件，我将为您计算出适合您的政</div>
       <div class="calculate-warpper">
-          <div class="select-btn">
-            <span class="title">政策级别:</span>
-            <div class="select-item">
-              <div v-for="(btn, index) in locationOptions" :key="index">
-                <el-button
-                  class="button-new-tag"
-                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-                  size="small"
-                  @click="select('locationOptions', index, 'single')"
-                  >{{ btn.label }}</el-button>
-              </div>
-            </div>
-          </div>
-          <div class="select-btn">
+          <!-- <div class="select-btn">
             <span class="title">产业空间:</span>
             <div class="select-item">
               <div v-for="(btn, index) in industrialOptions" :key="index">
@@ -141,8 +128,8 @@
                   >{{ btn.label }}</el-button>
               </div>
             </div>
-          </div>
-          <div class="select-btn">
+          </div> -->
+<!--           <div class="select-btn">
             <span class="title">企业组织形式:</span>
             <div class="select-item">
               <div v-for="(btn, index) in xsOptions" :key="index">
@@ -154,7 +141,7 @@
                   >{{ btn.label }}</el-button>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="select-btn">
             <span class="title">业务领域:</span>
             <div class="select-item">
@@ -194,7 +181,7 @@
               </div>
             </div>
           </div>
-          <div class="select-btn">
+<!--           <div class="select-btn">
             <span class="title">惠企方式:</span>
             <div class="select-item">
               <div v-for="(btn, index) in favourablebusinessOptions1" :key="index">
@@ -206,8 +193,8 @@
                   >{{ btn.label }}</el-button>
               </div>
             </div>
-          </div>
-          <div class="select-btn">
+          </div> -->
+<!--           <div class="select-btn">
             <span class="title">政策主题:</span>
             <div class="select-item">
               <div v-for="(btn, index) in themeOptions" :key="index">
@@ -219,7 +206,7 @@
                   >{{ btn.label }}</el-button>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="select-btn">
             <span class="title">成立年限:</span>
             <div class="select-item">
@@ -229,6 +216,19 @@
                   :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                   size="small"
                   @click="select('yearOptions', index)"
+                  >{{ btn.label }}</el-button>
+              </div>
+            </div>
+          </div>
+          <div class="select-btn">
+            <span class="title">区县:</span>
+            <div class="select-item">
+              <div v-for="(btn, index) in locationOptions" :key="index">
+                <el-button
+                  class="button-new-tag"
+                  :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+                  size="small"
+                  @click="select('locationOptions', index, 'single')"
                   >{{ btn.label }}</el-button>
               </div>
             </div>
@@ -284,7 +284,7 @@ export default {
   },
   methods: {
     bClose() {
-      this.$emit('handleClose');
+      this.$emit('dialogClose');
     },
     handleClose(done) {
       this.$forceUpdate();

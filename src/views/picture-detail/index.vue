@@ -91,7 +91,7 @@ export default {
       },
       {
         excellentBusniessName: '第三空间',
-        bg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVCBUOd2u28DeTrEJvAuvqLfZt5_3IbcXZzA&usqp=CAU"
+        bg: "https://img2.baidu.com/it/u=1611515097,1272369993&fm=253&fmt=auto&app=138&f=JPEG?w=818&h=460"
       },
       {
         excellentBusniessName: '无追搜索',
@@ -99,11 +99,11 @@ export default {
       },
       {
         excellentBusniessName: '创意园',
-        bg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmck9zvhGMIQl5510Qx38UMn86eQHkmBOgUg&usqp=CAU"
+        bg: "https://img0.baidu.com/it/u=755017611,4288408033&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"
       },
       {
         excellentBusniessName: '租售中心',
-        bg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEVaP4gX_MH-gxBGgwZSv-PENtA3y7BrDqOQ&usqp=CAU"
+        bg: "https://img1.baidu.com/it/u=17108377,3553810979&fm=253&fmt=auto&app=138&f=JPEG?w=928&h=500"
       }],
       swiperOptionTop: {
         loop: true,

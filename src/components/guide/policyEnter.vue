@@ -1,34 +1,29 @@
 <template>
   <div class="guide-wrap policy-enter-bg">
-    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose"/>
+    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose" @dialogClose="dialogClose"/>
       <el-dialog
           :visible.sync="applydialogVisible"
           :center="true"
           title="政策申报"
           style="overflow: scroll;"
-          top="0"
-          width="80%"
+          width="50%"
           :lock-scroll="false"
           :before-close="closeDialog">
-<!--           <form-template
+          <form-template
           v-if="applydialogVisible"
-          style="padding: 0px 20px 20px 20px;"
-          :customStyle="{display: 'grid', 'grid-template-columns': '380px 380px','margin': `0px 0px 0px 30px`}"
-          @likeCountChanges="likeCountChanges(applyId, $event)"
+          style="padding: 0px 20px 20px 20px"
+          :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
+          @likeCountChanges="likeCountChanges()"
+          @closeDialog="closeDialog"
           :labelWidth="140"
           :formConfig="applyForm"
           :showBtn="true"
-          :disabled="false"/>  -->
-          <iframe style="width: 100%; height: 1000px;border: none;" src="https://wwo.wps.cn/office/w/2c9ebac580c36fc50183ca284d771141?_w_userid=3&_w_filetype=db&_w_filepath=%E7%A9%BA%E6%96%87%E6%A1%A3.docx&_w_appid=5b8f173bd752464d81b7aa78001c697f&_w_redirectkey=123456&_w_signature=enR248IrgRS1JbWCRfwDC3IDJJA%3D" />
-          <el-button
-            type="primary"
-            style="width: 100%;margin-top: 20px;"
-            @click="submit"
-          >{{'提交' }}</el-button>
+          :disabled="false"/> 
+          <!-- <iframe style="width: 100%; height: 1000px;border: none;" src="https://wwo.wps.cn/office/w/2c9ebac580c36fc50183ca284d771141?_w_userid=3&_w_filetype=db&_w_filepath=%E7%A9%BA%E6%96%87%E6%A1%A3.docx&_w_appid=5b8f173bd752464d81b7aa78001c697f&_w_redirectkey=123456&_w_signature=enR248IrgRS1JbWCRfwDC3IDJJA%3D" /> -->
       </el-dialog>
     <div class="container">
       <div class="guide-policyEnter-content">
-        <div class="policy-block search" @click="applydialogVisible = true" >
+        <div class="policy-block search" @click="$router.push(`/policy-detail/:artId=11611`)" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策申报
@@ -86,6 +81,12 @@ export default {
     handleClose() {
       this.dialogVisible = false;
       this.$router.push('/policy-match');
+    },
+    dialogClose() {
+      this.dialogVisible = false;
+    },
+    likeCountChanges() {
+      console.log('-----');
     },
     submit() {
       Message({

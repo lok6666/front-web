@@ -55,7 +55,9 @@ export default {
     request({
         url: `${entServiceDockingAll}`,
         method: 'post',
-        data: {}
+        data: {
+          serviceFlag: 1
+        }
       })
       .then((res) => {
           this.industrialList = res.data.list.length > 7 ? res.data.list.slice(0, 7): res.data.list;

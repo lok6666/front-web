@@ -1,7 +1,7 @@
 <!-- 头部导航栏 -->
 <template>
   <div class="main-header-box">
-    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose"></policy-calculate>
+    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose" @dialogClose="dialogClose"></policy-calculate>
     <el-dialog
       :visible.sync="applydialogVisible"
       :center="true"
@@ -13,6 +13,7 @@
       style="padding: 0px 20px 20px 20px"
       :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
       @likeCountChanges="likeCountChanges"
+      @closeDialog="closeDialog"
       :labelWidth="140"
       :formConfig="applyMessageForm"
       :showBtn="true"
@@ -78,12 +79,12 @@
                       <el-dropdown trigger="click" placement="bottom">
                         <div style="display: inline-block;margin-left: 10px;width:1px;height:1px;border:5px solid transparent;border-top-color:black;"></div>
                         <el-dropdown-menu slot="dropdown">
-                          <router-link v-if="!userInfo.mobile" to="/bind-mobile">
+                          <!-- <router-link v-if="!userInfo.mobile" to="/bind-mobile">
                             <el-dropdown-item>绑定手机号</el-dropdown-item>
                           </router-link>
                           <router-link v-if="!userInfo.email" to="/email-validate">
                             <el-dropdown-item>绑定邮箱</el-dropdown-item>
-                          </router-link>
+                          </router-link> -->
                           <el-dropdown-item>
                             <span style="display:block;" @click="logout">退 出</span>
                           </el-dropdown-item>
@@ -169,7 +170,7 @@ export default {
   },
   data() {
     return {
-      entName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
+      entName: window.localStorage.getItem('userinfo')?JSON.parse(window.localStorage.getItem('userinfo')).entName: '',
       companyid: window.localStorage.getItem('USERID'),
       dialogVisible: false,
       wxdialogVisible: false,
@@ -225,7 +226,7 @@ export default {
 
   methods: {
     busneissIndex() {
-      this.$router.push(`/business-detail/`);
+      this.$router.push(`/business-detail/${window.localStorage.getItem('USERID')}`);
     },
     openWtUrl() {
       window.open('http://www.bjwt.com/')
@@ -233,8 +234,10 @@ export default {
     bClose() {
       this.AIDialogVisible = false;
     },
+    dialogClose() {
+      this.dialogVisible = false;
+    },
     likeCountChanges(formData) {
-      console.log('likeCountChanges', formData);
       request({
         url: `${entApplyInsert}`,
         method: 'post',

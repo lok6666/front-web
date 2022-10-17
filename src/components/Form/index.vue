@@ -4,7 +4,7 @@
     <div :style="customStyle">
     <!--看了源码,为了required校验,必须在form标签循环-->
     <el-form
-      ref="formRef"
+      :ref="`formRef`"
       :inline="true"
       v-for="(item, i) in formConfig"
       :key="i"
@@ -84,6 +84,29 @@
               class="avatar"
             />
             <i v-else class="el-icon-plus avatar-uploader-icon"  @click="getIndex(i)"></i>
+            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </div>
+        <!--上传附件-->
+        <div @click="getIndex(i)" v-else-if="item.file">
+          <el-upload
+            :file-list="item[item.prop] ? JSON.parse(item[item.prop]): ''"
+            class="upload-demo"
+            :indexValue="i"
+            ref="uploadFile"
+            :on-preview="handlePreview"
+            :on-remove="handleRemoveFile"
+            :before-remove="beforeRemove"
+            :before-upload="beforeAvatarUploadFile"
+            :limit="3"
+            :on-exceed="handleExceed"
+          >
+            <el-button type="primary">请上传附件</el-button>
+            <!-- <template #tip>
+              <div class="el-upload__tip">
+                请上传附件
+              </div>
+            </template> -->
           </el-upload>
         </div>
         <!--照片墙-->
@@ -92,6 +115,7 @@
             class="upload-demo"
             :indexValue="i"
             ref="uploadSingle"
+            list-type="picture"
             drag
             :file-list="item[item.prop] ? JSON.parse(item[item.prop]): ''"
             :on-remove="handleRemove"
@@ -114,6 +138,8 @@
               v-model="item[item.prop]"
               :defaultConfig="editorConfig"
               :mode="mode"
+              :indexValue="i"
+              ref="editor"
               @onCreated="onCreated"
               @onChange="onChange"
           />
@@ -123,13 +149,15 @@
   </div>
   <div v-if="showBtn" style="text-align: right;">
     <el-button type="primary" @click="submitForm('formRef')">提交</el-button>
-    <el-button @click="resetForm('formRef')">取消</el-button>
+    <el-button v-if="showCanelBtn" @click="resetForm('formRef')">取消</el-button>
+    <div v-if="!showCanelBtn"style="width:70px; height:39px;display: inline-table;"></div>
   </div>
   </div>
 </template>
 
 <script>
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+  import { MessageBox, Message } from 'element-ui'
   import { upload } from "@/config/api.js";
   import request from '@/utils/request';
   import _ from 'lodash';
@@ -171,7 +199,13 @@
       default() {
         return false
       }
-    }
+    },
+    showCanelBtn: {
+      type: Boolean,
+      default() {
+        return true
+      }
+    },
   },
   components: { Editor, Toolbar },
   data() {
@@ -185,10 +219,95 @@
           // excludeKeys: [ /* 隐藏哪些菜单 */ ],
       },
       editorConfig: {
-          placeholder: '请输入内容...',
-          // autoFocus: false,
-          // 所有的菜单配置，都要在 MENU_CONF 属性下
-          MENU_CONF: {}
+           // 在编辑器中，点击选中“附件”节点时，要弹出的菜单
+        hoverbarKeys: {
+          attachment: {
+            menuKeys: ["downloadAttachment"], // “下载附件”菜单
+          },
+        },
+        placeholder: "请输入内容...",
+        MENU_CONF: {
+          uploadAttachment: {
+            customUpload(file, insertFn) {
+              var axios = require("axios");
+              var FormData = require("form-data");
+              var data = new FormData();
+              data.append("file", file); // file 即选中的文件
+              data.append("userId", window.localStorage);
+              data.append("type", "file");
+              // 插入节点
+              const editor = editorRef.value;
+              var config = {
+                method: "post",
+                url: `${upLoad}`, //上传图片地址
+                data,
+              };
+              axios(config)
+                .then(function (res) {
+                  const node = { type: 'link', url: res, children: [{ text: 'simple text' }] }
+                  editor.insertNode(node);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            },
+          },
+          uploadImage: {
+            customUpload(file, insertFn) {
+              var axios = require("axios");
+              var FormData = require("form-data");
+              var data = new FormData();
+              data.append("file", file); // file 即选中的文件
+              data.append("userId", window.localStorage.getItem('USERID'));
+              data.append("type", "image");
+              // todo 查看图片链接
+              var config = {
+                method: "post",
+                url: `${upload}`, //上传图片地址
+                userId: 1,
+                type: "image",
+                data: data,
+              };
+              axios.defaults.crossDomain = true;
+              //Access-Control-Allow-Origin 指向前端 ip:port
+              axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+              axios(config)
+              .then(function (res) {
+                let url = res.data; //拼接成可浏览的图片地址
+                insertFn(url, "使用说明", url); //插入图片
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            },
+          },
+          uploadVideo: {
+            customUpload(file, insertFn) {
+              var axios = require("axios");
+              var FormData = require("form-data");
+              var data = new FormData();
+              data.append("file", file); // file 即选中的文件
+              data.append("userId", window.localStorage.getItem('USERID'));
+              data.append("type", "video");
+              var config = {
+                method: "post",
+                url: `${upload}`,
+                data: data,
+              };
+              axios.defaults.crossDomain = true;
+              //Access-Control-Allow-Origin 指向前端 ip:port
+              axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+              axios(config)
+                .then(function (res) {
+                  let url = res.data; //拼接成可浏览的图片地址
+                  insertFn(url, "使用说明", url); //插入图片
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            },
+          },
+        },
       }
     };
   },
@@ -202,21 +321,42 @@
         this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
     onChange(editor) {
-        this.formConfig[this.itemIndex][this.formConfig[this.itemIndex].prop] = editor.getHtml();
-        console.log('onChange', this.formConfig[this.itemIndex].prop, editor.getHtml()) // onChange 时获取编辑器最新内容
+        let itemIndex = this.$refs.editor[0].$attrs.indexValue;
+        this.formConfig[itemIndex][this.formConfig[itemIndex].prop] = editor.getHtml();
+        console.log('onChange', this.formConfig[itemIndex].prop, editor.getHtml()) // onChange 时获取编辑器最新内容
     },
     // 获取索引
     getIndex(i) {
       this.itemIndex = i;
       console.log('this.itemIndex', this.itemIndex);
     },
+    validateForm(formEl) {
+      let add = 0;
+      return new Promise((resolve, reject) => {
+        formEl.forEach(async (el) => {
+          el.validate((v) => {
+            ++add;
+            // 当存在校验失败的情况直接返回
+            if (!v) {
+              resolve(false);
+            }
+            // 遍历结束返回
+            else if (add === formEl.length) {
+              resolve(true);
+            }
+          });
+        });
+      });
+    },
     // 提交表单
     async submitForm(formName) {
       let formData = this.formData;
-      this.formConfig.forEach((v) => {
-        formData[v.prop] = v[v.prop];
-      });
+      if (await this.validateForm(this.$refs.formRef)) {
+        this.formConfig.forEach((v) => {
+          formData[v.prop] = v[v.prop];
+        });
         this.$emit('likeCountChanges', formData);
+      };
       },
     async resetForm(formName) {
         this.$emit('closeDialog', this.formConfig);
@@ -236,12 +376,29 @@
       that.formConfig[itemIndex][that.formConfig[itemIndex].prop] = JSON.stringify(list);
       that.formConfig = _.cloneDeep(that.formConfig);
     },
+    // 单独上传附件
+    handleRemoveFile(file) {
+      let index = '';
+      let that = this;
+      let itemIndex = this.itemIndex;
+      let fileList = that.formConfig[itemIndex][that.formConfig[itemIndex].prop];
+      let list = fileList? JSON.parse(fileList): [];
+      list.forEach((item, i) => {
+        if(item.name === file.name) {
+          index = i;
+        };
+      });
+      list.splice(index, 1);
+      that.formConfig[itemIndex][that.formConfig[itemIndex].prop] = JSON.stringify(list)
+      delete that.formConfig[itemIndex][that.formConfig[itemIndex].prop];
+      that.formConfig = _.cloneDeep(that.formConfig);
+    },
     beforeAvatarUpload(rawFile) {
       var axios = require("axios");
       var FormData = require("form-data");
       var data = new FormData();
       data.append("file", rawFile); // file 即选中的文件
-      data.append("userId", 1);
+      data.append("userId", window.localStorage.getItem('USERID'));
       data.append("type", "image");
       let that = this;
       let itemIndex = this.$refs.uploadSingle[0].$attrs.indexValue;
@@ -269,12 +426,46 @@
           console.log(error);
         });
     },
+    beforeAvatarUploadFile(rawFile) {
+      var axios = require("axios");
+      var FormData = require("form-data");
+      var data = new FormData();
+      data.append("file", rawFile); // file 即选中的文件
+      data.append("userId", window.localStorage.getItem('USERID'));
+      data.append("type", "file");
+      let that = this;
+      let itemIndex = this.itemIndex;
+      var config = {
+        method: "post",
+        url: `${upload}`, //上传图片地址
+        type: 'file',
+        data: data
+      };
+      axios.defaults.crossDomain = true;
+      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+      axios(config)
+        .then(function ({data}) {
+          let fileList = that.formConfig[itemIndex][that.formConfig[itemIndex].prop];
+          let list = fileList? JSON.parse(fileList): [];
+          list.push({
+            name: data.substring(data.lastIndexOf('\/') + 1),
+            url: data,
+            itemIndex,
+            label: that.formConfig[itemIndex].label
+          });
+          that.formConfig[itemIndex][that.formConfig[itemIndex].prop] = JSON.stringify(list);
+          that.formConfig = _.cloneDeep(that.formConfig);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     beforeAvatarUploadSingle(rawFile) {
       var axios = require("axios");
       var FormData = require("form-data");
       var data = new FormData();
       data.append("file", rawFile); // file 即选中的文件
-      data.append("userId", 1);
+      data.append("userId", window.localStorage.getItem('USERID'));
       data.append("type", "image");
       let that = this;
       let itemIndex = this.itemIndex;

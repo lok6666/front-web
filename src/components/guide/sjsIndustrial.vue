@@ -23,15 +23,15 @@
         </video>
         <div class="guide-sjsIndustrial-show">
           <div class="sjs-img-show sjsIndustrial-left" @click="showPictureDetail1">首钢园 SHOUGANG PARK</div>
-          <div class="sjsIndustrial-right">
-            <div class="sjs-img-show r-top">中关村科幻产业创新中心</div>
-            <div class="r-bottom">
-              <div class="sjs-img-show ly-show" @click="showPictureDetail">朗园VintAge 文化创意产业园</div>
-              <div class="more">
+          <div class="sjs-img-show sjsIndustrial-right" @click="showPictureDetail">朗园VintAge 文化创意产业园
+            <!-- <div class="sjs-img-show r-top" @click="showPictureDetail3">中关村科幻产业创新中心</div> -->
+            <!-- <div class="r-bottom"> -->
+              <!-- <div class="sjs-img-show ly-show" @click="showPictureDetail">朗园VintAge 文化创意产业园</div> -->
+              <!-- <div class="more">
                 <div class="more-icon"></div>
                 查看更多
-              </div>
-            </div>
+              </div> -->
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -62,6 +62,9 @@ export default {
     },
     showPictureDetail1() {
       this.$router.push('/picture-detail2')
+    },
+    showPictureDetail3() {
+      this.$router.push('/picture-detail3')
     }
   },
   props: {
@@ -99,6 +102,7 @@ export default {
           display: none !important
         }
         .sjsIndustrial-left {
+          margin-right: 10px;
           font-size: 24px;
           display: flex;
           align-items: end;
@@ -110,8 +114,15 @@ export default {
           background-image: url("../../images/首钢园.png");
         }
         .sjsIndustrial-right {
-          width: 50%;
-          margin-left: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: end;
+            padding: 0px 0px 23px 47px;
+            width: 50%;
+            height: 630px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url("../../images/朗园.png");
           .r-top {
             // width: 50%;
             font-size: 24px;
@@ -119,15 +130,15 @@ export default {
             background-size: cover;
             background-image: url("../../images/中关村科幻产业创新中心.png");
           }
-          .r-bottom {
-            width: 100%;
-            display: flex;
-            margin-top: 20px;
-            justify-content: space-between;
+          // .r-bottom {
+            // width: 100%;
+            // display: flex;
+            // margin-top: 20px;
+            // justify-content: space-between;
             .ly-show {
               font-size: 18px;
-              width: 49%;
-              height: 305px;
+              width: 50%;
+              height: 100%;
               background-size: cover !important;
               background-repeat: no-repeat;
               background: url("../../images/朗园.png");
@@ -153,7 +164,7 @@ export default {
                 margin-bottom: 13px;
               }
             }
-          }
+          // }
         }
       }
     }

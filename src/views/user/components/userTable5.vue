@@ -1,9 +1,9 @@
 <template>
   <div class="user-table-wrap apply-bg">
     <div class="user-table-title">
-      <div class="user-table-service">我的服务</div>
+      <div class="user-table-service">金融服务</div>
     </div>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%" @row-click="routeTo">
       <el-table-column v-for="(item, index) in tableItem" :key="index">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
@@ -29,7 +29,7 @@
 
 <script>
 import {
-  entServiceDockingList
+  financialServicesAll
  } from "@/config/api";
  import request from '@/utils/request';
 import levelImg from "@/images/修改名称.png";
@@ -56,24 +56,24 @@ export default {
           showKey: "serviceName",
         },
         {
-          label: "类别",
+          label: "额度范围",
           src: policyTitleImg,
-          showKey: "serviceType",
+          showKey: "serviceQuota",
         },
         {
-          label: "服务商",
+          label: "期限",
           src: addressImg,
-          showKey: "supplierName",
+          showKey: "serviceTerm",
         },
         {
-          label: "状态",
+          label: "利率范围",
           src: statusImg,
-          showKey: "dockStatus",
+          showKey: "serviceRange",
         },
         {
-          label: "申请日期",
+          label: "担保方式",
           src: dateImg,
-          showKey: "dockTime",
+          showKey: "serviceType",
         },
       ],
     };
@@ -82,10 +82,13 @@ export default {
     this.getPolicyList();
   },
   methods: {
+    routeTo(item) {
+      this.$router.push(`/protect-detail/:${item.id}`);
+    },
     getPolicyList() {
       let that = this;
       request({
-      url: `${entServiceDockingList}`,
+      url: `${financialServicesAll}`,
       method: 'post',
       data: {
         companyid: window.localStorage.getItem('USERID'),

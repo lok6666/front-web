@@ -1,6 +1,6 @@
 <template>
-    <div class="app-container">
-      <policy-calculate :dialogVisible="dialogVisible" @handleClose="dialogVisible = false"/>
+    <div class="app-container" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.2)">
+      <policy-calculate :dialogVisible="dialogVisible" @handleClose="dialogVisible = false" @dialogClose="dialogClose"/>/>
       <app-header :nav-item-active="1" />
       <div class="policy-match-bg">
         <div>匹配结果</div>
@@ -10,11 +10,11 @@
             <div class="policy-total-content">
                 <div class="total-num">
                     <div class="title">已为您计算 出适合的政策</div>
-                    <div class="num">{{num}}</div>
+                    <div class="num">{{policyList.length}}条</div>
                 </div>
                 <div class="total-price">
                     <div class="title">预计可获取 奖励资金</div>
-                    <div class="num">{{price}}</div>
+                    <div class="num">{{price}}万元</div>
                 </div>
             </div>
             <div class="policy-total-footer">
@@ -39,7 +39,7 @@
                 <div style="display: flex;align-items: center;"><img src="../../images/result-bg.png"/>计算结果</div>
                 <div style="display: flex; justify-content: space-between; align-item:center;width: 80%;">
                   <div class="search">
-                      <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @keyup.enter.native="inputConfirm">
+                      <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @change="inputConfirm">
                           <i slot="suffix"
                           class="el-input__icon el-icon-search"
                           :style="'color:' + inputIconColor"
@@ -59,27 +59,32 @@
               </div>
           </div>
             <div class="policy-list">
-              <div class="list-item" v-for="(item, index) in policyList" :key="index">
+              <div class="list-item" v-for="(item, index) in policyList" :key="index" @click="routeTo(item.policyId)">
                 <div class="left">
                   <div class="title">
                     <div class="tag-block">
                       <div class="tag-item" style="background: #409eff;">
-                        <i :class="[item.collage? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click="check(index)" />收藏
+                        <i :class="[item.policyCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)" />收藏
                       </div>
-                      <div class="tag-item location"><img src="../../images/location.png"/>{{item.location}}</div>
-                      <div class="tag-item process-1">{{item.process}}</div>
+                      <div class="tag-item location"><img src="../../images/location.png"/><div>{{locationMap[item.policyLocation]}}</div></div>
+                      <!-- <div class="tag-item process-1">{{item.process}}</div> -->
                     </div>
-                    {{item.title}}</div>
-                  <div class="content">{{item.content}}</div>
+                    <div style="max-width: 720px; display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        text-overflow: ellipsis;
+                        overflow: hidden;">{{item.policyTitle}}</div>
+                  </div>
+                  <div class="content">{{item.policyTheme}}</div>
                   <div class="footer">
                     <span style="display: flex;align-item: center;">发文部门:</span>
-                    <div class="address">{{item.address}}</div>
-                    <span style="display: flex;align-item: center;">申报时间:</span>
-                    <div class="time">{{item.time}}</div>
+                    <div class="address">{{item.policyAgency}}</div>
+                    <span style="display: flex;align-item: center;">发布时间:</span>
+                    <div class="time">{{item.policyTime}}</div>
                   </div>
                 </div>
                 <div class="right">
-                  <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.maxMoney ? `${item.maxMoney}万元`: '评选认定中'}}</div>
+                  <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.policyMaxMoney ? `${item.policyMaxMoney}万元`: '评选认定中'}}</div>
                   <div class="measure">
                     <div v-for="(item, index) in opacition" :key="index">{{item.message}}</div>
                   </div>
@@ -94,7 +99,7 @@
                 :page-sizes="[10, 20 ,40]"
                 :page-size="5"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="50">
+                :total="policyList.length">
               </el-pagination>
             </div>
         </div>
@@ -104,6 +109,8 @@
   </template>
   
   <script>
+  import { policyHost,entPolicyCollectInsert,entPolicyCollectDelete } from "@/config/api.js";
+  import request from '@/utils/request';
   import PolicyCalculate from '@/components/Policycalculate/index'
   import { mapGetters } from "vuex";
   import { getAccessToken } from "@/utils/auth";
@@ -116,57 +123,32 @@
       return {
         currentPage4: 4,
         dialogVisible: false,
+        loading: true,
         siftIndex: 0,
         inputValue: '',
         categoryId: 0,
-        num: 50,
         price: '3,763.67',
-        policyList: [{
-          title: '《石景山区推进国际科技创新中心建设加快创新发展支持办法》的通知',
-          content: '政策主题： 发展规划;就业创业;科技创新',
-          address: '区科委',
-          time: '2022-08-01 03:57:00',
-          location: '北京市',
-          maxMoney: '100',
-          process: '进行中',
-          collage: false
+        locationMap: {
+          beijing: '北京',
+          shijingshan: '石景山'
         },
-        {
-          title: '《石景山区继续加大中小微企业帮扶力度加快困难企业恢复发展若干措施》的通知',
-          content: '政策主题： 发展规划;投资审批;就业创业',
-          address: '区政府办',
-          time: '2022-05-19 06:01:00',
-          location: '北京市',
-          process: '进行中',
-          collage: false
-        },
-        {
-          title: '《石景山区推动“两区”建设 促进开放发展的若干措施（试行）》',
-          content: '高新技术企业;外资企业;中小企业',
-          address: '区经信局',
-          time: '2021-08-17 10:15:00',
-          location: '石景山',
-          process: '进行中',
-          collage: false
-        },
-        {
-          title: '石景山区促进应用场景建设加快创新发展支持办法》的通知',
-          content: '科技创新 公共服务 发展规划 教育科研',
-          address: '区科学技术委员会',
-          time: '2019-12-16 04:17:00',
-          location: '石景山',
-          process: '进行中',
-          collage: false
-        },
-        {
-          title: '《石景山区鼓励企业上市发展实施办法》的通知',
-          content: '发展规划 投资审批',
-          address: '区人民政府办公室',
-          time: '2022-04-20 10:15:00',
-          location: '石景山',
-          process: '进行中',
-          collage: false
-        }],
+        policyCalculate:{
+          "jigou": "不符合",
+          "diyu": "不符合",
+          "shangshi": "非上市企业",
+          "keyan": "不符合",
+          "fenlei": "上榜企业",
+          "xiangmu": "平台项目",
+          "zuzhi": "企事业单位",
+          "yewu": "数字创意",
+          "chuangxin": "知识产权",
+          "caiwu": "注册资本",
+          "zizhi": "专精特新企业",
+          "guimo": "小型企业",
+          "nianxian": "5-10年",
+          "quxian": "石景山区"
+      },
+        policyList: [],
         opacition: [{
           message: '奖励措施'
           },
@@ -204,18 +186,56 @@
     computed: {
       ...mapGetters(["defaultAvatar", "device", "data_selection"]),
     },
-    created() {
-      this.selectedOptions = this.data_selection || JSON.parse(window.localStorage.getItem('selection-detail'));
+    watch:{
+      data_selection: function(val, oldVal) {
+        this.getPolicyList(val);
+      }
     },
-    updated() {
-      this.selectedOptions = this.data_selection;
-      console.log('updated--', this.data_selection);
+    created() {
+      this.getPolicyList();
     },
     mounted() {},
     methods: {
+      dialogClose() {
+        this.dialogVisible = false;
+      },
+      routeTo(id) {
+        this.$router.push(`/policy-detail/:artId=${id}`);
+      },
+      getPolicyList(val) {
+          this.selectedOptions = val || this.data_selection.length >= 1 ? this.data_selection : JSON.parse(window.localStorage.getItem('selection-detail'));
+          let that = this;
+          this.selectedOptions.forEach(res => that.policyCalculate[res.type] = res.label);
+          request({
+            url: `${policyHost}`,
+            method: 'post',
+            data: {
+              ...that.policyCalculate,
+              entId: window.localStorage.getItem('USERID')
+            }
+          }).then(res => {
+            that.loading = false,
+            that.policyList = res.data.dataList;
+            that.price = res.data.dataPlant;
+          });
+      },
       check(index) {
-        console.log('index----', index);
-        this.policyList[index].collage = !this.policyList[index].collage
+        this.policyList[index].policyCollect = !this.policyList[index].policyCollect
+        request({
+          url: `${this.policyList[index].policyCollect ? entPolicyCollectDelete: entPolicyCollectInsert}`,
+          method: 'delete',
+          data: {
+            entId: window.localStorage.getItem('USERID'),
+            policyId: this.policyList[index].policyId,
+            isCollect: this.policyList[index].policyCollect
+          }
+        });
+      },
+      inputConfirm(val) {
+        console.log('inputConfirm-----', val);
+        this.policyList = this.policyList.filter(e => e.policyTitle.includes(val));
+        // this.policyTitle = val;
+        // this.getPolicyList();
       },
       search() {},
       handleSizeChange(val) {
@@ -398,6 +418,7 @@
             font-weight: 600;
             color: #000000;
             display: flex;
+            cursor: pointer;
             .left {
               height: 88%;
               display: flex;

@@ -10,9 +10,9 @@
             </div>
       </div>
       <div style="padding: 0 70px;">
-        <div class="collage-block" @click="routerTo(indexCollage)">
+        <div class="collage-block">
           <img :src="indexCollage.activityThumbnail" style="width: 600px;"/>
-          <div style="margin-left: 18px;">
+          <div style="margin-left: 18px;" @click="routerTo(indexCollage)">
             <div class="title">{{indexCollage.activityName}}</div>
             <div class="desc">{{indexCollage.activityAbstract}}</div>
             <div class="apply-time-and-location">
@@ -29,7 +29,7 @@
                   <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activityDateFrom}}</div>
                 </div>
                 <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
-                <div class="other-item apply"><img src="../../images/user-plus.png" @click="applyAcitivty(indexCollage.id)"/>报名</div>
+                <div class="other-item apply"><img src="../../images/user-plus.png" @click.stop="applyAcitivty(indexCollage.id)"/>报名</div>
               </div>
             </div>
           </div>
@@ -47,6 +47,7 @@
           @likeCountChanges="likeCountChanges(applyId, $event)"
           :labelWidth="140"
           :formConfig="activtyForm"
+          @closeDialog="closeDialog"
           :showBtn="true"
           :disabled="false"/> 
         </el-dialog>
@@ -69,7 +70,7 @@
                     <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getHours()}}:{{new Date(item.activityDateFrom).getMinutes()}}</div>
                   </div>
                   <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
-                  <div class="other-item apply"><img src="../../images/user-plus.png" @click="applyAcitivty(item.id)"/>报名</div>
+                  <div class="other-item apply" @click.stop="applyAcitivty(item.id)"><img src="../../images/user-plus.png"/>报名</div>
                 </div>
               </div>
               <div class="check-data" @click="routerTo(item)">查看日程</div>
@@ -136,9 +137,14 @@ export default {
   mounted() {
   },
   methods: {
+    closeDialog(done) {
+      this.applydialogVisible = false;
+      done();
+    },
     routerTo(item) {
+      debugger;
       this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
-      this.$router.push("/collage-detail");
+      this.$router.push(`/collage-detail/:collageId=${item.id}`);
     },
     applyAcitivty(id) {
       this.applyId = id;
@@ -233,6 +239,7 @@ export default {
             display: flex;
             justify-content: space-around;
             &-item {
+              cursor: pointer;
               width: 101px;
               height: 116px;
               border-radius: 10px;

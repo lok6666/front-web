@@ -50,7 +50,6 @@
       </div>
       <div v-if="showBtn" style="float: right">
         <el-button type="primary" @click="submitForm('formRef')">保存</el-button>
-        <el-button @click="resetForm('formRef')">取消</el-button>
       </div>
     </div>
   </template>

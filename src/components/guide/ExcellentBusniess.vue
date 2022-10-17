@@ -10,7 +10,7 @@
             </div>
       </div>
       <div class="guide-excellent-busniess-content">
-        <div :class="`guide-excellent-busniess-content-item item-icon item-icon-${index}`" @click="routeTo(item.id)" 
+        <div :class="`guide-excellent-busniess-content-item item-icon item-icon-${index}`" @click="routeTo(item.entId)" 
         v-for="(item,index) in excellentBusniessList" :key="index">
         </div>
       </div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { entInfoList } from "@/config/api.js";
+import request from '@/utils/request';
 export default {
   name: "excellent-busniess",
   data() {
@@ -61,9 +63,23 @@ export default {
       default: true
     }
   },
+  async created() {
+     let that = this;
+     request({
+         url: `${entInfoList}`,
+         method: 'post',
+         data: {}
+       })
+       .then((res) => {
+         //如果未添加宣传资料
+         console.log('data----', res);
+        that.excellentBusniessList = res.data.list;
+       });
+   },
   methods: {
-    routeTo(detailType) {
-      this.$router.push('/business-detail')
+    routeTo(entid) {
+      this.$router.push(`/business-detail/:id=9fb9596f386b46f4b6cef429019c8393`)
+      // this.$router.push(`/business-detail/:id=${entid}`)
     }
   }
 };

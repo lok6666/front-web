@@ -1,6 +1,7 @@
 // const host = 'http://localhost:28191';
-// const host = 'http://172.16.4.62:28182';
-const host = 'http://enterprise.bjwcxf.com:28191';
+ const host = 'http://172.16.4.62:28182';
+ export const policyHost = 'http://172.16.4.62:5000/match';
+// const host = 'http://enterprise.bjwcxf.com:28191';
 // 登录接口
 export const login = `${host}/auth/entLogin`
 export const authSendVerCode = `${host}/auth/sendVerCode`; // 注册验证码
@@ -62,8 +63,14 @@ export  const messageList = `${host}/message/list` // 角色管理列表
 /*行业培训-培训课程*/
 export  const trainingServicesList = `${host}/trainingServices/list` // 角色插入
 
+/*政策申报-课程报名*/
+export const policyApplyById = `${host}/policyApply/get`// 获取活动详情
+export const policyApplyUpdateOne = `${host}/policyApply/update`//  更新
+export const policyApplyInsert = `${host}/policyApply/insert`//  插入
+
 /*行业培训-课程报名*/
 export const actionAll = `${host}/activity/list` // 列表
+export const actionGetById = `${host}/activity/get`// 获取活动详情
 export const activityApplyAddOne = `${host}/activityApply/insert`//  活动报名
 
 /*企业服务*/

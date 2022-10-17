@@ -15,6 +15,7 @@ service.interceptors.request.use(
   config => {
     // 添加请求头
     if (store.getters.token) {
+      config.headers['Access-Control-Allow-Origin'] = "*";
       config.headers['Authorization'] = getAccessToken()
     }
     return config

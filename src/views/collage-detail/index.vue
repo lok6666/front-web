@@ -1,6 +1,23 @@
 <template>
     <div ref="container" class="home-container">
       <app-header />
+      <el-dialog
+          :visible.sync="applydialogVisible"
+          :center="true"
+          title="活动报名"
+          width="880px"
+          :before-close="closeDialog">
+          <form-template
+          v-if="applydialogVisible"
+          style="padding: 0px 20px 20px 20px;"
+          :customStyle="{display: 'grid', 'grid-template-columns': '380px 380px','margin': `0px 0px 0px 30px`}"
+          @likeCountChanges="likeCountChanges(applyId, $event)"
+          :labelWidth="140"
+          :formConfig="activtyForm"
+          @closeDialog="closeDialog"
+          :showBtn="true"
+          :disabled="false"/> 
+        </el-dialog>
       <div class="policy-search-bg">课程详情</div>
       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -19,7 +36,7 @@
                   <div>{{data_collagedetail.activityDateFrom}}</div>
                 </div>
                 <div class="block"><img src="../../images/basic-location-black.png"/>定位</div>
-                <div class="block"><img src="../../images/apply.png"/>报名</div>
+                <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)"><img src="../../images/apply.png"/>报名</div>
             </div>
             <div class="content">
                 <div class="content-center" v-html="data_collagedetail.activityContent"></div>
@@ -38,18 +55,25 @@
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
   import AppHeader from "@/components/Header/index";
-
+  import FormTemplate from "@/components/Form/index.vue";
+  import request from '@/utils/request';
+  import { activtyForm } from "@/config/constant.js";
+  import { actionAll, activityApplyAddOne, actionGetById } from "@/config/api.js";
   import AppFooter from "@/components/footer/index";
   import { pagePublishedArticle } from "@/api/article.js";
   export default {
     name: "Index",
     components: {
       AppHeader,
-      AppFooter
+      AppFooter,
+      FormTemplate
     },
     data() {
       return {
-        data_collagedetail: JSON.parse(window.localStorage.getItem('collage-detail')),
+        activtyForm,
+        applyId: null,
+        applydialogVisible: false,
+        data_collagedetail: {},
         time: '2022-9-7',
         list: [{
         title: '石景山区启动开学保障执法检查 石景山园开展2022年“共产党员献爱心” 捐献活动',
@@ -70,21 +94,59 @@
       }]
       };
     },
-    created() {},
+    created() {
+      let that = this;
+      request({
+        url: `${actionGetById}/${this.$route.params.collageId.replace(':collageId=', '')}`,
+        method: 'get',
+        data: {}
+      })
+      .then((res) => {
+        that.data_collagedetail = res.data;
+      })
+    },
     computed: {
       orderBy() {
         return this.mainActive === 0 ? "publish_time" : "view_count";
       },
       ...mapGetters(["device"]),
     },
-  
-    mounted() {
-    },
     computed: {
         ...mapGetters([""]),
     },
-    created() {
-        // console.log('data_collagedetail--------', this.data_collagedetail);
+    methods: {
+      closeDialog(done) {
+        this.applydialogVisible = false;
+      },
+      applyAcitivty(id) {
+        this.applyId = id;
+        this.applydialogVisible = true;
+      },
+      likeCountChanges(id, formData) {
+      request({
+        url: `${activityApplyAddOne}`,
+        method: 'post',
+        data: {
+          act_id: id,
+          companyid: this.companyid,
+          ...formData
+        }
+      }).then((res) => {
+        // todo 修改后台返回字段
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          });
+          this.activtyForm = this.activtyForm.map((e, b) => {
+            let result = { ...e };  
+            delete result[e.prop];
+            return result;
+          });
+          this.applydialogVisible = false;
+        })
+      this.applydialogVisible = false;
+    },
     }
   };
   </script>

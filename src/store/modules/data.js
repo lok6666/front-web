@@ -77,7 +77,7 @@
     setBusneissDetail({ commit }, params) {
       return new Promise((resolve, reject) => {
         commit('SET_BUSNEISSDETAIL', params);
-        window.localStorage.setItem('busneiss-detail', JSON.stringify(loan));
+        window.localStorage.setItem('busneiss-detail', JSON.stringify(params));
         resolve()
       }).catch(error => {
         reject(error)

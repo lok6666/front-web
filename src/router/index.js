@@ -66,12 +66,17 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/picture-detail3',
+    component: () => import('@/views/picture-detail3/index'),
+    hidden: true
+  },
+  {
     path: '/new-detail/:artId/',
     component: () => import('@/views/new-detail/index'),
     hidden: true
   },
   {
-    path: '/collage-detail',
+    path: '/collage-detail/:collageId',
     component: () => import('@/views/collage-detail/index'),
     hidden: true
   },
@@ -91,7 +96,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/business-detail',
+    path: '/business-detail/:id',
     component: () => import('@/views/business-detail/index'),
     hidden: true
   },

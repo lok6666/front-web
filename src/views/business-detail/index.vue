@@ -35,7 +35,6 @@
             :key="index"
           >
             <div :class="`item-icon item-icon-${index}`" :style="`background-image: url(${item.url})`"></div>
-            {{ item.excellentBusniessName }}
           </div>
         </div>
         <div class="guide-header">
@@ -94,18 +93,6 @@ export default {
       busniessLogo,
       tagList: ["国有企业","物联网", "文化产业", "大数据",  "高新技术企业", "瞪羚企业", "专精特新企业", "文化科技融合", "语音通信","中小微企业"],
       excellentBusniessList: [
-        {
-          excellentBusniessName: "中关村高新技术企业",
-        },
-        {
-          excellentBusniessName: "高新技术企业证书",
-        },
-        {
-          excellentBusniessName: "等保三级",
-        },
-        {
-          excellentBusniessName: "科博会",
-        },
       ],
       busneissMessage: {},
       busneissMessage2: {},
@@ -132,7 +119,7 @@ export default {
         url: `${entPropagateGetById}`,
         method: 'get',
         params: {
-          entId: window.localStorage.getItem('USERID')
+          entId: `${that.$route.params.id.replace(':id=', '')}`
         }
       })
       .then(({data}) => {
@@ -150,11 +137,13 @@ export default {
           })
         } else {
           that.busneissMessage = {...data};
-          that.excellentBusniessList = JSON.parse(data.honorImg);
+          if(data.honorImg) {
+            that.excellentBusniessList = JSON.parse(data.honorImg);
+          };
         }
       });
       const { data } = await this.$store.dispatch('user/getUserInfo');
-      console.log('data------', data);
+      console.log('data------', that.busneissMessage);
       that.busneissMessage2 = {...data};
   },
   mounted() {
@@ -243,11 +232,9 @@ export default {
         text-align: center;
         border-radius: 8px;
         border: 1px solid #d99447;
-        padding-bottom: 15px;
       }
       .item-icon {
         height: 210px;
-        margin-bottom: 15px;
         background-repeat: no-repeat;
         background-size: 100% 100%;
       }

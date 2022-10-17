@@ -4,7 +4,7 @@
     class="note-list"
     element-loading-text="拼命加载中"
     element-loading-spinner="el-icon-loading"
-    element-loading-background="#fff"
+    element-loading-background="rgba(0, 0, 0, 0.1)"
   >
     <transition-group name="fade-list">
       <li v-for="(item, index) in list" :key="index" class="list-item">

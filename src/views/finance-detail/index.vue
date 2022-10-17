@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <img @click="applydialogVisible = true" src="../../images/applyBg.png" />
+          <img @click="applyService()" src="../../images/applyBg.png" />
         </div>
       </div>
       <div class="finance-detail-content">
@@ -126,14 +126,15 @@ export default {
     },
   },
   created() {
-      console.log('data_loandetail--------', this.data_loandetail);
       request({
         url: `${financialServicesAll}`,
         method: 'post',
         data: {}
       })
       .then((res) => {
-          this.loanList = res.data.list;
+          this.loanList = res.data.list.filter(e=> {
+            return e.id !== this.loanTail.id;
+          });
       })
   },
   watch: {
@@ -147,7 +148,9 @@ export default {
 
   methods: {
     // 初始化
-    init() {
+    async applyService() {
+      const { data } = await this.$store.dispatch('user/getUserInfo');
+      this.applydialogVisible = true
     },
     closeDialog(done) {
       this.applydialogVisible = false;

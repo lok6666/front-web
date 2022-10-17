@@ -107,9 +107,9 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       commit('SET_USER_INFO', '')
-      window.localStorage.setItem('userinfo', {})
-      window.localStorage.setItem('selection-detail', {})
-      window.localStorage.setItem('collage-detail', {});
+      window.localStorage.setItem('userinfo', '');
+      window.localStorage.setItem('selection-detail', '');
+      window.localStorage.setItem('collage-detail', '');
       removeAccessToken()
       resetRouter()
       const params = {

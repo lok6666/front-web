@@ -1,6 +1,27 @@
 <template>
     <div ref="container" class="home-container">
       <app-header />
+      <el-dialog
+          :visible.sync="applydialogVisible"
+          :center="true"
+          title="政策申报"
+          style="overflow: scroll;"
+          width="50%"
+          :lock-scroll="false"
+          :before-close="closeDialog">
+          <form-template
+          v-if="applydialogVisible"
+          style="padding: 0px 20px 20px 20px"
+          :customStyle="{'margin': `0px 0px 0px 100px`}"
+          @likeCountChanges="likeCountChanges(isExist?  policyApplyUpdateOne : policyApplyInsert, 'POST', $event)"
+          @closeDialog="closeDialog"
+          :labelWidth="180"
+          :formConfig="applyForm"
+          :disabled="false"
+          :showBtn="true"
+          /> 
+          <!-- <iframe style="width: 100%; height: 1000px;border: none;" src="https://wwo.wps.cn/office/w/2c9ebac580c36fc50183ca284d771141?_w_userid=3&_w_filetype=db&_w_filepath=%E7%A9%BA%E6%96%87%E6%A1%A3.docx&_w_appid=5b8f173bd752464d81b7aa78001c697f&_w_redirectkey=123456&_w_signature=enR248IrgRS1JbWCRfwDC3IDJJA%3D" /> -->
+      </el-dialog>
       <div class="policy-search-bg"></div>
       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 70px; margin-top: 20px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -31,13 +52,15 @@
                       <!-- <div>{{item.storageTime}}</div> -->
                     </div>
                   </div>
-                <!-- <div class="content-footer policy-opration">
-                  <div style="display: flex;">
+                 <div class="content-footer policy-opration">
+                  <!-- <div style="display: flex;">
                     <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
                     <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
-                  </div>
-                  <div class="opration-block policy-opration-apply" @click="applydialogVisible = true"><img src="../../images/policy-apply.png"/>申报政策</div>
-                </div> -->
+                  </div> -->
+                  <div 
+                  v-if="$route.params.artId.replace(':artId=', '') === '11611'"
+                  class="opration-block policy-opration-apply" @click="applyPolicy()"><img src="../../images/policy-apply.png"/>申报政策</div>
+                </div> 
             </div>
         </div>
       </div>
@@ -45,11 +68,13 @@
     </div>
   </template>
   <script>
-  import { applyPolicyForm } from "@/config/constant.js";
-  import { policyRelationList, policyDetail } from "@/config/api.js";
+  import { MessageBox, Message } from 'element-ui'
+  import { applyPolicyForm, applyForm } from "@/config/constant.js";
+  import { policyRelationList, policyDetail,policyApplyById,policyApplyUpdateOne,policyApplyInsert } from "@/config/api.js";
   import request from '@/utils/request';
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
+  import FormTemplate from "@/components/Form/index.vue";
   import AppHeader from "@/components/Header/index";
   import AppFooter from "@/components/footer/index";
   import { pagePublishedArticle } from "@/api/article.js";
@@ -57,14 +82,20 @@
     name: "Index",
     components: {
       AppHeader,
-      AppFooter
+      AppFooter,
+      FormTemplate
     },
     data() {
       return {
         policyDetail: {},
         applydialogVisible: false,
+        policyApplyUpdateOne,
+        policyApplyInsert,
         time: '2022-9-7',
-        list: []
+        list: [],
+        applyForm,
+        userid: window.localStorage.getItem('USERID'),
+        isExist: false,
       };
     },
     created() {
@@ -91,21 +122,21 @@
         handler: function(val, oldVal){
           let that = this;
           request({
-          url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
-          method: 'get'
-          }).then(res => {
-            that.newDetail = res.data;
-            request({
-              url: `${policyRelationList}`,
-              method: 'post',
-              data: {
-                policyId: res.data.id,
-                relationType: "政策解读",
-              }
+            url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
+            method: 'get'
             }).then(res => {
-              that.list = res.data.list;
-            });
-        });
+              that.newDetail = res.data;
+              request({
+                url: `${policyRelationList}`,
+                method: 'post',
+                data: {
+                  policyId: res.data.id,
+                  relationType: "政策解读",
+                }
+              }).then(res => {
+                that.list = res.data.list;
+              });
+          });
         },
         // 深度观察监听
         deep: true
@@ -122,8 +153,57 @@
     },
   
     methods: {
+      closeDialog(done) {
+        this.applydialogVisible = false;
+        done();
+      },
+      likeCountChanges(url, method = 'POST', formData) {
+        debugger;
+        request({
+          url: `${url}`,
+          method,
+          // todo 考虑 id怎么传进去
+          data: {
+            id: this.primaryId,
+            companyid: this.userid,
+            policyId: this.$route.params.artId.replace(':artId=', ''),
+            policyName: this.policyDetail.policyTitle,
+            companyName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
+            policyFile: JSON.stringify(formData)
+          }
+        }).then(res => {
+          Message({
+              message: '提交成功',
+              type: 'success',
+              duration: 5 * 1000
+            });
+            this.applydialogVisible = false;
+        });
+      },
       routeTo(item) {
         this.$router.push(`/policy-detail/:artId=${item.noticeId}`);
+      },
+      applyPolicy() {
+        let that = this;
+        request({
+          url: `${policyApplyById}`,
+          method: 'get',
+          params: {
+            companyid: this.userid,
+            policyId: that.$route.params.artId.replace(':artId=', '')
+          }
+        }).then(res => {
+          debugger;
+          // this.applyForm = this.applyForm.map(el => {
+          //   if(JSON.parse(res.data.policyFile)[el.prop]) {
+          //     el[el.prop] = JSON.parse(res.data.policyFile)[el.prop]
+          //   };
+          //   return el;
+          // });
+          this.primaryId = res.data.id;
+          this.applydialogVisible = true;
+          this.isExist = res.data.id !== '';
+        });
       }
     },
   };
@@ -158,6 +238,7 @@
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .new-container {
+      background: #fff;
       width: 100%;
       box-sizing: border-box;
       margin: 0 auto;

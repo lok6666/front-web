@@ -11,115 +11,130 @@ const xsOptions = [
   }
 ];
 const locationOptions1 = [
+
   {
-    value: "china",
-    label: "中国",
-    isSelect:　false
+    value: "北京",
+    label: "北京市",
+    isSelect:　false,
+    type: 'quxian'
   },
   {
-    value: "beijing",
-    label: "北京",
-    isSelect:　false
-  },
-  {
-    value: "shijingshan",
+    value: "石景山区",
     label: "石景山区",
-    isSelect:　false
+    isSelect:　false,
+    type: 'quxian'
   }
 ];
 const industrialOptions = [
   {
-    value: "china",
+    value: "众创空间",
     label: "众创空间",
-    isSelect:　false
+    isSelect:　false,
+    type: "jigou"
   },
   {
-    value: "beijing",
+    value: "孵化器",
     label: "孵化器",
-    isSelect:　false
+    isSelect:　false,
+    type: "jigou"
   },
   {
-    value: "shijingshan",
+    value: "加速器",
     label: "加速器",
-    isSelect:　false
+    isSelect:　false,
+    type: "jigou"
   },
   {
-    value: "shijingshan",
+    value: "产业园",
     label: "产业园",
-    isSelect:　false
+    isSelect:　false,
+    type: "jigou"
   },
   {
     value: "shijingshan",
     label: "其他",
-    isSelect:　false
+    isSelect:　false,
+    type: "jigou"
   }
 ];
 const regionOptions = [
   {
     value: "china",
     label: "中关村示范区",
-    isSelect:　false
+    isSelect:　false,
+    type: 'diyu'
   },
   {
     value: "beijing",
     label: "北京经济技术开发区",
-    isSelect:　false
+    isSelect:　false,
+    type: 'diyu'
   },
   {
     value: "shijingshan",
     label: "中关村石景山园",
-    isSelect:　false
+    isSelect:　false,
+    type: 'diyu'
   }
 ];
 const equityMarketOptions =  [
   {
     value: "china",
     label: "上市企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'shangshi'
   },
   {
     value: "beijing",
     label: "非上市企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'shangshi'
   }
 ];
 const developmentOptions = [
   {
     value: "china",
     label: "研发中心",
-    isSelect:　false
+    isSelect:　false,
+    type: 'keyan'
   },
   {
     value: "beijing",
     label: "实验室",
-    isSelect:　false
+    isSelect:　false,
+    type: 'keyan'
   }
 ];
 const projectOptions = [
   {
     value: "1企业",
     label: "平台项目",
-    isSelect:　false
+    isSelect:　false,
+    type: 'xiangmu'
   },
   {
     value: "beijing",
     label: "示范项目",
-    isSelect:　false
+    isSelect:　false,
+    type: 'xiangmu'
   },
   {
     value: "beijing",
     label: "工程项目",
-    isSelect:　false
+    isSelect:　false,
+    type: 'xiangmu'
   },
   {
     value: "beijing",
     label: "科技创新项目",
-    isSelect:　false
+    isSelect:　false,
+    type: 'xiangmu'
   },
   {
     value: "beijing",
     label: "其他",
-    isSelect:　false
+    isSelect:　false,
+    type: 'xiangmu'
   }
 ];
 
@@ -127,22 +142,26 @@ const busneissOptions = [
   {
     value: "1企业",
     label: "上榜企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'fenlei'
   },
   {
     value: "beijing",
     label: "头部企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'fenlei'
   },
   {
     value: "beijing",
     label: "服务机构",
-    isSelect:　false
+    isSelect:　false,
+    type: 'fenlei'
   },
   {
     value: "beijing",
     label: "其他",
-    isSelect:　false
+    isSelect:　false,
+    type: 'fenlei'
   }
 ];
 const locationOptions = [
@@ -216,12 +235,14 @@ const organizationOptions = [
   {
     value: "1企业",
     label: "企事业单位",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zuzhi'
   },
   {
     value: "beijing",
     label: "社会组织",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zuzhi'
   }
 ];
 const ywOptions = [
@@ -240,62 +261,74 @@ const businessOptions = [
   {
     value: "1企业",
     label: "高精尖产业",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "现代服务业",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "新基建",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "商贸流通业",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "新基建",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "商贸流通业",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "数字创意",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "工业互联网",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "体育运动",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "文化旅游",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "智慧城市",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
   {
     value: "beijing",
     label: "其他",
-    isSelect:　false
+    isSelect:　false,
+    type: '"yewu'
   },
 ];
 const favourablebusinessOptions1 = [
@@ -337,151 +370,127 @@ const favourablebusinessOptions1 = [
 ];
 const favourablebusinessOptions = [
   {
-    value: "1企业",
-    label: "高精尖产业",
+    label: '高精尖产业',
+    value: '高精尖产业',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "现代服务业",
+    label: '现代服务业',
+    value: '现代服务业',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "新基建",
+    label: '新基建',
+    value: '新基建',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "商贸流通业",
+    label: '商贸流通业',
+    value: '商贸流通业',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "新基建",
+    label: '文化创意',
+    value: '文化创意',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "商贸流通业",
+    label: '数字文化',
+    value: '数字文化',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "数字创意",
+    label: '文化旅游',
+    value: '文化旅游',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "工业互联网",
+    label: '制造业',
+    value: '制造业',
+    isSelect:　false
+  },{
+    label: '企业服务',
+    value: '企业服务',
     isSelect:　false
   },
   {
-    value: "beijing",
-    label: "体育运动",
+    label: '其他',
+    value: '其他',
     isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "文化旅游",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "制造业",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "其他",
-    isSelect:　false
-  },
+  }
 ];
 const zzOptions = [
   {
     value: "1企业",
     label: "国家高新技术企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "中关村高新企业",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "新双软认证企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "专精特新企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "专精特新小巨人企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
-    label: "科技小巨人企业",
-    isSelect:　false
+    label: "专精特新小巨人企业",
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "瞪羚企业",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "瞪羚企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "科技型中小企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "展翼企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "隐形冠军企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "技术先进型服务企业",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "牛羚企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "独角兽企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
   {
     value: "beijing",
     label: "创新型企业",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "金种子企业",
-    isSelect:　false
-  },
-  {
-    value: "beijing",
-    label: "中关村“十百千工程”企业基建",
-    isSelect:　false
+    isSelect:　false,
+    type: 'zizhi'
   },
 ];
 const themeOptions = [
@@ -575,78 +584,92 @@ const businessAttributeOptions = [
   {
     value: "1企业",
     label: "特大型企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'guimo'
   },
   {
     value: "1企业",
     label: "大型企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'guimo'
   },
   {
     value: "beijing",
     label: "中型企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'guimo'
   },
   {
     value: "beijing",
     label: "小型企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'guimo'
   },
   {
     value: "beijing",
     label: "微型企业",
-    isSelect:　false
+    isSelect:　false,
+    type: 'guimo'
   }
 ];
 const createOptions = [
   {
     value: "1企业",
     label: "技术标准",
-    isSelect:　false
+    isSelect:　false,
+    type: 'chuangxin'
   },
   {
     value: "3-5年",
     label: "知识产权",
-    isSelect:　false
+    isSelect:　false,
+    type: 'chuangxin'
   }
 ];
 const taxOptions = [
   {
     value: "1企业",
     label: "营收",
-    isSelect:　false
+    isSelect:　false,
+    type: 'caiwu'
   },
   {
     value: "3-5年",
     label: "税收",
-    isSelect:　false
+    isSelect:　false,
+    type: 'caiwu'
   },
   {
     value: "3-5年",
     label: "注册资本",
-    isSelect:　false
+    isSelect:　false,
+    type: 'caiwu'
   }
 ];
 const yearOptions = [
   {
     value: "1企业",
     label: "0-3年",
-    isSelect:　false
+    isSelect:　false,
+    type: 'nianxian'
   },
   {
     value: "3-5年",
     label: "3-5年",
-    isSelect:　false
+    isSelect:　false,
+    type: 'nianxian'
   },
   {
     value: "beijing",
     label: "5-10年",
-    isSelect:　false
+    isSelect:　false,
+    type: 'nianxian'
   },
   {
     value: "beijing",
     label: "10年以上",
-    isSelect:　false
+    isSelect:　false,
+    type: 'nianxian'
   }
 ];
 // 基本信息
@@ -799,7 +822,26 @@ const messageForm = [
       }
     ],
     showSelect: true,
-  }];
+  },
+  {
+    prop: "businessArea",
+    label: "业务领域",
+    showSelect: true,
+    options: favourablebusinessOptions
+  },
+  {
+    prop: "businessArea",
+    label: "数字创意",
+    showSelect: true,
+    options: zzOptions
+  },
+  {
+    prop: "businessArea",
+    label: "企业规模",
+    showSelect: true,
+    options: businessAttributeOptions
+  }
+  ];
 
 // 招商申请
 const applyMessageForm = [
@@ -847,15 +889,15 @@ const applyMessageForm = [
   showInput: true
 },
 {
+  prop: "businessIncome",
+  label: "上一年度营业收入",
+  showInput: true
+},
+{
   prop: "applyInfo",
   label: "备注",
   showTextarea: true
 },
-{
-  prop: "businessIncome",
-  label: "营业收入",
-  showInput: true
-}
 ];
 
 const activtyForm = [
@@ -1004,20 +1046,32 @@ const propagandaForm = [
 // 备案信息
 const baForm = [
   {
-      prop: "representativePeople",
-      label: "法定代表人",
-      required: true,
-      showInput: true
+    prop: "entname",
+    label: "企业名称",
+    required: true,
+    showInput: true
   },
   {
-      prop: "busneissEmail",
-      label: "企业邮箱",
-      required: true,
-      showInput: true
+    prop: "shxydm",
+    label: "社会统一代码",
+    required: true,
+    showInput: true
   },
   {
-    prop: "entPhone",
-    label: "公司电话",
+    prop: "frdb",
+    label: "法人",
+    required: true,
+    showInput: true
+  },
+  {
+    prop: "frdbPhone",
+    label: "法人手机号",
+    required: true,
+    showInput: true
+  },
+  {
+    prop: "frdbCard",
+    label: "法人身份证",
     required: true,
     showInput: true
   },
@@ -1276,118 +1330,175 @@ const applyPolicyForm = [{
 }];
 
 
+const applyForm = [
+  {
+    prop: "individualIncomeTax1",
+    label: "项目奖励类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax2",
+    label: "项目贷款贴息类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax3",
+    label: "项目贴租类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax4",
+    label: "项目贴保类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax5",
+    label: "项目保险贴费类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax6",
+    label: "企业奖励类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax7",
+    label: "项目补助类材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },{
+    prop: "individualIncomeTax",
+    label: "疫情期间企业贷款材料",
+    // required: true,
+    file: true,
+    disabled: false
+  },
+];
 // 申报政策
-const applyForm = [{
-  prop: "entName",
-  label: "企业名称",
-  required: true,
-  showInput: true,
-},{
-  prop: "entOrigin",
-  label: "企业组织形式",
-  options: [
-    {
-      label: '数字创意',
-      value: '数字创意'
-    },
-    {
-      label: '文化旅游',
-      value: '文化旅游'
-    },
-    {
-      label: '高精尖产业',
-      value: '高精尖产业'
-    },
-    {
-      label: '现代服务业',
-      value: '现代服务业'
-    },
-    {
-      label: '商贸流通业',
-      value: '商贸流通业'
-    },
-    {
-      label: '企业服务',
-      value: '企业服务'
-    },
-    {
-      label: '其他',
-      value: '其他'
-    }
-  ],
-  showSelect: true,
+// const applyForm = [{
+//   prop: "entName",
+//   label: "企业名称",
+//   required: true,
+//   showInput: true,
+// },
+// {
+//   prop: "entOrigin",
+//   label: "申报附件",
+//   upload: true
+// },
+// {
+//   prop: "entOrigin",
+//   label: "企业组织形式",
+//   options: [
+//     {
+//       label: '数字创意',
+//       value: '数字创意'
+//     },
+//     {
+//       label: '文化旅游',
+//       value: '文化旅游'
+//     },
+//     {
+//       label: '高精尖产业',
+//       value: '高精尖产业'
+//     },
+//     {
+//       label: '现代服务业',
+//       value: '现代服务业'
+//     },
+//     {
+//       label: '商贸流通业',
+//       value: '商贸流通业'
+//     },
+//     {
+//       label: '企业服务',
+//       value: '企业服务'
+//     },
+//     {
+//       label: '其他',
+//       value: '其他'
+//     }
+//   ],
+//   showSelect: true,
 
-},{
-  prop: "registerDate",
-  label: "注册日期",
-  required: true,
-  showDatePicker: true,
-},{
-  prop: "registerCapital",
-  label: "注册资本(万元)",
-  required: true,
-  showInput: true,
+// },{
+//   prop: "registerDate",
+//   label: "注册日期",
+//   required: true,
+//   showDatePicker: true,
+// },{
+//   prop: "registerCapital",
+//   label: "注册资本(万元)",
+//   required: true,
+//   showInput: true,
 
-},{
-  prop: "registerAddress",
-  label: "注册地址",
-  required: true,
-  showInput: true,
+// },{
+//   prop: "registerAddress",
+//   label: "注册地址",
+//   required: true,
+//   showInput: true,
 
-},{
-  prop: "projectPerson",
-  label: "项目联系人",
-  required: true,
-  showInput: true,
+// },{
+//   prop: "projectPerson",
+//   label: "项目联系人",
+//   required: true,
+//   showInput: true,
 
-},{
-  prop: "projectPerson",
-  label: "项目联系人",
-  required: true,
-  showInput: true,
+// },{
+//   prop: "projectPerson",
+//   label: "项目联系人",
+//   required: true,
+//   showInput: true,
 
-},,{
-  prop: "enterPerson",
-  label: "项目联系人",
-  required: true,
-  showInput: true,
+// },,{
+//   prop: "enterPerson",
+//   label: "项目联系人",
+//   required: true,
+//   showInput: true,
 
-},{
-  prop: "projectPerson",
-  label: "项目联系人",
-  required: true,
-  showInput: true,
+// },{
+//   prop: "projectPerson",
+//   label: "项目联系人",
+//   required: true,
+//   showInput: true,
 
-},{
-  prop: "projectTelephone",
-  label: "项目联系人电话",
-  required: true,
-  showInput: true,
+// },{
+//   prop: "projectTelephone",
+//   label: "项目联系人电话",
+//   required: true,
+//   showInput: true,
 
-},{
-  prop: "payTaxes",
-  label: "纳税额(不含个人所得税)",
-  // required: true,
-  showInput: true,
+// },{
+//   prop: "payTaxes",
+//   label: "纳税额(不含个人所得税)",
+//   // required: true,
+//   showInput: true,
 
-},{
-  prop: "addedTax",
-  label: "增值税",
-  // required: true,
-  showInput: true,
+// },{
+//   prop: "addedTax",
+//   label: "增值税",
+//   // required: true,
+//   showInput: true,
 
-},{
-  prop: "corporateIncomeTax",
-  label: "企业所得税",
-  // required: true,
-  showInput: true,
+// },{
+//   prop: "corporateIncomeTax",
+//   label: "企业所得税",
+//   // required: true,
+//   showInput: true,
 
-},{
-  prop: "individualIncomeTax",
-  label: "个人所得税",
-  // required: true,
-  showInput: true,
-}];
+// },{
+//   prop: "individualIncomeTax",
+//   label: "个人所得税",
+//   // required: true,
+//   showInput: true,
+// }];
 
 module.exports = {
   xsOptions,

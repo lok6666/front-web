@@ -48,7 +48,7 @@ export function codeLogin(params) {
  */
 export async function getUserInfo(token) {
   let result = await request({
-     url: `${entInfoGetById}/${ window.localStorage.getItem('USERID')}`,
+     url: `${entInfoGetById}/${window.localStorage.getItem('USERID')}`,
      method: 'get'
   });
   window.localStorage.setItem('userinfo', JSON.stringify(result.data));

@@ -3,7 +3,7 @@
     <div class="user-table-title">
       <div class="user-table-service">我的活动</div>
     </div>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%"@row-click="routerTo">
       <el-table-column v-for="(item, index) in tableItem" :key="index" :width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;">{{ item.label }}</div>
@@ -77,6 +77,10 @@ export default {
     this.getPolicyList();
   },
   methods: {
+    routerTo(item) {
+        this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
+        this.$router.push(`/collage-detail/:collageId=${item.actId}`);
+      },
     getPolicyList() {
       let that = this;
       request({

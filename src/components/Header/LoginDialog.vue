@@ -76,7 +76,7 @@ export default {
       password: '',
       mobile: '',
       code: '',
-      tabs: ['密码登录', '免密登录'],
+      tabs: ['密码登录'],
       active: 0,
       checked: false,
       loading: false,
@@ -89,8 +89,8 @@ export default {
   },
 
   mounted() {
-    this.username = this.login_username || 'root'
-    this.password = this.login_password || '123456'
+    this.username = this.login_username,
+    this.password = this.login_password,
     this.checked = getRemember() === '1'
   },
 

@@ -6,7 +6,7 @@
         <img class="table-icon" src="../../../images/列表.png" style="width: 17px; heigth: 17px;"/>查看全部
     </div>
   </div>
-  <el-table :data="tableData" style="width: 100%">
+  <el-table :data="tableData" style="width: 100%" @row-click="routerTo">
       <el-table-column v-for="(item, index) in tableItem" :key="index" :align="item.align" :min-width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
@@ -23,6 +23,7 @@
   import {
     activityApplyList
   } from "@/config/api";
+  import _ from 'lodash';
  import request from '@/utils/request';
   import levelImg from "@/images/gift.png";
   import policyTitleImg from "@/images/单位.png";
@@ -84,7 +85,11 @@
     methods: {
       checkAll() {
         this.$emit('checkAll', 7);
-      }
+      },
+      routerTo(item) {
+        this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
+        this.$router.push(`/collage-detail/:collageId=${item.actId}`);
+      },
     }
   }
 </script>

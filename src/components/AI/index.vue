@@ -10,13 +10,13 @@
         <div class="chatBox">
           <!-- 聊天窗 -->
           <div class="chatWindow" id="chatWindow">
-            <div class="loading" v-if="isLoading">
+            <!-- <div class="loading" v-if="isLoading">
               <img
                 class="loadingImg"
                 src="../../assets/loading.gif"
                 alt="加载中"
               />
-            </div>
+            </div> -->
             <div
               class="chatBubbleBox"
               v-for="(item, index) in chats"
@@ -615,9 +615,9 @@ export default {
           padding: 0 40px;
           position: relative;
           .loading {
-            position: fixed;
-            top: 48%;
-            left: 36.5%;
+            // position: fixed;
+            // top: 48%;
+            // left: 36.5%;
             transform: translate(-50%);
             display: flex;
             align-items: center;

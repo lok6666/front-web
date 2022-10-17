@@ -86,6 +86,7 @@
               title="基本信息"
               :formConfig="messageForm"
               :showBtn="true"
+              :showCanelBtn="false"
               :disabled="false"/> 
           </div>
           <div v-else-if="categoryId === 2">
@@ -97,6 +98,7 @@
               title="宣传信息管理"
               :formConfig="propagandaForm"
               :showBtn="true"
+              :showCanelBtn="false"
               :disabled="false"/> 
           </div>
           <div v-else-if="categoryId === 3">
@@ -105,6 +107,7 @@
               @likeCountChanges="likeCountChanges(isExist?   entIncomeUpdate : entIncomeInsert, 'POST', $event)"
               :labelWidth="220"
               :showBtn="true"
+              :showCanelBtn="false"
               :disabled="false"/> 
           </div>
           <div v-else-if="categoryId === 4">
@@ -116,6 +119,7 @@
               title="企业备案信息"
               :formConfig="baForm"
               :showBtn="true"
+              :showCanelBtn="false"
               :disabled="false"/> 
           </div>
           <div v-else-if="categoryId === 5">

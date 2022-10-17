@@ -1,6 +1,6 @@
 <template>
   <div class="guide-wrap policy-bg">
-    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose"/>
+    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose" @dialogClose="dialogClose"/>
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
@@ -86,6 +86,9 @@ export default {
     PolicyCalculate
   },
   methods: {
+    dialogClose() {
+      this.dialogVisible = false;
+    },
     handleClose() {
       this.dialogVisible = false;
       this.$router.push('/policy-match');
