@@ -48,6 +48,48 @@
         </el-form-item>
         </el-form>
       </div>
+      <h2 style="display: inline; margin-bottom: 40px;">申报材料</h2>
+      <div style="display: grid;grid-template-columns: 450px 450px;margin-top: 40px;">
+        <el-form
+        style="height: 80px;"
+        ref="formRef"
+        :inline="true"
+        v-for="(item, i) in applyForm"
+        :key="i"
+        :disabled="disabled || item.disabled"
+        :model="item"
+        size="mini"
+        class="demo-dynamic"
+        :label-width="`${labelWidth}px`"
+        label-position="right"
+      >
+        <el-form-item
+          :prop="item.prop"
+          :label="item.label"
+        >
+          <!--上传附件-->
+        <div @click="getIndex(i)" v-if="item.file">
+          <el-upload
+            :file-list="item[item.prop] ? JSON.parse(item[item.prop]): ''"
+            class="upload-demo"
+            :indexValue="i"
+            ref="uploadFile"
+            :on-remove="handleRemoveFile"
+            :before-upload="beforeAvatarUploadFile"
+            :limit="1"
+            :on-exceed="handleExceed"
+          >
+            <el-button type="primary">请上传附件</el-button>
+            <!-- <template #tip>
+              <div class="el-upload__tip">
+                请上传附件
+              </div>
+            </template> -->
+          </el-upload>
+        </div>
+        </el-form-item>
+        </el-form>
+      </div>
       <div v-if="showBtn" style="float: right">
         <el-button type="primary" @click="submitForm('formRef')">保存</el-button>
       </div>
@@ -58,7 +100,8 @@
   import {
     entIncomeGetById
   } from "@/config/api";
-  import { priceForm } from "@/config/constant.js";
+  import { upload } from "@/config/api.js";
+  import { priceForm, applyForm } from "@/config/constant.js";
   import _ from 'lodash';
   import request from '@/utils/request';
     export default {
@@ -97,6 +140,7 @@
     },
     data() {
       return {
+        applyForm: applyForm,
         priceForm: priceForm,
         formData: {},
         value: 2022,
@@ -165,6 +209,61 @@
     },
   
     methods: {
+      // 单独上传附件
+      handleRemoveFile(file) {
+        let index = '';
+        let that = this;
+        let itemIndex = this.itemIndex;
+        let fileList = that.applyForm[itemIndex][that.applyForm[itemIndex].prop];
+        let list = fileList? JSON.parse(fileList): [];
+        list.forEach((item, i) => {
+          if(item.name === file.name) {
+            index = i;
+          };
+        });
+        list.splice(index, 1);
+        that.applyForm[itemIndex][that.applyForm[itemIndex].prop] = JSON.stringify(list)
+        delete that.applyForm[itemIndex][that.applyForm[itemIndex].prop];
+        that.applyForm = _.cloneDeep(that.applyForm);
+      },
+      // 获取索引
+      getIndex(i) {
+        this.itemIndex = i;
+      },
+      beforeAvatarUploadFile(rawFile) {
+        var axios = require("axios");
+        var FormData = require("form-data");
+        var data = new FormData();
+        data.append("file", rawFile); // file 即选中的文件
+        data.append("userId", window.localStorage.getItem('USERID'));
+        data.append("type", "file");
+        let that = this;
+        let itemIndex = this.itemIndex;
+        var config = {
+          method: "post",
+          url: `${upload}`, //上传图片地址
+          type: 'file',
+          data: data
+        };
+        axios.defaults.crossDomain = true;
+        axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+        axios(config)
+          .then(function ({data}) {
+            let fileList = that.applyForm[itemIndex][that.applyForm[itemIndex].prop];
+            let list = fileList? JSON.parse(fileList): [];
+            list.push({
+              name: data.substring(data.lastIndexOf('\/') + 1),
+              url: data,
+              itemIndex,
+              label: that.applyForm[itemIndex].label
+            });
+            that.applyForm[itemIndex][that.applyForm[itemIndex].prop] = JSON.stringify(list);
+            that.applyForm = _.cloneDeep(that.applyForm);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
       getPolicyList() {
         let that = this;
         request({
@@ -216,7 +315,6 @@
       async submitForm(formName) {
         let formData = this.formData;
         if (await this.validateForm(this.$refs.formRef)) {
-          debugger;
           this.formConfig.forEach((v) => {
             formData[v.prop] = v[v.prop];
           });
@@ -228,4 +326,28 @@
     },
   };
   </script>
-  
+  <style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

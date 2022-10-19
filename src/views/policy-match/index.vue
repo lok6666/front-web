@@ -9,11 +9,11 @@
         <div class="policy-total">
             <div class="policy-total-content">
                 <div class="total-num">
-                    <div class="title">已为您计算 出适合的政策</div>
+                    <div class="title">已为您计算出适合的政策</div>
                     <div class="num">{{policyList.length}}条</div>
                 </div>
                 <div class="total-price">
-                    <div class="title">预计可获取 奖励资金</div>
+                    <div class="title">政策可提供最大扶持资金</div>
                     <div class="num">{{price}}万元</div>
                 </div>
             </div>
@@ -31,7 +31,10 @@
                     </div>
                     </div>
                 </div>
-                <div class="policy-calculate" @click="dialogVisible = true">政策计算器</div>
+                <div style="display: flex;">
+                  <div class="policy-calculate" style="margin-right: 10px;" @click="getPolicyList()">换一批</div>
+                  <div class="policy-calculate" @click="dialogVisible = true">政策计算器</div>
+                </div>
             </div>
         </div>
         <div class="policy-result">
@@ -80,7 +83,7 @@
                     <span style="display: flex;align-item: center;">发文部门:</span>
                     <div class="address">{{item.policyAgency}}</div>
                     <span style="display: flex;align-item: center;">发布时间:</span>
-                    <div class="time">{{item.policyTime}}</div>
+                    <div class="time">{{item.policyTime.substring(0, 10)}}</div>
                   </div>
                 </div>
                 <div class="right">
@@ -95,9 +98,9 @@
               <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="currentPage4"
+                :current-page="pageNum"
                 :page-sizes="[10, 20 ,40]"
-                :page-size="5"
+                :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="policyList.length">
               </el-pagination>
@@ -121,13 +124,15 @@
     name: "User",
     data() {
       return {
-        currentPage4: 4,
+        pageNum: 1,
+        pageSize: 10,
+        timer: null,
         dialogVisible: false,
         loading: true,
         siftIndex: 0,
         inputValue: '',
         categoryId: 0,
-        price: '3,763.67',
+        price: '0',
         locationMap: {
           beijing: '北京',
           shijingshan: '石景山'
@@ -135,18 +140,18 @@
         policyCalculate:{
           "jigou": "不符合",
           "diyu": "不符合",
-          "shangshi": "非上市企业",
+          "shangshi": "不符合",
           "keyan": "不符合",
-          "fenlei": "上榜企业",
-          "xiangmu": "平台项目",
-          "zuzhi": "企事业单位",
-          "yewu": "数字创意",
-          "chuangxin": "知识产权",
-          "caiwu": "注册资本",
-          "zizhi": "专精特新企业",
-          "guimo": "小型企业",
-          "nianxian": "5-10年",
-          "quxian": "石景山区"
+          "fenlei": "不符合",
+          "xiangmu": "不符合",
+          "zuzhi": "不符合",
+          "yewu": "不符合",
+          "chuangxin": "不符合",
+          "caiwu": "不符合",
+          "zizhi": "不符合",
+          "guimo": "全部",
+          "nianxian": "全部",
+          "quxian": "全部"
       },
         policyList: [],
         opacition: [{
@@ -158,7 +163,7 @@
           {
             message: '立即咨询'
           }],
-        siftOptions: [
+/*         siftOptions: [
             {
                 value: "1企业",
                 label: "智能排序",
@@ -174,7 +179,7 @@
                 label: "最高奖励金额",
                 isSelect:　false
             }
-        ],
+        ], */
         selectedOptions: []
       };
     },
@@ -215,6 +220,7 @@
             }
           }).then(res => {
             that.loading = false,
+            that.realPolicyList = res.data.dataList;
             that.policyList = res.data.dataList;
             that.price = res.data.dataPlant;
           });
@@ -232,17 +238,28 @@
         });
       },
       inputConfirm(val) {
-        console.log('inputConfirm-----', val);
-        this.policyList = this.policyList.filter(e => e.policyTitle.includes(val));
-        // this.policyTitle = val;
-        // this.getPolicyList();
+        if(this.timer) clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          if(val === '') {
+            this.policyList = this.realPolicyList;
+          } else {
+            this.policyList = this.policyList.filter(e => e.policyTitle.includes(val));
+          }
+        }, 1000);
       },
       search() {},
       handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+        // 计算真实数据realPolicyList
+        debugger;
+        this.pageSize = val;
+        this.policyList = this.realPolicyList.slice((this.pageSize - 1)*this.pageNum, this.pageSize*this.pageNum);
+        console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
+        this.pageNum = val;
+        // 计算真实数据realPolicyList
         console.log(`当前页: ${val}`);
+        this.policyList = this.realPolicyList.slice((this.pageSize - 1)*this.pageNum, this.pageSize*this.pageNum);
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -260,9 +277,10 @@
         console.log("this---------", this.btnList[index]);
       },
       detail(index) {
-        this.$router.push({
+        window.open(`${location.origin}/#/policy-match-detail/:${index}`)
+    /*     this.$router.push({
           path: `/policy-match-detail/:${index}`
-        })
+        }) */
       },
     },
   };
@@ -453,11 +471,11 @@
                 }
               }
               .content {
-                color: rgba(151,151,151, 0.5);
+                color: rgb(151,151,151);
                 // font-size: 18px;  
               }
               .footer {
-                color: rgba(151,151,151, 0.5);
+                color: rgb(151,151,151);
               }
             }
             // .center {

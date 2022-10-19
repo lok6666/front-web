@@ -17,6 +17,7 @@
             <div class="desc">{{indexCollage.activityAbstract}}</div>
             <div class="apply-time-and-location">
               <div class="applyTime">报名时间:{{indexCollage.applyTimeFrom}}</div>
+              <div class="applyTime">报名截至时间:{{indexCollage.applyTimeTo}}</div>
               <div class="location">培训地点:{{indexCollage.activityAddress}}</div>
             </div>
             <div class="footer">
@@ -26,9 +27,11 @@
               </div>
               <div class="other">
                 <div class="other-item" style="border: 2px solid #8B572A;">
-                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activityDateFrom}}</div>
+                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(indexCollage.activityDateFrom).getHours()}}:{{new Date(indexCollage.activityDateFrom).getMinutes()}}</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(indexCollage.activityDateFrom).getMonth()}}月{{new Date(indexCollage.activityDateFrom).getDate()}}日</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 20px;">{{new Date(indexCollage.activityDateFrom).getFullYear()}}年</div>
                 </div>
-                <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
+                <div class="other-item location"><img src="../../images/basic-location.png"  @click="routerTo(indexCollage)"/>查看详情</div>
                 <div class="other-item apply"><img src="../../images/user-plus.png" @click.stop="applyAcitivty(indexCollage.id)"/>报名</div>
               </div>
             </div>
@@ -65,15 +68,15 @@
                 </div> -->
                 <div class="other">
                   <div class="other-item" style="border: 2px solid #8B572A;">
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 36px;">{{new Date(item.activityDateFrom).getFullYear()}}</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getMonth()}}-{{new Date(item.activityDateFrom).getDate()}}</div>
                     <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getHours()}}:{{new Date(item.activityDateFrom).getMinutes()}}</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getMonth()}}月{{new Date(item.activityDateFrom).getDate()}}日</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 20px;">{{new Date(item.activityDateFrom).getFullYear()}}年</div>
                   </div>
-                  <div class="other-item location"><img src="../../images/basic-location.png"/>定位</div>
+                  <div class="other-item location"><img src="../../images/basic-location.png"  @click="routerTo(item)"/>查看详情</div>
                   <div class="other-item apply" @click.stop="applyAcitivty(item.id)"><img src="../../images/user-plus.png"/>报名</div>
                 </div>
               </div>
-              <div class="check-data" @click="routerTo(item)">查看日程</div>
+              <!-- <div class="check-data" @click="routerTo(item)">查看日程</div> -->
           </div>
         </div>
       </div>
@@ -142,7 +145,6 @@ export default {
       done();
     },
     routerTo(item) {
-      debugger;
       this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
       this.$router.push(`/collage-detail/:collageId=${item.id}`);
     },
@@ -205,16 +207,16 @@ export default {
             width: 416px;
           }
           .title {
-            font-size: 36px;
+            font-size: 30px;
             font-family: AlibabaPuHuiTiB;
             color: #212121;
             height: 100px;
             margin: 0 5px;
             display: flex;
             align-items: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            // white-space: nowrap;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
           }
           .desc {
             // width: 576px;
@@ -238,6 +240,7 @@ export default {
           .other {
             display: flex;
             justify-content: space-around;
+            margin-bottom: 10px;
             &-item {
               cursor: pointer;
               width: 101px;

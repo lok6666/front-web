@@ -40,6 +40,7 @@ export default {
     }
   },
   created() {
+    console.log('1111');
     let that = this;
     // 最新新闻
     request({

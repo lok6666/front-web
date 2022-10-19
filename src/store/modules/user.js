@@ -107,6 +107,7 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       commit('SET_USER_INFO', '')
+      window.localStorage.setItem('USERID', '');
       window.localStorage.setItem('userinfo', '');
       window.localStorage.setItem('selection-detail', '');
       window.localStorage.setItem('collage-detail', '');

@@ -45,7 +45,7 @@
                     </div>
                   </div>
                 </div>
-                  <div class="relation-policy">
+                  <div class="relation-policy" v-if="list.length">
                     <div style="font-size: 28px;font-family: AlibabaPuHuiTiM;color: #000000;margin-bottom: 20px;">政策关联</div>
                     <div class="relation-policy-item" v-for="(item, index) in list" :key="index" @click="routeTo(item)">
                       <div style="color: #8B572A;">{{item.noticeTitle}}</div>
@@ -74,7 +74,7 @@
   import request from '@/utils/request';
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
-  import FormTemplate from "@/components/Form/index.vue";
+  import FormTemplate from "./priceForm.vue";
   import AppHeader from "@/components/Header/index";
   import AppFooter from "@/components/footer/index";
   import { pagePublishedArticle } from "@/api/article.js";
@@ -158,7 +158,6 @@
         done();
       },
       likeCountChanges(url, method = 'POST', formData) {
-        debugger;
         request({
           url: `${url}`,
           method,
@@ -193,7 +192,6 @@
             policyId: that.$route.params.artId.replace(':artId=', '')
           }
         }).then(res => {
-          debugger;
           // this.applyForm = this.applyForm.map(el => {
           //   if(JSON.parse(res.data.policyFile)[el.prop]) {
           //     el[el.prop] = JSON.parse(res.data.policyFile)[el.prop]
@@ -310,7 +308,8 @@
               font-family: AlibabaPuHuiTiM;
               color: #FFFFFF;
               display: flex;
-              justify-content: space-between;
+              justify-content: center;
+              margin-bottom: 10px;
               .opration-block {
                 display: flex;
                 justify-content: center;

@@ -16,11 +16,8 @@
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{ item.showKey === 'dockStatus'
-          ?  applyStatusObj[scope.row[item.showKey]] 
-          : item.showKey === 'serviceType'
-          ? applyStatus1Obj[scope.row[item.showKey]] 
-          :scope.row[item.showKey] }}</span>
+          <!-- <span>{{ item.showKey === 'dockStatus' ? option[scope.row[item.showKey]] : scope.row[item.showKey]}}</span> -->
+          <span>{{scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -29,7 +26,7 @@
 
 <script>
 import {
-  financialServicesAll
+  financialServiceDockingAll
  } from "@/config/api";
  import request from '@/utils/request';
 import levelImg from "@/images/修改名称.png";
@@ -54,37 +51,32 @@ export default {
         5: '财税服务'
       },
       tableItem: [
-      {
-          label: "服务名称",
+        {
+          label: "产品名称",
           src: levelImg,
           showKey: "serviceName",
         },
         {
-          label: "额度范围",
+          label: "服务商名称",
           src: policyTitleImg,
-          showKey: "serviceQuota",
+          showKey: "supplierName",
         },
         {
-          label: "期限",
+          label: "申请时间",
           src: addressImg,
-          showKey: "serviceTerm",
+          showKey: "dockTime",
         },
         {
-          label: "利率范围",
+          label: "状态",
           src: statusImg,
-          showKey: "serviceRange",
-        },
-        {
-          label: "担保方式",
-          src: dateImg,
-          showKey: "serviceType",
+          showKey: "dockStatus",
         }
       ],
     };
   },
   created() {
     request({
-      url: `${financialServicesAll}`,
+      url: `${financialServiceDockingAll}`,
       method: 'post',
       data: {
         companyid: window.localStorage.getItem('USERID')

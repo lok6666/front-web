@@ -2,12 +2,12 @@
   <div class="app-container">
     <app-header :nav-item-active="-1" />
     <div class="policy-search-bg">
-      <div style="display: flex;align-items: center;">政策申报<p class="policy-search-agile">Cultural industry</p></div>
+      <div style="display: flex;align-items: center;">最新政策<p class="policy-search-agile">Cultural industry</p></div>
     </div>
     <div class="policy-search-container">
     <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>政策申报</el-breadcrumb-item>
+      <el-breadcrumb-item>最新政策</el-breadcrumb-item>
     </el-breadcrumb>
       <div class="search">
         <el-input class="a" v-model="inputValue" style="border-radius: 18px;" placeholder="请输入政策标题" @change="inputConfirm">
@@ -76,8 +76,17 @@
             <div v-for="(item, index) in policyList" :key="index"
               :class="`item-${index} policy-search-container-item`" @click="routeTo(item)">
               <div class="message">{{item.policyTitle}}</div>
-              <div class="time">
-                <i :class="[item.isCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)"/>
+              <div class="time" style="display: flex;align-items: center;">
+                <div style="background: #409eff;padding: 0px 8px;
+                  margin-right: 5px;
+                  height: 24px;
+                  width: 70px;
+                  border-radius: 3px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;">
+                  <i :class="[item.isCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)"/>收藏
+                </div>
                 {{item.policyTime}}
               </div>
             </div>

@@ -12,7 +12,9 @@
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{ scope.row[item.showKey] }}</span>
+          <span v-if="item.showKey === 'policyTime'">{{scope.row[item.showKey].replace('00:00:00', '')}}</span>
+          <span v-else-if="item.showKey === 'policyLevel'">{{policyLevelStatus[scope.row[item.showKey]]}}</span>
+          <span v-else>{{scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -31,42 +33,46 @@
   export default {
     data() {
       return {
+        policyLevelStatus: {
+          1: '区级',
+          2: '市级',
+          3: '国家级',
+        },
         tableData: [],
         tableItem: [
         {
           label: "序号",
           src: levelImg,
           showKey: "actId",
-          align: 'center',
-          width: '25'
+          width: '10'
         },
         {
           label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "actName",
           align: 'left',
-          width: '120'
+          width: '30'
         },
         {
           label: "报名人数",
           src: dateImg,
           showKey: "applyCount",
           align: 'left',
-          width: '50'
+          width: '15'
         },
         {
           label: "报名日期",
           src: dateImg,
           showKey: "activityDateFrom",
           align: 'left',
-          width: '50'
+          width: '30'
         },
         {
           label: "举办日期",
           src: dateImg,
           showKey: "applyTimeTo",
           align: 'left',
-          width: '50'
+          width: '30'
         }
       ]
       }

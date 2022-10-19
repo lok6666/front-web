@@ -21,7 +21,7 @@
         <div class="protect-block" v-html="busneissData.serviceSynopsis">
           
         </div>
-        <div class="protect-apply">
+        <div class="protect-apply" v-if="this.userinfo">
           <div class="protect-apply-btn">
             <span>联系人:{{busneissData.supplierPerson}}</span>
             <span>联系电话:{{busneissData.supplierContactX}}</span>
@@ -55,6 +55,7 @@ export default {
       applydialogVisible: false,
       applyMessageForm2,
       busneissData: null,
+      userinfo: window.localStorage.getItem('userinfo'),
       list: [{
         message: '⼊驻天猫京东等电商⽹站必须要有商标资质'
       },{

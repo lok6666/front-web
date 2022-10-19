@@ -16,7 +16,7 @@
       label-position="left"
     >
       <el-form-item
-        :rules="[{ required: item.required, message: `${item.label}为必填项` }]"
+        :rules="item.rules || [{ required: item.required, message: `${item.label}为必填项`,validator: item.validator }]"
         :prop="item.prop"
         :label="item.label"
       >
@@ -98,7 +98,7 @@
             :on-remove="handleRemoveFile"
             :before-remove="beforeRemove"
             :before-upload="beforeAvatarUploadFile"
-            :limit="3"
+            :limit="1"
             :on-exceed="handleExceed"
           >
             <el-button type="primary">请上传附件</el-button>

@@ -1,7 +1,7 @@
 // const host = 'http://localhost:28191';
- const host = 'http://172.16.4.62:28182';
- export const policyHost = 'http://172.16.4.62:5000/match';
-// const host = 'http://enterprise.bjwcxf.com:28191';
+//  export const policyHost = 'http://172.16.130.92:5000/match';
+export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:2819";
+export const policyHost = 'http://enterprise.bjwcxf.com:5000/match';
 // 登录接口
 export const login = `${host}/auth/entLogin`
 export const authSendVerCode = `${host}/auth/sendVerCode`; // 注册验证码
@@ -59,6 +59,11 @@ export  const entFilingGetById = `${host}/entFiling/get` // 角色插入
 /*个人中心-站内信*/
 export  const messageList = `${host}/message/list` // 角色管理列表
 
+/*个人中心-政策标签新增*/
+export  const policyMatchTagsGet = `${host}/policyMatchTags/get` // 政策匹配企业标签列表
+export  const policyMatchTagsInsert = `${host}/policyMatchTags/insert` // 政策匹配企业标签新增
+export  const policyMatchTagsUpdate = `${host}/policyMatchTags/update` // 政策匹配企业标签更新
+
 
 /*行业培训-培训课程*/
 export  const trainingServicesList = `${host}/trainingServices/list` // 角色插入
@@ -79,6 +84,7 @@ export const entServiceDockingInsert = `${host}/entServiceDocking/insert` // 企
 
 /*金融服务*/
 export const financialServicesAll = `${host}/financialServices/list` // 列表
+export const financialServiceDockingAll = `${host}/financialServiceDocking/list` //  金融服务申请列表
 export const financialServicesInsert = `${host}/financialServiceDocking/insert` // 金融服务申请
 
 // 系统管理-系统日志

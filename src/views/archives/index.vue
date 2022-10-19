@@ -6,7 +6,7 @@
     </div>
     <div class="finance-container">
       <div style="margin: 36px 60px;">
-        <div class="select-btn">
+ <!--        <div class="select-btn">
           <div>产品类目:</div>
           <div v-for="(btn, index) in serviceList" :key="index">
             <el-button
@@ -17,7 +17,7 @@
               >{{ btn.message }}</el-button
             >
           </div>
-        </div>
+        </div> -->
         <div class="select-btn">
           <div>价格范围(元):</div>
           <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-

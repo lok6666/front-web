@@ -46,7 +46,7 @@
         </div>
         <div class="busniess-detail">
           <div style="display: flex;align-items: center;">
-            <img :src="busniessLogo" style="height: 180px; margin-right: 10px;"/>
+            <!-- <img :src="busniessLogo" style="height: 180px; margin-right: 10px;"/> -->
             <div class="busniess-detail-message">
                 <div>企业全称：{{busneissMessage2.entName}}</div>
                 <div>注册资本：8000万元</div>

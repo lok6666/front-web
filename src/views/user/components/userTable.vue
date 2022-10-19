@@ -17,9 +17,10 @@
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
-
         <template slot-scope="scope">
-          <span>{{item.showKey === 'policyTime' ? scope.row[item.showKey].replace('00:00:00', ''): scope.row[item.showKey]}}</span>
+          <span v-if="item.showKey === 'policyTime'">{{scope.row[item.showKey].replace('00:00:00', '')}}</span>
+          <span v-else-if="item.showKey === 'policyLevel'">{{policyLevelStatus[scope.row[item.showKey]]}}</span>
+          <span v-else>{{scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -39,6 +40,11 @@ export default {
   data() {
     return {
       tableData: [],
+      policyLevelStatus: {
+        1: '区级',
+        2: '市级',
+        3: '国家级',
+      },
       tableItem: [
         {
           label: "级别",

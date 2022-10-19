@@ -39,6 +39,7 @@ export default {
       renderer: "canvas",
       useDirtyRect: false,
     });
+    
     myChart.setOption(this.echartsOptions);
     window.onresize =  function  () {
       console.log('onresize----');

@@ -18,10 +18,10 @@
           :showBtn="true"
           :disabled="false"/> 
         </el-dialog>
-      <div class="policy-search-bg">课程详情</div>
+      <div class="policy-search-bg">活动详情</div>
       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>课程详情</el-breadcrumb-item>
+          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="collage-container">
         <div class="side-left">
@@ -32,17 +32,20 @@
                 </div>
                 <!-- <div class="teacher-desc">文化赋能</div> -->
                 <div class="teacher-time">
-                  <div style="font-size: 46px;font-family: AlibabaPuHuiTiM;">{{data_collagedetail.xs}}</div>
-                  <div>{{data_collagedetail.activityDateFrom}}</div>
+                  <div style="font-size: 26px;font-family: AlibabaPuHuiTiM;">{{data_collagedetail.xs}}</div>
+                  <div>报名时间:{{data_collagedetail.applyTimeFrom}}</div>
+                  <div>报名截止时间:{{data_collagedetail.applyTimeTo}}</div>
+                  <div>活动开始时间:{{data_collagedetail.activityDateFrom}}</div>
+                  <div>活动结束时间:{{data_collagedetail.activityDateTo}}</div>
                 </div>
-                <div class="block"><img src="../../images/basic-location-black.png"/>定位</div>
+                <!-- <div class="block"><img src="../../images/basic-location-black.png"/>定位</div> -->
                 <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)"><img src="../../images/apply.png"/>报名</div>
             </div>
             <div class="content">
                 <div class="content-center" v-html="data_collagedetail.activityContent"></div>
             </div>
             <div class="right">
-                <div class="collage-title">培训课程</div>
+                <div class="collage-title">活动简介</div>
                 <div class="collage-desc">{{data_collagedetail.activityAbstract}}</div>
                 <img :src="data_collagedetail.activityImg" style="width: 380px; height: 456px;"/>
             </div>
@@ -225,7 +228,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
+            font-size: 10px;
             font-family: AlibabaPuHuiTiM;
             color: #000000;
             line-height: 47px;
@@ -244,7 +247,7 @@
           }
         }
         .content {
-          width: 640px;
+          // width: 640px;
           &-center {
             // overflow: hidden;
             // text-overflow: ellipsis;
@@ -267,11 +270,11 @@
             font-family: AlibabaPuHuiTiM;
             color: #B48859;
             line-height: 27px;
-            overflow: hidden;
+/*             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            -webkit-box-orient: vertical; */
           }
         }
         @media screen and (max-width: 960px) {

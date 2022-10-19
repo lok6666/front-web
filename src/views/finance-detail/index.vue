@@ -33,7 +33,7 @@
                   </div>
                 <div style="display: flex;align-items: center;">
                   <img src="../../images/safe.png" style="margin-right: 10px;"/>
-                  <div>担保方式:信用</div>
+                  <div>担保方式: 信用</div>
                 </div>
               </div>
             </div>

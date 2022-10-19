@@ -81,7 +81,7 @@
             <form-template
               style="padding: 0px 20px;"
               :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px','margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges(isExist?  entInfoUpdate : entInfoInsert, 'POST', $event)"
+              @likeCountChanges="likeCountChanges(isExist?  entInfoUpdate : entInfoInsert, 'POST', $event, policyExist ? policyMatchTagsUpdate: policyMatchTagsInsert)"
               :labelWidth="140"
               title="基本信息"
               :formConfig="messageForm"
@@ -184,7 +184,10 @@ import {
   entFilingUpdate,
   entFilingInsert,
   entFilingGetById,
-  entPolicyCollectList
+  entPolicyCollectList,
+  policyMatchTagsGet,
+  policyMatchTagsInsert,
+  policyMatchTagsUpdate
  } from "@/config/api";
 import { propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
@@ -208,6 +211,8 @@ export default {
   name: "User",
   data() {
     return {
+      policyMatchTagsInsert,
+      policyMatchTagsUpdate,
       categoryId: Number(this.$route.query.categoryId) || 0,
       userId: window.localStorage.getItem('USERID'),
       entName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
@@ -334,6 +339,7 @@ export default {
       },
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
       files: [],
+      policyExist: null,
       loading: false,
       userInfo: "",
       form: {
@@ -409,9 +415,30 @@ export default {
           result[e.prop] = data[e.prop];
           return result;
         }) : this[formType];
+        if(formType === 'messageForm') {
+          this.getpolicyMatchTagsGet();
+        };
       };
     },
-    likeCountChanges(url, method = 'POST', formData) {;
+    getpolicyMatchTagsGet() {
+      request({
+        url: `${policyMatchTagsGet}`,
+        method: "GET",
+        // todo 考虑 id怎么传进去
+        params: {
+          companyid: this.userId,
+        }
+      }).then(({data}) => {
+        //todo 后面封装
+        this.policyExist = data ? true : false,
+        this['messageForm'] = data ? this['messageForm'].map((e, b) => {
+          let result = { ...e };
+          result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
+          return result;
+        }) : this['messageForm'];
+      });
+    },
+    likeCountChanges(url, method = 'POST', formData, policyMatchTags) {
       request({
         url: `${url}`,
         method,
@@ -427,6 +454,16 @@ export default {
             type: 'success',
             duration: 5 * 1000
           });
+      })
+      policyMatchTags && request({
+        url: `${policyMatchTags}`,
+        method: "POST",
+        // todo 考虑 id怎么传进去
+        data: {
+          companyid: this.userId,
+          id: this.id,
+          ...formData,
+        }
       });
     },
     checkAll(id) {

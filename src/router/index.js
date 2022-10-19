@@ -28,7 +28,10 @@ export const constantRoutes = [
   {
     path: '/',
     component: () => import('@/views/index/index'),
-    hidden: true
+    hidden: true,
+    meta: {
+      keepAlive: true,
+    }
   },
   {
     path: '/tag',

@@ -332,8 +332,8 @@ export default {
          });
        });
       this.optionsList = [];
+      this.selectOptions.length && that.$emit('handleClose');
       this.selectOptions = [];
-      that.$emit('handleClose');
     }
   }
 };
