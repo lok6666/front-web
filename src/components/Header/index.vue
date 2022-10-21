@@ -19,7 +19,7 @@
       :showBtn="true"
       :disabled="false"/> 
     </el-dialog>
-    <AI v-if="AIDialogVisible" @bClose="bClose"/>
+    <AI v-if="AIDialogVisible || isShowAIDialogVisible" @bClose="bClose"/>
     <img src="../../images/logo.png" @click="$router.push('/')" style="cursor:pointer;z-index: 251; position: fixed; left: 57px;">
     <header class="main-header">
         <div class="header">
@@ -166,6 +166,10 @@ export default {
     navItemActive: {
       type: String,
       default: '0'
+    },
+    isShowAIDialogVisible: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -233,6 +237,7 @@ export default {
     },
     bClose() {
       this.AIDialogVisible = false;
+      this.$emit('bClose');
     },
     dialogClose() {
       this.dialogVisible = false;

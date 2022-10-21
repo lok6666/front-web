@@ -72,7 +72,7 @@ export default {
       .guide-excellent-busniess-content {
           display: grid;
           grid-template-columns: repeat(4, 332px);
-          grid-template-rows: repeat(2, 230px);
+          grid-template-rows: repeat(2, 300px);
           justify-content: center;
           &-item {
             border-radius: 10px;
@@ -85,13 +85,13 @@ export default {
               // margin-right: 31px;
               // margin-bottom: 30px;
               border-radius: 10px;
-              width: 100%;
-              height: 200px;
-              background-size: cover;
+              width: 320px;
+              height: 320px;
+              background-size: 100% 100%;
               background-repeat: no-repeat;
             }
             .item-name {
-              margin-top: 10px;
+              margin: 10px 0px 10px 0px;
             }
           }
 

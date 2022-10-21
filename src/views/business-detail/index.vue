@@ -49,20 +49,21 @@
             <!-- <img :src="busniessLogo" style="height: 180px; margin-right: 10px;"/> -->
             <div class="busniess-detail-message">
                 <div>企业全称：{{busneissMessage2.entName}}</div>
-                <div>注册资本：8000万元</div>
-                <div>企业类型：国有企业</div>
-                <div>所属行业：互联网和相关服务</div>
-                <div>人员规模：100以下</div>
-                <div>统一社会信用代码：91110114MA017CY134</div>
+                <div>联系人: {{busneissMessage2.contactsPerson}}</div>
+                <div>联系电话: {{busneissMessage2.contactsPhone}}</div>
+                <div>企业类型：{{busneissMessage2.honorsQualification}}</div>
+                <div>人员规模：{{busneissMessage2.serviceCount}}</div>
+                <div>统一社会信用代码：{{busneissMessage2.entCode}}</div>
             </div>
           </div>
           <div class="tag-list">
             <div
               :class="`tag-list-item item-block-${index}`"
-              v-for="(item, index) in tagList"
+              v-for="(item, index) in messageForm"
+              v-if="item[item.prop]"
               :key="index"
             >
-              {{ item }}
+              {{ item[item.prop] }}
             </div>
           </div>
         </div>
@@ -77,7 +78,8 @@ import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import request from '@/utils/request';
 import { MessageBox } from 'element-ui'
-import {entPropagateGetById} from '@/config/api.js'
+import { messageForm3} from "@/config/constant.js";
+import {entPropagateGetById,entInfoGetById, policyMatchTagsGet} from '@/config/api.js'
 import AppHeader from "@/components/Header/index";
 import busniessLogo from "../../images/busneiss-logo.png";
 import bank1 from "../../images/about-busneiss2.png";
@@ -90,8 +92,9 @@ export default {
   data() {
     return {
       categoryId: 0,
+      messageForm: messageForm3,
       busniessLogo,
-      tagList: ["国有企业","物联网", "文化产业", "大数据",  "高新技术企业", "瞪羚企业", "专精特新企业", "文化科技融合", "语音通信","中小微企业"],
+      tagList : ["国有企业","物联网", "文化产业", "大数据",  "高新技术企业", "瞪羚企业", "专精特新企业", "文化科技融合", "语音通信","中小微企业"],
       excellentBusniessList: [
       ],
       busneissMessage: {},
@@ -115,6 +118,8 @@ export default {
   },
   async created() {
     let that = this;
+    this.getEntInfo();
+    this.getpolicyMatchTagsGet();
     request({
         url: `${entPropagateGetById}`,
         method: 'get',
@@ -142,16 +147,46 @@ export default {
           };
         }
       });
-      const { data } = await this.$store.dispatch('user/getUserInfo');
-      console.log('data------', that.busneissMessage);
-      that.busneissMessage2 = {...data};
+      // const { data } = await this.$store.dispatch('user/getUserInfo');
+      // that.busneissMessage2 = {...data};
   },
   mounted() {
-    this.init();
+    // this.init();
   },
-
   methods: {
+    getpolicyMatchTagsGet() {
+      request({
+        url: `${policyMatchTagsGet}`,
+        method: "GET",
+        // todo 考虑 id怎么传进去
+        params: {
+          companyid: this.userId,
+        }
+      }).then(({data}) => {
+        //todo 后面封装
+          this.messageForm = data ? this.messageForm.map((e, b) => {
+          let result = { ...e };
+            result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
+            return result;
+          }) : this.messageForm;
+          console.log('messageForm----', this.messageForm);
+      });
+    },
     // 初始化
+    getEntInfo() {
+        let that = this;
+        request({
+          url: `${entInfoGetById}`,
+          method: 'get',
+          params: {
+            entId: window.localStorage.getItem('USERID'),
+            incomeMonth: '1-12月',
+            incomeYear: '2021'
+          }
+        }).then(({data}) => {
+          that.busneissMessage2 = {...data};
+        });
+      },
   },
 };
 </script>
@@ -205,7 +240,7 @@ export default {
         top: -127px;
         width: 485px;
         height: 435px;
-        box-shadow: -10px 10px 5px #888888;
+        box-shadow: -10px 10px 5px rgba(192,192,192,0.5);
       }
       .title {
         font-size: 30px;
@@ -298,6 +333,18 @@ export default {
           background: #f5a623;
         }
         .item-block-9 {
+          background: #d0021b;
+        }
+        .item-block-10 {
+          background: #f5a623;
+        }
+        .item-block-11 {
+          background: #d0021b;
+        }
+        .item-block-12 {
+          background: #f5a623;
+        }
+        .item-block-13 {
           background: #d0021b;
         }
       }

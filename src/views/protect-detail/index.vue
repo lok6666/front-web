@@ -83,7 +83,7 @@ export default {
   methods: {
     closeDialog(done) {
       this.applydialogVisible = false;
-      done();
+      // done();
     },
     likeCountChanges(formData) {
       request({
@@ -162,10 +162,14 @@ export default {
       .protect-block {
         background: #fff;
         width: 1000px;
-        padding: 20px 20px 0px 20px;
+        // padding: 20px 20px 0px 20px;
         // display: flex;
         // flex-direction: column;
         // align-items: center;
+        p {
+          text-indent: 0em;
+          padding: 0px 31px 0px 31px;
+        }
       }
       .protect-apply {
         display: flex;

@@ -10,7 +10,8 @@
         </div>
         <div class="about">
           <div class="about-item" v-for="(item, index) in list" :key="index">
-            {{ item.desc }}
+
+            <a :href="item.src" target="_blank">{{ item.desc }}</a>
           </div>
         </div>
         <div class="contact">
@@ -42,10 +43,12 @@ export default {
   data() {
     return {
       list: [
-        { id: 0, desc: "关于我们" },
-        { id: 1, desc: "站点地图" },
-        { id: 2, desc: "建议意见" },
-        { id: 3, desc: "法律声明" },
+        { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
+        { id: 1, desc: "北京市文化投资发展集团有限责任公司", src: 'http://www.bjwt.com/' },
+        { id: 2, desc: "北京文化产业投融资协会", src: 'http://www.bciifa.org.cn/' },
+        { id: 3, desc: "中国文化管理协会", src: 'http://www.ccasn.com/' },
+        { id: 4, desc: "北京银行",src: 'http://www.bankofbeijing.com.cn/' },
+        { id: 5, desc: "建设银行", src: 'http://www.ccb.com' },
       ],
     };
   },
@@ -79,10 +82,16 @@ export default {
         color: #000000;
       }
       .about {
-        display: grid;
+/*         display: grid;
         grid-template-columns: 130px 130px;
         grid-template-rows: 60px 60px;
-        padding-top: 10px;
+        padding-top: 10px; */
+        &-item {
+          height: 20px;
+          font-size: 14px;
+          font-family: AlibabaPuHuiTiR;
+          color: rgba(43, 41, 45, 0.6);
+        }
       }
       .contact {
         padding-top: 10px;

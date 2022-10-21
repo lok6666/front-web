@@ -56,8 +56,11 @@
   
   <script>
   import {
-    entIncomeGetById
+    entIncomeGetById,
+    entIncomeInsert,
+    entIncomeUpdate,
   } from "@/config/api";
+  import { MessageBox, Message } from 'element-ui'
   import { priceForm } from "@/config/constant.js";
   import _ from 'lodash';
   import request from '@/utils/request';
@@ -97,7 +100,9 @@
     },
     data() {
       return {
+        userId: window.localStorage.getItem('USERID'),
         priceForm: priceForm,
+        isExist: null,
         formData: {},
         value: 2022,
         categoryId: 0,
@@ -176,6 +181,8 @@
             incomeYear: this.activeYear
           }
         }).then(res => {
+          this.id = res.data && res.data.id ? res.data.id: '';
+          this.isExist = res.data ? true: false;
           this.priceForm = _.cloneDeep(this.priceForm.map((v) => {
            v[v.prop] = res.data ? res.data[v.prop] : '';
           !v[v.prop] ? delete v[v.prop] : '';
@@ -183,6 +190,7 @@
           }));
         });
       },
+      updatePolicyList() {},
       handleClickYear(tab, event) {
         console.log('handleClickYear----', this.activeYear);
         // this.activeYear = tab.$options.propsData.name;
@@ -197,7 +205,6 @@
         let add = 0;
         return new Promise((resolve, reject) => {
           formEl.forEach(async (el) => {
-            debugger;
             el.validate((v) => {
               ++add;
               // 当存在校验失败的情况直接返回
@@ -216,13 +223,27 @@
       async submitForm(formName) {
         let formData = this.formData;
         if (await this.validateForm(this.$refs.formRef)) {
-          debugger;
-          this.formConfig.forEach((v) => {
+          this.priceForm.forEach((v) => {
             formData[v.prop] = v[v.prop];
           });
           formData.incomeYear = this.activeYear;
           formData.incomeMonth = this.activeMonth;
-          this.$emit('likeCountChanges', formData);
+          request({
+            url: `${this.isExist ? entIncomeUpdate : entIncomeInsert}`,
+            method: "POST",
+            // todo 考虑 id怎么传进去
+            data: {
+              entId: this.userId,
+              id: this.id,
+              ...formData,
+            }
+          }).then(res => {
+            Message({
+                message: '提交成功',
+                type: 'success',
+                duration: 5 * 1000
+              });
+          })
         };
       }
     },

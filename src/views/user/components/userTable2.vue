@@ -16,8 +16,8 @@
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <!-- <span>{{ item.showKey === 'dockStatus' ? option[scope.row[item.showKey]] : scope.row[item.showKey]}}</span> -->
-          <span>{{scope.row[item.showKey]}}</span>
+          <span v-if="item.showKey == 'dockStatus'">{{ applyStatusObj[scope.row[item.showKey]]}}</span>
+          <span v-else>{{scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>

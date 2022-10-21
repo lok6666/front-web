@@ -84,7 +84,8 @@
                   border-radius: 3px;
                   display: flex;
                   align-items: center;
-                  justify-content: center;">
+                  justify-content: center;
+                  color: #fff;">
                   <i :class="[item.isCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)"/>收藏
                 </div>
                 {{item.policyTime}}

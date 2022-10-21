@@ -21,7 +21,7 @@
         <div style="width: 310px;height: 10px;"></div>
           <div>高效专业的</div>
           <div>企业共享服务科技提供商</div>
-          <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">帮助企业规模化使用共享产品，并提供需求匹</div>
+          <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">帮助企业规模化使用共享产品，并提供需求匹配</div>
         </div>
       </div>
     <div class="content-container">
@@ -43,7 +43,7 @@
         <div class="solve-desc">更多行业解决方案等您来解锁</div>
         <div class="solve-content">
         </div>
-        <div class="more-solve" @click="applydialogVisible = true">申请服务</div>
+        <div class="more-solve" @click="applyService()">申请服务</div>
       </div>
       <!-- <div class="resource">
         <div class="resource-title">我们还将为您提供更多行业 热门实用资源包</div>
@@ -118,6 +118,10 @@ export default {
   methods: {
     // 获取分类列表
     init() {
+    },
+    async applyService() {
+      const { data } = await this.$store.dispatch('user/getUserInfo');
+      this.applydialogVisible = true;
     },
     closeDialog(done) {
       this.applydialogVisible = false;

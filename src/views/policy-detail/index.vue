@@ -32,7 +32,7 @@
         <div class="side-left">
             <div class="content">
                 <div class="content-header">
-                    <div class="title">{{title}}</div>
+                    <div class="title">{{policyDetail.policyTitle}}</div>
                 <div class="content-center" v-html="policyDetail.policyContent"></div>
                   <div class="desc">
                     <div class="desc-left">
@@ -254,11 +254,12 @@
       .side-left {
         .content {
             .content-header {
-                margin-bottom: 25px;
+                // margin-bottom: 25px;
                 .title {
-                    font-size: 48px;
+                    font-size: 36px;
                     font-family: AlibabaPuHuiTiB;
                     color: #000000;
+                    margin-top: 20px;
                     margin-bottom: 26px;
                 }
             }

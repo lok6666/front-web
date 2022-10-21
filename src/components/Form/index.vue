@@ -22,7 +22,9 @@
       >
         {{ item[i] }}
         <!--输入框-->
-        <el-input v-model="item[item.prop]" v-if="item.showInput" />
+        <el-input v-model="item[item.prop]" v-if="item.showInput" :placeholder="item.placeholder"/>
+        <!--密码-->
+        <el-input v-model="item[item.prop]" v-if="item.showPassWord" type="password" :placeholder="item.placeholder"/>
          <!--textarea输入框-->
         <el-input style="width: 500px" type="textarea" :rows="4" v-model="item[item.prop]" v-if="item.showTextarea" />
         <!--时间选择器-->
@@ -70,6 +72,17 @@
             name="type"
           ></el-checkbox>
         </el-checkbox-group>
+        <!--验证码-->
+        <el-input v-else-if="item.showCode" v-model="item[item.prop]" placeholder="验证码" @click="getIndex(i)">
+          <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
+          <el-button
+            v-show="codeCount"
+            slot="suffix"
+            type="primary"
+            size="mini"
+            disabled
+          >{{ codeCount }}s</el-button>
+        </el-input>
         <!--上传图片-->
         <div @click="getIndex(i)" v-else-if="item.upload">
           <el-upload
@@ -156,6 +169,8 @@
 </template>
 
 <script>
+  import { sendCode } from '@/api/code.js'
+  import { validMobile } from '@/utils/validate.js'
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
   import { MessageBox, Message } from 'element-ui'
   import { upload } from "@/config/api.js";
@@ -211,6 +226,7 @@
   data() {
     return {
       categoryId: 0,
+      codeCount: 0,
       itemIndex: null,
       formData: {},
       editor: null,
@@ -317,6 +333,41 @@
       editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
   },
   methods: {
+    // 发送验证码
+    sendCode() {
+      const mobile = this.formConfig[1].contactsPhone
+      if (mobile === '') {
+        this.$message('请输入手机号')
+        return
+      }
+      if (!validMobile(mobile)) {
+        this.$message('手机号格式不正确')
+        return
+      }
+
+      // 120倒数计时
+      const TIME_COUNT = 120
+      if (!this.timer) {
+        this.codeCount = TIME_COUNT
+        this.timer = setInterval(() => {
+          if (this.codeCount > 0 && this.codeCount <= TIME_COUNT) {
+            this.codeCount--
+          } else {
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
+      }
+      const params = { mobile: mobile, type: 'reset' }
+      sendCode(params).then(
+        res => {
+          this.$message({
+            message: '发送成功',
+            type: 'success'
+          })
+        }
+      )
+    },
     onCreated(editor) {
         this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },

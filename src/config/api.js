@@ -1,6 +1,7 @@
-// const host = 'http://localhost:28191';
+const host = 'http://172.16.12.8:28182';
+// const host = 'http://enterprise.bjwcxf.com:28191';
 //  export const policyHost = 'http://172.16.130.92:5000/match';
-export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:2819";
+// export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
 export const policyHost = 'http://enterprise.bjwcxf.com:5000/match';
 // 登录接口
 export const login = `${host}/auth/entLogin`
@@ -58,6 +59,9 @@ export  const entFilingGetById = `${host}/entFiling/get` // 角色插入
 
 /*个人中心-站内信*/
 export  const messageList = `${host}/message/list` // 角色管理列表
+
+/*个人中心-账户管理*/
+export  const entReset = `${host}/auth/entReset` // 角色管理列表
 
 /*个人中心-政策标签新增*/
 export  const policyMatchTagsGet = `${host}/policyMatchTags/get` // 政策匹配企业标签列表

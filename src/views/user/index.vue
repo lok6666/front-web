@@ -138,7 +138,7 @@
             <form-template
               style="padding: 0px 20px 20px 20px"
               :customStyle="{'margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges(isExist?  entInfoUpdate : entInfoInsert, 'POST', $event)"
+              @likeCountChanges="likeCountChanges(true?  entReset : entReset, 'POST', $event)"
               :labelWidth="140"
               title="账户信息"
               :formConfig="accountForm"
@@ -187,7 +187,8 @@ import {
   entPolicyCollectList,
   policyMatchTagsGet,
   policyMatchTagsInsert,
-  policyMatchTagsUpdate
+  policyMatchTagsUpdate,
+  entReset
  } from "@/config/api";
 import { propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
 import echarts from "./components/echarts.vue";
@@ -232,6 +233,7 @@ export default {
       entFilingUpdate,
       entFilingInsert,
       entFilingGetById,
+      entReset,
       isExist: false,
       AIDialogVisible: false,
       messageForm,
@@ -409,10 +411,10 @@ export default {
             incomeMonth: '1-12月'
           }});
         this.isExist = data ? true: false;
-        this.id = data.id;
+        this.id = data && data.id ? data.id: '';
         this[formType] = data ? this[formType].map((e, b) => {
           let result = { ...e };
-          result[e.prop] = data[e.prop];
+          result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
           return result;
         }) : this[formType];
         if(formType === 'messageForm') {
@@ -439,6 +441,7 @@ export default {
       });
     },
     likeCountChanges(url, method = 'POST', formData, policyMatchTags) {
+      debugger;
       request({
         url: `${url}`,
         method,

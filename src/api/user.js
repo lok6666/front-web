@@ -51,7 +51,13 @@ export async function getUserInfo(token) {
      url: `${entInfoGetById}/${window.localStorage.getItem('USERID')}`,
      method: 'get'
   });
-  window.localStorage.setItem('userinfo', JSON.stringify(result.data));
+  window.localStorage.setItem('userinfo', JSON.stringify({
+    entName: result.data.entName,
+    registTimes: result.data.registTimes,
+    hits: result.data.hits,
+    policyCount: result.data.policyCount,
+    serviceCount: result.data.serviceCount
+  }));
   result.roles = ["ordinary"];
   // let result = {
   //   code: 0,

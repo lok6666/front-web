@@ -41,12 +41,6 @@
         tableData: [],
         tableItem: [
         {
-          label: "序号",
-          src: levelImg,
-          showKey: "actId",
-          width: '10'
-        },
-        {
           label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "actName",

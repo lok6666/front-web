@@ -12,7 +12,7 @@
       <div>
         <div class="header">
           <div class="collage-title">系列课程往期回顾</div>
-          <div>查看全部</div>
+          <!-- <div>查看全部</div> -->
         </div>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="(item, index) in swiperConfig">
@@ -88,7 +88,9 @@ export default {
     request({
         url: `${trainingServicesList}`,
         method: 'post',
-        data: {}
+        data: {
+          serviceStatus:1
+        }
       }).then(res => {
         this.swiperConfig = res.data.list;
         this.serviceUrl = this.swiperConfig[0].serviceUrl;

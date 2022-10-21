@@ -202,7 +202,7 @@ export default {
           }
         }, 1000)
       }
-      const params = { mobile: mobile }
+      const params = { mobile: mobile, type: 'register' }
       sendCode(params).then(
         res => {
           this.$message({

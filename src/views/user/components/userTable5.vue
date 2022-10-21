@@ -9,7 +9,8 @@
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
-          <span>{{scope.row[item.showKey]}}</span>
+          <span v-if="item.showKey == 'dockStatus'">{{ applyStatusObj[scope.row[item.showKey]]}}</span>
+          <span v-else>{{scope.row[item.showKey]}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -45,9 +46,9 @@ export default {
       pageNum: 1,
       total: 0,
       tableData: [],
-      option: {
-        0: '待对接',
-        1: '已对接'
+      applyStatusObj: {
+        0: '申请中',
+        1: '已受理'
       },
       tableItem: [
         {

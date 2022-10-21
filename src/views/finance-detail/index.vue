@@ -9,6 +9,7 @@
       :before-close="closeDialog">
       <form-template
       style="width: 400px;padding: 0px 20px"
+      @closeDialog="closeDialog"
       @likeCountChanges="likeCountChanges"
       :labelWidth="80"
       :formConfig="applyMessageForm2"
@@ -33,7 +34,7 @@
                   </div>
                 <div style="display: flex;align-items: center;">
                   <img src="../../images/safe.png" style="margin-right: 10px;"/>
-                  <div>担保方式: 信用</div>
+                  <div>担保方式: {{ loanTail.serviceType }}</div>
                 </div>
               </div>
             </div>
@@ -47,7 +48,7 @@
               <div class="fw-model-item">
                 <div class="title">期限</div>
                 <div class="data limit-class">
-                  <span>{{ loanTail.serviceTerm }}月</span>
+                  <span>{{ loanTail.serviceTerm }}</span>
                 </div>
               </div>
               <div class="fw-model-item">
@@ -62,7 +63,7 @@
         </div>
       </div>
       <div class="finance-detail-content">
-        <div class="title">项目详情</div>
+        <div class="title">产品详情</div>
         <div class="content" v-html="loanTail.serviceContent">
         </div>
       </div>
@@ -164,7 +165,7 @@ export default {
           serviceName: this.data_loandetail.serviceName,
           serviceId: this.data_loandetail.id,
           companyId: window.localStorage.getItem('USERID'),
-          companyName: window.localStorage.getItem('userinfo').entName,
+          companyName: JSON.parse( window.localStorage.getItem('userinfo')).entName,
           ...formData
         }
       }).then((res) => {

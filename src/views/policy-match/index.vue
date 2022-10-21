@@ -1,7 +1,7 @@
 <template>
     <div class="app-container" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.2)">
       <policy-calculate :dialogVisible="dialogVisible" @handleClose="dialogVisible = false" @dialogClose="dialogClose"/>/>
-      <app-header :nav-item-active="1" />
+      <app-header :nav-item-active="1" :isShowAIDialogVisible="isShowAIDialogVisible" @bClose="bClose"/>
       <div class="policy-match-bg">
         <div>匹配结果</div>
       </div>
@@ -89,7 +89,7 @@
                 <div class="right">
                   <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.policyMaxMoney ? `${item.policyMaxMoney}万元`: '评选认定中'}}</div>
                   <div class="measure">
-                    <div v-for="(item, index) in opacition" :key="index">{{item.message}}</div>
+                    <div v-for="(item, index) in opacition" :key="index" @click.stop="test()">{{item.message}}</div>
                   </div>
                 </div>
               </div>
@@ -132,6 +132,7 @@
         siftIndex: 0,
         inputValue: '',
         categoryId: 0,
+        isShowAIDialogVisible: false,
         price: '0',
         locationMap: {
           beijing: '北京',
@@ -157,9 +158,9 @@
         opacition: [{
           message: '奖励措施'
           },
-          {
-            message: '政策依据'
-          },
+          // {
+          //   message: '政策依据'
+          // },
           {
             message: '立即咨询'
           }],
@@ -201,11 +202,18 @@
     },
     mounted() {},
     methods: {
+      bClose() {
+        this.isShowAIDialogVisible = false;
+      },
+      test() {
+        this.isShowAIDialogVisible = true;
+      },
       dialogClose() {
         this.dialogVisible = false;
       },
       routeTo(id) {
-        this.$router.push(`/policy-detail/:artId=${id}`);
+        // this.$router.push(`/policy-detail/:artId=${id}`);
+        window.open(`${location.origin}/#/policy-detail/:artId=${id}`)
       },
       getPolicyList(val) {
           this.selectedOptions = val || this.data_selection.length >= 1 ? this.data_selection : JSON.parse(window.localStorage.getItem('selection-detail'));
@@ -249,17 +257,17 @@
       },
       search() {},
       handleSizeChange(val) {
-        // 计算真实数据realPolicyList
-        debugger;
         this.pageSize = val;
-        this.policyList = this.realPolicyList.slice((this.pageSize - 1)*this.pageNum, this.pageSize*this.pageNum);
+        let prePage = (this.pageSize - 1)*this.pageNum > this.realPolicyList.length ? 0 : (this.pageSize - 1)*this.pageNum;
+        let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
+        this.policyList = this.realPolicyList.slice(prePage, nextPage);
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.pageNum = val;
-        // 计算真实数据realPolicyList
-        console.log(`当前页: ${val}`);
-        this.policyList = this.realPolicyList.slice((this.pageSize - 1)*this.pageNum, this.pageSize*this.pageNum);
+        let prePage = (this.pageSize - 1)*this.pageNum;
+        let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
+        this.policyList = this.realPolicyList.slice(prePage, nextPage);
       },
       handleClose(done) {
         this.$confirm('确认关闭？')

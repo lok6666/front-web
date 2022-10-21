@@ -46,11 +46,6 @@ export default {
       tableData: [],
       tableItem: [
         {
-          label: "序号",
-          src: levelImg,
-          showKey: "actId",
-        },
-        {
           label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "actName",

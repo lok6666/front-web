@@ -6,7 +6,7 @@
     </div>
     <div class="finance-container">
       <div style="margin: 36px 60px;">
- <!--        <div class="select-btn">
+         <div class="select-btn">
           <div>产品类目:</div>
           <div v-for="(btn, index) in serviceList" :key="index">
             <el-button
@@ -17,7 +17,7 @@
               >{{ btn.message }}</el-button
             >
           </div>
-        </div> -->
+        </div>
         <div class="select-btn">
           <div>价格范围(元):</div>
           <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
@@ -32,7 +32,7 @@
             >
           </div>
         </div>
-        <div class="select-btn">
+<!--         <div class="select-btn">
           <div>发布时间:</div>
             <div v-for="(btn, index) in timeList" :key="index">
               <el-button
@@ -44,7 +44,7 @@
               >
             </div>
              <el-date-picker style="margin-left: 20px;" @click="date" v-model="value2" type="datetimerange" align="right" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
-        </div>
+        </div> -->
       </div>
       <div class="guide-excellent-busniess-content">
         <div class="guide-excellent-busniess-content-item"
@@ -183,6 +183,7 @@ export default {
         url: `${entServiceDockingAll}`,
         method: 'post',
         data: {
+          serviceFlag: 1,
           serviceType: this.serviceType,
           startTime: this.startTime,
           endTime: this.startTime,

@@ -1,12 +1,15 @@
+import { validMobile } from '@/utils/validate.js'
 // 数字校验
 const typeRules = (rule, value, callback) => {
   // 必须为数字
-  if(!value) {
+  if(value === '') {
     callback('不能为空');
   }
   else if(!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value)) {
     callback('请输入数字');
-  };  
+  } else {
+    callback();
+  }  
 };
 // 社会统一代码验证
 const socialUniformCodeRules = (rule, value, callback) => {
@@ -23,8 +26,18 @@ const cardCodeRules = (rule, value, callback) => {
 // 手机号
 const phoneRules = (rule, value, callback) => {
   if(!/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(value)) {
-    callback('身份证格式有误');
-  };  
+    callback('手机号格式有误');
+  }else {
+    callback()
+  }
+};
+//不为空
+const emtyRules = (rule, value, callback) => {
+  if(value) {
+    callback();
+  } else {
+    callback('不能为空');
+  }
 };
 const xsOptions = [
   {
@@ -40,12 +53,12 @@ const xsOptions = [
 ];
 const locationOptions1 = [
 
-  {
+/*   {
     value: "北京",
     label: "北京市",
     isSelect:　false,
     type: 'quxian'
-  },
+  }, */
   {
     value: "石景山区",
     label: "石景山区",
@@ -828,7 +841,121 @@ const messageForm = [
     options: locationOptions
   }
   ];
-
+const messageForm1 = [
+    {
+        prop: "entName",
+        label: "企业名称",
+        required: true,
+        showInput: true
+    },
+    {
+      prop: "entCode",
+      label: "统一社会信用代码",
+      showInput: true,
+      required: true,
+      code: 10000
+    },
+    {
+      prop: "contactsPerson",
+      label: "联系人",
+      required: true,
+      showInput: true,
+    },
+    {
+        prop: "contactsPhone",
+        label: "联系人电话",
+        required: true,
+        showInput: true,
+        telPhone: '17732336725'
+    }
+    ];
+    // 基本信息
+const messageForm3 = [
+  {
+    prop: "jigou",
+    label: "产业空间",
+    showSelect: true,
+    options: industrialOptions
+  },
+  {
+    prop: "diyu",
+    label: "地域",
+    showSelect: true,
+    options: regionOptions
+  },
+  {
+    prop: "shangshi",
+    label: "上市状态",
+    showSelect: true,
+    options: equityMarketOptions
+  },
+  {
+    prop: "keyan",
+    label: "研发机构",
+    showSelect: true,
+    options: developmentOptions
+  },
+  {
+    prop: "fenlei",
+    label: "企业分类",
+    showSelect: true,
+    options: busneissOptions
+  },
+  {
+    prop: "xiangmu",
+    label: "项目分类",
+    showSelect: true,
+    options: projectOptions
+  },
+  {
+    prop: "zuzhi",
+    label: "组织形式",
+    showSelect: true,
+    options: organizationOptions
+  },
+  {
+    prop: "yewu",
+    label: "业务领域",
+    showSelect: true,
+    options: favourablebusinessOptions
+  },
+  {
+    prop: "chuangxin",
+    label: "创新成果",
+    showSelect: true,
+    options: createOptions
+  },
+  {
+    prop: "caiwu",
+    label: "财务数据",
+    showSelect: true,
+    options: taxOptions
+  },
+  {
+    prop: "zizhi",
+    label: "企业资质",
+    showSelect: true,
+    options: zzOptions
+  },
+  {
+    prop: "guimo",
+    label: "企业规模",
+    showSelect: true,
+    options: businessAttributeOptions
+  },
+  {
+    prop: "nianxian",
+    label: "成立年限",
+    showSelect: true,
+    options: yearOptions
+  },
+  {
+    prop: "quxian",
+    label: "区县",
+    showSelect: true,
+    options: locationOptions
+  }
+  ];
 // 招商申请
 const applyMessageForm = [
 {
@@ -1071,23 +1198,32 @@ const baForm = [
   // 备案信息
 const accountForm = [
   {
-      prop: "userName",
+      prop: "username",
       label: "用户名",
-      required: true,
-      showInput: true
+      showInput: true,
+      rules: { required: false, validator: emtyRules, trigger: 'blur'},
+      placeholder: '用户名字母开头, 允许2-16字节'
   },
+  {
+    prop: "contactsPhone",
+    label: "手机号",
+    showInput: true,
+    rules: { required: false, validator: phoneRules, trigger: 'blur'},
+    placeholder: '手机号用于登录和找回密码'
+},
   {
       prop: "password",
       label: "用户密码",
-      required: true,
-      showInput: true
+      rules: { required: false, validator: emtyRules, trigger: 'blur'},
+      placeholder: '修改密码',
+      showPassWord: true
   },
   {
-      prop: "userIcon",
-      label: "用户头像",
-      required: true,
-      showInput: true
-  }];
+      prop: "verCode",
+      label: "验证码",
+      showCode: true
+  }
+];
 // 财税数据
 const priceForm = [{
   prop: "businessIncome",
@@ -1507,6 +1643,8 @@ module.exports = {
   yearOptions,
   themeOptions,
   messageForm,
+  messageForm1,
+  messageForm3,
   applyMessageForm,
   applyMessageForm1,
   applyMessageForm2,

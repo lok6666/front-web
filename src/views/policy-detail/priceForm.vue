@@ -1,14 +1,22 @@
 <template>
     <div>
+      <h2 style="display: inline; margin-bottom: 20px;">企业信息</h2>
+      <form-template
+      style="padding: 0px 20px 20px 20px"
+      :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
+      :labelWidth="140"
+      :formConfig="messageForm"
+      :showBtn="false"
+      :disabled="true"/> 
       <h2 style="display: inline; margin-bottom: 20px;">企业财务数据(万元)</h2>
-      <el-tabs v-model="activeYear" @tab-click="handleClickYear" style="margin: 10p x 0px;">
+<!--       <el-tabs v-model="activeYear" @tab-click="handleClickYear" style="margin: 10p x 0px;">
         <el-tab-pane label="2022年" name="2022"></el-tab-pane>
         <el-tab-pane label="2021年" name="2021"></el-tab-pane>
         <el-tab-pane label="2020年" name="2020"></el-tab-pane>
       </el-tabs>
       <el-tabs v-model="activeMonth" @tab-click="handleClickMonth" style="margin: 10px 0px 30px;">
         <el-tab-pane :label="i.label" :name="i.label" v-for="(i, index) in yearOptions" :key="index"></el-tab-pane>
-      </el-tabs>
+      </el-tabs> -->
       <!--看了源码,为了required校验,必须在form标签循环-->
       <div style="display: grid;grid-template-columns: 450px 450px;">
         <el-form
@@ -49,47 +57,51 @@
         </el-form>
       </div>
       <h2 style="display: inline; margin-bottom: 40px;">申报材料</h2>
-      <div style="display: grid;grid-template-columns: 450px 450px;margin-top: 40px;">
-        <el-form
-        style="height: 80px;"
-        ref="formRef"
-        :inline="true"
-        v-for="(item, i) in applyForm"
-        :key="i"
-        :disabled="disabled || item.disabled"
-        :model="item"
-        size="mini"
-        class="demo-dynamic"
-        :label-width="`${labelWidth}px`"
-        label-position="right"
+      <el-descriptions
+        style="margin-bottom: 20px;"
+        :border="true"
+        :column="2"
       >
-        <el-form-item
-          :prop="item.prop"
+        <el-descriptions-item
+          v-for="(item, i) in applyForm"
+          :key="key"
+          label-class-name="my-label"
+          content-class-name="my-content"
           :label="item.label"
-        >
-          <!--上传附件-->
-        <div @click="getIndex(i)" v-if="item.file">
-          <el-upload
-            :file-list="item[item.prop] ? JSON.parse(item[item.prop]): ''"
-            class="upload-demo"
-            :indexValue="i"
-            ref="uploadFile"
-            :on-remove="handleRemoveFile"
-            :before-upload="beforeAvatarUploadFile"
-            :limit="1"
-            :on-exceed="handleExceed"
           >
-            <el-button type="primary">请上传附件</el-button>
-            <!-- <template #tip>
-              <div class="el-upload__tip">
-                请上传附件
-              </div>
-            </template> -->
-          </el-upload>
-        </div>
-        </el-form-item>
-        </el-form>
-      </div>
+          <el-form
+          ref="formRef"
+          :inline="true"
+          :key="i"
+          :model="item"
+          size="mini"
+          style="padding-top: 21px;"
+          label-position="right">
+            <el-form-item :prop="item.prop">
+              <!--上传附件-->
+            <div @click="getIndex(i)" v-if="item.file">
+              <el-upload
+                :file-list="item[item.prop] ? JSON.parse(item[item.prop]): ''"
+                class="upload-demo"
+                :indexValue="i"
+                ref="uploadFile"
+                :on-remove="handleRemoveFile"
+                :before-upload="beforeAvatarUploadFile"
+                :limit="1"
+                :on-exceed="handleExceed"
+              >
+                <el-button type="primary">请上传附件</el-button>
+                <!-- <template #tip>
+                  <div class="el-upload__tip">
+                    请上传附件
+                  </div>
+                </template> -->
+              </el-upload>
+            </div>
+            </el-form-item>
+          </el-form>
+        </el-descriptions-item>
+      </el-descriptions>
       <div v-if="showBtn" style="float: right">
         <el-button type="primary" @click="submitForm('formRef')">保存</el-button>
       </div>
@@ -98,10 +110,15 @@
   
   <script>
   import {
-    entIncomeGetById
+    entIncomeGetById,
+    entIncomeInsert,
+    entIncomeUpdate,
+    entInfoGetById
   } from "@/config/api";
+  import FormTemplate from "@/components/Form/index.vue";
+  import { MessageBox, Message } from 'element-ui'
   import { upload } from "@/config/api.js";
-  import { priceForm, applyForm } from "@/config/constant.js";
+  import { priceForm, applyForm, messageForm1 } from "@/config/constant.js";
   import _ from 'lodash';
   import request from '@/utils/request';
     export default {
@@ -140,6 +157,10 @@
     },
     data() {
       return {
+        id: '',
+        userId: window.localStorage.getItem('USERID'),
+        isExist: false,
+        messageForm: messageForm1,
         applyForm: applyForm,
         priceForm: priceForm,
         formData: {},
@@ -203,9 +224,11 @@
       };
     },
     components: {
+      FormTemplate
     },
-    created() {
-      this.getPolicyList();
+    async created() {
+      await this.getEntInfo();
+      await this.getPolicyList();
     },
   
     methods: {
@@ -213,7 +236,7 @@
       handleRemoveFile(file) {
         let index = '';
         let that = this;
-        let itemIndex = this.itemIndex;
+        let itemIndex = this.itemIndex
         let fileList = that.applyForm[itemIndex][that.applyForm[itemIndex].prop];
         let list = fileList? JSON.parse(fileList): [];
         list.forEach((item, i) => {
@@ -271,15 +294,35 @@
           method: 'get',
           params: {
             entId: window.localStorage.getItem('USERID'),
-            incomeMonth: this.activeMonth,
-            incomeYear: this.activeYear
+            incomeMonth: '1-12月',
+            incomeYear: '2021'
           }
         }).then(res => {
+          this.id = res.data && res.data.id ? res.data.id: '';
+          this.isExist = res.data ? true: false;
           this.priceForm = _.cloneDeep(this.priceForm.map((v) => {
            v[v.prop] = res.data ? res.data[v.prop] : '';
           !v[v.prop] ? delete v[v.prop] : '';
             return v;
           }));
+        });
+      },
+      getEntInfo() {
+        let that = this;
+        request({
+          url: `${entInfoGetById}`,
+          method: 'get',
+          params: {
+            entId: window.localStorage.getItem('USERID'),
+            incomeMonth: '1-12月',
+            incomeYear: '2021'
+          }
+        }).then(({data}) => {
+          this.messageForm = data ? this.messageForm.map((e, b) => {
+          let result = { ...e };
+            result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
+            return result;
+          }) : this.messageForm;
         });
       },
       handleClickYear(tab, event) {
@@ -296,7 +339,6 @@
         let add = 0;
         return new Promise((resolve, reject) => {
           formEl.forEach(async (el) => {
-            debugger;
             el.validate((v) => {
               ++add;
               // 当存在校验失败的情况直接返回
@@ -315,11 +357,28 @@
       async submitForm(formName) {
         let formData = this.formData;
         if (await this.validateForm(this.$refs.formRef)) {
-          this.formConfig.forEach((v) => {
+          this.applyForm.forEach((v) => {
             formData[v.prop] = v[v.prop];
           });
           formData.incomeYear = this.activeYear;
           formData.incomeMonth = this.activeMonth;
+          debugger;
+          request({
+            url: `${this.isExist ? entIncomeUpdate : entIncomeInsert}`,
+            method: "POST",
+            // todo 考虑 id怎么传进去
+            data: {
+              entId: this.userId,
+              id: this.id,
+              ...formData,
+            }
+          }).then(res => {
+            Message({
+                message: '提交成功',
+                type: 'success',
+                duration: 5 * 1000
+              });
+          })
           this.$emit('likeCountChanges', formData);
         };
       }
@@ -327,6 +386,17 @@
   };
   </script>
   <style>
+  .my-label {
+    width: 600px;
+    border-left: 1px solid #ebeef5;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+  }
+  .my-content {
+    width: 600px;
+    border: 1px solid #ebeef5;
+    padding-left: 23px;
+  }
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
