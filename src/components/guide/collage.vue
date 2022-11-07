@@ -12,12 +12,12 @@
       <div style="padding: 0 70px;">
         <div class="collage-block">
           <img :src="indexCollage.activityThumbnail" style="width: 600px;"/>
-          <div style="margin-left: 18px;" @click="routerTo(indexCollage)">
+          <div style="margin-left: 18px;">
             <div class="title">{{indexCollage.activityName}}</div>
             <div class="desc">{{indexCollage.activityAbstract}}</div>
             <div class="apply-time-and-location">
-              <div class="applyTime">报名时间:{{indexCollage.applyTimeFrom}}</div>
-              <div class="applyTime">报名截至时间:{{indexCollage.applyTimeTo}}</div>
+              <div class="applyTime">报名时间:{{indexCollage.applyTimeFrom.substring(0, 16)}}</div>
+              <div class="applyTime">报名截至时间:{{indexCollage.applyTimeTo.substring(0, 16)}}</div>
               <div class="location">培训地点:{{indexCollage.activityAddress}}</div>
             </div>
             <div class="footer">
@@ -27,12 +27,12 @@
               </div>
               <div class="other">
                 <div class="other-item" style="border: 2px solid #8B572A;">
-                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(indexCollage.activityDateFrom).getHours()}}:{{new Date(indexCollage.activityDateFrom).getMinutes()}}</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(indexCollage.activityDateFrom).getMonth()}}月{{new Date(indexCollage.activityDateFrom).getDate()}}日</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 20px;">{{new Date(indexCollage.activityDateFrom).getFullYear()}}年</div>
+                  <div style="font-family: AlibabaPuHuiTiM;font-size: 20px;">{{indexCollage.activityDateFrom.substring(0, 4)}}年</div>
+                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activityDateFrom.substring(5, 7)}}月{{indexCollage.activityDateFrom.substring(8, 10)}}日</div>
+                  <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{indexCollage.activityDateFrom.substring(11, 16)}}</div>   
                 </div>
-                <div class="other-item location"><img src="../../images/basic-location.png"  @click="routerTo(indexCollage)"/>查看详情</div>
-                <div class="other-item apply"><img src="../../images/user-plus.png" @click.stop="applyAcitivty(indexCollage.id)"/>报名</div>
+                <div class="other-item location"  @click="routerTo(indexCollage)" ><img src="../../images/detail.png" style="height: 45px; width: 40px;"/>查看详情</div>
+                <div class="other-item apply" @click.stop="applyAcitivty(indexCollage.id)"><img style="pointer-events:none;height: 45px; width: 40px;" src="../../images/user-plus1.png" />报名</div>
               </div>
             </div>
           </div>
@@ -41,7 +41,10 @@
           :visible.sync="applydialogVisible"
           :center="true"
           title="活动报名"
+          height="100%"
           width="880px"
+          :lock-scroll="false"
+	        :append-to-body="true"
           :before-close="closeDialog">
           <form-template
           v-if="applydialogVisible"
@@ -68,12 +71,12 @@
                 </div> -->
                 <div class="other">
                   <div class="other-item" style="border: 2px solid #8B572A;">
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getHours()}}:{{new Date(item.activityDateFrom).getMinutes()}}</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{new Date(item.activityDateFrom).getMonth()}}月{{new Date(item.activityDateFrom).getDate()}}日</div>
-                    <div style="font-family: AlibabaPuHuiTiM;font-size: 20px;">{{new Date(item.activityDateFrom).getFullYear()}}年</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 20px;">{{item.activityDateFrom.substring(0, 4)}}年</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activityDateFrom.substring(5, 7)}}月{{item.activityDateFrom.substring(8, 10)}}日</div>
+                    <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activityDateFrom.substring(11, 16)}}</div>              
                   </div>
-                  <div class="other-item location"><img src="../../images/basic-location.png"  @click="routerTo(item)"/>查看详情</div>
-                  <div class="other-item apply" @click.stop="applyAcitivty(item.id)"><img src="../../images/user-plus.png"/>报名</div>
+                  <div class="other-item location" @click="routerTo(item)"><img src="../../images/detail.png"  style="height: 45px; width: 40px;"/>查看详情</div>
+                  <div class="other-item apply" @click.stop="applyAcitivty(item.id)"><img style="height: 45px; width: 40px;" src="../../images/user-plus1.png"/>报名</div>
                 </div>
               </div>
               <!-- <div class="check-data" @click="routerTo(item)">查看日程</div> -->
@@ -149,8 +152,13 @@ export default {
       this.$router.push(`/collage-detail/:collageId=${item.id}`);
     },
     applyAcitivty(id) {
-      this.applyId = id;
-      this.applydialogVisible = true;
+      let userinfo = window.localStorage.getItem('userinfo');
+      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+      if(userinfo) {
+        this.applyId = id;
+        this.applydialogVisible = true;
+      };
+
     },
     likeCountChanges(id, formData) {
       request({

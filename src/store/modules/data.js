@@ -40,6 +40,7 @@
     },
     collagedetail({ commit }, params) {
       return new Promise((resolve, reject) => {
+        console.log('collagedetail--', params);
         commit('SET_COLLAGEDEIL', params);
         window.localStorage.setItem('collage-detail', JSON.stringify(params));
         resolve()
@@ -56,6 +57,15 @@
         reject(error)
       })
     },
+/*     setBuildDetail({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        // commit('SET_LOANDETAIL', params);
+        window.localStorage.setItem('building-detail', JSON.stringify(params));
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    }, */
     setNewDetail({ commit }, params) {
       return new Promise((resolve, reject) => {
         commit('SET_NEWDETAIL', params);

@@ -9,6 +9,7 @@
           />石文创服
         </div>
         <div class="about">
+          <div class="contact-title">友情链接</div>
           <div class="about-item" v-for="(item, index) in list" :key="index">
 
             <a :href="item.src" target="_blank">{{ item.desc }}</a>
@@ -21,17 +22,23 @@
             <div class="contact-telephone">客服热线：010-56939760</div>
           </div>
         </div>
-      </div>
-      <div class="footer-report">
-        <div class="footer-direct">
-          主办：北京文投大数据有限公司
-          京公网安备 11010502039640 京ICP备18006354号
+        <div class="contact">
+          <div class="contact-title">微信公众号</div>
+          <div class="contact-content">
+            <img style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/wx-wt.png"/>
+          </div>
         </div>
+      </div>
+       <div class="footer-report">
+<!--         <div class="footer-direct">
+          主办：北京文投大数据有限公司
+          京公网安备 1101070200067 京ICP备18006354号-2
+        </div> -->
         <div class="footer-direct">
           © 2012-2022 石文创服<img
             src="../../images/ga.png"
             style="width: 17px;height: 17px;"
-          />京公网安备100000303030303
+          />京公网安备 1101070200067 京ICP备18006354号-2
         </div>
       </div>
     </div>
@@ -44,7 +51,6 @@ export default {
     return {
       list: [
         { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
-        { id: 1, desc: "北京市文化投资发展集团有限责任公司", src: 'http://www.bjwt.com/' },
         { id: 2, desc: "北京文化产业投融资协会", src: 'http://www.bciifa.org.cn/' },
         { id: 3, desc: "中国文化管理协会", src: 'http://www.ccasn.com/' },
         { id: 4, desc: "北京银行",src: 'http://www.bankofbeijing.com.cn/' },
@@ -72,6 +78,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
+      margin-bottom: 10px;
       &-logo {
         display: flex;
         align-items: center;
@@ -87,15 +94,14 @@ export default {
         grid-template-rows: 60px 60px;
         padding-top: 10px; */
         &-item {
-          height: 20px;
-          font-size: 14px;
+          margin-top: 18px;
+          font-size: 18px;
           font-family: AlibabaPuHuiTiR;
-          color: rgba(43, 41, 45, 0.6);
+          color: rgba(43,41,45,0.6);
         }
       }
       .contact {
-        padding-top: 10px;
-        flex: 0.4;
+        // flex: 0.1;
         .contact-content {
           margin-top: 18px;
           font-size: 18px;
@@ -108,7 +114,9 @@ export default {
       }
     }
     .footer-report {
-      padding-left: 100px;
+      text-align: center;
+      /* padding-left: 100px;
+      margin-top: 10px; */
       .footer-direct {
         font-size: 14px;
         font-family: AlibabaPuHuiTiR;

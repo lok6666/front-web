@@ -54,8 +54,13 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/policy-match',
+    path: '/policy-match/:type',
     component: () => import('@/views/policy-match/index'),
+    hidden: true
+  },
+  {
+    path: '/building',
+    component: () => import('@/views/building/index'),
     hidden: true
   },
   {
@@ -116,6 +121,11 @@ export const constantRoutes = [
   {
     path: '/finance-detail/:id',
     component: () => import('@/views/finance-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/building-detail/:id',
+    component: () => import('@/views/building-detail/index'),
     hidden: true
   },
   {

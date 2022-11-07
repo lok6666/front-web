@@ -27,41 +27,65 @@
         <div class="side-left">
             <div class="left">
                 <div class="teacher-name">
-                  <img src="../../images/avatar.png" style="width: 100px; height: 100px;margin-bottom: 23px;"/>
-                  {{data_collagedetail.activityName}}
+                  <!-- <img src="../../images/avatar.png" style="width: 100px; height: 100px;margin-bottom: 23px;"/> -->
+                  <div class="collage-title">
+                    {{data_collagedetail.activityName}}
+                  </div>
+                  <div style="border: 1px solid #ccc;border-radius: 16px;display:flex;flex-direction:column">
+                    <div style="display:flex;flex-direction:row;padding:20px;">
+                      <img :src="data_collagedetail.activityThumbnail" style="width: 300px;margin-right: 10px;"/>
+                      <div class="collage-message">
+                        <div>活动地点:{{data_collagedetail.activityAddress}}</div>  
+                        <div>活动日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
+                        <div>活动时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>   
+                        <div>联系人:{{data_collagedetail.contactPerson}}</div>
+                        <div>联系电话:{{data_collagedetail.contactPhone}}</div>   
+                      </div>
+                      <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)" style="color: #fff;">立即报名</div>
+                    </div>
+                    <div class="collage-desc" style="padding: 0 20px">{{data_collagedetail.activityAbstract}}</div>     
+                  </div>
+                      
                 </div>
                 <!-- <div class="teacher-desc">文化赋能</div> -->
-                <div class="teacher-time">
-                  <div style="font-size: 26px;font-family: AlibabaPuHuiTiM;">{{data_collagedetail.xs}}</div>
-                  <div>报名时间:{{data_collagedetail.applyTimeFrom}}</div>
-                  <div>报名截止时间:{{data_collagedetail.applyTimeTo}}</div>
-                  <div>活动开始时间:{{data_collagedetail.activityDateFrom}}</div>
-                  <div>活动结束时间:{{data_collagedetail.activityDateTo}}</div>
-                </div>
                 <!-- <div class="block"><img src="../../images/basic-location-black.png"/>定位</div> -->
-                <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)"><img src="../../images/apply.png"/>报名</div>
             </div>
             <div class="content">
+                <h3>活动介绍</h3>
                 <div class="content-center" v-html="data_collagedetail.activityContent"></div>
             </div>
             <div class="right">
-                <div class="collage-title">活动简介</div>
-                <div class="collage-desc">{{data_collagedetail.activityAbstract}}</div>
-                <img :src="data_collagedetail.activityImg" style="width: 380px; height: 456px;"/>
-            </div>
+                <h3>活动地点</h3>
+                <!-- <img :src="data_collagedetail.activityImg" style="width: 380px; height: 456px;"/> -->
+                <baidu-map class="map" :center="center" :zoom="15">
+                  <bm-marker :position="center" :dragging="true" @click="infoWindowOpen" :scroll-wheel-zoom="true">
+                    <bm-info-window :show="show" @close="infoWindowClose" @open="infoWindowOpen">
+                      <div style="font-size: 12px;font-family: AlibabaPuHuiTiM;">
+                        <div>活动名称:{{data_collagedetail.activityName}}</div>
+                      </br>
+                        <div>活动地点:{{data_collagedetail.activityAddress}}</div>
+                      </br>
+                        <div>活动时间: {{data_collagedetail.activityDateFrom.substring(0, 16)}} 至 {{data_collagedetail.activityDateTo.substring(0, 16)}}</div>
+                    </div>
+                    </bm-info-window>
+                  </bm-marker>
+                </baidu-map>
+            </div> 
         </div>
       </div>
       <app-footer />
     </div>
   </template>
   <script>
+  import { MessageBox, Message } from 'element-ui'
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
+  import 'vue-bmap-gl/dist/style.css'
   import AppHeader from "@/components/Header/index";
   import FormTemplate from "@/components/Form/index.vue";
   import request from '@/utils/request';
   import { activtyForm } from "@/config/constant.js";
-  import { actionAll, activityApplyAddOne, actionGetById } from "@/config/api.js";
+  import { actionAll, activityApplyAddOne, actionGetById, locatiion } from "@/config/api.js";
   import AppFooter from "@/components/footer/index";
   import { pagePublishedArticle } from "@/api/article.js";
   export default {
@@ -73,6 +97,9 @@
     },
     data() {
       return {
+        show: true,
+        center: {},
+        companyid: window.localStorage.getItem('USERID'),
         activtyForm,
         applyId: null,
         applydialogVisible: false,
@@ -97,6 +124,24 @@
       }]
       };
     },
+    watch: {
+      $route: {
+        handler: function(val, oldVal){
+          let that = this;
+          request({
+            url: `${actionGetById}/${this.$route.params.collageId.replace(':collageId=', '')}`,
+            method: 'get',
+            data: {}
+          })
+          .then((res) => {
+            that.data_collagedetail = res.data;
+            this.getlocation(res.data.activityAddress);
+          });
+        },
+        // 深度观察监听
+        deep: true
+      }
+    },
     created() {
       let that = this;
       request({
@@ -106,7 +151,8 @@
       })
       .then((res) => {
         that.data_collagedetail = res.data;
-      })
+        this.getlocation(res.data.activityAddress);
+      });
     },
     computed: {
       orderBy() {
@@ -118,6 +164,22 @@
         ...mapGetters([""]),
     },
     methods: {
+      getlocation(address) {
+        request({
+          url: `${locatiion}/${address}`,
+          method: 'get',
+          data: {}
+        })
+        .then((res) => {
+          this.center = res.data;
+        });
+      },
+      infoWindowClose () {
+        this.show = false
+      },
+      infoWindowOpen () {
+        this.show = true
+      },
       closeDialog(done) {
         this.applydialogVisible = false;
       },
@@ -136,6 +198,13 @@
         }
       }).then((res) => {
         // todo 修改后台返回字段
+        if(res.code === '2001') {
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 5 * 1000
+          });
+        } else {
           Message({
             message: res.msg,
             type: 'success',
@@ -147,8 +216,8 @@
             return result;
           });
           this.applydialogVisible = false;
-        })
-      this.applydialogVisible = false;
+        }
+        });
     },
     }
   };
@@ -159,7 +228,7 @@
     @import "~@/styles/variables";
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .policy-search-bg {
@@ -179,10 +248,11 @@
     @import '~@/styles/variables';
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .collage-container {
+      background: #fff;
       width: 100%;
       box-sizing: border-box;
       margin: 0 auto;
@@ -193,15 +263,63 @@
       align-items: flex-start;
       justify-content: center;
       padding: 0px 196px;
+      margin-bottom: 10px;
       //top: 36px;
       @media screen and (max-width: 960px) {
         margin-top: 0;
       }
       .side-left {
-        display: flex;
+        // display: flex;
         .left {
+          .block {
+            position: relative;
+            top: 97px;
+            right: -215px;       
+            flex-direction: revert;
+            float: right;
+            font-size: 14px;
+            flex-direction: revert;
+            width: 116px;
+            height: 40px;
+            background: #B48859;
+            color:　#fff !important;
+            // border: 2px solid #8B572A;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+          }
+          .collage-title {
+            display: flex;
+            align-items: center;
+            font-size: 60px;
+            font-family: YouSheBiaoTiHei;
+            color: #B48859;
+            line-height: 78px;
+          }
+          .collage-message {
+            font-family: AlibabaPuHuiTiM;
+            color: #B48859;
+            line-height: 27px;
+            margin-bottom: 10px;
+            font-size: 18px;display: flex;flex-direction: column;justify-content: space-around;
+          }
+          .collage-desc {
+            // width: 290px;
+            font-size: 20px;
+            font-family: AlibabaPuHuiTiM;
+            color: #B48859;
+            line-height: 27px;
+            margin-bottom: 10px;
+/*             overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; */
+          }
           padding-top: 36px;
-          width: 200px;
+          // width: 200px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -223,30 +341,13 @@
             color: #222222;
             margin-bottom: 67px;
           } */
-          .teacher-time {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
-            font-family: AlibabaPuHuiTiM;
-            color: #000000;
-            line-height: 47px;
-            margin-bottom: 45px;
-          }
-          .block {
-            width: 147px;
-            height: 116px;
-            background: #FFFFFF;
-            border: 2px solid #8B572A;
-            display: flex;
-            justify-content: center;
-            align-items: center;           
-            flex-direction: column;
-            margin-bottom: 60px;
-          }
         }
         .content {
+          border: 1px solid #ccc;
+          border-radius: 16px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           // width: 640px;
           &-center {
             // overflow: hidden;
@@ -257,24 +358,30 @@
           }
         }
         .right {
-          margin-left: 16px;
-          .collage-title {
-            font-size: 60px;
-            font-family: YouSheBiaoTiHei;
-            color: #B48859;
-            line-height: 78px;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+          padding-bottom: 20px;
+          margin: 20px 0px 20px;
+          border: 1px solid #ccc;
+          border-radius: 16px;
+          .map {
+            width: 1020px;
+            height: 500px;
           }
-          .collage-desc {
-            width: 290px;
-            font-size: 20px;
+          .teacher-time {
+            font-size: 14px;
             font-family: AlibabaPuHuiTiM;
-            color: #B48859;
-            line-height: 27px;
-/*             overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; */
+/*             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            font-family: AlibabaPuHuiTiM;
+            color: #000000;
+            line-height: 47px;
+            margin-bottom: 45px; */
           }
         }
         @media screen and (max-width: 960px) {

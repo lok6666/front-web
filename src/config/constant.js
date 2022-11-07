@@ -1,11 +1,18 @@
-import { validMobile } from '@/utils/validate.js'
+// 数字校验
+const incomeTypeRules = (rule, value, callback) => {
+  // 必须为数字
+  if(!/^(-?\d+)(\.\d+)?$/.test(value) && value) {
+    callback('格式有误');
+  } else {
+    callback();
+  }  
+};
+
+
 // 数字校验
 const typeRules = (rule, value, callback) => {
   // 必须为数字
-  if(value === '') {
-    callback('不能为空');
-  }
-  else if(!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value)) {
+  if(!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value) && value) {
     callback('请输入数字');
   } else {
     callback();
@@ -15,13 +22,17 @@ const typeRules = (rule, value, callback) => {
 const socialUniformCodeRules = (rule, value, callback) => {
   if(!/[0-9A-HJ-NPQRTUWXY]{2}\d{6}[0-9A-HJ-NPQRTUWXY]{10}/.test(value)) {
     callback('社会统一代码格式有误');
-  };  
+  } else {
+    callback('');
+  };
 };
 // 身份证
 const cardCodeRules = (rule, value, callback) => {
   if(!/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(value)) {
     callback('身份证格式有误');
-  };  
+  } else {
+    callback('');
+  };
 };
 // 手机号
 const phoneRules = (rule, value, callback) => {
@@ -68,6 +79,12 @@ const locationOptions1 = [
 ];
 const industrialOptions = [
   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "jigou"
+  },
+  {
     value: "众创空间",
     label: "众创空间",
     isSelect:　false,
@@ -100,6 +117,12 @@ const industrialOptions = [
 ];
 const regionOptions = [
   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "diyu"
+  },
+  {
     value: "中关村示范区",
     label: "中关村示范区",
     isSelect:　false,
@@ -120,6 +143,12 @@ const regionOptions = [
 ];
 const equityMarketOptions =  [
   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "shangshi"
+  },
+  {
     value: "上市企业",
     label: "上市企业",
     isSelect:　false,
@@ -134,6 +163,12 @@ const equityMarketOptions =  [
 ];
 const developmentOptions = [
   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "keyan"
+  },
+  {
     value: "研发中心",
     label: "研发中心",
     isSelect:　false,
@@ -147,6 +182,12 @@ const developmentOptions = [
   }
 ];
 const projectOptions = [
+  {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "xiangmu"
+  },
   {
     value: "平台项目",
     label: "平台项目",
@@ -181,6 +222,12 @@ const projectOptions = [
 
 const busneissOptions = [
   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "fenlei"
+  },
+  {
     value: "上榜企业",
     label: "上榜企业",
     isSelect:　false,
@@ -206,73 +253,79 @@ const busneissOptions = [
   }
 ];
 const locationOptions = [
-  {
-    value: "china",
+/*   {
+    value: "中国",
     label: "中国",
     isSelect:　false
   },
   {
-    value: "beijing",
+    value: "北京",
     label: "北京",
     isSelect:　false
-  },
+  }, */
   {
-    value: "dongcheng",
+    value: "东城区",
     label: "东城区",
     isSelect:　false
   },
   {
-    value: "xicheng",
+    value: "西城区",
     label: "西城区",
     isSelect:　false
   },
   {
-    value: "haidian",
+    value: "海淀区",
     label: "海淀区",
     isSelect:　false
   },
   {
-    value: "chaoyang",
+    value: "朝阳区",
     label: "朝阳区",
     isSelect:　false
   },
   {
-    value: "changping",
+    value: "昌平区",
     label: "昌平区",
     isSelect:　false
   },
   {
-    value: "shijingshan",
+    value: "石景山区",
     label: "石景山区",
     isSelect:　false
   },
   {
-    value: "tongzhou",
+    value: "通州区",
     label: "通州区",
     isSelect:　false
   },
   {
-    value: "shunyi",
+    value: "顺义区",
     label: "顺义区",
     isSelect:　false
   },
   {
-    value: "yanqing",
+    value: "延庆区",
     label: "延庆区",
     isSelect:　false
   },
   {
-    value: "pinggu",
-    label: "延庆区",
+    value: "平谷区",
+    label: "平谷区",
     isSelect:　false
   },
   {
-    value: "mentougou",
+    value: "门头沟区",
     label: "门头沟区",
     isSelect:　false
   }
 ];
 const organizationOptions = [
+  {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "zuzhi"
+  },
   {
     value: "企事业单位",
     label: "企事业单位",
@@ -410,6 +463,12 @@ const favourablebusinessOptions1 = [
   }
 ];
 const favourablebusinessOptions = [
+/*   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "yewu"
+  }, */
   {
     label: '高精尖产业',
     value: '高精尖产业',
@@ -471,6 +530,12 @@ const favourablebusinessOptions = [
   }
 ];
 const zzOptions = [
+/*   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "zizhi"
+  }, */
   {
     value: "国家高新技术企业",
     label: "国家高新技术企业",
@@ -626,6 +691,12 @@ const themeOptions = [
   },
 ];
 const businessAttributeOptions = [
+ /*  {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "zizhi"
+  }, */
   {
     value: "特大型企业",
     label: "特大型企业",
@@ -659,6 +730,12 @@ const businessAttributeOptions = [
 ];
 const createOptions = [
   {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "chuangxin"
+  },
+  {
     value: "技术标准",
     label: "技术标准",
     isSelect:　false,
@@ -672,6 +749,12 @@ const createOptions = [
   }
 ];
 const taxOptions = [
+  {
+    value: "不符合",
+    label: "不符合",
+    isSelect:　false,
+    type: "caiwu"
+  },
   {
     value: "营收",
     label: "营收",
@@ -720,45 +803,47 @@ const yearOptions = [
 // 基本信息
 const messageForm = [
   {
-      prop: "entName",
-      label: "企业名称",
-      required: true,
-      showInput: true
-  },
-  {
-    prop: "entCode",
-    label: "统一社会信用代码",
-    showInput: true,
+    prop: "entName",
+    label: "企业名称",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
+    showInput: true
+},
+{
+  prop: "entCode",
+  label: "统一社会信用代码",
+  showInput: true,
+  rules: { required: true, validator: socialUniformCodeRules, trigger: 'blur'},
+  code: 10000
+},
+{
+  prop: "contactsPerson",
+  label: "联系人",
+  rules: { required: true, validator: emtyRules, trigger: 'blur'},
+  showInput: true,
+},
+{
+    prop: "contactsPhone",
+    label: "联系人电话",
     required: true,
-    code: 10000
-  },
-  {
-    prop: "contactsPerson",
-    label: "联系人",
-    required: true,
     showInput: true,
-  },
-  {
-      prop: "contactsPhone",
-      label: "联系人电话",
-      required: true,
-      showInput: true,
-      telPhone: '17732336725'
-  },
+    disabled: true
+},
   {
     prop: "officeAddress",
     label: "办公地址",
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     showInput: true
   },
   {
     prop: "insuredNum",
     label: "参保人数",
-    required: false,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     showInput: true
   },
   {
     prop: "jigou",
     label: "产业空间",
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     showSelect: true,
     options: industrialOptions
   },
@@ -766,108 +851,126 @@ const messageForm = [
     prop: "diyu",
     label: "地域",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: regionOptions
   },
   {
     prop: "shangshi",
     label: "上市状态",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: equityMarketOptions
   },
   {
     prop: "keyan",
     label: "研发机构",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: developmentOptions
   },
   {
     prop: "fenlei",
     label: "企业分类",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: busneissOptions
   },
   {
     prop: "xiangmu",
     label: "项目分类",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: projectOptions
   },
   {
     prop: "zuzhi",
     label: "组织形式",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: organizationOptions
   },
   {
     prop: "yewu",
     label: "业务领域",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: favourablebusinessOptions
   },
   {
     prop: "chuangxin",
     label: "创新成果",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: createOptions
   },
   {
     prop: "caiwu",
     label: "财务数据",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: taxOptions
   },
   {
     prop: "zizhi",
     label: "企业资质",
     showSelect: true,
+    rules: { required: false, validator: emtyRules, trigger: 'blur'},
     options: zzOptions
   },
   {
     prop: "guimo",
     label: "企业规模",
     showSelect: true,
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     options: businessAttributeOptions
   },
   {
     prop: "nianxian",
     label: "成立年限",
     showSelect: true,
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     options: yearOptions
   },
   {
     prop: "quxian",
     label: "区县",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     showSelect: true,
     options: locationOptions
   }
   ];
 const messageForm1 = [
-    {
-        prop: "entName",
-        label: "企业名称",
-        required: true,
-        showInput: true
-    },
-    {
-      prop: "entCode",
-      label: "统一社会信用代码",
-      showInput: true,
-      required: true,
-      code: 10000
-    },
-    {
-      prop: "contactsPerson",
-      label: "联系人",
-      required: true,
-      showInput: true,
-    },
-    {
-        prop: "contactsPhone",
-        label: "联系人电话",
-        required: true,
-        showInput: true,
-        telPhone: '17732336725'
-    }
+  {
+    prop: "entName",
+    label: "企业名称",
+    rules: { required: true},
+    disabled: true,
+    showInput: true
+},
+{
+  prop: "entCode",
+  label: "统一社会信用代码",
+  showInput: true,
+  rules: { required: true, validator: socialUniformCodeRules, trigger: 'blur'},
+  disabled: true,
+  code: 10000
+},
+{
+  prop: "contactsPerson",
+  label: "联系人",
+  rules: { required: true, validator: emtyRules, trigger: 'blur'},
+  required: true,
+  disabled: false,
+  showInput: true,
+},
+{
+    prop: "contactsPhone",
+    label: "联系人电话",
+    rules: { required: true, validator: phoneRules, trigger: 'blur'},
+    required: true,
+    disabled: false,
+    showInput: true
+},
     ];
     // 基本信息
 const messageForm3 = [
@@ -961,156 +1064,112 @@ const applyMessageForm = [
 {
   prop: "entName",
   label: "企业名称",
+  rules: { required: true, validator: emtyRules, trigger: 'blur'},
   required: true,
   showInput: true
 },
 {
   prop: "contactsName",
-  label: "联系人",
+  rules: { required: true, validator: emtyRules, trigger: 'blur'},
   required: true,
+  label: "联系人",
   showInput: true
 },
 {
   prop: "contactsPhone",
-  label: "联系方式",
+  rules: { required: true, validator: phoneRules, trigger: 'blur'},
   required: true,
+  label: "联系方式",
   showInput: true
 },
 {
-    prop: "legalPerson",
-    label: "法人",
-    showInput: true
+  prop: "legalPerson",
+  label: "法人",
+  rules: { required: false, validator: emtyRules, trigger: 'blur'},
+  showInput: true
 },
 {
   prop: "legalId",
   label: "法人联系方式",
+  rules: { required: false, validator: phoneRules, trigger: 'blur'},
   showInput: true
 },
 {
   prop: "registerDistrict",
   label: "公司地址",
+  rules: { required: false, validator: emtyRules, trigger: 'blur'},
   showInput: true
 },
 {
   prop: "entIndustry",
   label: "所在行业",
+  rules: { required: false, validator: emtyRules, trigger: 'blur'},
   showInput: true
 },
 {
   prop: "entCode",
   label: "企业社会统一代码",
+  rules: { required: true, validator: socialUniformCodeRules, trigger: 'blur'},
   showInput: true
 },
 {
   prop: "businessIncome",
   label: "上一年度营业收入",
+  rules: { required: false, validator: emtyRules, trigger: 'blur'},
   showInput: true
 },
 {
   prop: "applyInfo",
   label: "备注",
+  rules: [],
   showTextarea: true
 },
 ];
-
+//活动报名
 const activtyForm = [
-  // {
-  //   prop: "activityName",
-  //   label: "活动名称",
-  //   required: true,
-  //   showInput: true,
-  // },
-  // {
-  //   prop: "activityAddress",
-  //   label: "活动地址",
-  //   required: true,
-  //   showInput: true 
-  // },
-  // {
-  //   prop: "activityDateFrom",
-  //   label: "活动开始时间",
-  //   placeholder: "活动开始时间",
-  //   required: true,
-  //   showDatePicker: true
-  // },
-  // {
-  //   prop: "activityDateTo",
-  //   label: "活动结束时间",
-  //   required: true,
-  //   showDatePicker: true,
-  // },
   {
     prop: "personName",
     label: "联络人",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     required: true,
     showInput: true,   
   },
   {
     prop: "telPhone",
     label: "联络人电话",
+    rules: { required: true, validator: phoneRules, trigger: 'blur'},
     required: true,
     showInput: true,    
   },
   {
     prop: "duties",
     label: "职务",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     required: true,
     showInput: true    
   },
   {
     prop: "applyCount",
     label: "参加人数",
+    rules: { required: true, validator: typeRules, trigger: 'blur'},
     required: true,
     showInput: true    
   }
-  // {
-  //   prop: "activityStatus",
-  //   label: "活动状态",
-  //   options: [
-  //     {
-  //       label: '报名中',
-  //       value: '1'
-  //     },
-  //     {
-  //       label: '报名结束，进行中',
-  //       value: '2'
-  //     },
-  //     {
-  //       label: '已结束',
-  //       value: '3'
-  //     }
-  //   ],
-  //   required: true,
-  //   showSelect: true,
-    
-  // },
-  // {
-  //   prop: "applyTimeFrom",
-  //   label: "活动报名开始日期",
-  //   required: true,
-  //   showDatePicker: true,
-    
-  // },
-  // {
-  //   prop: "applyTimeTo",
-  //   label: "活动报名结束日期",
-  //   required: true,
-  //   showDatePicker: true,
-    
-  // }
 ];
 
-// 基本信息
+// 灵活用工申请
 const applyMessageForm1 = [
   {
     prop: "companyPerson",
     label: "联系人",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     required: true,
     showInput: true
   },
   {
     prop: "companyContact",
     label: "联系方式",
+    rules: { required: true, validator: phoneRules, trigger: 'blur'},
     required: true,
     showInput: true
   }
@@ -1121,6 +1180,7 @@ const applyMessageForm2 = [
   {
     prop: "companyPerson",
     label: "联系人",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     required: true,
     showInput: true
   },
@@ -1128,6 +1188,7 @@ const applyMessageForm2 = [
     prop: "companyContact",
     label: "联系方式",
     required: true,
+    rules: { required: true, validator: phoneRules, trigger: 'blur'},
     showInput: true
   }
   ];
@@ -1136,24 +1197,29 @@ const propagandaForm = [
   {
     prop: "busneissDesc",
     label: "企业简介",
+    rules: [],
     showTextarea: true
   },
   {
       prop: "bgImg",
       label: "背景图",
+      rules: [],
       upload: true
   },
   {
       prop: "logoImg",
       label: "企业logo",
+      rules: [],
       upload: true
   },{
     prop: "honorImg",
     label: "荣誉资质",
+    rules: [],
     zlupload: true
 },{
   prop: "productDesc",
   label: "产品介绍",
+  rules: [],
   showWangEditor: true
 },];
 // 备案信息
@@ -1161,6 +1227,7 @@ const baForm = [
   {
     prop: "entname",
     label: "企业名称",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     required: true,
     showInput: true
   },
@@ -1173,6 +1240,7 @@ const baForm = [
   {
     prop: "frdb",
     label: "法人",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
     required: true,
     showInput: true
   },
@@ -1191,7 +1259,7 @@ const baForm = [
   {
     prop: "authenticationData",
     label: "认证资料",
-    required: true,
+    rules: [],
     zlupload: true
   }];
 
@@ -1201,22 +1269,15 @@ const accountForm = [
       prop: "username",
       label: "用户名",
       showInput: true,
-      rules: { required: false, validator: emtyRules, trigger: 'blur'},
+      rules: { required: true, validator: emtyRules, trigger: 'blur'},
       placeholder: '用户名字母开头, 允许2-16字节'
   },
   {
-    prop: "contactsPhone",
-    label: "手机号",
-    showInput: true,
-    rules: { required: false, validator: phoneRules, trigger: 'blur'},
-    placeholder: '手机号用于登录和找回密码'
-},
-  {
-      prop: "password",
-      label: "用户密码",
-      rules: { required: false, validator: emtyRules, trigger: 'blur'},
-      placeholder: '修改密码',
-      showPassWord: true
+    prop: "password",
+    label: "新密码",
+    rules: { required: true, validator: emtyRules, trigger: 'blur'},
+    placeholder: '修改密码',
+    showPassWord: true
   },
   {
       prop: "verCode",
@@ -1228,120 +1289,120 @@ const accountForm = [
 const priceForm = [{
   prop: "businessIncome",
   label: "营业收入",
-  rules: { required: false, validator: typeRules, trigger: 'blur'},
+  rules: { required: false, validator: incomeTypeRules, trigger: 'blur'},
   showInput: true,
 },{
   prop: "cultureIncome",
   label: "文化产业相关营业收入",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "totalProfit",
   label: "利润总额",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "netProfit",
   label: "净利润",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "totalAssets",
   label: "资产总额",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "netAssets",
   label: "净资产",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "totalLiability",
   label: "负债总额",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "equity",
   label: "所有者权益",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "payTaxes",
-  label: "纳税额(不含个人所得税)",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  label: "纳税额(不含个税)",
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "addedTax",
   label: "增值税",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "corporateIncomeTax",
   label: "企业所得税",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "individualIncomeTax",
   label: "个人所得税",
-  rules: { required: false, validator:typeRules, trigger: 'blur'},
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 }];
 const payTaxesForm = [{
   prop: "nsze",
   label: "纳税总额(不含个人所得税)",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   nsze: 1
 },{
   prop: "zzs",
   label: "增值税",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   zzs: 1
 },{
   prop: "csss",
   label: "城市维护建设税",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   ns: 1
 },{
   prop: "njyf",
   label: "纳教育费附加",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   njyf: 1
 },{
   prop: "qysds",
   label: "企业所得税",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   qysds: 1
 },{
   prop: "gs",
   label: "关税",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   gs: 1
 },{
   prop: "yhs",
   label: "印花税",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   yhs: 1
 },{
   prop: "other",
   label: "其他",
-  required: true,
+  rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
   showSelect: true,
   other: 1
 }];
@@ -1349,7 +1410,7 @@ const createForm = [
   {
     prop: "csze",
     label: "创汇总额",
-    required: true,
+    rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
     showSelect: true,
     options: [{
         label: '100万-400万',
@@ -1363,7 +1424,7 @@ const createForm = [
   },{
     prop: "zsbl",
     label: "占收入比例(%)",
-    required: true,
+    rules: { required: true, validator:incomeTypeRules, trigger: 'blur'},
     showSelect: true,
     options: [{
         label: '100万-400万',
@@ -1381,72 +1442,72 @@ const createForm = [
 const applyPolicyForm = [{
   prop: "businessIncome",
   label: "营业收入",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 },{
   prop: "cultureIncome",
   label: "文化产业相关营业收入",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "totalProfit",
   label: "利润总额",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "netProfit",
   label: "净利润",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "totalAssets",
   label: "资产总额",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "netAssets",
   label: "净资产",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "totalLiability",
   label: "负债总额",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "equity",
   label: "所有者权益",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "payTaxes",
   label: "纳税额(不含个人所得税)",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "addedTax",
   label: "增值税",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "corporateIncomeTax",
   label: "企业所得税",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 
 },{
   prop: "individualIncomeTax",
   label: "个人所得税",
-  required: false,
+  rules: { required: false, validator:incomeTypeRules, trigger: 'blur'},
   showInput: true,
 }];
 

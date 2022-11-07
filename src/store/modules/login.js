@@ -14,6 +14,7 @@ const state = {
 }
 
 const mutations = {
+  // 是否展示登录框
   CHANGE_VISIBLE: (state, value) => {
     state.visible = value
   },

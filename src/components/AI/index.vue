@@ -355,7 +355,7 @@ export default {
     goDetail(item) {
       var that = this;
       axios({
-        url: `http://enterprise.bjwcxf.com:28191/getAnswer/${item.lawTitle}`,
+        url: `http://enterprise.bjwcxf.com:9288/getAnswer/${item.lawTitle}`,
         method: "get",
       }).then((res) => {
         that.chats.push({
@@ -403,7 +403,7 @@ export default {
       this.isLoading = 1; //加载中
       axios({
         url:
-          `http://enterprise.bjwcxf.com:28191/getSimilarQuestion/${message}`,
+          `http://enterprise.bjwcxf.com:9288/getSimilarQuestion/${message}`,
         method: "get",
       }).then((res) => {
         res.data.replyLawDatas = Object.keys(res.data).map((el) => {

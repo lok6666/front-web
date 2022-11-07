@@ -13,16 +13,17 @@
       size="mini"
       class="demo-dynamic"
       :label-width="`${labelWidth}px`"
-      label-position="left"
+      label-position="right"
     >
       <el-form-item
         :rules="item.rules || [{ required: item.required, message: `${item.label}为必填项`,validator: item.validator }]"
+        :required="item.required"
         :prop="item.prop"
         :label="item.label"
       >
         {{ item[i] }}
         <!--输入框-->
-        <el-input v-model="item[item.prop]" v-if="item.showInput" :placeholder="item.placeholder"/>
+        <el-input :readonly="disabled || item.disabled" v-model="item[item.prop]" v-if="item.showInput" :placeholder="item.placeholder" style="width: 184px"/>
         <!--密码-->
         <el-input v-model="item[item.prop]" v-if="item.showPassWord" type="password" :placeholder="item.placeholder"/>
          <!--textarea输入框-->
@@ -33,8 +34,8 @@
           type="datetime"
           v-if="item.showDatePicker"
           :placeholder="item[placeholder]"
-          format="yyyy/MM/DD hh:mm:ss"
-          value-format="yyyy-MM-DD hh:mm:ss"
+          format="YYYY/MM/DD HH:mm:ss"
+          value-format="YYYY-MM-DD HH:mm:ss"
         />
         <!--年选择器-->
         <el-date-picker
@@ -52,6 +53,7 @@
         />
         <!--todo有待改造-->
         <el-select
+          clearable
           v-model="item[item.prop]"
           placeholder="请选择"
           :filterable="item.filterable"
@@ -72,17 +74,6 @@
             name="type"
           ></el-checkbox>
         </el-checkbox-group>
-        <!--验证码-->
-        <el-input v-else-if="item.showCode" v-model="item[item.prop]" placeholder="验证码" @click="getIndex(i)">
-          <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
-          <el-button
-            v-show="codeCount"
-            slot="suffix"
-            type="primary"
-            size="mini"
-            disabled
-          >{{ codeCount }}s</el-button>
-        </el-input>
         <!--上传图片-->
         <div @click="getIndex(i)" v-else-if="item.upload">
           <el-upload
@@ -169,7 +160,6 @@
 </template>
 
 <script>
-  import { sendCode } from '@/api/code.js'
   import { validMobile } from '@/utils/validate.js'
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
   import { MessageBox, Message } from 'element-ui'
@@ -333,41 +323,6 @@
       editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
   },
   methods: {
-    // 发送验证码
-    sendCode() {
-      const mobile = this.formConfig[1].contactsPhone
-      if (mobile === '') {
-        this.$message('请输入手机号')
-        return
-      }
-      if (!validMobile(mobile)) {
-        this.$message('手机号格式不正确')
-        return
-      }
-
-      // 120倒数计时
-      const TIME_COUNT = 120
-      if (!this.timer) {
-        this.codeCount = TIME_COUNT
-        this.timer = setInterval(() => {
-          if (this.codeCount > 0 && this.codeCount <= TIME_COUNT) {
-            this.codeCount--
-          } else {
-            clearInterval(this.timer)
-            this.timer = null
-          }
-        }, 1000)
-      }
-      const params = { mobile: mobile, type: 'reset' }
-      sendCode(params).then(
-        res => {
-          this.$message({
-            message: '发送成功',
-            type: 'success'
-          })
-        }
-      )
-    },
     onCreated(editor) {
         this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
@@ -382,17 +337,15 @@
       console.log('this.itemIndex', this.itemIndex);
     },
     validateForm(formEl) {
-      let add = 0;
       return new Promise((resolve, reject) => {
-        formEl.forEach(async (el) => {
+        formEl.forEach(async (el, i) => {
           el.validate((v) => {
-            ++add;
             // 当存在校验失败的情况直接返回
             if (!v) {
               resolve(false);
             }
             // 遍历结束返回
-            else if (add === formEl.length) {
+            else if (i === (formEl.length - 1)) {
               resolve(true);
             }
           });
@@ -402,6 +355,8 @@
     // 提交表单
     async submitForm(formName) {
       let formData = this.formData;
+      debugger;
+      console.log('submitForm---');
       if (await this.validateForm(this.$refs.formRef)) {
         this.formConfig.forEach((v) => {
           formData[v.prop] = v[v.prop];

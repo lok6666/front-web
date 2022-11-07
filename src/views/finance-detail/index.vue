@@ -182,7 +182,6 @@ export default {
           });
           this.applydialogVisible = false;
         })
-      this.applydialogVisible = false;
     },
   }
 };
@@ -206,7 +205,7 @@ export default {
   }
   .finance-detail-bg {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     justify-content: center;
     height: 442px;
     font-size: 56px;

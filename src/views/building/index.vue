@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <app-header :nav-item-active="5" />
+    <app-header :nav-item-active="6" />
     <div class="finance-bg">
-      <div>金融服务</div>
+      <div>楼宇信息</div>
     </div>
     <div class="finance-container">
-      <div class="select-btn">
+<!--       <div class="select-btn">
         <div>金融机构:</div>
         <div v-for="(btn, index) in btnList" :key="index">
           <el-button
@@ -16,7 +16,7 @@
             >{{ btn.message }}</el-button
           >
         </div>
-      </div>
+      </div> -->
       <!-- <div class="select-btn">
         <div>利率范围:</div>
         <div>
@@ -38,7 +38,7 @@
           <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高额度" v-model="maxRate" :inline="true"></el-input>
         </div>
       </div> -->
-      <Loan :loanList="loanList"/>
+      <buildItem :loanList="loanList"/>
     </div>
     <app-footer />
   </div>
@@ -46,13 +46,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { financialServicesAll } from "@/config/api.js";
+import { buildings } from "@/config/api.js";
 import { getAccessToken } from "@/utils/auth";
 import request from '@/utils/request';
 import bj_bank from "../../images/bj_bank.png";
 import jh_bank from "../../images/bank2.png";
 import AppHeader from "@/components/Header/index";
-import Loan from "@/components/loan/index";
+import buildItem from "@/components/buildItem/index";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
@@ -86,23 +86,22 @@ export default {
   },
   components: {
     AppHeader,
-    Loan,
+    buildItem,
     AppFooter,
   },
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
   },
   created() {
-    this.getFinancialServicesAll();
+    this.getbuildings();
   },
   mounted() {},
   methods: {
-    getFinancialServicesAll() {
+    getbuildings() {
       request({
-        url: `${financialServicesAll}`,
+        url: `${buildings}`,
         method: 'post',
         data: {
-          serviceBank: this.serviceBank
         }
       })
       .then((res) => {
@@ -111,12 +110,7 @@ export default {
     },
     select(index) {
       this.serviceBank = this.btnList[index].value;
-      this.getFinancialServicesAll();
-    },
-    detail(index) {
-      this.$router.push({
-        path: `/finance-detail/:${index}`
-      })
+      this.getbuildings();
     },
   },
 };

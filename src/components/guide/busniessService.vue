@@ -95,9 +95,11 @@ export default {
           }
           .finance {
             background: url("../../images/金融服务.png");
+            justify-content: flex-end;
           }
           .manage {
             background: url("../../images/管家服务.png");
+            justify-content: flex-end;
           }
         }
       }

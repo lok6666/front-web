@@ -7,7 +7,7 @@
     element-loading-background="#fff"
   >
     <transition-group name="fade-list">
-      <li v-for="(item, index) in list" :key="index" class="list-item">
+<!--       <li v-for="(item, index) in list" :key="index" class="list-item">
         <div class="wrap-top">
             <div class="wrap-img">
                 <img :src="item.cover">
@@ -22,7 +22,7 @@
         <div class="wrap-desc">
           111111111111111111111111111111
         </div>
-      </li>
+      </li> -->
     </transition-group>
   </ul>
 </template>

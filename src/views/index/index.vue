@@ -210,7 +210,7 @@ export default {
   @import '~@/styles/variables';
 	width: 100%;
   height: 100vh;
-	overflow-x: hidden;
+	overflow-x: overlay;
   overflow-y: -webkit-overlay;
   overflow-y: overlay;
 

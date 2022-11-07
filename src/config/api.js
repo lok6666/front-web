@@ -1,8 +1,8 @@
-const host = 'http://172.16.12.8:28182';
-// const host = 'http://enterprise.bjwcxf.com:28191';
-//  export const policyHost = 'http://172.16.130.92:5000/match';
-// export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
-export const policyHost = 'http://enterprise.bjwcxf.com:5000/match';
+//const host = 'http://172.16.4.62:28182';
+//const host = 'http://enterprise.bjwcxf.com:28191';
+//export const policyHost = 'http://172.16.4.62:5000/match';
+export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
+export const policyHost = `${host}/policyMatch/get`;
 // 登录接口
 export const login = `${host}/auth/entLogin`
 export const authSendVerCode = `${host}/auth/sendVerCode`; // 注册验证码
@@ -30,7 +30,7 @@ export  const recruitServiceDockingApply = `${host}/recruitServiceDocking/insert
 export  const entPropagateGet = `${host}/entPropagate/get` // 插入
 
 /*个人中心-企业基本信息*/
-export  const entInfoList = `${host}/entUser/list` // 信息列表
+export  const entInfoList = `${host}/entUser/homeList` // 信息列表
 export  const entInfoUpdate = `${host}/entUser/update` // 信息更新
 export  const entInfoDelete = `${host}/entUser/delete` // 信息删除
 export  const entInfoInsert = `${host}/entUser/insert` // 信息插入
@@ -57,8 +57,17 @@ export  const entFilingDelete = `${host}/entFiling/delete` // 角色删除
 export  const entFilingInsert = `${host}/entFiling/insert` // 角色插入
 export  const entFilingGetById = `${host}/entFiling/get` // 角色插入
 
+export  const locatiion = `${host}/activity/getCoordinate` // 角色插入
+
+/*楼宇信息*/
+export  const buildings = `${host}/buildings/list`
+export  const buildingsGet = `${host}/buildings/get`
+
 /*个人中心-站内信*/
 export  const messageList = `${host}/message/list` // 角色管理列表
+
+/*个人中心-财税数据*/
+export  const fincialDataStatisticsGetByEntId = `${host}/fincialDataStatistics/getByEntId` // 角色管理列表
 
 /*个人中心-账户管理*/
 export  const entReset = `${host}/auth/entReset` // 角色管理列表
@@ -84,10 +93,15 @@ export const activityApplyAddOne = `${host}/activityApply/insert`//  活动报�
 
 /*企业服务*/
 export const entServiceDockingAll = `${host}/entServices/list` // 列表
+export const entServiceUpdate = `${host}/entServices/update` // 列表
+/*企业服务-对接*/
 export const entServiceDockingInsert = `${host}/entServiceDocking/insert` // 企业对接申请
 
 /*金融服务*/
 export const financialServicesAll = `${host}/financialServices/list` // 列表
+
+export const financialServicesUpdate = `${host}/financialServices/update` // 金融服务申请
+/*金融服务-对接*/
 export const financialServiceDockingAll = `${host}/financialServiceDocking/list` //  金融服务申请列表
 export const financialServicesInsert = `${host}/financialServiceDocking/insert` // 金融服务申请
 

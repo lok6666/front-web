@@ -10,8 +10,8 @@ import { bindEmail } from '@/api/user.js'
 
 NProgress.configure({ showSpinner: false })
 // 免登录白名单
-const whiteList = ['/', '/tag', '/category', '/archives', '/finance', '/use', '/policy-search', '/policy-report', '/policy-match', '/user/info', '/finance-detail/:id',
-'/picture-detail', '/picture-detail2', '/picture-detail3', '/new-detail', '/new-more', '/teacher-detail', '/new-detail/:artId', '/policy-detail/:artId', '/collage-detail:collageId', '/business-detail/:id', '/protect-detail/:id', 
+const whiteList = ['/', '/tag', '/category', '/archives', '/finance', '/building', '/use', '/policy-search', '/policy-report', '/policy-match/:type', '/user/info', '/finance-detail/:id','/building-detail/:id',
+'/picture-detail', '/picture-detail2', '/picture-detail3', '/new-detail', '/new-more', '/teacher-detail', '/new-detail/:artId', '/policy-detail/:artId', '/collage-detail/:collageId', '/business-detail/:id', '/protect-detail/:id', 
 '/message', '/friend-link', '/article/:id', '/reset-password', '/about', '/search', '/terms', '/privacy', '/email-bind', '/404', '/oauth']
 
 router.beforeEach(async(to, from, next) => {

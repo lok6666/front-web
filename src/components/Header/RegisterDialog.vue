@@ -6,9 +6,10 @@
     custom-class="register-dialog"
     :visible.sync="visible"
     :lock-scroll="false"
-  > <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;"/>
+  > <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;margin-top: 18px;"/>
     <h2><img src="../../images/nobgcolor-wtlogo.png"/>注册文投账号</h2>
     <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" @blur="checkUserName"/>
+    <el-input v-model="entName" placeholder="请输入公司名称"/>
     <el-input v-model="mobile" placeholder="手机号用于登录和找回密码"  @blur="checkMobile"/>
     <el-input v-model="code" placeholder="验证码">
       <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       username: '',
+      entName: '',
       mobile: '',
       code: '',
       password: '',
@@ -53,13 +55,14 @@ export default {
     bClose() {
       this.visible = false
       this.username = ''
+      this.entName = ''
       this.mobile = ''
       this.code = ''
       this.password = ''
     },
     // 校验用户名
     checkUserName() {
-      validate({
+      this.username && validate({
         username: this.username
       }).catch(e => {
           this.$message({
@@ -100,6 +103,7 @@ export default {
       if (this.vsubmit()) {
         const data = {
           username: this.username,
+          entName: this.entName,
           password: this.password,
           mobile: this.mobile,
           code: this.code
@@ -107,7 +111,7 @@ export default {
         this.loading = true
         register(data).then(
           res => {
-            const params = { username: this.username, password: this.password }
+            const params = { username: this.username, password: this.password, entName: this.entName }
             new Promise(async(resolve, reject) => {
               try {
                 await this.$store.dispatch('user/accountLogin', params)

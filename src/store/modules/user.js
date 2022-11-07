@@ -1,4 +1,4 @@
-import { accountLogin, codeLogin, logout, getUserInfo } from '@/api/user'
+import { accountLogin, codeLogin, logout, getUserInfo, register } from '@/api/user'
 import { getAccessToken, setAccessToken, removeAccessToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 import { thirdLogin } from '@/api/user.js'
@@ -23,6 +23,34 @@ const mutations = {
 }
 
 const actions = {
+  
+  /**
+   * 账号注册
+   */
+   register({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      register(params).then(
+        res => {
+          const params = { username: this.username, password: this.password }
+          new Promise(async(resolve, reject) => {
+            try {
+              await accountLogin(params);
+              resolve()
+            } catch (error) {
+              this.loading = false
+              console.error(error)
+              reject(error)
+            }
+          })
+        },
+        error => {
+          console.error(error)
+          this.loading = false
+        }
+      )
+    })
+  },
+
   /**
    * 账号登录
    */
@@ -79,8 +107,7 @@ const actions = {
   getUserInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getUserInfo().then(response => {
-        const { data } = response
-
+        const { data } = response;
         if (!data) {
           reject('获取用户信息失败，请重新登录')
         }

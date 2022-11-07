@@ -60,7 +60,7 @@ export default {
     background: #fff;
     max-width: 720px;
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: 154px;
     border-radius: 2px;
     font-size: 15px;
     box-sizing: border-box;

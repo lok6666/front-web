@@ -47,11 +47,11 @@ export default {
      request({
          url: `${entInfoList}`,
          method: 'post',
-         data: {}
+         data: {
+          attestationStatus: 1
+         }
        })
        .then((res) => {
-         //如果未添加宣传资料
-         console.log('data----', res);
         that.excellentBusniessList = res.data.list;
        });
    },
@@ -81,6 +81,7 @@ export default {
             flex-direction: column;
             align-items: center;
             margin-right: 10px;
+            margin-bottom: 10px;
             .item-bg {
               // margin-right: 31px;
               // margin-bottom: 30px;

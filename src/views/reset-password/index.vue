@@ -68,7 +68,7 @@ export default {
       if (this.vsubmit()) {
         console.log('xxx')
         this.loading = true
-        const parmas = { mobile: this.form.mobile, code: this.form.code, password: this.form.password }
+        const parmas = { contactsPhone: this.form.mobile, verCode: this.form.code, password: this.form.password }
         resetPassword(parmas).then(
           res => {
             this.loading = false
@@ -142,7 +142,7 @@ export default {
           }
         }, 1000)
       }
-      const params = { mobile: mobile }
+      const params = { mobile: mobile, type: 'reset'  }
       sendCode(params).then(
         res => {
           this.$message({

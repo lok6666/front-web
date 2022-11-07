@@ -11,13 +11,13 @@
       style="width: 400px;padding: 0px 20px"
       @likeCountChanges="likeCountChanges"
       @closeDialog="closeDialog"
-      :labelWidth="140"
+      :labelWidth="80"
       :formConfig="applyMessageForm1"
       :showBtn="true"
       :disabled="false"/> 
     </el-dialog>
     <div class="service-bg">
-        <div style="width: 100%;display: flex;display: flex;flex-direction: column;align-items: end;">
+        <div style="width: 100%;display: flex;display: flex;flex-direction: column;align-items: flex-end;">
         <div style="width: 310px;height: 10px;"></div>
           <div>高效专业的</div>
           <div>企业共享服务科技提供商</div>
@@ -29,11 +29,13 @@
         <div class="service-title">面对日趋多元化的需求，企业如何能轻运营、快发展</div>
         <div class="service-desc">使用身边云提供的共享产品，“多快好省”为企业运营提效降本</div>
         <div class="service-content">
-          <div class="service-content-item"  :style="`background-image: url(${item.bgImg})`" v-for="(item, index) in list" :key="index">
-            {{item.title}}
-            <ui style="font-size: 10px;width: 264px; margin: 10px;">
-              <li v-for="(i, index) in item.liList" :key="index">{{i}}</li>
-            </ui>
+          <div class="service-content-item"  :style="`background-image: url(${item.bgImg});justify-content: flex-end;`" v-for="(item, index) in list" :key="index">
+            <div>
+              {{item.title}}
+              <ui style="font-size: 10px;width: 264px; margin: 10px;">
+                <li v-for="(i, index) in item.liList" :key="index">{{i}}</li>
+              </ui>
+            </div>
           </div>
         </div>
       </div>
@@ -107,7 +109,8 @@ export default {
 
   computed: {
     ...mapGetters([
-      'device'
+      'device',
+      'login_visible'
     ])
   },
 
@@ -120,8 +123,9 @@ export default {
     init() {
     },
     async applyService() {
-      const { data } = await this.$store.dispatch('user/getUserInfo');
-      this.applydialogVisible = true;
+      let userinfo = window.localStorage.getItem('userinfo');
+      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+      userinfo && (this.applydialogVisible = true);
     },
     closeDialog(done) {
       this.applydialogVisible = false;
@@ -169,7 +173,7 @@ export default {
   overflow-y: overlay;
   .service-bg {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     justify-content: center;
     font-size: 50px;
     font-family: AlibabaPuHuiTiM;

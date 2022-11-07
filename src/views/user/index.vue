@@ -5,7 +5,7 @@
     <img src="../../images/userBg.png" style="width: 100%;height: 362px;" />
     <div class="user-caontainer">
       <div class="user-header">
-        <img src="../../images/total.png" />
+        <img :src="logoImg || totalPng" />
         <span style="display: inline-block; margin-left: 20px; width: 100%">
           <h1>{{entName}}</h1>
           <div class="fw-model">
@@ -70,7 +70,7 @@
           </li>
         </ul>
         <div class="setting-box-center">
-          <div v-if="categoryId === 0">
+          <div v-if="categoryId === 0 && echartsOptions.dataset">
             <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
             <policy @checkAll="checkAll"/>
             <userTable @checkAll="checkAll"/>
@@ -116,7 +116,7 @@
               :customStyle="{'margin': `0px 0px 0px 100px`}"
               @likeCountChanges="likeCountChanges(isExist?  entFilingUpdate : entFilingInsert, 'POST', $event)"
               :labelWidth="140"
-              title="企业备案信息"
+              title="企业认证信息"
               :formConfig="baForm"
               :showBtn="true"
               :showCanelBtn="false"
@@ -134,7 +134,7 @@
           <div v-else-if="categoryId === 8">
               <policyList />
           </div>
-          <div v-else-if="categoryId === 9">
+<!--           <div v-else-if="categoryId === 9">
             <form-template
               style="padding: 0px 20px 20px 20px"
               :customStyle="{'margin': `0px 0px 0px 100px`}"
@@ -144,7 +144,7 @@
               :formConfig="accountForm"
               :showBtn="true"
               :disabled="false"/> 
-          </div>
+          </div> -->
         </div>
         <!-- <div class="setting-box-right">
           <div class="enterprise-service">
@@ -188,9 +188,12 @@ import {
   policyMatchTagsGet,
   policyMatchTagsInsert,
   policyMatchTagsUpdate,
-  entReset
+  entReset,
+  fincialDataStatisticsGetByEntId
  } from "@/config/api";
+ import _ from 'lodash';
 import { propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
+import totalPng from "../../images/total.png";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
 import AI from '@/components/AI/index';
@@ -222,6 +225,7 @@ export default {
         2: entPropagateGetById,
         4: entFilingGetById
       },
+      totalPng,
       entInfoInsert,
       entInfoUpdate,
       entInfoGetById,
@@ -242,32 +246,7 @@ export default {
       baForm,
       accountForm,
       createForm,
-      echartsOptions: {
-        title: {
-          text: '财税数据'
-        },
-        legend: {},
-        tooltip: {},
-        dataset: {
-          dimensions: ["product", "营业收入",  "纳税总额", '资产总额', '负债总额'],
-          source: [
-            { product: "2022年", '营业收入': 2987.3,  '纳税总额': 30.1 , '资产总额': 10153.9, '负债总额': 991.4 },
-            { product: "2021年", '营业收入': 4512.2,  '纳税总额': 3.6, '资产总额': 10639.2, '负债总额': 1226.2},
-            { product: "2020年", '营业收入': 1874.0,  '纳税总额': 71.4, '资产总额': 9591.2, '负债总额': 1361.1}    
-          ],
-        },
-        xAxis: { type: "category" },
-        yAxis: {
-          name: "单位（万元）",
-          axisLabel: {
-            //这种做法就是在y轴的数据的值旁边拼接单位，貌似也挺方便的
-            formatter: "{value} 万元",
-          },
-        },
-        // Declare several bar series, each will be mapped
-        // to a column of dataset.source by default.
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }],
-      },
+      echartsOptions: {},
       echartsOptions2: {
         tooltip: {
           trigger: 'item'
@@ -324,14 +303,14 @@ export default {
       ],
       propertys: [
         { id: 3, name: "财税数据填报", formType:　'priceForm'  },
-        { id: 4, name: "企业备案信息", formType:　'baForm'  },
+        { id: 4, name: "企业认证信息", formType:　'baForm'  },
       ],
       services: [
         { id: 5, name: "我的政策" },
         { id: 6, name: "我的服务" },
         { id: 7, name: "我的活动" },
         { id: 8, name: "站内信息" },
-        { id: 9, name: "账户管理" },
+        // { id: 9, name: "账户管理" },
       ],
       opVisible: {
         nickname: false,
@@ -339,6 +318,7 @@ export default {
         gender: false,
         brief: false,
       },
+      logoImg: '',
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
       files: [],
       policyExist: null,
@@ -378,6 +358,53 @@ export default {
       };
       return val;
     },
+  },
+  created() {
+    let userinfo = window.localStorage.getItem('userinfo');
+    !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+    let that = this;
+    request({
+        url: `${entPropagateGetById}`,
+        method: 'get',
+        params: {
+          entId: `${this.userId}`
+        }
+      })
+      .then(({data}) => {
+        //如果未添加宣传资料
+         if(data.logoImg) {
+            this.logoImg = data.logoImg;
+          };
+      });
+      request({
+        url: `${fincialDataStatisticsGetByEntId}/${this.userId}`,
+        method: 'get'
+      })
+      .then((res) => {
+        let echartsOptions = {
+          title: {
+            text: '财税数据'
+          },
+          legend: {},
+          tooltip: {},
+          dataset: {
+            dimensions: ["年份", "营业收入",  "纳税总额", '资产总额', '负债总额'],
+            source: res.data
+          },
+          xAxis: { type: "category" },
+          yAxis: {
+            name: "单位（万元）",
+            axisLabel: {
+              //这种做法就是在y轴的数据的值旁边拼接单位，貌似也挺方便的
+              formatter: "{value} 万元",
+            },
+          },
+          // Declare several bar series, each will be mapped
+          // to a column of dataset.source by default.
+          series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }],
+        };
+        that.echartsOptions = echartsOptions;
+      });
   },
   mounted() {
     this.init();
@@ -441,7 +468,6 @@ export default {
       });
     },
     likeCountChanges(url, method = 'POST', formData, policyMatchTags) {
-      debugger;
       request({
         url: `${url}`,
         method,
@@ -449,9 +475,11 @@ export default {
         data: {
           entId: this.userId,
           id: this.id,
+          contactsPhone: JSON.parse(window.localStorage.getItem('userinfo')).contactsPhone,
           ...formData,
         }
       }).then(res => {
+        debugger;
         Message({
             message: '提交成功',
             type: 'success',
@@ -502,6 +530,8 @@ export default {
       justify-content: space-between;
       // margin: 0 60px;
       img {
+        width: 325px;
+        height: 325px;
         position: relative;
         top: -127px;
       }

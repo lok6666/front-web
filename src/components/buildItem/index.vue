@@ -7,33 +7,29 @@
         >
           <div
             class="item-intro"
-            :style="`background-image: url(${loanBg})`"
+            :style="`background-image: url(${loan.buildingImages});background-size: 100% 100%;`"
           >
-            <div style="flex: 0.6;font-size: 24px;">{{ loan.serviceName }}</div>
+            <div style="flex: 0.6;font-size: 24px;"> </div>
             <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">
-              参考利率
+              {{ loan.buildingName }}
             </div>
             <div style="font-size: 34px;">{{ loan.serviceRange }}</div>
           </div>
           <div class="item-content">
             <div class="bank">
-              <div
+ <!--              <div
                 class="bankBg"
                 :style="`background-image: url(${loan.serviceImages})`"
-              ></div>
-              <div class="limit">期限:{{ loan.serviceTerm }}</div>
-            </div>
-            <div
-              style="height: 66px; width: 135px;display: flex;flex-direction: column;align-items: center;justify-content: center;"
-            >
-              额度:
-              <div class="item-num">{{ loan.serviceQuota }}</div>
+              ></div> -->
+              <div class="limit">地址:{{ loan.buildingAddress }}</div>
+              <div class="limit">租金:<div class="item-num">{{ loan.buildingRent }}</div></div>
+              <div class="limit">面积:{{ loan.buildingArea }}㎡</div>
             </div>
             <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
-            <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
+<!--             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
               <div>{{loan.serviceHits}}次浏览</div>
               <div>{{loan.serviceTurnover}}次申请</div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -71,15 +67,11 @@ export default {
       });
     },
     detail(loan, index) {
-      let userinfo = window.localStorage.getItem('userinfo');
-      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
-      if(userinfo) {
-        this.$store.dispatch('data/setLoanDetail', _.cloneDeep(loan));
-        this.updateHits(loan);
-        this.$router.push({
-          path: `/finance-detail/:${index}`
-        });
-      };
+      // this.$store.dispatch('data/setBuildDetail', _.cloneDeep(loan));
+      // this.updateHits(loan);
+      this.$router.push({
+        path: `/building-detail/:${loan.id}`
+      });
     },
   },
 };
@@ -115,23 +107,29 @@ grid-gap: 20px 20px;
     align-items: center;
     .bank {
         display: flex;
-        align-items: center;
-        margin-left: 10px;
-        margin-right: 10px;
-        border-bottom: 1px solid #979797;
+        align-items: flex-start;
+        flex-direction: column;
+        height: 164px;
+        justify-content: center;
+        width: 100%;
+        padding-left: 51px;
         .bankBg {
         height: 58px;
-        width: 142px;
+        width: 20px;
         background-size: cover;
         }
         .limit {
-        margin-left: 20px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+        // margin-left: 20px;
         }
     }
     .item-num {
         font-size: 20px;
         font-family: AlibabaPuHuiTiR;
         color: #d0021b;
+        display: inline;
     }
     .bank-detail {
         width: 220px;

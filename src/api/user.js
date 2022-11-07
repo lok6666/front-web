@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { authRegister, authVerify, entInfoGetById, login } from "@/config/api.js";
+import { authRegister, authVerify, entInfoGetById, login, entReset } from "@/config/api.js";
 /**
  * 账号登录
  * @param {Object} params
@@ -52,6 +52,7 @@ export async function getUserInfo(token) {
      method: 'get'
   });
   window.localStorage.setItem('userinfo', JSON.stringify({
+    contactsPhone: result.data.contactsPhone,
     entName: result.data.entName,
     registTimes: result.data.registTimes,
     hits: result.data.hits,
@@ -132,9 +133,9 @@ export function updatePassword(params) {
  */
 export function resetPassword(params) {
   return request({
-    url: '/user/password/reset',
+    url: `${entReset}`,
     method: 'post',
-    params: params
+    data: params
   })
 }
 

@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     select(index) {
-      console.log("this---------", this.btnList[index]);
     },
     detail(index) {
       this.$router.push({

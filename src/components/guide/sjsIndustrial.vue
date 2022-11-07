@@ -95,7 +95,7 @@ export default {
         color: #FFFFFF;
         .sjs-img-show {
           display: flex;
-          align-items: end;
+          align-items: flex-end;
           padding: 0px 0px 23px 23px;
         }
         .video-js {
@@ -105,7 +105,7 @@ export default {
           margin-right: 10px;
           font-size: 24px;
           display: flex;
-          align-items: end;
+          align-items: flex-end;
           padding: 0px 0px 23px 47px;
           width: 50%;
           height: 630px;
@@ -116,7 +116,7 @@ export default {
         .sjsIndustrial-right {
             font-size: 24px;
             display: flex;
-            align-items: end;
+            align-items: flex-end;
             padding: 0px 0px 23px 47px;
             width: 50%;
             height: 630px;

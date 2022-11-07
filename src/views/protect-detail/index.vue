@@ -21,10 +21,13 @@
         <div class="protect-block" v-html="busneissData.serviceSynopsis">
           
         </div>
-        <div class="protect-apply" v-if="this.userinfo">
-          <div class="protect-apply-btn">
+        <div class="protect-apply">
+          <div class="protect-apply-btn" v-if="authorization">
             <span>联系人:{{busneissData.supplierPerson}}</span>
             <span>联系电话:{{busneissData.supplierContactX}}</span>
+          </div>
+          <div class="protect-apply-btn" v-else>
+            <span>请登录查看联系人及联系方式</span>
           </div>
         </div>
       </div>
@@ -34,6 +37,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { getAccessToken } from '@/utils/auth'
 import "swiper/css/swiper.css";
 import { entServiceDockingInsert } from "@/config/api.js";
 import request from '@/utils/request';
@@ -52,6 +56,7 @@ export default {
   },
   data() {
     return {
+      authorization: getAccessToken(),
       applydialogVisible: false,
       applyMessageForm2,
       busneissData: null,
@@ -121,7 +126,7 @@ export default {
   @import "~@/styles/variables";
   width: 100%;
   height: 100vh;
-  overflow-x: hidden;
+  overflow-x: overlay;
   overflow-y: -webkit-overlay;
   overflow-y: overlay;
   .protect-detail-bg {
@@ -141,7 +146,7 @@ export default {
   @import '~@/styles/variables';
   width: 100%;
   height: 100vh;
-  overflow-x: hidden;
+  overflow-x: overlay;
   overflow-y: -webkit-overlay;
   overflow-y: overlay;
   .policy-container {
@@ -160,8 +165,10 @@ export default {
     }
     .side-left {
       .protect-block {
+        // padding-top: 8px;
+        padding-top: 20px;
         background: #fff;
-        width: 1000px;
+        width: 1200px;
         // padding: 20px 20px 0px 20px;
         // display: flex;
         // flex-direction: column;

@@ -10,7 +10,7 @@
             <div class="policy-total-content">
                 <div class="total-num">
                     <div class="title">已为您计算出适合的政策</div>
-                    <div class="num">{{policyList.length}}条</div>
+                    <div class="num">{{realPolicyList.length}}条</div>
                 </div>
                 <div class="total-price">
                     <div class="title">政策可提供最大扶持资金</div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div style="display: flex;">
-                  <div class="policy-calculate" style="margin-right: 10px;" @click="getPolicyList()">换一批</div>
+                  <div class="policy-calculate" v-if="$route.params.type === '政策匹配'" style="cursor: pointer;" @click="changePolicy()">换一批</div>
                   <div class="policy-calculate" @click="dialogVisible = true">政策计算器</div>
                 </div>
             </div>
@@ -70,6 +70,7 @@
                         <i :class="[item.policyCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)" />收藏
                       </div>
                       <div class="tag-item location"><img src="../../images/location.png"/><div>{{locationMap[item.policyLocation]}}</div></div>
+                      <div class="tag-item location" style="background: #909399"><div>{{item.policyType === 1 ? '申报中' : '已结束'}}</div></div>
                       <!-- <div class="tag-item process-1">{{item.process}}</div> -->
                     </div>
                     <div style="max-width: 720px; display: -webkit-box;
@@ -78,18 +79,18 @@
                         text-overflow: ellipsis;
                         overflow: hidden;">{{item.policyTitle}}</div>
                   </div>
-                  <div class="content">{{item.policyTheme}}</div>
+                  <div v-if="item.policyTheme" class="content">主题：{{item.policyTheme}}</div>
                   <div class="footer">
-                    <span style="display: flex;align-item: center;">发文部门:</span>
+                    <span style="display: flex;align-item: center;">发文部门：</span>
                     <div class="address">{{item.policyAgency}}</div>
-                    <span style="display: flex;align-item: center;">发布时间:</span>
+                    <span style="margin-left: 100px;display: flex;align-item: center;">发布时间：</span>
                     <div class="time">{{item.policyTime.substring(0, 10)}}</div>
                   </div>
                 </div>
                 <div class="right">
                   <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.policyMaxMoney ? `${item.policyMaxMoney}万元`: '评选认定中'}}</div>
                   <div class="measure">
-                    <div v-for="(item, index) in opacition" :key="index" @click.stop="test()">{{item.message}}</div>
+                    <div v-for="(i, index) in opacition" :key="index" @click.stop="test(i.message,item.policyId)">{{i.message}}</div>
                   </div>
                 </div>
               </div>
@@ -99,10 +100,10 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageNum"
-                :page-sizes="[10, 20 ,40]"
+                :page-sizes="[5, 10 ,20]"
                 :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="policyList.length">
+                :total="realPolicyList.length">
               </el-pagination>
             </div>
         </div>
@@ -112,7 +113,7 @@
   </template>
   
   <script>
-  import { policyHost,entPolicyCollectInsert,entPolicyCollectDelete } from "@/config/api.js";
+  import { policyHost,entPolicyCollectInsert,entPolicyCollectDelete,policyMatchTagsGet } from "@/config/api.js";
   import request from '@/utils/request';
   import PolicyCalculate from '@/components/Policycalculate/index'
   import { mapGetters } from "vuex";
@@ -124,8 +125,9 @@
     name: "User",
     data() {
       return {
+        // data_selection: [],
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         timer: null,
         dialogVisible: false,
         loading: true,
@@ -138,6 +140,8 @@
           beijing: '北京',
           shijingshan: '石景山'
         },
+        change: 0,
+        isHandler: 0,
         policyCalculate:{
           "jigou": "不符合",
           "diyu": "不符合",
@@ -152,9 +156,10 @@
           "zizhi": "不符合",
           "guimo": "全部",
           "nianxian": "全部",
-          "quxian": "全部"
+          "quxian": "石景山区",
       },
         policyList: [],
+        realPolicyList: [],
         opacition: [{
           message: '奖励措施'
           },
@@ -193,20 +198,41 @@
       ...mapGetters(["defaultAvatar", "device", "data_selection"]),
     },
     watch:{
+      $route: {
+        handler: async function(now,old) {
+          // this.$route.params.type === '政策匹配' && (this.change = 1);
+          // this.$route.params.type === '政策计算器' && (this.change = 0);
+          // this.$route.params.type === '政策匹配' && await this.getpolicyMatchTagsGet();
+          // this.$route.params.type === '政策计算器' && await this.getPolicyList();
+        },
+        deep: true
+      },
       data_selection: function(val, oldVal) {
+        this.change = 0;
         this.getPolicyList(val);
       }
     },
-    created() {
+      async created() {
+/*       this.$route.params.type === '政策匹配' && (this.change = 1);
+      this.$route.params.type === '政策计算器' && (this.change = 0);
+      this.$route.params.type === '政策匹配' && await this.getpolicyMatchTagsGet(); */
       this.getPolicyList();
-    },
-    mounted() {},
+    }, 
     methods: {
+      changePolicy() {
+        debugger;
+        this.change = 1;
+        this.getPolicyList();
+      },
       bClose() {
         this.isShowAIDialogVisible = false;
       },
-      test() {
-        this.isShowAIDialogVisible = true;
+      test(message, id) {
+        if(message === '立即咨询') {
+          this.isShowAIDialogVisible = true;
+        } else {
+          window.open(`${location.origin}/#/policy-detail/:artId=${id}`)
+        }
       },
       dialogClose() {
         this.dialogVisible = false;
@@ -215,21 +241,50 @@
         // this.$router.push(`/policy-detail/:artId=${id}`);
         window.open(`${location.origin}/#/policy-detail/:artId=${id}`)
       },
+      getpolicyMatchTagsGet() {
+        return request({
+          url: `${policyMatchTagsGet}`,
+          method: "GET",
+          params: {
+            companyid: this.userId,
+          }
+        }).then(({data}) => {
+          this.data_selection = Object.keys(data).map(e => {
+            return {
+              type: e,
+              label: data[e]
+            }
+          });
+          this.getPolicyList(this.data_selection);
+        });
+      },
       getPolicyList(val) {
-          this.selectedOptions = val || this.data_selection.length >= 1 ? this.data_selection : JSON.parse(window.localStorage.getItem('selection-detail'));
+          this.loading = true;
           let that = this;
-          this.selectedOptions.forEach(res => that.policyCalculate[res.type] = res.label);
+          // if(this.$route.params.type === '政策计算器') {
+           this.selectedOptions = val || this.data_selection.length >= 1 ? this.data_selection :
+            window.localStorage.getItem('selection-detail') ? JSON.parse(window.localStorage.getItem('selection-detail')): [];
+            that.selectedOptions.forEach(res => {
+              that.policyCalculate[res.type] = res.label || that.policyCalculate[res.type];
+             });
+          // };
+          let tagData = {
+            ...JSON.parse(window.localStorage.getItem('entTags')),
+            ...that.policyCalculate,
+          };
           request({
             url: `${policyHost}`,
             method: 'post',
             data: {
-              ...that.policyCalculate,
+              ...tagData,
+              change: this.change,
               entId: window.localStorage.getItem('USERID')
             }
           }).then(res => {
+            // this.$route.params.type === '政策匹配' && (this.selectedOptions = []);
             that.loading = false,
             that.realPolicyList = res.data.dataList;
-            that.policyList = res.data.dataList;
+            that.policyList = res.data.dataList.slice(0,5);
             that.price = res.data.dataPlant;
           });
       },
@@ -249,7 +304,7 @@
         if(this.timer) clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           if(val === '') {
-            this.policyList = this.realPolicyList;
+            this.policyList = this.realPolicyList.slice(0,5);
           } else {
             this.policyList = this.policyList.filter(e => e.policyTitle.includes(val));
           }
@@ -258,14 +313,14 @@
       search() {},
       handleSizeChange(val) {
         this.pageSize = val;
-        let prePage = (this.pageSize - 1)*this.pageNum > this.realPolicyList.length ? 0 : (this.pageSize - 1)*this.pageNum;
+        let prePage = this.pageSize*(this.pageNum - 1) > this.realPolicyList.length ? 0 : this.pageSize*(this.pageNum - 1);
         let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
         this.policyList = this.realPolicyList.slice(prePage, nextPage);
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.pageNum = val;
-        let prePage = (this.pageSize - 1)*this.pageNum;
+        let prePage = this.pageSize*(this.pageNum - 1);
         let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
         this.policyList = this.realPolicyList.slice(prePage, nextPage);
       },
@@ -282,7 +337,6 @@
       select(index) {
         // Vue.set(vm.obj, propertyName, newValue);
         // this.btnList[index].isSelect = !this.btnList[index].isSelect;
-        console.log("this---------", this.btnList[index]);
       },
       detail(index) {
         window.open(`${location.origin}/#/policy-match-detail/:${index}`)
@@ -453,7 +507,7 @@
               width: 100%;
               margin-left: 20px;
               .title {
-                font-size: 18px;
+                font-size: 22px;
               }
               .tag-block {
                 display: flex;
@@ -512,7 +566,7 @@
               display: flex;
               font-size: 14px;
               .address {
-                flex: 0.4
+                flex: 0.6
               }
             }
           }

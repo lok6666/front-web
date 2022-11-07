@@ -106,7 +106,7 @@
         formData: {},
         value: 2022,
         categoryId: 0,
-        activeYear: '2021',
+        activeYear: '2022',
         activeMonth: '1-12月',
         yearOptions: [{
           value: '选项2',
@@ -192,12 +192,10 @@
       },
       updatePolicyList() {},
       handleClickYear(tab, event) {
-        console.log('handleClickYear----', this.activeYear);
         // this.activeYear = tab.$options.propsData.name;
         this.getPolicyList();
       },
       handleClickMonth(tab, event) {
-        console.log('handleClickMonth----', this.activeMonth);
         // this.incomeMonth = tab.$options.propsData.name;
         this.getPolicyList();
       },
@@ -228,6 +226,7 @@
           });
           formData.incomeYear = this.activeYear;
           formData.incomeMonth = this.activeMonth;
+          formData.monthSort = this.activeMonth.substring(2, 4) || this.activeMonth.substring(0, 1),
           request({
             url: `${this.isExist ? entIncomeUpdate : entIncomeInsert}`,
             method: "POST",

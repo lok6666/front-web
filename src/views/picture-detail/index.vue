@@ -113,7 +113,7 @@ export default {
       swiperOptionThumbs: {
         loop: true,
         loopedSlides: 2, // looped slides should be the same
-        spaceBetween: 200,
+        spaceBetween: 80,
         centeredSlides: true,
         slidesPerView: "auto",
         touchRatio: 0.2,
@@ -168,7 +168,7 @@ export default {
   @import "~@/styles/variables";
   width: 100%;
   height: 100vh;
-  overflow-x: hidden;
+  overflow-x: overlay;
   overflow-y: -webkit-overlay;
   overflow-y: overlay;
   .content-container {

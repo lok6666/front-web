@@ -48,7 +48,6 @@ export default {
         data: {}
       })
       .then((res) => {
-          // console.log('res----', res.data.list);
           this.excellentBusniessList = res.data.list;
       })
   },

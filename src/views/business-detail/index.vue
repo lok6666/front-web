@@ -41,19 +41,19 @@
           <img class="guide-header-logo" src="../../images/guide-logo.png" />
           我的产品
         </div>
-        <div class="guide-excellent-busniess-content" v-html="busneissMessage.productDesc">
+        <div v-html="busneissMessage.productDesc">
           
         </div>
         <div class="busniess-detail">
           <div style="display: flex;align-items: center;">
             <!-- <img :src="busniessLogo" style="height: 180px; margin-right: 10px;"/> -->
             <div class="busniess-detail-message">
-                <div>企业全称：{{busneissMessage2.entName}}</div>
+                <div>企业名称：{{busneissMessage2.entName}}</div>
+                <div>信用代码：{{busneissMessage2.entCode}}</div>
+                <div>办公地址：{{busneissMessage2.officeAddress}}</div>
+                <div>企业规模：{{busneissMessage2.insuredNum}}人</div>
                 <div>联系人: {{busneissMessage2.contactsPerson}}</div>
                 <div>联系电话: {{busneissMessage2.contactsPhone}}</div>
-                <div>企业类型：{{busneissMessage2.honorsQualification}}</div>
-                <div>人员规模：{{busneissMessage2.serviceCount}}</div>
-                <div>统一社会信用代码：{{busneissMessage2.entCode}}</div>
             </div>
           </div>
           <div class="tag-list">
@@ -160,7 +160,7 @@ export default {
         method: "GET",
         // todo 考虑 id怎么传进去
         params: {
-          companyid: this.userId,
+          companyid: `${this.$route.params.id.replace(':id=', '')}`
         }
       }).then(({data}) => {
         //todo 后面封装
@@ -169,7 +169,6 @@ export default {
             result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
             return result;
           }) : this.messageForm;
-          console.log('messageForm----', this.messageForm);
       });
     },
     // 初始化
@@ -179,7 +178,7 @@ export default {
           url: `${entInfoGetById}`,
           method: 'get',
           params: {
-            entId: window.localStorage.getItem('USERID'),
+            entId: `${that.$route.params.id.replace(':id=', '')}`,
             incomeMonth: '1-12月',
             incomeYear: '2021'
           }
@@ -209,7 +208,7 @@ export default {
   }
   .busniess-detail-bg {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     justify-content: center;
     height: 442px;
     font-size: 56px;
@@ -275,11 +274,11 @@ export default {
       }
     }
     .busniess-detail {
-      padding: 0 70px;
+      // padding: 0 70px;
       display: flex;
       justify-content: space-between;
       &-message {
-        width: 353px;
+        width: 600px;
         height: 180px;
         font-size: 18px;
         font-family: AlibabaPuHuiTiR;

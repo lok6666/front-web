@@ -43,7 +43,7 @@
         <el-date-picker style="margin-left: 20px;"
         @click="date"
         v-model="value2"
-        type="datetimerange"
+        type="daterange"
         align="right"
         start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
       </div>
@@ -160,7 +160,7 @@ export default {
         {
           message: "不限",
           isSelect: true,
-          value: 0
+          value: 1
         },
         {
           message: "近7天",
@@ -282,7 +282,6 @@ export default {
           entId: window.localStorage.getItem('USERID')
         }
       }).then(res => {
-        console.log('getPolicyList', res);
         that.policyList = res.data.list;
         that.total = res.data.total;
       });
@@ -310,6 +309,9 @@ export default {
             policyId: this.policyList[index].id,
             isCollect: this.policyList[index].isCollect
           }
+        }).then(e => {
+          this.policyList[index].isCollect = this.policyList[index].isCollect === 0 ? 1 : 0;
+          this.policyList = _.cloneDeep(this.policyList);
         })
        
       : request({
@@ -320,14 +322,16 @@ export default {
             policyId: this.policyList[index].id,
             isCollect: this.policyList[index].isCollect
           }
+        }).then(e => {
+          this.policyList[index].isCollect = this.policyList[index].isCollect === 0 ? 1 : 0;
+          this.policyList = _.cloneDeep(this.policyList);
         });
-      this.policyList[index].isCollect = this.policyList[index].isCollect === 0 ? 1 : 0;
-      this.policyList = _.cloneDeep(this.policyList);
     },
     search() {
 
     },
     select(list,index, type) {
+      debugger;
       this[list] = this[list].map(e => {
           e.isSelect = false;
           return e;

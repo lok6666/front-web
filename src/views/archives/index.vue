@@ -19,9 +19,10 @@
           </div>
         </div>
         <div class="select-btn">
-          <div>价格范围(元):</div>
-          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
-          <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input>
+          <div>产品标题</div>
+          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)"></el-input>
+         <!--  <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
+          <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input> -->
           <div v-for="(btn, index) in priceList" :key="index">
             <el-button
               class="button-new-tag "
@@ -51,9 +52,10 @@
             @click="routeTo(item)" 
             v-for="(item,index) in excellentBusniessList"
             :key="index">
-            <div class="item-icon"  :style="`background-image: url(${item.serviceImage})`"></div>
-            <div>{{item.serviceName}}</div>
-            <div style="color: red;margin-top: 10px;">{{item.servicePrice}}</div>
+            <img :src="item.serviceImage" class="item-icon"/>
+            <!-- <div class="item-icon"  :style="`background-image: url(${item.serviceImage})`"></div> -->
+            <div style="height:50px;display: flex;flex-direction:row; align-items:center;justify-content: center;">{{item.serviceName}}</div>
+            <div style="color: red;margin-top: 10px;height:50px;">{{item.servicePrice}}</div>
             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;padding: 0 10px;margin-top: 20px;">
               <div>{{item.serviceHits}}次浏览</div>
               <div>{{item.supplierName}}</div>
@@ -66,7 +68,7 @@
 </template>
 
 <script>
-import { entServiceDockingAll } from "@/config/api.js";
+import { entServiceDockingAll, entServiceUpdate } from "@/config/api.js";
 import request from '@/utils/request';
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
@@ -89,6 +91,8 @@ export default {
       startTime: '',
       endTime: '',
       timer: null,
+      timer1: null,
+      serviceName: '',
       excellentBusniessList: [],
       serviceList: [
         {
@@ -97,29 +101,29 @@ export default {
           value: ''
         },
         {
-          message: "税务服务",
+          message: "知识产权",
           isSelect: false,
           value: 0
         },
         {
-          message: "工商业务类",
+          message: "资质认定",
+          isSelect: false,
+          value: 1
+        },
+        {
+          message: "工商业务",
           isSelect: false,
           value: 2
         },
         {
-          message: "资质类",
+          message: "财税服务",
           isSelect: false,
           value: 3
         },
         {
-          message: "公司变更",
+          message: "政府补贴",
           isSelect: false,
           value: 4
-        },
-        {
-          message: "注销及其他",
-          isSelect: false,
-          value: 1
         }
       ],
       timeList: [
@@ -171,6 +175,14 @@ export default {
   },
   mounted() {},
   methods: {
+    changeTitle(value) {
+      console.log('changeTitle', value);
+      if(this.timer1) clearTimeout(this.timer1);
+      this.timer1 = setTimeout(() => {
+        this.serviceName = value;
+        this.getEntServiceDockingList();
+      }, 1000);    
+    },
     changePrice(value, type) {
       if(this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
@@ -187,13 +199,24 @@ export default {
           serviceType: this.serviceType,
           startTime: this.startTime,
           endTime: this.startTime,
-          servicePriceStart: this.minValue,
-          servicePriceEnd: this.maxValue
+          // servicePriceStart: this.minValue,
+          // servicePriceEnd: this.maxValue,
+          serviceName: this.minValue
         }
       })
       .then((res) => {
           this.excellentBusniessList = res.data.list;
       })
+    },
+    updateHits(item) {
+      request({
+        url: `${entServiceUpdate}`,
+        method: 'post',
+        data: {
+          id: item.id,
+          serviceHits: item.serviceHits + 1
+        }
+      });
     },
     select(index, type, value) {
       if(type === 'time') {
@@ -214,6 +237,7 @@ export default {
       })
     },
     routeTo(item) {
+      this.updateHits(item);
       this.$store.dispatch('data/setBusneissDetail', _.cloneDeep(item));
       window.localStorage.setItem('busneiss-detail', JSON.stringify(item));
       this.$router.push({

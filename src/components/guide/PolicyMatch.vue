@@ -91,7 +91,7 @@ export default {
     },
     handleClose() {
       this.dialogVisible = false;
-      this.$router.push('/policy-match');
+      this.$router.push('/policy-match/政策匹配');
     },
   }
 };

@@ -10,7 +10,8 @@ import './element-ui.js'
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-
+import BaiduMap from 'vue-baidu-map'
+import * as VueJsonp from 'vue-jsonp'
 // 点击复制
 import VueClipboard from 'vue-clipboard2'
 
@@ -33,9 +34,13 @@ import '@/permission'
 
 Vue.use(VueQuillEditor)
 Vue.use(VueClipboard)
-
+Vue.use(VueJsonp)
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: '2trGD193IZ3YCK6WholPk1HNXeapOmG7'
+})
 Vue.config.productionTip = false
-
+// Vue.prototype.$jsonp = jsonp
 new Vue({
   el: '#app',
   router,

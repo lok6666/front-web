@@ -11,7 +11,7 @@
       </div>
       <div class="guide-Industrial-content">
         <div class="guide-Industrial-content-item" v-for="(item,index) in industrialList" :key="index" @click="routeTo(item)">
-          <div :class="`item-icon item-icon-${index}`"></div>{{item.serviceName}}
+          <div :class="`item-icon`" :style="`background-image: url(${item.serviceTags ? item.serviceTags : ''})`"></div>{{item.serviceName}}
         </div>
         <div class="guide-Industrial-content-item guide-Industrial-content-more" @click="$router.push('/archives')">
           <div :class="`item-icon item-icon-${index}`"></div>查看更多
@@ -101,6 +101,8 @@ export default {
             .item-icon {
               width: 60px;
               height: 60px;
+              background-repeat: no-repeat;
+              background-size: 100% 100%;
               margin-left: 19px;
               margin-right: 10px;
               &-0 {

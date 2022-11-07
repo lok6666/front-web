@@ -6,7 +6,7 @@
           :center="true"
           title="政策申报"
           style="overflow: scroll;"
-          width="50%"
+          width="1056px"
           :lock-scroll="false"
           :before-close="closeDialog">
           <form-template
@@ -15,7 +15,7 @@
           :customStyle="{'margin': `0px 0px 0px 100px`}"
           @likeCountChanges="likeCountChanges(isExist?  policyApplyUpdateOne : policyApplyInsert, 'POST', $event)"
           @closeDialog="closeDialog"
-          :labelWidth="180"
+          :labelWidth="160"
           :formConfig="applyForm"
           :disabled="false"
           :showBtn="true"
@@ -32,17 +32,31 @@
         <div class="side-left">
             <div class="content">
                 <div class="content-header">
-                    <div class="title">{{policyDetail.policyTitle}}</div>
-                <div class="content-center" v-html="policyDetail.policyContent"></div>
+                  <div class="content-footer policy-opration" style="float: right;padding-right: 20px;">
+                  <!-- <div style="display: flex;">
+                    <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
+                    <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
+                  </div> -->
+                  <div 
+                  v-if="$route.params.artId.replace(':artId=', '') === '11611'"
+                  style="font-size: 14px;display: flex;align-items: center;justify-content: center;width: 100px;height: 40px;background: #B48859;border-radius: 10px;" @click="applyPolicy()">
+                  <img style="width: 10px;height:10px;" src="../../images/policy-apply.png"/>
+                  申报政策</div>
+                </div> 
+                <div class="title">{{policyDetail.policyTitle}}</div>
+                <div style="margin-bottom: 20px;float: right;width: 100%;display: flex;justify-content: space-between;padding-right: 30px;"><span>发文机构:{{policyDetail.policySource}}</span>
+                    <span>发布日期:{{policyDetail.policyTime}}</span>
+                </div>
+                <div class="content-center" v-html="policyDetail.policyContent.replace('扫一扫在手机打开当前页', '')"></div>
                   <div class="desc">
                     <div class="desc-left">
                       <!-- <div style="font-size: 40px;color: #8B572A;flex: 0.4">政策原文</div>
                       <div class="policy-explain">政策解读</div> -->
                     </div>
-                    <div class="desc-right">
+         <!--            <div class="desc-right">
                       <div>发文机构:{{policyDetail.policySource}}</div>
                       <div>发布日期:{{policyDetail.policyTime}}</div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                   <div class="relation-policy" v-if="list.length">
@@ -52,7 +66,7 @@
                       <!-- <div>{{item.storageTime}}</div> -->
                     </div>
                   </div>
-                 <div class="content-footer policy-opration">
+                  <div class="content-footer policy-opration">
                   <!-- <div style="display: flex;">
                     <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
                     <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
@@ -125,7 +139,7 @@
             url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
             method: 'get'
             }).then(res => {
-              that.newDetail = res.data;
+              that.policyDetail = res.data;
               request({
                 url: `${policyRelationList}`,
                 method: 'post',
@@ -168,7 +182,9 @@
             policyId: this.$route.params.artId.replace(':artId=', ''),
             policyName: this.policyDetail.policyTitle,
             companyName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
-            policyFile: JSON.stringify(formData)
+            ...formData,
+            policyFile: JSON.stringify(formData.policyFile),
+
           }
         }).then(res => {
           Message({
@@ -192,12 +208,12 @@
             policyId: that.$route.params.artId.replace(':artId=', '')
           }
         }).then(res => {
-          // this.applyForm = this.applyForm.map(el => {
-          //   if(JSON.parse(res.data.policyFile)[el.prop]) {
-          //     el[el.prop] = JSON.parse(res.data.policyFile)[el.prop]
-          //   };
-          //   return el;
-          // });
+           this.applyForm = this.applyForm.map(el => {
+             if(JSON.parse(res.data.policyFile)[el.prop]) {
+               el[el.prop] = JSON.parse(res.data.policyFile)[el.prop]
+             };
+            return el;
+           });
           this.primaryId = res.data.id;
           this.applydialogVisible = true;
           this.isExist = res.data.id !== '';
@@ -212,7 +228,7 @@
     @import "~@/styles/variables";
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .policy-search-bg {
@@ -232,7 +248,7 @@
     @import '~@/styles/variables';
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .new-container {
@@ -256,10 +272,11 @@
             .content-header {
                 // margin-bottom: 25px;
                 .title {
+                    text-align: center;
                     font-size: 36px;
                     font-family: AlibabaPuHuiTiB;
                     color: #000000;
-                    margin-top: 20px;
+                    margin-top: 30px;
                     margin-bottom: 26px;
                 }
             }
@@ -317,9 +334,11 @@
                 align-items: center;
                 margin: 0px 10px;
                 img {
+            /*       width:10px;
+                  height: 10px; */
                   margin-right: 10px;
                 }
-              }
+              } 
               &-collage {
                 width: 307px;
                 height: 82px;

@@ -1,14 +1,15 @@
 <template>
     <div>
-      <h2 style="display: inline; margin-bottom: 20px;">企业信息</h2>
+      <h3 style="display: inline; margin-bottom: 20px;">企业信息</h3>
       <form-template
-      style="padding: 0px 20px 20px 20px"
+      style="padding: 0px 20px 20px 20px;margin-top: 20px;"
       :customStyle="{display: 'flex', 'flex-wrap': 'wrap','justify-content': 'space-between'}"
       :labelWidth="140"
       :formConfig="messageForm"
       :showBtn="false"
-      :disabled="true"/> 
-      <h2 style="display: inline; margin-bottom: 20px;">企业财务数据(万元)</h2>
+      :disabled="false"/> 
+      <h3 style="display: inline;">财务数据(万元)</h3>
+      <h5 style="color:red">请填写上一年度1-12月财税数据</h5>
 <!--       <el-tabs v-model="activeYear" @tab-click="handleClickYear" style="margin: 10p x 0px;">
         <el-tab-pane label="2022年" name="2022"></el-tab-pane>
         <el-tab-pane label="2021年" name="2021"></el-tab-pane>
@@ -18,9 +19,8 @@
         <el-tab-pane :label="i.label" :name="i.label" v-for="(i, index) in yearOptions" :key="index"></el-tab-pane>
       </el-tabs> -->
       <!--看了源码,为了required校验,必须在form标签循环-->
-      <div style="display: grid;grid-template-columns: 450px 450px;">
+      <div style="display: grid;grid-template-columns: 594px 450px;margin-top: 20px;">
         <el-form
-        style="height: 80px;"
         ref="formRef"
         :inline="true"
         v-for="(item, i) in priceForm"
@@ -38,7 +38,7 @@
           :label="item.label"
         >
            <!--输入框-->
-          <el-input v-model="item[item.prop]" v-if="item.showInput" />
+          <el-input v-model="item[item.prop]" v-if="item.showInput" style="width: 184px"/>
           <!--todo有待改造-->
           <el-select
             v-model="item[item.prop]"
@@ -56,9 +56,9 @@
         </el-form-item>
         </el-form>
       </div>
-      <h2 style="display: inline; margin-bottom: 40px;">申报材料</h2>
+      <h3 style="display: inline; margin-bottom: 40px;">申报材料</h3>
       <el-descriptions
-        style="margin-bottom: 20px;"
+        style="margin-bottom: 20px;margin-top: 20px;"
         :border="true"
         :column="2"
       >
@@ -113,7 +113,8 @@
     entIncomeGetById,
     entIncomeInsert,
     entIncomeUpdate,
-    entInfoGetById
+    entInfoGetById,
+    entInfoUpdate
   } from "@/config/api";
   import FormTemplate from "@/components/Form/index.vue";
   import { MessageBox, Message } from 'element-ui'
@@ -163,7 +164,10 @@
         messageForm: messageForm1,
         applyForm: applyForm,
         priceForm: priceForm,
-        formData: {},
+        formData: {
+          policyFile: {}
+        },
+        formData1: {},
         value: 2022,
         categoryId: 0,
         activeYear: '2021',
@@ -326,12 +330,10 @@
         });
       },
       handleClickYear(tab, event) {
-        console.log('handleClickYear----', this.activeYear);
         // this.activeYear = tab.$options.propsData.name;
         this.getPolicyList();
       },
       handleClickMonth(tab, event) {
-        console.log('handleClickMonth----', this.activeMonth);
         // this.incomeMonth = tab.$options.propsData.name;
         this.getPolicyList();
       },
@@ -356,13 +358,19 @@
       // 提交表单
       async submitForm(formName) {
         let formData = this.formData;
+        let formData1 = this.formData1;
         if (await this.validateForm(this.$refs.formRef)) {
           this.applyForm.forEach((v) => {
-            formData[v.prop] = v[v.prop];
+            formData.policyFile[v.prop] = v[v.prop];
+          });
+          this.messageForm.forEach((v) => {
+            formData1[v.prop] = v[v.prop];
           });
           formData.incomeYear = this.activeYear;
           formData.incomeMonth = this.activeMonth;
-          debugger;
+          formData.contactPerson = formData1.contactsPerson;
+          formData.contactPhone = formData1.contactsPhone;
+          formData.entCode = formData1.entCode;
           request({
             url: `${this.isExist ? entIncomeUpdate : entIncomeInsert}`,
             method: "POST",
@@ -373,12 +381,18 @@
               ...formData,
             }
           }).then(res => {
-            Message({
-                message: '提交成功',
-                type: 'success',
-                duration: 5 * 1000
-              });
-          })
+          });
+          /* request({
+            url: `${entInfoUpdate}`,
+            method: "POST",
+            // todo 考虑 id怎么传进去
+            data: {
+              entId: this.userId,
+              id: this.id,
+              ...formData1,
+            }
+          }).then(res => {
+          }) */
           this.$emit('likeCountChanges', formData);
         };
       }

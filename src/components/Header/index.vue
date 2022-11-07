@@ -60,7 +60,7 @@
                 <span>助力企业梦想腾飞</span>
           </div>
           <div class="content-right">
-                <span @click="busneissIndex()" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
+                <span @click="busneissIndex()" v-if="userInfo" class="index-icon" style="cursor: pointer;"><img src="../../images/首页.png" />企业首页</span>
                 <!-- <span class="index-icon" @click="$router.push('/user/info?categoryId=8')"><img src="../../images/CombinedShape.png" />+3</span> -->
               <!-- 右边box -->
               <div class="right-box">
@@ -77,7 +77,7 @@
                       <div style="display: flex;width: 100%">
                       <router-link to="/user" class="console">个人中心</router-link>
                       <el-dropdown trigger="click" placement="bottom">
-                        <div style="display: inline-block;margin-left: 10px;width:1px;height:1px;border:5px solid transparent;border-top-color:black;"></div>
+                        <div style="cursor: pointer;display: inline-block;margin-left: 10px;width:1px;height:1px;border:5px solid transparent;border-top-color:black;"></div>
                         <el-dropdown-menu slot="dropdown">
                           <!-- <router-link v-if="!userInfo.mobile" to="/bind-mobile">
                             <el-dropdown-item>绑定手机号</el-dropdown-item>
@@ -91,7 +91,7 @@
                         </el-dropdown-menu>
                       </el-dropdown>
                     </div>
-                    <div style="width: 100%;font-size: 14px;">{{entName}}</div>
+                    <div style="width: 167px;font-size: 14px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;text-overflow: ellipsis;overflow: hidden;">{{entName}}</div>
                     </div>
                   </div>
                 </div>
@@ -99,7 +99,7 @@
           </div>
         <div class="footer">
             <div class="footer-desc">石景山区文化产业综合服务平台</div>
-            <div class="logo">
+      <!--       <div class="logo">
               <div v-if="device !== 'desktop'" class="menu-wrapper">
                 <el-dropdown trigger="click" placement="bottom">
                   <span style="color: #fff;font-weight: 700;">
@@ -108,7 +108,7 @@
                       :navItemActive===1?'金融服务'
                         :navItemActive===2?'灵活用工'
                           :navItemActive===3?'知识产权'
-                            :navItemActive===4?'行业培训':'首页'
+                          :navItemActive===4?'行业培训':'首页'
                     }}
                     <i class="el-icon-caret-bottom" />
                   </span>
@@ -119,7 +119,7 @@
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
-            </div>
+            </div> -->
             <nav class="main-nav">
               <!-- 导航栏目 -->
               <ul class="main-nav-list">
@@ -172,6 +172,12 @@ export default {
       default: false
     }
   },
+  watch: {
+    navItemActive: function(a, b) {
+      // this.navItemActive = a;
+      console.log('navItemActive--', a, b);
+    }
+  },
   data() {
     return {
       entName: window.localStorage.getItem('userinfo')?JSON.parse(window.localStorage.getItem('userinfo')).entName: '',
@@ -192,7 +198,7 @@ export default {
         },
          {
           name: '政策匹配',
-          to: '/policy-match',
+          to: '/policy-match/政策匹配',
         },
         {
           name: '灵活用工',
@@ -209,6 +215,10 @@ export default {
         {
           name: '金融服务',
           to: '/finance'
+        },
+         {
+          name: '楼宇信息',
+          to: '/building'
         }
       ]
     }
@@ -265,16 +275,16 @@ export default {
         })
     },
     routerTo(to, index) {
-      if(to === '/policy-match') {
+      if(to === '/policy-match/政策匹配') {
         if(this.data_selection.length) {
           this.$router.push(to);
-          this.navItemActive = index;
+          // this.navItemActive = index;
         } else {
           this.dialogVisible = true;
         }
       } else {
         this.$router.push(to);
-        this.navItemActive = index;
+        // this.navItemActive = index;
       }
     },
     closeDialog(done) {
@@ -283,7 +293,7 @@ export default {
     },
     handleClose() {
       this.dialogVisible = false;
-      this.$router.push('/policy-match');
+      this.$router.push('/policy-match/政策匹配');
     },
     // 抽屉关闭
     drawerClose() {
@@ -350,6 +360,8 @@ export default {
     color: #fff;
     z-index: 250;
     .index-icon {
+      word-break:keep-all;/* 不换行 */
+      white-space:nowrap;/* 不换行 */
       cursor: pointer;
       img {
         height: 18px;
@@ -378,6 +390,9 @@ export default {
     }
     .nav-icon-5 {
       background-image: url('../../images/金融.png');
+    }
+    .nav-icon-6 {
+      background-image: url('../../images/首页.png');
     }
     .header {
       display: flex;
@@ -531,6 +546,8 @@ export default {
         opacity: 0.8;
         .footer-desc {
           // width: 197px;
+          word-break: keep-all;
+          white-space: nowrap;
           height: 20px;
           font-size: 14px;
           line-height: 20px;

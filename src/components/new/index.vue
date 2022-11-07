@@ -8,11 +8,11 @@
         <span class="new-more"  @click="routeTo2()">了解更多<div class="new-more-icon"></div></span>
       </div>
       <div class="new-content">
-            <img style="margin-right: 20px;width: 427px; height: 304px;" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.qianlong.com%2F2019%2F0213%2F1550024337804.jpg&refer=http%3A%2F%2Fupload.qianlong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664933673&t=365d4ee62f00b425cb088bcaf8fb9ebd" alt="">
+            <img style="margin-right: 20px;width: 427px; height: 304px;" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.qianlong.com%2F2020%2F0130%2F1580357339358.jpg&refer=http%3A%2F%2Fupload.qianlong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1669445704&t=3352a2475f48ff56373077c6a53c99c5" alt="">
             <div class="new-content-list">
                 <div class="new-content-list-item" @click="routeTo(item)" v-for="(item, index) in contentList" :key="index">
                     <span class="new-content-list-item-title">{{item.title || item.policyTitle}}</span>
-                    <span class="new-content-list-item-time">{{item.releaseDate || item.policyTime}}</span>
+                    <span class="new-content-list-item-time">{{(item.releaseDate || item.policyTime).substring(0, 10)}}</span>
                 </div>
             </div>
       </div>
@@ -40,7 +40,6 @@ export default {
     }
   },
   created() {
-    console.log('1111');
     let that = this;
     // 最新新闻
     request({
@@ -146,7 +145,7 @@ export default {
     .new-content {
         display: flex;
         flex-direction: row;
-        align-items: end;
+        align-items: flex-end;
         .new-content-list {
             width: 816px;
             max-height: 304px;

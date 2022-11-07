@@ -54,6 +54,7 @@ export default {
           label: "报名人数",
           src: dateImg,
           showKey: "applyCount",
+          width: 100
         },
         {
           label: "报名日期",

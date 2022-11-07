@@ -4,7 +4,7 @@
       <div class="policy-search-bg"></div>
       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>最新新闻</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/new-more?message=最新新闻' }">最新新闻</el-breadcrumb-item>
           <el-breadcrumb-item>新闻动态</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="policy-container">
@@ -27,7 +27,7 @@
                           -webkit-box-orient: vertical;">
                           {{item.title}}
                       </div>
-                      <div>{{new Date(item.releaseDate).getFullYear()}}-{{new Date(item.releaseDate).getMonth()}}-{{new Date(item.releaseDate).getDate()}}</div>
+                      <div>{{new Date(item.releaseDate).substring(0, 10)}}</div>
                     </div>
                   </div>
             </div>
@@ -41,6 +41,7 @@
   import request from '@/utils/request';
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
+  import _ from 'lodash';
   import AppHeader from "@/components/Header/index";
   import AppFooter from "@/components/footer/index";
   import { pagePublishedArticle } from "@/api/article.js";
@@ -56,7 +57,7 @@
         list: []
       };
     },
-    created() {
+/*     created() {
       // 后期优化
       let that = this;
       request({
@@ -74,7 +75,7 @@
           that.list = res.data;
         });
       });
-    },
+    }, */
     computed: {
       orderBy() {
         return this.mainActive === 0 ? "publish_time" : "view_count";
@@ -89,7 +90,8 @@
           url: `${articleGet}/${that.$route.params.artId.replace(':artId=', '')}`,
           method: 'get'
           }).then(res => {
-            that.newDetail = res.data;
+            that.newDetail = _.cloneDeep(res.data);
+            console.log('handler---', res.data , that, that.newDetail);
             request({
               url: `${policyListByRecommend}`,
               method: 'post',
@@ -122,7 +124,7 @@
     @import "~@/styles/variables";
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .policy-search-bg {
@@ -142,13 +144,15 @@
     @import '~@/styles/variables';
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .policy-container {
+      background: #fff;
       width: 100%;
       box-sizing: border-box;
       margin: 0 auto;
+      margin-bottom: 60px;
       max-width: $ContentContainerW;
       position: relative;
       display: flex;
@@ -162,6 +166,7 @@
       .side-left {
         .content {
             .content-header {
+                padding-top: 20px;
                 min-width: 1048px;
                 margin-bottom: 25px;
                 .title {

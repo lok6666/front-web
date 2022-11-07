@@ -185,12 +185,10 @@ export default {
       console.log(`当前页: ${val}`);
     },
     check(index) {
-      console.log('index----', index);
       this.policyList[index].collage = true
     },
     search() {},
     select(options, index) {
-      console.log('this[options]0---', this[options]);
       // this[options] = this[options].map(e => {
       //     e.isSelect = false;
       //     return e;

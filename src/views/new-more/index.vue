@@ -26,7 +26,7 @@
         <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">{{total}}</span>查询结果</div>
         <div v-for="(item, index) in contentList" :key="index" :class="`item-${index} new-more-search-container-item`" @click="detail(item)">
           <div class="message">{{item.title || item.policyTitle}}</div>
-          <div class="time">{{item.releaseDate || item.policyTime}}</div>
+          <div class="time">{{new Date(item.releaseDate || item.policyTime).getFullYear()}}-{{new Date(item.releaseDate || item.policyTime).getMonth() + 1 }}-{{new Date(item.releaseDate || item.policyTime).getDate()}}</div>
         </div>
         <div class="pagination-block">
           <el-pagination
@@ -82,7 +82,6 @@
     methods: {
       inputConfirm(val) {
         this.loading = true;
-        console.log('inputConfirm-----', val);
         this.policyTitle = val;
         this.title = val;
         this.getPolicyList();
@@ -101,7 +100,6 @@
             pageNum: this.pageNum,
             pageSize: this.pageSize,
             title: this.title,
-            recommend: 0,
             deleteState: 0
           }
         }).then(res => {

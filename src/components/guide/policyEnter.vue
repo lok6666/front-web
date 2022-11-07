@@ -23,17 +23,17 @@
       </el-dialog>
     <div class="container">
       <div class="guide-policyEnter-content">
-        <div class="policy-block search" @click="$router.push(`/policy-detail/:artId=11611`)" >
+        <div class="policy-block search" @click="$router.push('/policy-search')" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
-            政策申报
+            政策查询
             <div class="guide-agile">
             <div class="limit-desc">Comperehensive platf</div>
             Cultural industry
             </div>
         </div>
         <div class="divide"></div>
-        <div class="policy-block apply" @click="dialogVisible = true" >
+        <div class="policy-block apply" @click="policyMatch()" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策匹配
@@ -78,15 +78,18 @@ export default {
     FormTemplate
   },
   methods: {
+    policyMatch() {
+      this.dialogVisible = true;
+      // this.$router.push('/policy-match/政策匹配');
+    },
     handleClose() {
       this.dialogVisible = false;
-      this.$router.push('/policy-match');
+      this.$router.push('/policy-match/政策匹配');
     },
     dialogClose() {
       this.dialogVisible = false;
     },
     likeCountChanges() {
-      console.log('-----');
     },
     submit() {
       Message({
@@ -115,7 +118,8 @@ export default {
         .policy-block {
           cursor: pointer;
           display: flex;
-          align-items: end;
+          align-items: flex-end;
+          align-items: flex-end;
           justify-content: center;
           width: 596px;
           font-size: 56px;

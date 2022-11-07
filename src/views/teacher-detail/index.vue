@@ -128,7 +128,7 @@
     }
     .teacher-detail-bg {
       display: flex;
-      align-items: end;
+      align-items: flex-end;
       justify-content: center;
       height: 442px;
       font-size: 56px;

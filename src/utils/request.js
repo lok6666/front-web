@@ -30,10 +30,14 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    // console.log('res----', res);
     // 从新登录
     if(res.code === '4003') {
       store.commit('login/CHANGE_VISIBLE', true)
+      store.dispatch('user/resetToken')
+      window.localStorage.setItem('USERID', '');
+      window.localStorage.setItem('userinfo', '');
+      window.localStorage.setItem('selection-detail', '');
+      window.localStorage.setItem('collage-detail', '');
       return Promise.reject(new Error(res.msg || 'Error'))
     }
     else if (res.code !== 0 && res.code !== '2000') {
