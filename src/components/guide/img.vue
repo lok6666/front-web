@@ -5,7 +5,7 @@
           <img class="guide-header-logo" src="../../images/guide-logo.png" />
           精美图集
           <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
         </div>
@@ -43,6 +43,7 @@
 .img-location {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
   .guide-wrap {
       background: #FFFFFF;

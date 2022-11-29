@@ -7,7 +7,7 @@
             <swiper class="swiper" :options="swiperOption">
               <swiper-slide
               v-for="(item, index) in swiperConfig"
-              v-bind:class="`swiper-slide-${index}`"
+              v-bind:style="`background-image:url(${item.bannerPicture})`"
               :key="index"
               ></swiper-slide>
               <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
@@ -35,6 +35,8 @@
   </div>
 </template>
 <script>
+import { industryDataList } from "@/config/api.js";
+import request from '@/utils/request';
 import { mapGetters } from 'vuex'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import { swiperConfig } from '@/config/index'
@@ -80,6 +82,7 @@ export default {
   },
   data() {
     return {
+      scrollTop: 0,
       current: 1,
       size: 6,
       total: 0,
@@ -87,6 +90,10 @@ export default {
       loading: false,
       swiperConfig,
       swiperOption: {
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false
+        },
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
@@ -97,7 +104,28 @@ export default {
       }
     }
   },
+  watch: {
+    $route(val) {
+      val.path === '/' && (document.getElementsByClassName('home-container')[0].scrollTop = this.scrollTop);
+      val.path === '/' && request({
+        url: `${industryDataList}`,
+        method: 'post',
+        data: {}
+      }).then((e) => {
+      });
+      }
+  },
   created() {
+    request({
+      url: `${industryDataList}`,
+      method: 'post',
+      data: {
+        pageSize: 5,
+        pageNum: 1
+      }
+    }).then((e) => {
+      this.swiperConfig = e.data.list;
+    });
   },
   computed: {
     orderBy() {
@@ -110,6 +138,9 @@ export default {
 
   mounted() {
     // this.getArtList()
+    document.getElementsByClassName('home-container')[0].addEventListener('scroll', () => {
+      this.scrollTop = document.getElementsByClassName('home-container')[0].scrollTop;
+    }); // 监听页面滚动
   },
 
   methods: {
@@ -172,10 +203,10 @@ export default {
       background-size: cover;
     }
     .swiper-slide-0 {
-      background-image: url("../../images/swiper.png");
+      background-image: url("http://minio.bjwcxf.com/cultural-image/cultural-web/swiper.png");
     }
     .swiper-slide-1 {
-      background-image: url("../../images/swiper1.png");
+      background-image: url("http://minio.bjwcxf.com/cultural-image/cultural-web/swiper1.png");
     }
     .swiper-slide-2 {
       background-image: url("../../images/swiper2.png");

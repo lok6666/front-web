@@ -2,12 +2,12 @@
     <div ref="container" class="home-container">
       <app-header />
       <div class="policy-search-bg"></div>
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/new-more?message=最新新闻' }">最新新闻</el-breadcrumb-item>
-          <el-breadcrumb-item>新闻动态</el-breadcrumb-item>
-      </el-breadcrumb>
       <div class="policy-container">
+        <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/new-more?message=最新新闻' }">最新新闻</el-breadcrumb-item>
+            <el-breadcrumb-item>新闻动态</el-breadcrumb-item>
+        </el-breadcrumb>
         <div class="side-left">
             <div class="content">
                 <div class="content-header">
@@ -19,6 +19,7 @@
                 </div>
                 <div class="content-center" v-html="newDetail.content"></div>
                   <div class="relation-policy">
+                    <div style="font-size: 28px;font-family: AlibabaPuHuiTiM;color: #000000;margin-bottom: 20px;">新闻动态</div>
                     <div class="relation-policy-item" v-for="(item, index) in list" :key="index" @click="routeTo(item)">
                       <div style="color: #8B572A;overflow: hidden;
                           text-overflow: ellipsis;
@@ -27,7 +28,7 @@
                           -webkit-box-orient: vertical;">
                           {{item.title}}
                       </div>
-                      <div>{{new Date(item.releaseDate).substring(0, 10)}}</div>
+                       <!-- <div v-if="item.releaseDate">{{item.releaseDate.substring(0, 10)}}</div> -->
                     </div>
                   </div>
             </div>
@@ -57,7 +58,7 @@
         list: []
       };
     },
-/*     created() {
+    created() {
       // 后期优化
       let that = this;
       request({
@@ -75,7 +76,7 @@
           that.list = res.data;
         });
       });
-    }, */
+    }, 
     computed: {
       orderBy() {
         return this.mainActive === 0 ? "publish_time" : "view_count";
@@ -86,12 +87,13 @@
       $route: {
         handler: function(val, oldVal){
           let that = this;
+          that.newDetail = {};
+          console.log('val---', val);
           request({
           url: `${articleGet}/${that.$route.params.artId.replace(':artId=', '')}`,
           method: 'get'
           }).then(res => {
             that.newDetail = _.cloneDeep(res.data);
-            console.log('handler---', res.data , that, that.newDetail);
             request({
               url: `${policyListByRecommend}`,
               method: 'post',
@@ -113,7 +115,7 @@
     methods: {
       routeTo(item) {
         let that = this;
-        this.$router.push(`/new-detail/:artId=${item.id}`);
+        window.open(`${location.origin}/#/new-detail/:artId=${item.id}`)
       }
     },
   };
@@ -148,26 +150,36 @@
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .policy-container {
-      background: #fff;
-      width: 100%;
-      box-sizing: border-box;
-      margin: 0 auto;
-      margin-bottom: 60px;
-      max-width: $ContentContainerW;
-      position: relative;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 0px 196px;
+      // background: #fff;
+/*         width: 100%;
+         box-sizing: border-box;
+        margin: 0 auto;
+        margin-bottom: 60px;
+        max-width: $ContentContainerW;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center; */
+      padding: 0px 146px;
       //top: 36px;
       @media screen and (max-width: 960px) {
         margin-top: 0;
       }
       .side-left {
+        background: #fff;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+        margin-bottom: 104px;
+        max-width: $ContentContainerW;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0px 106px;
         .content {
             .content-header {
-                padding-top: 20px;
-                min-width: 1048px;
+                 padding-top: 20px;
                 margin-bottom: 25px;
                 .title {
                     font-size: 48px;
@@ -193,7 +205,9 @@
               margin-top: 67px;
               margin-bottom: 78px;
               &-item {
-                font-size: 24px;
+                cursor: pointer;
+                line-height: 1.5;
+                font-size: 20px;
                 font-family: AlibabaPuHuiTiR;
                 color: #212121;
                 width: 100%;

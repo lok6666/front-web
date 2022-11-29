@@ -1,42 +1,42 @@
 <template>
-      <div class="finance-loan">
-        <div
-          class="finance-loan-item"
-          v-for="(loan, index) in loanList"
-          :key="index"
-        >
+  <div class="finance-loan">
+    <div
+      class="finance-loan-item"
+      v-for="(loan, index) in loanList"
+      :key="index"
+    >
+      <div
+        class="item-intro"
+        :style="`background-image: url(${loanBg})`"
+      >
+        <div style="flex: 0.6;font-size: 24px;">{{ loan.serviceName }}</div>
+        <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">
+          参考利率
+        </div>
+        <div style="font-size: 34px;">{{ loan.serviceRange }}</div>
+      </div>
+      <div class="item-content">
+        <div class="bank">
           <div
-            class="item-intro"
-            :style="`background-image: url(${loanBg})`"
-          >
-            <div style="flex: 0.6;font-size: 24px;">{{ loan.serviceName }}</div>
-            <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">
-              参考利率
-            </div>
-            <div style="font-size: 34px;">{{ loan.serviceRange }}</div>
-          </div>
-          <div class="item-content">
-            <div class="bank">
-              <div
-                class="bankBg"
-                :style="`background-image: url(${loan.serviceImages})`"
-              ></div>
-              <div class="limit">期限:{{ loan.serviceTerm }}</div>
-            </div>
-            <div
-              style="height: 66px; width: 135px;display: flex;flex-direction: column;align-items: center;justify-content: center;"
-            >
-              额度:
-              <div class="item-num">{{ loan.serviceQuota }}</div>
-            </div>
-            <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
-            <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
-              <div>{{loan.serviceHits}}次浏览</div>
-              <div>{{loan.serviceTurnover}}次申请</div>
-            </div>
-          </div>
+            class="bankBg"
+            :style="`background-image: url(${loan.serviceImages})`"
+          ></div>
+          <div class="limit">期限:{{ loan.serviceTerm }}</div>
+        </div>
+        <div
+          style="height: 66px; width: 135px;display: flex;flex-direction: column;align-items: center;justify-content: center;"
+        >
+          额度:
+          <div class="item-num">{{ loan.serviceQuota }}</div>
+        </div>
+        <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
+        <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
+          <div>{{loan.serviceHits}}次浏览</div>
+          <div>{{loan.serviceTurnover}}次申请</div>
         </div>
       </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -71,15 +71,15 @@ export default {
       });
     },
     detail(loan, index) {
-      let userinfo = window.localStorage.getItem('userinfo');
-      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
-      if(userinfo) {
+/*       let userinfo = window.localStorage.getItem('userinfo');
+      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true); */
+      // if(userinfo) {
         this.$store.dispatch('data/setLoanDetail', _.cloneDeep(loan));
         this.updateHits(loan);
         this.$router.push({
           path: `/finance-detail/:${index}`
         });
-      };
+      // };
     },
   },
 };
@@ -136,6 +136,7 @@ grid-gap: 20px 20px;
     .bank-detail {
         width: 220px;
         height: 53px;
+        cursor: pointer;
         border-radius: 50px;
         border: 2px solid #b48859;
         display: flex;

@@ -1,13 +1,324 @@
 <template>
   <div class="app-container">
+    <el-dialog
+      :visible.sync="applydialogVisible"
+      :center="true"
+      custom-class="vip-dialog"
+      title="会员权益"
+      width="1240px"
+      top="100px"
+      :lock-scroll="false"
+      :append-to-body="true"
+      :before-close="closeDialog"
+    >
+      <el-descriptions title="" direction="vertical" :column="6" :border="true">
+        <el-descriptions-item
+          label="大项"
+          label-class-name="type-label"
+          content-class-name="big-content"
+        >
+        <div>
+          <div class="border-bottom flex-1 height-21">灵活用工</div>
+          <div class="border-bottom flex-1 height-63">资质类</div>
+          <div class="border-bottom flex-1 height-126">公司变更</div>
+          <div class="border-bottom flex-1 height-63">其他</div>
+          <div class="border-bottom flex-1 height-84">财税服务</div>
+          <div class="border-bottom flex-1 height-84">税务服务</div>
+          <div class="border-bottom flex-1 height-126">知识产权</div>
+          <div class="border-bottom flex-1 height-147">资质认定</div>
+          <div class="border-bottom flex-1 height-42">政府补贴</div>
+          <div class="border-bottom flex-1 height-21">税收优惠</div>
+        </div>
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="小项"
+          label-class-name="type-label"
+          content-class-name="type-content">
+          <div>
+            <!--灵活用工-->
+          <div class="border-bottom flex-1 height-21">提供灵活用工服务</div>
+          <!--资质类-->
+          <div class="border-bottom flex-2 height-63">
+            <div>广播电视节目制作许可证</div>
+            <div>营业性演出经纪许可证</div>
+            <div>出版物经营许可证</div>
+          </div>
+          <!--公司变更-->
+          <div class="border-bottom flex-2 height-126">
+            <div>股权变更</div>
+            <div>注册地址变更</div>
+            <div>经营范围变更</div>
+            <div>法人/监事变更</div>
+            <div>名称变更</div>
+            <div>改制</div>
+          </div>
+          <!--其他-->
+          <div class="border-bottom flex-2 height-63">
+            <div>执照印章补办</div>
+            <div>工商解异常</div>
+            <div>工商年报</div>
+          </div>
+          <!--财税服务-->
+          <div class="border-bottom flex-2 height-84">
+            <div>小规模代理记账</div>
+            <div>小规模+税控托管</div>
+            <div>一般人代理记账</div>
+            <div>一般人+税控托管</div>
+          </div>
+          <!--税务服务-->
+          <div class="border-bottom flex-2 height-84">
+            <div>税务报道</div>
+            <div>申请税控</div>
+            <div>税务解锁</div>
+            <div>税控解锁</div>
+          </div>
+          <!--知识产权-->
+          <div class="border-bottom flex-2 height-126">
+            <div>专家快速商标注册</div>
+            <div>双享商标注册</div>
+            <div>担保商标注册</div>
+            <div>文字或美术著作权申请</div>
+            <div>外观设计专利-单个申请减缴</div>
+            <div>文字或美术著作权申请</div>
+          </div>
+          <!--资质认定-->
+          <div class="border-bottom flex-2 height-147">
+            <div>国高新技术企业资格申报</div>
+            <div>国高新技术企业资格维护</div>
+            <div>中关村高新企业认定</div>
+            <div>双软认定</div>
+            <div>企业技术中心认定</div>
+            <div>北京市创新中小企业认定（专精特新）</div>
+            <div>专精特新“小巨人”资格申请</div>
+          </div>
+          <!--政府补贴-->
+          <div class="border-bottom flex-2 height-42">
+            <div>
+              科技型中小微企业研发经费补贴申报
+            </div>
+            <div>政府资金补贴/奖励专项申报</div>
+          </div>
+          <!--税收优惠-->
+          <div class="border-bottom flex-2 height-21">
+            <div>研发费用加计扣除申报</div>
+          </div>
+          </div>
+        </el-descriptions-item>
+        <el-descriptions-item label="一万权益"
+          :label-class-name="oneLevel"
+          :content-class-name="oneContent">
+          <div class="border-bottom flex-1">服务费费率7.6%</div>
+          <div style="display: flex;">
+            <div class="border-right width-100">
+              <!--灵活用工-->
+              <!--资质类-->
+              <div class="border-bottom flex-1 height-63">
+                <div>无</div>
+              </div>
+              <!--公司变更-->
+              <div class="border-bottom flex-1 height-126">
+                <div>六选一</div>
+              </div>
+              <!--其他-->
+              <div class="border-bottom flex-1 height-63">
+                <div>三选一</div>
+              </div>
+              <!--财税服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>四选一</div>
+              </div>
+              <!--税务服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>四选二</div>
+              </div>
+              <!--知识产权-->
+              <div class="border-bottom flex-1 height-126">
+                <div>五选二</div>
+              </div>
+              <!--资质认定-->
+              <div class="border-bottom flex-1 height-147">
+                <div>无</div>
+              </div>
+              <!--政府补贴-->
+              <div class="border-bottom flex-1 height-42">
+                <div>无</div>
+              </div>
+              <!--税收优惠-->
+              <div class="border-bottom flex-1 height-21">
+                <div>无</div>
+              </div>
+            </div>
+            <div class="border-bottom flex-1 width-100">五选二</div>
+          </div>
+        </el-descriptions-item>
+        <el-descriptions-item label="三万权益"
+          :label-class-name="thirdLevel"
+          :content-class-name="thirdContent">
+          <div class="border-bottom flex-1">服务费费率7.2%</div>
+          <div style="display: flex;">
+            <div class="border-right width-100">
+              <!--灵活用工-->
+              <!--资质类-->
+              <div class="border-bottom flex-1 height-63">
+                <div>三选一</div>
+              </div>
+              <!--公司变更-->
+              <div class="border-bottom flex-1 height-126">
+                <div>六选三</div>
+              </div>
+              <!--其他-->
+              <div class="border-bottom flex-1 height-63">
+                <div>每项1次</div>
+              </div>
+              <!--财税服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>四选一</div>
+              </div>
+              <!--税务服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>每项1次</div>
+              </div>
+              <!--知识产权-->
+              <div class="border-bottom flex-1 height-126">
+                <div>五选三</div>
+              </div>
+              <!--资质认定-->
+              <div class="border-bottom flex-1 height-147">
+                <div>七选一</div>
+              </div>
+              <!--政府补贴-->
+              <div class="border-bottom flex-1 height-42">
+                <div>累计优惠5000</div>
+              </div>
+              <!--税收优惠-->
+              <div class="border-bottom flex-1 height-21">
+                <div>2次</div>
+              </div>
+            </div>
+            <div class="border-bottom flex-1 width-100">九选四</div>
+          </div>
+        </el-descriptions-item>
+        <el-descriptions-item label="五万权益"
+          :label-class-name="fiveLevel"
+          :content-class-name="fiveContent">
+          <div class="border-bottom flex-1">服务费费率6.8%</div>
+          <div style="display: flex;">
+            <div class="border-right width-100">
+              <!--灵活用工-->
+              <!--资质类-->
+              <div class="border-bottom flex-1 height-63">
+                <div>三选二</div>
+              </div>
+              <!--公司变更-->
+              <div class="border-bottom flex-1 height-126">
+                <div>每项1次</div>
+              </div>
+              <!--其他-->
+              <div class="border-bottom flex-1 height-63">
+                <div>每项1次</div>
+              </div>
+              <!--财税服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>四选一</div>
+              </div>
+              <!--税务服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>每项1次</div>
+              </div>
+              <!--知识产权-->
+              <div class="border-bottom flex-1 height-126">
+                <div>五选四</div>
+              </div>
+              <!--资质认定-->
+              <div class="border-bottom flex-1 height-147">
+                <div>七选二</div>
+              </div>
+              <!--政府补贴-->
+              <div class="border-bottom flex-1 height-42">
+                <div>累计优惠10000</div>
+              </div>
+              <!--税收优惠-->
+              <div class="border-bottom flex-1 height-21">
+                <div>3次</div>
+              </div>
+            </div>
+            <div class="border-bottom flex-1 width-100">九选四</div>
+          </div>
+        </el-descriptions-item>
+        <el-descriptions-item label="十万权益"
+          :label-class-name="tenLevel"
+          :content-class-name="tenContent">
+          <div class="border-bottom flex-1 height-21">服务费费率6.4%</div>
+          <div style="display: flex;">
+            <div class="border-right width-100">
+              <!--灵活用工-->
+              <!--资质类-->
+              <div class="border-bottom flex-1 height-63">
+                <div>每项1次</div>
+              </div>
+              <!--公司变更-->
+              <div class="border-bottom flex-1 height-126">
+                <div>每项1次</div>
+              </div>
+              <!--其他-->
+              <div class="border-bottom flex-1 height-63">
+                <div>每项1次</div>
+              </div>
+              <!--财税服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>四选一</div>
+              </div>
+              <!--税务服务-->
+              <div class="border-bottom flex-1 height-84">
+                <div>每项1次</div>
+              </div>
+              <!--知识产权-->
+              <div class="border-bottom flex-1 height-126">
+                <div>每项2次</div>
+              </div>
+              <!--资质认定-->
+              <div class="border-bottom flex-1 height-147">
+                <div>七选二</div>
+              </div>
+              <!--政府补贴-->
+              <div class="border-bottom flex-1 height-42">
+                <div>累计优惠15000</div>
+              </div>
+              <!--税收优惠-->
+              <div class="border-bottom flex-1 height-21">
+                <div>4次</div>
+              </div>
+            </div>
+            <div class="border-bottom flex-1 width-100">九选七</div>
+          </div>
+        </el-descriptions-item>
+        <el-descriptions-item :span="5">
+          <div style="font-weight:bolder;font-size: 20px;text-align:center">注：所有服务项目均为会员期内按单次或者单年计算，所选服务项目除特殊注明外均只能享有一次服务权益，不得重复选择。</div>
+        </el-descriptions-item>
+      </el-descriptions>
+    </el-dialog>
     <app-header :nav-item-active="-1" />
-    <AI v-if="AIDialogVisible" @bClose="bClose"/>
+    <AI v-if="AIDialogVisible" @bClose="bClose" />
     <img src="../../images/userBg.png" style="width: 100%;height: 362px;" />
     <div class="user-caontainer">
       <div class="user-header">
-        <img :src="logoImg || totalPng" />
+        <img :src="logoImg || totalPng" class="logo-img"/>
         <span style="display: inline-block; margin-left: 20px; width: 100%">
-          <h1>{{entName}}</h1>
+          <div
+            style="    display: flex;
+    justify-content: space-between;"
+          >
+            <h1>{{ entName }}</h1>
+            <div
+              style="cursor: pointer;    display: flex;
+    align-items: center;"
+            >
+              <img class="vip-img" :src="vipImgObj[vipType[entLevel]]">
+              <h1 @click="vipColorChoose(vipType[entLevel])">
+                {{ vipType[entLevel] }}
+              </h1>
+            </div>
+          </div>
           <div class="fw-model">
             <div class="fw-model-item" v-for="(i, index) in fwList" key="index">
               <div class="title">{{ i.title }}</div>
@@ -29,7 +340,11 @@
             @click="chageTab(category.id, category.formType)"
           >
             <div
-              :class="[categoryId === category.id? `user-icon-${category.id}-active`:  `user-icon-${category.id}`]"
+              :class="[
+                categoryId === category.id
+                  ? `user-icon-${category.id}-active`
+                  : `user-icon-${category.id}`,
+              ]"
               style="width: 20px; height: 20px;"
             ></div>
             <!-- <img src="../../images/home.png"> -->
@@ -45,7 +360,11 @@
             @click="chageTab(property.id, property.formType)"
           >
             <div
-            :class="[categoryId === property.id? `user-icon-${property.id}-active`:  `user-icon-${property.id}`]"
+              :class="[
+                categoryId === property.id
+                  ? `user-icon-${property.id}-active`
+                  : `user-icon-${property.id}`,
+              ]"
               style="width: 20px; height: 20px;"
             ></div>
             <!-- <img src="../../images/home.png"> -->
@@ -61,7 +380,11 @@
             @click="chageTab(service.id, service.formType)"
           >
             <div
-            :class="[categoryId === service.id? `user-icon-${service.id}-active`:  `user-icon-${service.id}`]"
+              :class="[
+                categoryId === service.id
+                  ? `user-icon-${service.id}-active`
+                  : `user-icon-${service.id}`,
+              ]"
               style="width: 20px; height: 20px;"
             ></div>
             <!-- <img src="../../images/home.png"> -->
@@ -71,70 +394,94 @@
         </ul>
         <div class="setting-box-center">
           <div v-if="categoryId === 0 && echartsOptions.dataset">
-            <echarts :echartsOptions="echartsOptions" id="1" height="300"/>
-            <policy @checkAll="checkAll"/>
-            <userTable @checkAll="checkAll"/>
-            <userTable2 @checkAll="checkAll"/>
-            <userTable3 @checkAll="checkAll"/>
+            <echarts :echartsOptions="echartsOptions" id="1" height="300" />
+            <policy @checkAll="checkAll" />
+            <userTable @checkAll="checkAll" />
+            <userTable2 @checkAll="checkAll" />
+            <userTable3 @checkAll="checkAll" />
           </div>
           <div v-else-if="categoryId === 1">
             <form-template
               style="padding: 0px 20px;"
-              :customStyle="{display: 'grid', 'grid-template-columns': '400px 400px','margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges(isExist?  entInfoUpdate : entInfoInsert, 'POST', $event, policyExist ? policyMatchTagsUpdate: policyMatchTagsInsert)"
+              :customStyle="{
+                display: 'grid',
+                'grid-template-columns': '400px 400px',
+                margin: `0px 0px 0px 100px`,
+              }"
+              @likeCountChanges="
+                likeCountChanges(
+                  isExist ? entInfoUpdate : entInfoInsert,
+                  'POST',
+                  $event,
+                  policyExist ? policyMatchTagsUpdate : policyMatchTagsInsert
+                )
+              "
               :labelWidth="140"
               title="基本信息"
               :formConfig="messageForm"
               :showBtn="true"
               :showCanelBtn="false"
-              :disabled="false"/> 
+              :disabled="false"
+            />
           </div>
           <div v-else-if="categoryId === 2">
             <form-template
               style="padding: 0px 20px 20px 20px"
-              :customStyle="{'margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges(isExist?   entPropagateUpdate : entPropagateInsert, 'POST', $event)"
+              :customStyle="{ margin: `0px 0px 0px 100px` }"
+              @likeCountChanges="
+                likeCountChanges(
+                  isExist ? entPropagateUpdate : entPropagateInsert,
+                  'POST',
+                  $event
+                )
+              "
               :labelWidth="100"
               title="宣传信息管理"
               :formConfig="propagandaForm"
               :showBtn="true"
               :showCanelBtn="false"
-              :disabled="false"/> 
+              :disabled="false"
+            />
           </div>
           <div v-else-if="categoryId === 3">
             <price-form-template
               style="padding:20px 20px 20px; min-height: 700px;"
-              @likeCountChanges="likeCountChanges(isExist?   entIncomeUpdate : entIncomeInsert, 'POST', $event)"
+              @likeCountChanges="
+                likeCountChanges(
+                  isExist ? entIncomeUpdate : entIncomeInsert,
+                  'POST',
+                  $event
+                )
+              "
               :labelWidth="220"
               :showBtn="true"
               :showCanelBtn="false"
-              :disabled="false"/> 
+              :disabled="false"
+            />
           </div>
-          <div v-else-if="categoryId === 4">
-            <form-template
-              style="padding: 0px 20px 20px 20px"
-              :customStyle="{'margin': `0px 0px 0px 100px`}"
-              @likeCountChanges="likeCountChanges(isExist?  entFilingUpdate : entFilingInsert, 'POST', $event)"
-              :labelWidth="140"
-              title="企业认证信息"
-              :formConfig="baForm"
-              :showBtn="true"
-              :showCanelBtn="false"
-              :disabled="false"/> 
+          <div v-else-if="categoryId === 4" style="display: flex;">
+            <img style="float: left" src="../../images/认证.png" />
+            <div style="margin-top: 157px;width: 50%;">
+              <h2 style="margin-bottom: 50px;">您已通过企业认证</h2>
+              <div v-for="(item, index) in baForm" style="height:50px;">
+                <span>{{ item.label }}：</span>
+                <span>{{ item[item.prop] }}</span>
+              </div>
+            </div>
           </div>
           <div v-else-if="categoryId === 5">
-              <userTable4 />
+            <userTable4 />
           </div>
           <div v-else-if="categoryId === 6">
-              <userTable5 />
+            <userTable5 />
           </div>
           <div v-else-if="categoryId === 7">
-              <userTable6 />
+            <userTable6 />
           </div>
           <div v-else-if="categoryId === 8">
-              <policyList />
+            <policyList />
           </div>
-<!--           <div v-else-if="categoryId === 9">
+          <!--           <div v-else-if="categoryId === 9">
             <form-template
               style="padding: 0px 20px 20px 20px"
               :customStyle="{'margin': `0px 0px 0px 100px`}"
@@ -189,15 +536,23 @@ import {
   policyMatchTagsInsert,
   policyMatchTagsUpdate,
   entReset,
-  fincialDataStatisticsGetByEntId
- } from "@/config/api";
- import _ from 'lodash';
-import { propagandaForm, messageForm, priceForm, baForm, accountForm, createForm } from "@/config/constant.js";
+  fincialDataStatisticsGetByEntId,
+} from "@/config/api";
+import _ from "lodash";
+import {
+  propagandaForm,
+  messageForm,
+  priceForm,
+  baForm,
+  baForm1,
+  accountForm,
+  createForm,
+} from "@/config/constant.js";
 import totalPng from "../../images/total.png";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
-import AI from '@/components/AI/index';
-import request from '@/utils/request';
+import AI from "@/components/AI/index";
+import request from "@/utils/request";
 import policyList from "./components/policyList.vue";
 import userTable from "./components/userTable.vue";
 import userTable2 from "./components/userTable2.vue";
@@ -209,21 +564,37 @@ import AppHeader from "@/components/Header/index";
 import FormTemplate from "@/components/Form/index.vue";
 import priceFormTemplate from "@/components/Form/priceForm.vue";
 import AppFooter from "@/components/footer/index";
-import { MessageBox, Message } from 'element-ui'
+import { MessageBox, Message } from "element-ui";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",
   data() {
     return {
+      vipType: {
+        0: "非会员",
+        1: "一万权益包",
+        2: "三万权益包",
+        3: "五万权益包",
+        4: "十万权益包",
+      },
+      oneLabel: '',
+      oneContent: '',
+      thirdLevel: '',
+      thirdContent: 'baseContent',
+      fiveLevel: '',
+      fiveContent: 'baseContent',
+      tenLevel: '',
+      tenContent: 'baseContent',
       policyMatchTagsInsert,
       policyMatchTagsUpdate,
       categoryId: Number(this.$route.query.categoryId) || 0,
-      userId: window.localStorage.getItem('USERID'),
-      entName: JSON.parse(window.localStorage.getItem('userinfo')).entName,
+      userId: window.localStorage.getItem("USERID"),
+      entName: JSON.parse(window.localStorage.getItem("userinfo")).entName,
+      entLevel: JSON.parse(window.localStorage.getItem("userinfo")).entLevel,
       categoryObj: {
         1: entInfoGetById,
         2: entPropagateGetById,
-        4: entFilingGetById
+        4: entFilingGetById,
       },
       totalPng,
       entInfoInsert,
@@ -244,66 +615,75 @@ export default {
       priceForm,
       propagandaForm,
       baForm,
+      baForm1,
       accountForm,
       createForm,
+      applydialogVisible: false,
+      vipImgObj: {
+        '非会员': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip未认证.png',
+        '一万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip1.png',
+        '三万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip3.png',
+        '五万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip5.png',
+        '十万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip10.png'
+      },
       echartsOptions: {},
       echartsOptions2: {
         tooltip: {
-          trigger: 'item'
+          trigger: "item",
         },
         legend: {
-          bottom: '5%',
-          left: 'center'
+          bottom: "5%",
+          left: "center",
         },
         series: [
           {
-            name: 'Access From',
-            type: 'pie',
+            name: "Access From",
+            type: "pie",
             label: {
               show: true,
-              position: 'inside',
-              color: '#fff',
-              fontSize: 10
+              position: "inside",
+              color: "#fff",
+              fontSize: 10,
             },
             data: [
-              { value: 1048, name: '金融服务' },
-              { value: 735, name: '灵活用工' },
-              { value: 580, name: '企业服务' },
-              { value: 484, name: '行业培训' }
-            ]
-          }
-        ]
+              { value: 1048, name: "金融服务" },
+              { value: 735, name: "灵活用工" },
+              { value: 580, name: "企业服务" },
+              { value: 484, name: "行业培训" },
+            ],
+          },
+        ],
       },
       fwList: [
         {
           title: "已在平台注册",
-          num: JSON.parse(window.localStorage.getItem('userinfo')).registTimes,
+          num: JSON.parse(window.localStorage.getItem("userinfo")).registTimes,
           type: "天",
         },
         {
           title: "共被访问次数",
-          num: JSON.parse(window.localStorage.getItem('userinfo')).hits,
+          num: JSON.parse(window.localStorage.getItem("userinfo")).hits,
           type: "",
         },
         {
           title: "已报名活动",
-          num: JSON.parse(window.localStorage.getItem('userinfo')).policyCount,
+          num: JSON.parse(window.localStorage.getItem("userinfo")).policyCount,
           type: "场",
         },
         {
           title: "我的政策",
-          num: JSON.parse(window.localStorage.getItem('userinfo')).serviceCount,
+          num: JSON.parse(window.localStorage.getItem("userinfo")).serviceCount,
           type: "项",
         },
       ],
       categorys: [
-        { id: 0, name: "首页"},
-        { id: 1, name: "基本信息", formType:　'messageForm' },
-        { id: 2, name: "宣传资料", formType:　'propagandaForm' },
+        { id: 0, name: "首页" },
+        { id: 1, name: "基本信息", formType: "messageForm" },
+        { id: 2, name: "宣传资料", formType: "propagandaForm" },
       ],
       propertys: [
-        { id: 3, name: "财税数据填报", formType:　'priceForm'  },
-        { id: 4, name: "企业认证信息", formType:　'baForm'  },
+        { id: 3, name: "财税数据填报", formType: "priceForm" },
+        { id: 4, name: "企业认证信息", formType: "baForm" },
       ],
       services: [
         { id: 5, name: "我的政策" },
@@ -318,7 +698,7 @@ export default {
         gender: false,
         brief: false,
       },
-      logoImg: '',
+      logoImg: "",
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
       files: [],
       policyExist: null,
@@ -348,63 +728,130 @@ export default {
     userTable3,
     userTable4,
     userTable5,
-    userTable6
+    userTable6,
   },
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
     headers() {
       var val = {
-        Authorization:getAccessToken(),
+        Authorization: getAccessToken(),
       };
       return val;
     },
   },
   created() {
-    let userinfo = window.localStorage.getItem('userinfo');
-    !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+    let userinfo = window.localStorage.getItem("userinfo");
+    !userinfo && this.$store.commit("login/CHANGE_VISIBLE", true);
     let that = this;
     request({
-        url: `${entPropagateGetById}`,
-        method: 'get',
-        params: {
-          entId: `${this.userId}`
+      url: `${entPropagateGetById}`,
+      method: "get",
+      params: {
+        entId: `${this.userId}`,
+      },
+    }).then(({ data }) => {
+      //如果未添加宣传资料
+      if (data.logoImg) {
+        this.logoImg = data.logoImg;
+      }
+    });
+    request({
+      url: `${fincialDataStatisticsGetByEntId}/${this.userId}`,
+      method: "get",
+    }).then((res) => {
+      let echartsOptions = {
+        title: {
+          text: "财税数据",
+        },
+        legend: {},
+        tooltip: {},
+        dataset: {
+          dimensions: ["年份", "营业收入", "纳税总额", "资产总额", "负债总额"],
+          source: res.data,
+        },
+        xAxis: { type: "category" },
+        yAxis: {
+          name: "单位（万元）",
+          axisLabel: {
+            //这种做法就是在y轴的数据的值旁边拼接单位，貌似也挺方便的
+            formatter: "{value} 万元",
+          },
+        },
+        // Declare several bar series, each will be mapped
+        // to a column of dataset.source by default.
+        series: [
+          { type: "bar" ,
+          tooltip: {
+            formatter: (params) => {
+              let seriesName = params.seriesName;
+              let year = params.name;
+              let data = params.data['营业收入']
+              return seriesName + '<br />' + year + '&nbsp;' + data + '万元';
+            }
+          },
+          label: {
+        show: true,
+        position: 'top',
+        color: '#333',
+        formatter: (params) => {
+          console.log('params----', params);
+          return params.data['营业收入']
         }
-      })
-      .then(({data}) => {
-        //如果未添加宣传资料
-         if(data.logoImg) {
-            this.logoImg = data.logoImg;
-          };
-      });
-      request({
-        url: `${fincialDataStatisticsGetByEntId}/${this.userId}`,
-        method: 'get'
-      })
-      .then((res) => {
-        let echartsOptions = {
-          title: {
-            text: '财税数据'
-          },
-          legend: {},
-          tooltip: {},
-          dataset: {
-            dimensions: ["年份", "营业收入",  "纳税总额", '资产总额', '负债总额'],
-            source: res.data
-          },
-          xAxis: { type: "category" },
-          yAxis: {
-            name: "单位（万元）",
-            axisLabel: {
-              //这种做法就是在y轴的数据的值旁边拼接单位，貌似也挺方便的
-              formatter: "{value} 万元",
-            },
-          },
-          // Declare several bar series, each will be mapped
-          // to a column of dataset.source by default.
-          series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }, { type: "bar" }],
-        };
-        that.echartsOptions = echartsOptions;
-      });
+      },},
+          { type: "bar",
+          tooltip: {
+            formatter: (params) => {
+              let seriesName = params.seriesName;
+              let year = params.name;
+              let data = params.data['纳税总额']
+              return seriesName + '<br />' + year + '&nbsp;' + data + '万元';
+            }
+          },label: {
+        show: true,
+        position: 'top',
+        color: '#333',
+        formatter: (params) => {
+          console.log('params----', params);
+          return params.data['纳税总额']
+        }
+      }, },
+          { type: "bar" ,
+          tooltip: {
+            formatter: (params) => {
+              let seriesName = params.seriesName;
+              let year = params.name;
+              let data = params.data['资产总额']
+              return seriesName + '<br />' + year + '&nbsp;' + data + '万元';
+            }
+          },label: {
+        show: true,
+        position: 'top',
+        color: '#333',
+        formatter: (params) => {
+          console.log('params----', params);
+          return params.data['资产总额']
+        }
+      },},
+          { type: "bar",tooltip: {
+            formatter: (params) => {
+              let seriesName = params.seriesName;
+              let year = params.name;
+              let data = params.data['负债总额']
+              return seriesName + '<br />' + year + '&nbsp;' + data + '万元';
+            }
+          },label: {
+        show: true,
+        position: 'top',
+        color: '#333',
+        formatter: (params) => {
+          console.log('params----', params);
+          return params.data['负债总额']
+        }
+      }, },
+        ],
+      };
+      that.echartsOptions = echartsOptions;
+    });
   },
   mounted() {
     this.init();
@@ -418,36 +865,64 @@ export default {
     bClose() {
       this.AIDialogVisible = false;
     },
+    vipColorChoose(value) {
+      if('一万权益包') {
+        this.oneLevel = 'other-label';
+        this.oneContent = 'other-content'
+      }
+      else if('三万权益包') {
+        this.thirdLevel = 'other-label';
+        this.thirdContent = 'other-content'
+      }
+      else if('五万权益包') {
+        this.fiveLevel = 'other-label';
+        this.fiveContent = 'other-content'
+      }
+      else if('十万权益包') {
+        this.tenLevel = 'other-label';
+        this.tenContent = 'other-content'
+      }
+      this.applydialogVisible = true;
+      // this.
+    },
     handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
+      this.$confirm("确认关闭？")
+        .then((_) => {
           done();
         })
-        .catch(_ => {});
+        .catch((_) => {});
     },
     async chageTab(id, formType) {
       this.categoryId = id;
       // 企业id
-      if(this.categoryObj[this.categoryId]) {
-        let {data} = await request({
+      if (this.categoryObj[this.categoryId]) {
+        let { data } = await request({
           url: `${this.categoryObj[this.categoryId]}`,
-          method: 'GET',
+          method: "GET",
           params: {
             entId: `${this.userId}`,
-            incomeYear: '2021',
-            incomeMonth: '1-12月'
-          }});
-        this.isExist = data ? true: false;
-        this.id = data && data.id ? data.id: '';
-        this[formType] = data ? this[formType].map((e, b) => {
-          let result = { ...e };
-          result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
-          return result;
-        }) : this[formType];
-        if(formType === 'messageForm') {
+            incomeYear: "2021",
+            incomeMonth: "1-12月",
+          },
+        });
+        this.isExist = data ? true : false;
+        this.id = data && data.id ? data.id : "";
+        // 企业信息认证兼容,认证成功后,只显示部分字段
+        if (data.authStatus) {
+          this[formType] = this.baForm1;
+        }
+        this[formType] = data
+          ? this[formType].map((e, b) => {
+              let result = { ...e };
+              result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
+              result.readonly = data.authStatus === 1;
+              return result;
+            })
+          : this[formType];
+        if (formType === "messageForm") {
           this.getpolicyMatchTagsGet();
-        };
-      };
+        }
+      }
     },
     getpolicyMatchTagsGet() {
       request({
@@ -456,50 +931,64 @@ export default {
         // todo 考虑 id怎么传进去
         params: {
           companyid: this.userId,
-        }
-      }).then(({data}) => {
+        },
+      }).then(({ data }) => {
         //todo 后面封装
         this.policyExist = data ? true : false,
-        this['messageForm'] = data ? this['messageForm'].map((e, b) => {
-          let result = { ...e };
-          result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
-          return result;
-        }) : this['messageForm'];
+        console.log('isExist----', this.policyExist);
+          (this["messageForm"] = data
+          ? this["messageForm"].map((e, b) => {
+              let result = { ...e };
+              result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
+              return result;
+            })
+          : this["messageForm"]);
       });
     },
-    likeCountChanges(url, method = 'POST', formData, policyMatchTags) {
-      request({
+    likeCountChanges(url, method = "POST", formData, policyMatchTags) {
+      !policyMatchTags && request({
         url: `${url}`,
         method,
         // todo 考虑 id怎么传进去
         data: {
           entId: this.userId,
           id: this.id,
-          contactsPhone: JSON.parse(window.localStorage.getItem('userinfo')).contactsPhone,
+          contactsPhone: JSON.parse(window.localStorage.getItem("userinfo"))
+            .contactsPhone,
           ...formData,
-        }
-      }).then(res => {
-        debugger;
-        Message({
-            message: '提交成功',
-            type: 'success',
-            duration: 5 * 1000
-          });
+        },
       })
-      policyMatchTags && request({
-        url: `${policyMatchTags}`,
-        method: "POST",
-        // todo 考虑 id怎么传进去
-        data: {
-          companyid: this.userId,
-          id: this.id,
-          ...formData,
-        }
-      });
+        .then((res) => {
+          Message({
+            message: "提交成功",
+            type: "success",
+            duration: 5 * 1000,
+          });
+        })
+        .catch((e) => {
+          Message({
+            message: e.msg,
+            type: "error",
+            duration: 5 * 1000,
+          });
+        });
+      policyMatchTags &&
+        request({
+          url: `${policyMatchTags}`,
+          method: "POST",
+          // todo 考虑 id怎么传进去
+          data: {
+            companyid: this.userId,
+            id: this.id,
+            ...formData,
+          },
+        }).then(e => {
+          this.policyExist = true;
+        });
     },
     checkAll(id) {
       this.categoryId = id;
-    }
+    },
   },
 };
 </script>
@@ -529,7 +1018,12 @@ export default {
       display: flex;
       justify-content: space-between;
       // margin: 0 60px;
-      img {
+      .vip-img {
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+      }
+      .logo-img {
         width: 325px;
         height: 325px;
         position: relative;
@@ -602,7 +1096,7 @@ export default {
           font-size: 12px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: rgba(0,0,0,0.4);
+          color: rgba(0, 0, 0, 0.4);
           line-height: 20px;
           margin-top: 10px;
         }

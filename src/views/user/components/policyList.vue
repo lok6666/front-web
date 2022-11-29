@@ -8,7 +8,15 @@
             <div class="user-policy-list-content-list">
                 <div class="user-policy-list-content-list-item" v-for="(item, index) in newList" :key="index">
                     <p class="user-policy-list-content-list-title">{{item.messageContent}}</p>
-                    <p class="user-policy-list-content-list-time">{{item.messageTime}}</p>
+                    <div class="user-policy-list-content-list-time">
+                      <div style="display: flex;
+    align-items: center;
+    justify-content: center;width: 100px;text-align: left;">{{item.messageTime.substring(0, 10)}}</div>
+                      <div style="display: flex;
+    align-items: center;
+    justify-content: center;width: 85px;text-align: left;">{{item.messageTime.substring(11, 19)}}</div>
+                    </div>
+                    </div>
                 </div>
             </div>
       </div>
@@ -155,8 +163,10 @@ export default {
                 line-height: 5px;
             }
             &-time {
+              font-family: 'AlibabaPuHuiTiR';
                 font-weight: 300;
                 color: #A23C3C;
+                display: flex;
                 -webkit-background-clip: text;
             }
         }

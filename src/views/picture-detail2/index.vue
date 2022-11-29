@@ -164,7 +164,7 @@ export default {
     color: #ffffff;
     width: 100%;
     height: 442px;
-    background-size: cover;
+    background-size: 100% 100%;
     background-image: url("../../images/protectBg.png");
   }
   @import "~@/styles/variables";
@@ -190,6 +190,7 @@ export default {
       background: #000;
       flex: 1;
       border-radius: 2px;
+      padding-top: 20px;
       .swiper {
         // height: 1232px;
         width: 100%;

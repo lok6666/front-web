@@ -143,6 +143,7 @@ const actions = {
       const params = {
         token: token
       }
+      location.reload()
       // logout(params).then(res => {
         resolve()
       // }).catch(error => {

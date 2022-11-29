@@ -5,7 +5,7 @@
           <img class="guide-header-logo" src="../../images/guide-logo.png" />
           ta的课程
           <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
         </div>

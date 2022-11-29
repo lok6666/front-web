@@ -59,6 +59,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/policy-cul/:type',
+    component: () => import('@/views/policy-match/index'),
+    hidden: true
+  },
+  {
     path: '/building',
     component: () => import('@/views/building/index'),
     hidden: true
@@ -205,9 +210,11 @@ export const constantRoutes = [
   },
   {
     path: '/user',
-    component: Layout,
-    redirect: '/user/info',
-    children: [{
+    // component: Layout,
+    hidden: true,
+    component: () => import('@/views/user/index'),
+    // redirect: '/user/info',
+/*     children: [{
       path: 'info',
       name: 'Info',
       component: () => import('@/views/user/index'),
@@ -215,7 +222,7 @@ export const constantRoutes = [
         title: '基本信息',
         icon: 'user'
       }
-    }]
+    }] */
   },
   {
     path: '/collect',

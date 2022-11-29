@@ -2,10 +2,10 @@
   <div class="guide-wrap">
     <div class="container">
       <div class="guide-header">
-        <img class="guide-header-logo" src="../../images/guide-logo.png" />
+        <img class="guide-header-logo" src="../../images/guide-logo.png" style="margin-left: 31px;"/>
         企业面对面
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
       </div>
@@ -75,8 +75,8 @@
                     <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activityDateFrom.substring(5, 7)}}月{{item.activityDateFrom.substring(8, 10)}}日</div>
                     <div style="font-family: AlibabaPuHuiTiM;font-size: 22px;">{{item.activityDateFrom.substring(11, 16)}}</div>              
                   </div>
-                  <div class="other-item location" @click="routerTo(item)"><img src="../../images/detail.png"  style="height: 45px; width: 40px;"/>查看详情</div>
-                  <div class="other-item apply" @click.stop="applyAcitivty(item.id)"><img style="height: 45px; width: 40px;" src="../../images/user-plus1.png"/>报名</div>
+                  <div class="other-item location" @click="routerTo(item)"><img src="../../images/detail.png"  style="height: 40px; width: 40px;"/>查看详情</div>
+                  <div class="other-item apply" @click.stop="applyAcitivty(item.id)"><img style="height: 40px; width: 40px;" src="../../images/user-plus1.png"/>报名</div>
                 </div>
               </div>
               <!-- <div class="check-data" @click="routerTo(item)">查看日程</div> -->
@@ -250,7 +250,6 @@ export default {
             justify-content: space-around;
             margin-bottom: 10px;
             &-item {
-              cursor: pointer;
               width: 101px;
               height: 116px;
               border-radius: 10px;
@@ -263,12 +262,14 @@ export default {
               align-items: center;
             }
             .location {
+              cursor: pointer;
               font-size: 18px;
               font-family: AlibabaPuHuiTiR;
               color: #fff;
               background: #EB7F31;
             }
             .apply {
+              cursor: pointer;
               font-size: 18px;
               font-family: AlibabaPuHuiTiR;
               color: #fff;
@@ -352,12 +353,14 @@ export default {
               align-items: center;
             }
             .location {
+              cursor: pointer;
               font-size: 18px;
               font-family: AlibabaPuHuiTiR;
               color: #fff;
               background: #EB7F31;
             }
             .apply {
+              cursor: pointer;
               font-size: 18px;
               font-family: AlibabaPuHuiTiR;
               color: #fff;

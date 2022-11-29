@@ -6,7 +6,7 @@
     <el-table :data="tableData" style="width: 100%"@row-click="routerTo">
       <el-table-column v-for="(item, index) in tableItem" :key="index" :width="item.width">
         <template slot="header" slot-scope="scope">
-          <div style="display: flex;align-items:center;">{{ item.label }}</div>
+          <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
         </template>
         <template slot-scope="scope">
           <span>{{ scope.row[item.showKey] }}</span>
@@ -32,11 +32,9 @@
     activityApplyList
   } from "@/config/api";
  import request from '@/utils/request';
-import levelImg from "@/images/修改名称.png";
-import policyTitleImg from "@/images/类别.png";
-import addressImg from "@/images/account.png";
-import statusImg from "@/images/符号-状态-警告.png";
-import dateImg from "@/images/time.png";
+ import levelImg from "@/images/gift.png";
+  import policyTitleImg from "@/images/单位.png";
+  import dateImg from "@/images/time.png";
 export default {
   data() {
     return {
@@ -45,26 +43,29 @@ export default {
       total: 0,
       tableData: [],
       tableItem: [
-        {
+      {
           label: "培训/活动名称",
           src: policyTitleImg,
           showKey: "actName",
+          align: 'left',
         },
         {
           label: "报名人数",
           src: dateImg,
           showKey: "applyCount",
-          width: 100
+          align: 'left'
         },
         {
           label: "报名日期",
           src: dateImg,
           showKey: "activityDateFrom",
+          align: 'left',
         },
         {
           label: "举办日期",
           src: dateImg,
           showKey: "applyTimeTo",
+          align: 'left',
         }
       ]
     };

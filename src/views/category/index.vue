@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="container">
+  <div ref="container" class="app-container">
     <app-header :nav-item-active="2" />
     <el-dialog
       :visible.sync="applydialogVisible"
@@ -28,12 +28,13 @@
       <div class="service">
         <div class="service-title">面对日趋多元化的需求，企业如何能轻运营、快发展</div>
         <div class="service-desc">使用身边云提供的共享产品，“多快好省”为企业运营提效降本</div>
+        <div class="more-solve" @click="applyService()">申请服务</div>
         <div class="service-content">
           <div class="service-content-item"  :style="`background-image: url(${item.bgImg});justify-content: flex-end;`" v-for="(item, index) in list" :key="index">
             <div>
-              {{item.title}}
-              <ui style="font-size: 10px;width: 264px; margin: 10px;">
-                <li v-for="(i, index) in item.liList" :key="index">{{i}}</li>
+              <div style="margin-bottom: -31px;">{{item.title}}</div>
+              <ui style="font-size: 13px;width: 264px; margin: 10px;">
+                <li v-for="(i, index) in item.liList" :key="index" style="margin-top: 4px;">{{i}}</li>
               </ui>
             </div>
           </div>
@@ -98,7 +99,7 @@ export default {
       },{
         title: '我是人力负责人',
         bgImg: service3Img,
-        liList: ['优化人员结构,无需在匆忙招人,降低用人风险','节省招聘、培训、福利等隐形成本']
+        liList: ['优化人员结构,无需再匆忙招人,降低用人风险','节省招聘、培训、福利等隐形成本']
       },{
         title: '我是项目执行方',
         bgImg: service4Img,
@@ -164,13 +165,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.app-container {
   @import '~@/styles/variables';
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: -webkit-overlay;
   overflow-y: overlay;
+  position: relative;
   .service-bg {
     display: flex;
     align-items: flex-end;
@@ -183,7 +185,7 @@ export default {
     padding-right: 143px;
     padding-bottom: 60px;
     background-size: cover;
-    background-image: url('../../images/peopleServiceBg.png');
+    background-image: url('http://minio.bjwcxf.com/cultural-image/cultural-web/灵活用工.png');
   }
   .content-container {
     margin: 0 auto;
@@ -220,8 +222,8 @@ export default {
           justify-content: end;
           align-items: center;
           flex-direction: column;
-          margin-right: 9px;
-          padding-bottom: 49px;
+          margin-right: 3px;
+          padding-bottom: 0px;
           font-size: 36px;
           font-family: AlibabaPuHuiTiR;
           color: #212121;
@@ -232,6 +234,22 @@ export default {
           }
         }
       }
+    }
+    .more-solve {
+      cursor: pointer;
+      margin-top: 46px;
+      margin-bottom: 30px;
+      width: 358px;
+      height: 82px;
+      background: #B48859;
+      border-radius: 20px;
+      font-size: 24px;
+      font-family: AlibabaPuHuiTiM;
+      color: #FFFFFF;
+      line-height: 33px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .solve {
       display: flex;
@@ -258,21 +276,6 @@ export default {
         height: 556px;
         width: 100%;
         background-size: 100% 100%;
-      }
-      .more-solve {
-        margin-top: 46px;
-        margin-bottom: 30px;
-        width: 358px;
-        height: 82px;
-        background: #B48859;
-        border-radius: 20px;
-        font-size: 24px;
-        font-family: AlibabaPuHuiTiM;
-        color: #FFFFFF;
-        line-height: 33px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
       }
     }
     .resource {

@@ -19,10 +19,10 @@
           :disabled="false"/> 
         </el-dialog>
       <div class="policy-search-bg">活动详情</div>
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
+<!--       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-      </el-breadcrumb>
+      </el-breadcrumb> -->
       <div class="collage-container">
         <div class="side-left">
             <div class="left">
@@ -36,12 +36,18 @@
                       <img :src="data_collagedetail.activityThumbnail" style="width: 300px;margin-right: 10px;"/>
                       <div class="collage-message">
                         <div>活动地点:{{data_collagedetail.activityAddress}}</div>  
-                        <div>活动日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
-                        <div>活动时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>   
+                        <div v-if="data_collagedetail.activityDateTo">活动日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
+                        <div v-if="data_collagedetail.activityDateFrom">活动时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>   
                         <div>联系人:{{data_collagedetail.contactPerson}}</div>
                         <div>联系电话:{{data_collagedetail.contactPhone}}</div>   
                       </div>
-                      <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)" style="color: #fff;">立即报名</div>
+                      <div class="block1" @click.stop="applyAcitivty(data_collagedetail.id)" style="color: #fff;">
+                        <div class="apply-num" style="display: flex;">
+                            <div style="font-size: 18px;font-family: AlibabaPuHuiTiM;color: #000000;">报名人数/总数</div>
+                            <div class="apply-count">{{data_collagedetail.applyNum}}/{{data_collagedetail.activityNum}}</div>
+                        </div>         
+                        <div class="block">立即报名</div>               
+                      </div>
                     </div>
                     <div class="collage-desc" style="padding: 0 20px">{{data_collagedetail.activityAbstract}}</div>     
                   </div>
@@ -58,14 +64,15 @@
                 <h3>活动地点</h3>
                 <!-- <img :src="data_collagedetail.activityImg" style="width: 380px; height: 456px;"/> -->
                 <baidu-map class="map" :center="center" :zoom="15">
-                  <bm-marker :position="center" :dragging="true" @click="infoWindowOpen" :scroll-wheel-zoom="true">
+                  <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+                  <bm-marker :icon="{url: 'http://minio.bjwcxf.com/cultural-image/cultural-web/map-marker.png', size: {width: 32, height: 32}}" :position="center" :dragging="true" @click="infoWindowOpen" :scroll-wheel-zoom="true">
                     <bm-info-window :show="show" @close="infoWindowClose" @open="infoWindowOpen">
                       <div style="font-size: 12px;font-family: AlibabaPuHuiTiM;">
                         <div>活动名称:{{data_collagedetail.activityName}}</div>
                       </br>
                         <div>活动地点:{{data_collagedetail.activityAddress}}</div>
                       </br>
-                        <div>活动时间: {{data_collagedetail.activityDateFrom.substring(0, 16)}} 至 {{data_collagedetail.activityDateTo.substring(0, 16)}}</div>
+                        <div style="width: 288px;" v-if="data_collagedetail.activityDateFrom">活动时间: {{data_collagedetail.activityDateFrom.substring(0, 16)}} 至 {{data_collagedetail.activityDateTo.substring(0, 16)}}</div>
                     </div>
                     </bm-info-window>
                   </bm-marker>
@@ -165,6 +172,14 @@
     },
     methods: {
       getlocation(address) {
+        /* let that = this;
+        window.handleResponse = function(response){
+            that.center = response.result.location;
+            console.log('The responsed data is: ', response);
+        }
+        var script = document.createElement('script');
+        script.src = `https://api.map.baidu.com/geocoding/v3/?output=json&ak=wG6VDtVecU2vdgXQmNIswVrNHnl3oKNv&address=${address}&callback=handleResponse`;
+        document.body.insertBefore(script, document.body.firstChild); */
         request({
           url: `${locatiion}/${address}`,
           method: 'get',
@@ -184,8 +199,12 @@
         this.applydialogVisible = false;
       },
       applyAcitivty(id) {
-        this.applyId = id;
-        this.applydialogVisible = true;
+        let userinfo = window.localStorage.getItem('userinfo');
+        !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+        if(userinfo) {
+          this.applyId = id;
+          this.applydialogVisible = true;
+        };
       },
       likeCountChanges(id, formData) {
       request({
@@ -271,23 +290,41 @@
       .side-left {
         // display: flex;
         .left {
-          .block {
+          .block1 {
             position: relative;
-            top: 97px;
+            top: 72px;
             right: -215px;       
             flex-direction: revert;
             float: right;
             font-size: 14px;
             flex-direction: revert;
-            width: 116px;
-            height: 40px;
-            background: #B48859;
-            color:　#fff !important;
-            // border: 2px solid #8B572A;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            .block {
+              cursor: pointer;
+              width: 116px;
+              height: 40px;
+              background: #B48859;
+              color:　#fff !important;
+              // border: 2px solid #8B572A;
+              border-radius: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .apply-num {
+              margin-bottom: 19px;
+              margin-top: -23px;
+              font-family: AlibabaPuHuiTiM;
+              font-size: 18px;
+              color: #B48859;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              .apply-count {
+                color: #B48859;
+                display: flex;
+              }
+            }
             margin-left: 20px;
           }
           .collage-title {

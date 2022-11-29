@@ -1,16 +1,16 @@
 <template>
     <div class="app-container" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.2)">
       <policy-calculate :dialogVisible="dialogVisible" @handleClose="dialogVisible = false" @dialogClose="dialogClose"/>/>
-      <app-header :nav-item-active="1" :isShowAIDialogVisible="isShowAIDialogVisible" @bClose="bClose"/>
+      <app-header :nav-item-active="$route.params.type === '政策匹配' ? 1 :-1" :isShowAIDialogVisible="isShowAIDialogVisible" @bClose="bClose"/>
       <div class="policy-match-bg">
-        <div>匹配结果</div>
+        <div>{{$route.params.type === '政策匹配' ? '匹配结果': '计算结果'}}</div>
       </div>
       <div class="policy-match-container">
         <div class="policy-total">
             <div class="policy-total-content">
                 <div class="total-num">
-                    <div class="title">已为您计算出适合的政策</div>
-                    <div class="num">{{realPolicyList.length}}条</div>
+                    <div class="title">已为您{{$route.params.type === '政策匹配' ? '推荐' :'计算'}}出适合的政策</div>
+                    <div class="num">{{listLength}}条</div>
                 </div>
                 <div class="total-price">
                     <div class="title">政策可提供最大扶持资金</div>
@@ -21,7 +21,7 @@
                 <div class="select-btn">
                     <div class="title">已选条件:</div>
                     <div class="select-item">
-                    <div v-for="(btn, index) in selectedOptions" :key="index">
+                    <div v-for="(btn, index) in selectedOptions" :key="index" class="select-item-el">
                         <el-button
                         class="button-new-tag"
                         size="mini"
@@ -33,21 +33,19 @@
                 </div>
                 <div style="display: flex;">
                   <div class="policy-calculate" v-if="$route.params.type === '政策匹配'" style="cursor: pointer;" @click="changePolicy()">换一批</div>
-                  <div class="policy-calculate" @click="dialogVisible = true">政策计算器</div>
+                  <div class="policy-calculate" v-if="$route.params.type === '政策计算器'" style="cursor: pointer;" @click="dialogVisible = true">政策计算器</div>
                 </div>
             </div>
         </div>
         <div class="policy-result">
             <div class="policy-result-title">
-                <div style="display: flex;align-items: center;"><img src="../../images/result-bg.png"/>计算结果</div>
+                <div style="display: flex;align-items: center;margin-left: 10px;"><img style="margin-right: 5px;" src="../../images/result-bg.png"/>
+                  {{$route.params.type === '政策计算器'?  '计算' : '推荐'}}<div style="color:　#D99447">结果</div>
+                </div>
                 <div style="display: flex; justify-content: space-between; align-item:center;width: 80%;">
                   <div class="search">
                       <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @change="inputConfirm">
-                          <i slot="suffix"
-                          class="el-input__icon el-icon-search"
-                          :style="'color:' + inputIconColor"
-                          @click="search"
-                          />
+                          <i slot="suffix" class="el-input__icon el-icon-search" :style="'color:#D99447'" @click="search"/>
                       </el-input>
                   </div>
                   <div class="select">
@@ -70,7 +68,9 @@
                         <i :class="[item.policyCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)" />收藏
                       </div>
                       <div class="tag-item location"><img src="../../images/location.png"/><div>{{locationMap[item.policyLocation]}}</div></div>
-                      <div class="tag-item location" style="background: #909399"><div>{{item.policyType === 1 ? '申报中' : '已结束'}}</div></div>
+                      <div :class="[ item.policyType === 1 ? 'aaa' : 'bbb']" class="tag-item location">
+                        <div>{{item.policyType === 1 ? '申报中' : '已结束'}}</div>
+                      </div>
                       <!-- <div class="tag-item process-1">{{item.process}}</div> -->
                     </div>
                     <div style="max-width: 720px; display: -webkit-box;
@@ -81,10 +81,12 @@
                   </div>
                   <div v-if="item.policyTheme" class="content">主题：{{item.policyTheme}}</div>
                   <div class="footer">
+                    <img style="width: 12px; height: 12px;margin-right: 3px;" src="http://minio.bjwcxf.com/cultural-image/cultural-web/转发文.png">
                     <span style="display: flex;align-item: center;">发文部门：</span>
                     <div class="address">{{item.policyAgency}}</div>
-                    <span style="margin-left: 100px;display: flex;align-item: center;">发布时间：</span>
-                    <div class="time">{{item.policyTime.substring(0, 10)}}</div>
+                    <img style="margin-left: 100px;margin-right: 3px;width: 12px; height: 12px;" src="http://minio.bjwcxf.com/cultural-image/cultural-web/发文时间.png"></img>
+                    <span style="display: flex;align-item: center;">发布时间：</span>
+                    <div v-if="item.policyTime" class="time">{{item.policyTime.substring(0, 10)}}</div>
                   </div>
                 </div>
                 <div class="right">
@@ -113,7 +115,7 @@
   </template>
   
   <script>
-  import { policyHost,entPolicyCollectInsert,entPolicyCollectDelete,policyMatchTagsGet } from "@/config/api.js";
+  import { policyMatchCount,policyHost,entPolicyCollectInsert,entPolicyCollectDelete,policyMatchTagsGet } from "@/config/api.js";
   import request from '@/utils/request';
   import PolicyCalculate from '@/components/Policycalculate/index'
   import { mapGetters } from "vuex";
@@ -125,12 +127,12 @@
     name: "User",
     data() {
       return {
-        // data_selection: [],
         pageNum: 1,
         pageSize: 5,
         timer: null,
         dialogVisible: false,
         loading: true,
+        listLength: 0,
         siftIndex: 0,
         inputValue: '',
         categoryId: 0,
@@ -140,6 +142,7 @@
           beijing: '北京',
           shijingshan: '石景山'
         },
+        // 点击换一批为1,其他为0,政策计算器无change字段
         change: 0,
         isHandler: 0,
         policyCalculate:{
@@ -160,6 +163,7 @@
       },
         policyList: [],
         realPolicyList: [],
+        smartPolicyList: [],
         opacition: [{
           message: '奖励措施'
           },
@@ -169,15 +173,10 @@
           {
             message: '立即咨询'
           }],
-/*         siftOptions: [
-            {
-                value: "1企业",
-                label: "智能排序",
-                isSelect:　false
-            },
+        siftOptions: this.$route.params.type === '政策计算器' ? [
             {
                 value: "3-5年",
-                label: "申报截至时间",
+                label: "发布时间",
                 isSelect:　false
             },
             {
@@ -185,7 +184,23 @@
                 label: "最高奖励金额",
                 isSelect:　false
             }
-        ], */
+        ] : [
+            {
+                value: "1企业",
+                label: "智能排序",
+                isSelect:　false
+            },
+            {
+                value: "3-5年",
+                label: "发布时间",
+                isSelect:　false
+            },
+            {
+                value: "beijing",
+                label: "最高奖励金额",
+                isSelect:　false
+            }
+        ],
         selectedOptions: []
       };
     },
@@ -200,27 +215,64 @@
     watch:{
       $route: {
         handler: async function(now,old) {
-          // this.$route.params.type === '政策匹配' && (this.change = 1);
-          // this.$route.params.type === '政策计算器' && (this.change = 0);
-          // this.$route.params.type === '政策匹配' && await this.getpolicyMatchTagsGet();
-          // this.$route.params.type === '政策计算器' && await this.getPolicyList();
+          this.loading = false;
+            if(this.$route.params.type === '政策计算器') {
+              this.change = 0;
+              this.getCulPolicyList();
+              this.siftOptions = [
+            {
+                value: "3-5年",
+                label: "发布时间",
+                isSelect:　false
+            },
+            {
+                value: "beijing",
+                label: "最高奖励金额",
+                isSelect:　false
+            }
+        ];
+            } else if(this.$route.params.type === '政策匹配') {
+              this.change = 0;
+              this.siftOptions = [
+            {
+                value: "1企业",
+                label: "智能排序",
+                isSelect:　false
+            },
+            {
+                value: "3-5年",
+                label: "发布时间",
+                isSelect:　false
+            },
+            {
+                value: "beijing",
+                label: "最高奖励金额",
+                isSelect:　false
+            }
+        ];
+              this.getpolicyMatchTagsGet()
+            }
         },
         deep: true
       },
       data_selection: function(val, oldVal) {
-        this.change = 0;
-        this.getPolicyList(val);
+        if(this.$route.params.type === '政策计算器') {
+          this.change = 0;
+          this.getCulPolicyList();
+        };
       }
     },
       async created() {
-/*       this.$route.params.type === '政策匹配' && (this.change = 1);
-      this.$route.params.type === '政策计算器' && (this.change = 0);
-      this.$route.params.type === '政策匹配' && await this.getpolicyMatchTagsGet(); */
-      this.getPolicyList();
-    }, 
+        if(this.$route.params.type === '政策计算器') {
+          this.change = 0;
+          this.getCulPolicyList();
+        } else if(this.$route.params.type === '政策匹配') {
+          this.change = 0;
+          this.getpolicyMatchTagsGet()
+        }
+    },
     methods: {
       changePolicy() {
-        debugger;
         this.change = 1;
         this.getPolicyList();
       },
@@ -246,30 +298,74 @@
           url: `${policyMatchTagsGet}`,
           method: "GET",
           params: {
-            companyid: this.userId,
+            companyid: window.localStorage.getItem('USERID')
           }
-        }).then(({data}) => {
-          this.data_selection = Object.keys(data).map(e => {
+        }).then(async ({data}) => {
+          await this.$store.dispatch(
+            "data/setSelection",
+            _.cloneDeep(Object.keys(this.policyCalculate).filter(e => data[e]).map(e => {
             return {
               type: e,
               label: data[e]
             }
-          });
-          this.getPolicyList(this.data_selection);
+          }))
+          );
+          this.getPolicyList();
         });
+      },
+      getCulPolicyList() {
+        this.selectedOptions = window.localStorage.getItem('cul-detail-options') ? JSON.parse(window.localStorage.getItem('cul-detail-options')): [];
+        let data = {};
+        this.selectedOptions.forEach(res => {
+          data[res.type] = data[res.type] ? data[res.type] : [];
+          data[res.type].push(res.value);
+        });
+        var axios = require("axios");
+        var config = {
+          method: "post",
+          url: `${policyMatchCount}`, //上传图片地址
+          data: data
+        };
+        axios(config)
+        .then(({data}) => {
+          // this.$route.params.type === '政策匹配' && (this.selectedOptions = []);
+          this.loading = false,
+          this.realPolicyList = data.data.dataList;
+          this.smartPolicyList = _.cloneDeep(data.data.dataList);
+          this.listLength = this.realPolicyList.length;
+          this.policyList = data.data.dataList.slice(0,5);
+          this.price = data.data.dataPlant;
+          // 发布时间排序
+          this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
+          // 按奖金排序
+          this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+        });
+/*         request({
+            url: `${policyMatchCount}`,
+            method: 'post',
+            data
+        }).then(res => {
+          // this.$route.params.type === '政策匹配' && (this.selectedOptions = []);
+          this.loading = false,
+          this.realPolicyList = res.data.dataList;
+          this.policyList = res.data.dataList.slice(0,5);
+          this.price = res.data.dataPlant;
+          // 发布时间排序
+          this.siftIndex === 1 && this.sortTime();
+          // 按奖金排序
+          this.siftIndex === 2 && this.sortMoney();
+        }); */
       },
       getPolicyList(val) {
           this.loading = true;
           let that = this;
           // if(this.$route.params.type === '政策计算器') {
-           this.selectedOptions = val || this.data_selection.length >= 1 ? this.data_selection :
-            window.localStorage.getItem('selection-detail') ? JSON.parse(window.localStorage.getItem('selection-detail')): [];
+           this.selectedOptions = window.localStorage.getItem('selection-detail') ? JSON.parse(window.localStorage.getItem('selection-detail')): [];
             that.selectedOptions.forEach(res => {
               that.policyCalculate[res.type] = res.label || that.policyCalculate[res.type];
              });
           // };
           let tagData = {
-            ...JSON.parse(window.localStorage.getItem('entTags')),
             ...that.policyCalculate,
           };
           request({
@@ -284,8 +380,14 @@
             // this.$route.params.type === '政策匹配' && (this.selectedOptions = []);
             that.loading = false,
             that.realPolicyList = res.data.dataList;
+            that.listLength = that.realPolicyList.length;
             that.policyList = res.data.dataList.slice(0,5);
+            that.smartPolicyList = _.cloneDeep(res.data.dataList);
             that.price = res.data.dataPlant;
+            // 发布时间排序
+            this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
+            // 按奖金排序
+            this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
           });
       },
       check(index) {
@@ -303,26 +405,41 @@
       inputConfirm(val) {
         if(this.timer) clearTimeout(this.timer);
         this.timer = setTimeout(() => {
+          let sortMoney = 0;
           if(val === '') {
-            this.policyList = this.realPolicyList.slice(0,5);
+            this.sortSmart();
+            this.realPolicyList.forEach(e => {
+              sortMoney += Number(e.policyMaxMoney);
+            });
+            this.listLength = this.realPolicyList.length;
+            this.price = sortMoney;
           } else {
-            this.policyList = this.policyList.filter(e => e.policyTitle.includes(val));
+            this.realPolicyList = this.realPolicyList.filter(e => e.policyTitle.includes(val));
+            this.sortList();
+            this.realPolicyList.forEach(e => {
+              sortMoney += Number(e.policyMaxMoney);
+            });
+            this.listLength = this.realPolicyList.length;
+            this.price = sortMoney;
           }
         }, 1000);
       },
       search() {},
       handleSizeChange(val) {
         this.pageSize = val;
-        let prePage = this.pageSize*(this.pageNum - 1) > this.realPolicyList.length ? 0 : this.pageSize*(this.pageNum - 1);
-        let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
-        this.policyList = this.realPolicyList.slice(prePage, nextPage);
-        console.log(`每页 ${val} 条`);
+        this.sortList();
+        // 发布时间排序
+        this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
+        // 按奖金排序
+        this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
       },
       handleCurrentChange(val) {
         this.pageNum = val;
-        let prePage = this.pageSize*(this.pageNum - 1);
-        let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
-        this.policyList = this.realPolicyList.slice(prePage, nextPage);
+        this.sortList();
+        // 发布时间排序
+        this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
+        // 按奖金排序
+        this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -333,6 +450,33 @@
       },
       selectSift(index) {
         this.siftIndex = index;
+        // 智能
+        this.siftOptions[this.siftIndex].label=== '智能排序' && this.sortSmart();
+        // 发布时间排序
+        this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
+        // 按奖金排序
+        this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+      },
+      sortList() {
+        let prePage = this.pageSize*(this.pageNum - 1) > this.realPolicyList.length ? 0 : this.pageSize*(this.pageNum - 1);
+        let nextPage = this.pageSize*this.pageNum > this.realPolicyList.length? this.realPolicyList.length : this.pageSize*this.pageNum;
+        this.policyList = this.realPolicyList.slice(prePage, nextPage);
+      },
+      sortSmart() {
+        this.realPolicyList = _.cloneDeep(this.smartPolicyList);
+        this.sortList();
+      },
+      sortTime() {
+        this.realPolicyList.sort((a, b) => {
+          return a.policyTime < b.policyTime ? 1 : -1
+        });
+        this.sortList();
+      },
+      sortMoney() {
+        this.realPolicyList.sort((a, b) => {
+          return b.policyMaxMoney - a.policyMaxMoney;
+        });
+        this.sortList();
       },
       select(index) {
         // Vue.set(vm.obj, propertyName, newValue);
@@ -375,18 +519,23 @@
       width: 100%;
       height: 442px;
       background-size: cover;
-      background-image: url('../../images/policy-match-bg.png');
+      background-image: url('http://minio.bjwcxf.com/cultural-image/cultural-web/policy-match-bg.png');
     }
     .policy-match-container {
+      @media screen and (max-width: 922px) {
+        width: 100%;
+        margin: 0;
+      }
       max-width: 1440px;
       margin-top: 31px;
       margin-left: 70px;
       margin-right: 70px;
       margin-bottom: 60px;
       .policy-total {
-        height: 340px;
+        height: 380px;
         width: 1300px;
         background-image: url('../../images/match-total.png');
+        background-size: 100% 100%;
         &-content {
             display: flex;
             justify-content: flex-end;
@@ -418,15 +567,16 @@
         &-footer {
             display: flex;
             justify-content: space-between;
-            margin: 24px 10px 0px 10px;
+            align-items: center;
+            height: 140px;
+            margin: 0px 10px 0px 10px;
             .select-btn {
                 display: flex;
                 align-items: baseline;
-                margin-bottom: 31px;
+                // margin-bottom: 31px;
                 .title {
                     font-size: 20px;
                     font-family: AlibabaPuHuiTiR;
-                    padding-top: 10px;
                     color: #212121;
                     margin-right: 20px;
                 }
@@ -434,9 +584,15 @@
                     display: flex;
                     // grid-template-columns: repeat(9, 86px);
                     // grid-gap: 10px 15px;
+                    max-width: 800px;
+                    flex-wrap: wrap;
+                    display: flex;
                     cursor: pointer;
                     div {
                       margin-right: 5px;
+                    }
+                    .select-item-el {
+                      margin-bottom: 5px;
                     }
                 }
                 .button-new-tag {
@@ -449,6 +605,7 @@
             .policy-calculate {
                 width: 160px;
                 height: 45px;
+                margin-right: 10px;
                 background: #D99447;
                 border-radius: 23px;
                 font-size: 16px;
@@ -478,7 +635,6 @@
             display: flex;
             align-items: center;
             font-size: 20px;
-            font-family: CKTKingKong;
             color: #000000;
             line-height: 35px;
             // margin-bottom: 17px;
@@ -506,12 +662,20 @@
               justify-content: space-between;
               width: 100%;
               margin-left: 20px;
+              padding:18px 0px;
+              border-right: solid 0.1px rgba(125, 125, 125, 0.3);
               .title {
                 font-size: 22px;
+                @media screen and (max-width: 922px) {
+                  font-size: 10px;
+                }
               }
               .tag-block {
                 display: flex;
                 font-size: 12px;
+                @media screen and (max-width: 922px) {
+                  display: none;
+                }
                 color: #fff;
                 .tag-item {
                   padding: 0px 8px;
@@ -525,6 +689,12 @@
                 .location {
                   background: #D99447;
                 }
+                .aaa {
+                  background: #67c23a;
+                }
+                .bbb {
+                  background: gray;
+                }
                 .process-1 {;
                   background: #00A870;
                 }
@@ -534,10 +704,12 @@
               }
               .content {
                 color: rgb(151,151,151);
+                // margin-top: 10px;
                 // font-size: 18px;  
               }
               .footer {
-                color: rgb(151,151,151);
+                // margin-top: 10px;
+                color: rgb(151,151,151);           
               }
             }
             // .center {
@@ -565,6 +737,7 @@
             .footer {
               display: flex;
               font-size: 14px;
+              align-items: center;
               .address {
                 flex: 0.6
               }

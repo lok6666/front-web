@@ -119,6 +119,9 @@ div:focus {
         display: none;
       }
     }
+    .text {
+      font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;
+    }
     .select-btn {
       // display: flex;
       display: grid;
@@ -207,6 +210,14 @@ div:focus {
   .code-btn {
     position: relative;
     top: 10px;
+    right: 5px;
+    font-size: 16px;
+    font-family: AlibabaPuHuiTiR;
+    color: #009AFF;
+  }
+  .imgCode-btn {
+    position: relative;
+    top: 3px;
     right: 5px;
     font-size: 16px;
     font-family: AlibabaPuHuiTiR;
@@ -306,5 +317,87 @@ div:focus {
         margin: 0 15px;
       }
     }
+  }
+}
+.vip-dialog {
+  .type-label {
+    background-color: rgba(242,242,242, 0.5) !important;
+    // border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+  .big-content {
+    background-color: rgba(242,242,242, 0.5) !important;
+    width: 120px;
+  }
+  .type-content {
+    background-color: rgba(242,242,242, 0.5) !important;
+    width: 250px;
+  }
+  .other-label {
+    background-color: #ddebf7 !important;
+  }
+  .other-content {
+    background-color: #ddebf7 !important;
+  }
+  .baseContent {
+    width: 200px;
+  }
+  .is-bordered-label {
+    text-align: center !important;
+    font-size: 20px;
+    font-weight: bolder !important;
+    color: #666;
+    // background-color: #fff !important;
+    // border: rgba(0, 0, 0, 0.1);
+  }
+  .el-descriptions-item__cell {
+    padding: 0px 0px !important;
+    background: #fff;
+  }
+  .width-100 {
+    width: 50%;
+  }
+  
+  .height-21 {
+    height: 21px;
+  }
+  .height-42 {
+    height: 42px;
+  }
+  .height-63 {
+    height: 65px;
+  }
+  .height-84 {
+    height: 84px;
+  }
+  .height-105 {
+    height: 105px;
+  }
+  .height-126 {
+    height: 126px;
+  }
+  .height-147 {
+    height: 150px;
+  }
+  .border-bottom {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .border-top {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .border-right {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .border-left {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .flex-1 {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+  }
+  .flex-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

@@ -23,12 +23,12 @@
           <!-- <iframe style="width: 100%; height: 1000px;border: none;" src="https://wwo.wps.cn/office/w/2c9ebac580c36fc50183ca284d771141?_w_userid=3&_w_filetype=db&_w_filepath=%E7%A9%BA%E6%96%87%E6%A1%A3.docx&_w_appid=5b8f173bd752464d81b7aa78001c697f&_w_redirectkey=123456&_w_signature=enR248IrgRS1JbWCRfwDC3IDJJA%3D" /> -->
       </el-dialog>
       <div class="policy-search-bg"></div>
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 70px; margin-top: 20px;margin-bottom: 49px;">
+      <div class="new-container">
+        <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 70px; margin-top: 20px;margin-bottom: 49px;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>最新政策</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/policy-search' }">最新政策</el-breadcrumb-item>
           <el-breadcrumb-item>政策信息</el-breadcrumb-item>
       </el-breadcrumb>
-      <div class="new-container">
         <div class="side-left">
             <div class="content">
                 <div class="content-header">
@@ -37,15 +37,15 @@
                     <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
                     <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
                   </div> -->
-                  <div 
+        <!--           <div 
                   v-if="$route.params.artId.replace(':artId=', '') === '11611'"
                   style="font-size: 14px;display: flex;align-items: center;justify-content: center;width: 100px;height: 40px;background: #B48859;border-radius: 10px;" @click="applyPolicy()">
                   <img style="width: 10px;height:10px;" src="../../images/policy-apply.png"/>
-                  申报政策</div>
+                  申报政策</div> -->
                 </div> 
                 <div class="title">{{policyDetail.policyTitle}}</div>
                 <div style="margin-bottom: 20px;float: right;width: 100%;display: flex;justify-content: space-between;padding-right: 30px;"><span>发文机构:{{policyDetail.policySource}}</span>
-                    <span>发布日期:{{policyDetail.policyTime}}</span>
+                    <span>发布日期:{{policyDetail.policyTime.substring(0, 10)}}</span>
                 </div>
                 <div class="content-center" v-html="policyDetail.policyContent.replace('扫一扫在手机打开当前页', '')"></div>
                   <div class="desc">
@@ -71,9 +71,9 @@
                     <div class="opration-block policy-opration-collage"><img src="../../images/policy-collage.png"/>收藏本政策</div>
                     <div class="opration-block policy-opration-share"><img src="../../images/policy-share.png"/>分享本政策</div>
                   </div> -->
-                  <div 
+                  <!-- <div 
                   v-if="$route.params.artId.replace(':artId=', '') === '11611'"
-                  class="opration-block policy-opration-apply" @click="applyPolicy()"><img src="../../images/policy-apply.png"/>申报政策</div>
+                  class="opration-block policy-opration-apply" @click="applyPolicy()"><img src="../../images/policy-apply.png"/>申报政策</div> -->
                 </div> 
             </div>
         </div>
@@ -252,22 +252,33 @@
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
     .new-container {
-      background: #fff;
-      width: 100%;
-      box-sizing: border-box;
-      margin: 0 auto;
-      margin-bottom: 104px;
-      max-width: $ContentContainerW;
-      position: relative;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
+      // background: #fff;
+      // width: 100%;
+      // box-sizing: border-box;
+      // margin: 0 auto;
+      // margin-bottom: 104px;
+      // max-width: $ContentContainerW;
+      // position: relative;
+      // display: flex;
+      // align-items: flex-start;
+      // justify-content: center;
       //top: 36px;
       padding: 0px 196px;
       @media screen and (max-width: 960px) {
         margin-top: 0;
       }
       .side-left {
+        background: #fff;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+        margin-bottom: 104px;
+        max-width: $ContentContainerW;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0px 106px;
         .content {
             .content-header {
                 // margin-bottom: 25px;

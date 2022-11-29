@@ -7,9 +7,11 @@
     :visible="login_visible"
     :close-on-click-modal="true"
     :lock-scroll="false"
+    :append-to-body="true"
   >
-    <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;"/>
-    <h2>
+    <div>
+      <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;custor: pointer"/>
+      <h2>
       <img src="../../images/nobgcolor-wtlogo.png"/>
       <div>
         <span
@@ -37,7 +39,7 @@
     </el-input>
     <el-button style="background: #D99447;border-radius: 30px;border: none;" type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p class="tip">
-      <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox>
+      <!-- <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox> -->
       <span class="active btn" :class="{ right: active === 0 }" @click="forgetClick">忘记密码</span>
     </p>
     <p style="clear: both;">
@@ -47,6 +49,7 @@
         <span class="btn" @click="privacy">隐私政策</span>
       </span>
     </p>
+    </div>
     <!-- <div class="third-login">
       <p class="name">社交账号登录</p>
       <div class="icon-box">
@@ -111,7 +114,8 @@ export default {
     bClose() {
       this.code = ''
       this.active = 0
-      this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$store.commit('login/CHANGE_VISIBLE', false);
+      location.href.includes('policy-match') && this.$router.push('/');
     },
 
     // tab切换

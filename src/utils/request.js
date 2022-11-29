@@ -2,7 +2,14 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getAccessToken } from '@/utils/auth'
+const errorType = (code) => {
+  if(code.startsWith('30')) {
+    return 'warning';
+  } else {
+    return 'error';
+  }
 
+};
 // 创建 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -57,7 +64,7 @@ service.interceptors.response.use(
         // 其他
         Message({
           message: res.msg || 'Error',
-          type: 'error',
+          type: errorType(String(res.code)),
           duration: 5 * 1000
         })
       }

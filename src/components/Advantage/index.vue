@@ -20,7 +20,6 @@
             </div>
         </div>
         <div class="wrap-desc">
-          111111111111111111111111111111
         </div>
       </li> -->
     </transition-group>

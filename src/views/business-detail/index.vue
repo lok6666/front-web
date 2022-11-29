@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import request from '@/utils/request';
@@ -92,6 +93,7 @@ export default {
   data() {
     return {
       categoryId: 0,
+      messageForm3,
       messageForm: messageForm3,
       busniessLogo,
       tagList : ["国有企业","物联网", "文化产业", "大数据",  "高新技术企业", "瞪羚企业", "专精特新企业", "文化科技融合", "语音通信","中小微企业"],
@@ -116,6 +118,43 @@ export default {
       return val;
     },
   },
+  watch: {
+      $route: {
+        handler: function(val, oldVal){
+          val.path.includes('business-detail') && this.getEntInfo();
+          val.path.includes('business-detail') && this.getpolicyMatchTagsGet();
+          val.path.includes('business-detail') && request({
+            url: `${entPropagateGetById}`,
+            method: 'get',
+            params: {
+              entId: `${this.$route.params.id.replace(':id=', '')}`
+            }
+          })
+          .then(({data}) => {
+            //如果未添加宣传资料
+            if(!data) {
+              this.$messageBox({
+                title: '温馨提示',
+                center: true,
+                message: '请点击个人中心添加宣传资料',
+                showConfirmButton: false,
+                beforeClose:(action, instance, done) => {
+                  this.$router.push('user/info');
+                  done();
+                }
+              })
+            } else {
+              this.busneissMessage = _.cloneDeep(data);
+              if(data.honorImg) {
+                this.excellentBusniessList = JSON.parse(data.honorImg);
+              };
+            }
+          });
+        },
+        // 深度观察监听
+        deep: true
+      }
+    },
   async created() {
     let that = this;
     this.getEntInfo();
@@ -136,12 +175,12 @@ export default {
             message: '请点击个人中心添加宣传资料',
             showConfirmButton: false,
             beforeClose:(action, instance, done) => {
-              this.$router.push('/user/info');
+              this.$router.push('/user');
               done();
             }
           })
         } else {
-          that.busneissMessage = {...data};
+          that.busneissMessage = _.cloneDeep(data);
           if(data.honorImg) {
             that.excellentBusniessList = JSON.parse(data.honorImg);
           };
@@ -164,6 +203,7 @@ export default {
         }
       }).then(({data}) => {
         //todo 后面封装
+        this.messageForm = this.messageForm3;
           this.messageForm = data ? this.messageForm.map((e, b) => {
           let result = { ...e };
             result[e.prop] = data[e.prop] ? data[e.prop] : result[e.prop];
@@ -173,17 +213,18 @@ export default {
     },
     // 初始化
     getEntInfo() {
-        let that = this;
+      let that = this;
         request({
           url: `${entInfoGetById}`,
           method: 'get',
           params: {
-            entId: `${that.$route.params.id.replace(':id=', '')}`,
+            entId: `${this.$route.params.id.replace(':id=', '')}`,
             incomeMonth: '1-12月',
             incomeYear: '2021'
           }
         }).then(({data}) => {
-          that.busneissMessage2 = {...data};
+          that.busneissMessage2 = data;
+          that.busneissMessage2 = _.cloneDeep(this.busneissMessage2);
         });
       },
   },
@@ -317,34 +358,34 @@ export default {
           background: #f5a623;
         }
         .item-block-4 {
-          background: #d0021b;
+          background: #4B0082;
         }
         .item-block-5 {
-          background: #038f6e;
+          background: #191970;
         }
         .item-block-6 {
-          background: #f5a623;
+          background: #8B0000;
         }
         .item-block-7 {
-          background: #d0021b;
+          background: #B0E0E6;
         }
         .item-block-8 {
-          background: #f5a623;
+          background: #D2691E;
         }
         .item-block-9 {
           background: #d0021b;
         }
         .item-block-10 {
-          background: #f5a623;
+          background: #778899;
         }
         .item-block-11 {
-          background: #d0021b;
+          background: #2F4F4F;
         }
         .item-block-12 {
-          background: #f5a623;
+          background: #FA8072;
         }
         .item-block-13 {
-          background: #d0021b;
+          background: #FF00FF;
         }
       }
     }

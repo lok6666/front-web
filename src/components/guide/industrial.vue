@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         产品大厅
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
       </div>
@@ -89,6 +89,7 @@ export default {
           width: 310px;
           height: 130px;
           background: #FFFFFF;
+          cursor: pointer;
           border-radius: 20px;
           margin-right: 20px;
           margin-bottom: 20px;
@@ -105,30 +106,10 @@ export default {
               background-size: 100% 100%;
               margin-left: 19px;
               margin-right: 10px;
-              &-0 {
-                background-image: url("../../images/商标.png");
-              }
-              &-1 {
-                background-image: url("../../images/著作权.png");
-              }
-              &-2 {
-                background-image: url("../../images/专利.png");
-              }
-              &-3 {
-                background-image: url("../../images/政治资质.png");
-              }
-              &-4 {
-                background-image: url("../../images/财税.png");
-              }
-              &-5 {
-                background-image: url("../../images/财税.png");
-              }
-              &-6 {
-                background-image: url("../../images/财税.png");
-              }
             }
         }
         &-more {
+           color: #fff;
            background-image: url("../../images/查看更多按钮.png")
         }
     }

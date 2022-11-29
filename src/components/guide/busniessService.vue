@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         企业服务
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
       </div>
@@ -21,7 +21,7 @@
               <div class="busniess-service-block-desc">省心的合法合规雇佣帮手</div>
             </div>
           </div>
-          <div class="r-bottom" @click="$router.push('friend-link')">
+          <div class="r-bottom" style="cursor: pointer;" @click="$router.push('friend-link')">
               <div>行业培训</div>
               <div style="font-size: 26px;">专业的企业精英商学院</div>
           </div>
@@ -68,7 +68,7 @@ export default {
           justify-content: center;
           background-repeat: no-repeat;
           background-size:100% 100%;
-          background-image: url("../../images/培训中心.png");
+          background-image: url("http://minio.bjwcxf.com/cultural-image/cultural-web/培训中心.png");
         }
         .r-top {
           width: 100%;
@@ -94,11 +94,11 @@ export default {
             }
           }
           .finance {
-            background: url("../../images/金融服务.png");
+            background: url("http://minio.bjwcxf.com/cultural-image/cultural-web/index-金融服务.png");
             justify-content: flex-end;
           }
           .manage {
-            background: url("../../images/管家服务.png");
+            background: url("http://minio.bjwcxf.com/cultural-image/cultural-web/index-管家服务.png");
             justify-content: flex-end;
           }
         }

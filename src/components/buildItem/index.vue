@@ -10,20 +10,20 @@
             :style="`background-image: url(${loan.buildingImages});background-size: 100% 100%;`"
           >
             <div style="flex: 0.6;font-size: 24px;"> </div>
-            <div style="font-size: 18px;font-family: AlibabaPuHuiTiR;">
-              {{ loan.buildingName }}
-            </div>
             <div style="font-size: 34px;">{{ loan.serviceRange }}</div>
           </div>
           <div class="item-content">
+            <div class="limit" style="font-family: AlibabaPuHuiTiB;font-size: 20px;margin-top: 10px;">{{ loan.buildingName }}</div>
             <div class="bank">
  <!--              <div
                 class="bankBg"
                 :style="`background-image: url(${loan.serviceImages})`"
               ></div> -->
-              <div class="limit">地址:{{ loan.buildingAddress }}</div>
-              <div class="limit">租金:<div class="item-num">{{ loan.buildingRent }}</div></div>
-              <div class="limit">面积:{{ loan.buildingArea }}㎡</div>
+              <div class="limit">租金:&nbsp;<div class="item-num">{{ loan.buildingRent }}</div>&nbsp;元/天·㎡</div>
+              <div class="limit">面积:&nbsp;{{ loan.buildingArea }} ㎡</div>
+                <el-tooltip effect="dark" :content="loan.buildingAddress" placement="top-start">
+                  <div class="limit" style="margin-bottom: 10px;width: 216px;line-height: 21px;">地址:&nbsp;{{loan.buildingAddress.substring(0, 10)}}...</div>        
+                </el-tooltip>
             </div>
             <div class="bank-detail" @click="detail(loan, index)">查看详情</div>
 <!--             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;width: 100%;padding: 0 10px;margin-top: 20px;">
@@ -109,7 +109,7 @@ grid-gap: 20px 20px;
         display: flex;
         align-items: flex-start;
         flex-direction: column;
-        height: 164px;
+        height: 133px;
         justify-content: center;
         width: 100%;
         padding-left: 51px;
@@ -126,7 +126,7 @@ grid-gap: 20px 20px;
         }
     }
     .item-num {
-        font-size: 20px;
+        font-size: 18px;
         font-family: AlibabaPuHuiTiR;
         color: #d0021b;
         display: inline;
@@ -136,6 +136,7 @@ grid-gap: 20px 20px;
         height: 53px;
         border-radius: 50px;
         border: 2px solid #b48859;
+        cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;

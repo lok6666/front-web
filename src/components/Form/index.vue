@@ -64,7 +64,12 @@
             :key="i.value"
             :label="i.label"
             :value="i.value"
-          />
+          >
+          <div style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{i.label}}</div>
+ <!--          <el-tooltip effect="dark" :content="i.label" placement="top-start">
+            <div style="text-overflow: ellipsis;width: 40px;overflow: hidden;white-space: nowrap;">{{i.label}}</div>
+          </el-tooltip> -->
+          </el-option>
         </el-select>
         <el-checkbox-group v-model="item[item.prop]" v-if="item.showCheckbox">
           <el-checkbox
@@ -355,8 +360,6 @@
     // 提交表单
     async submitForm(formName) {
       let formData = this.formData;
-      debugger;
-      console.log('submitForm---');
       if (await this.validateForm(this.$refs.formRef)) {
         this.formConfig.forEach((v) => {
           formData[v.prop] = v[v.prop];

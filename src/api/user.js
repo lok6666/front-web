@@ -57,6 +57,7 @@ export async function getUserInfo(token) {
     registTimes: result.data.registTimes,
     hits: result.data.hits,
     policyCount: result.data.policyCount,
+    entLevel: result.data.entLevel,
     serviceCount: result.data.serviceCount
   }));
   result.roles = ["ordinary"];

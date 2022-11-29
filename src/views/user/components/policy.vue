@@ -5,7 +5,14 @@
             <div class="user-policy-content-list">
                 <div class="user-policy-content-list-item" v-for="(item, index) in newList" :key="index">
                     <p class="user-policy-content-list-title">{{item.messageContent}}</p>
-                    <p class="user-policy-content-list-time">{{item.messageTime}}</p>
+                    <div class="user-policy-content-list-time">
+                      <div style="display: flex;
+    align-items: center;
+    justify-content: center;width: 100px;text-align: left;">{{item.messageTime.substring(0, 10)}}</div>
+                      <div style="display: flex;
+    align-items: center;
+    justify-content: center;width: 85px;text-align: left;">{{item.messageTime.substring(11, 19)}}</div>
+                    </div>
                 </div>
             </div>
       </div>
@@ -51,7 +58,7 @@ export default {
       data: {
         entId: `${this.userId}`
     }}).then(res => {
-      that.newList = res.data.list;
+      that.newList = res.data.list.splice(0, 6);
     });
   },
   methods: {
@@ -100,8 +107,10 @@ export default {
                 // text-overflow:ellipsis;
             }
             &-time {
+              font-family: 'AlibabaPuHuiTiR';
                 font-weight: 300;
                 color: #A23C3C;
+                display: flex;
                 -webkit-background-clip: text;
             }
         }

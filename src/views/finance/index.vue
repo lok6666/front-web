@@ -10,7 +10,7 @@
         <div v-for="(btn, index) in btnList" :key="index">
           <el-button
             class="button-new-tag "
-            :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+            :class="[btn.isSelect ? 'button-new-tag-select' : 'button-new-tag-not-select']"
             size="small"
             @click="select(index)"
             >{{ btn.message }}</el-button
@@ -62,13 +62,8 @@ export default {
       categoryId: 0,
       minRate: '',
       maxRate: '',
-      serviceBank: '',
+      serviceBank: [],
       btnList: [
-        {
-          message: "不限",
-          value: '',
-          isSelect: false,
-        },
         {
           message: "建设银行",
           value: '建设银行',
@@ -102,7 +97,8 @@ export default {
         url: `${financialServicesAll}`,
         method: 'post',
         data: {
-          serviceBank: this.serviceBank
+          serviceFlag: 1,
+          serviceTypes: this.serviceBank
         }
       })
       .then((res) => {
@@ -110,7 +106,16 @@ export default {
       })
     },
     select(index) {
-      this.serviceBank = this.btnList[index].value;
+/*       this.btnList = this.btnList.map(e=> {
+        e.isSelect = false;
+        return e;
+      }); */
+      this.btnList[index].isSelect = !this.btnList[index].isSelect;
+      if(this.serviceBank.indexOf(this.btnList[index].value) > -1) {
+        this.serviceBank.splice(this.serviceBank.indexOf(this.btnList[index].value), 1);
+      } else {
+        this.serviceBank.push(this.btnList[index].value);
+      }
       this.getFinancialServicesAll();
     },
     detail(index) {
@@ -144,7 +149,7 @@ export default {
     width: 100%;
     height: 442px;
     background-size: cover;
-    background-image: url('../../images/finance-bg.png');
+    background-image: url('http://minio.bjwcxf.com/cultural-image/cultural-web/金融服务.png');
   }
   @media screen and (max-width: 922px) {
     padding: 0;
@@ -169,8 +174,13 @@ export default {
       }
       .button-new-tag-select {
         border-radius: 5px;
-        background: #D99447;
+        color: #409EFF;
+        background: #ecf5ff;
         border: 1px solid rgba(0,0,0,0);
+      }
+      .button-new-tag-not-select {
+        color: rgb(96, 98, 102);
+        background: #fff;
       }
     }
   }

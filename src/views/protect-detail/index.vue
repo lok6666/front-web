@@ -59,7 +59,7 @@ export default {
       authorization: getAccessToken(),
       applydialogVisible: false,
       applyMessageForm2,
-      busneissData: null,
+      busneissData: {},
       userinfo: window.localStorage.getItem('userinfo'),
       list: [{
         message: '⼊驻天猫京东等电商⽹站必须要有商标资质'
@@ -72,8 +72,13 @@ export default {
       }]
     };
   },
-  created() {
-    this.busneissData = JSON.parse(window.localStorage.getItem('busneiss-detail'));
+  watch: {
+    $route: {
+      handler:function (newName, oldName) {
+        this.busneissData = JSON.parse(window.localStorage.getItem('busneiss-detail'));
+        this.authorization = getAccessToken();
+      }
+    }
   },
   computed: {
     orderBy() {
@@ -84,7 +89,9 @@ export default {
 
   mounted() {
   },
-
+  created() {
+    this.busneissData = JSON.parse(window.localStorage.getItem('busneiss-detail'));
+  },
   methods: {
     closeDialog(done) {
       this.applydialogVisible = false;

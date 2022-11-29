@@ -5,21 +5,21 @@
       <div>产品大厅</div>
     </div>
     <div class="finance-container">
-      <div style="margin: 36px 60px;">
+      <div>
          <div class="select-btn">
           <div>产品类目:</div>
           <div v-for="(btn, index) in serviceList" :key="index">
             <el-button
               class="button-new-tag "
-              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+              :class="[btn.isSelect ? 'button-new-tag-select' : 'button-new-tag-not-select']"
               size="small"
-              @click="select(index, 'serviceType', btn.value)"
+              @click="select(index, 'serviceList', btn.value)"
               >{{ btn.message }}</el-button
             >
           </div>
         </div>
         <div class="select-btn">
-          <div>产品标题</div>
+          <div>产品名称:</div>
           <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)"></el-input>
          <!--  <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
           <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input> -->
@@ -75,6 +75,7 @@ import { getAccessToken } from "@/utils/auth";
 import loanBg1 from "../../images/loan-card-header1.png";
 import bank1 from "../../images/bank1.png";
 import AppHeader from "@/components/Header/index";
+import { MessageBox, Message } from 'element-ui'
 // import protect from "./components/protect.vue";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
@@ -82,24 +83,20 @@ export default {
   name: "User",
   data() {
     return {
+      userId: window.localStorage.getItem('USERID'),
       inputValue: '',
       minValue: '',
       maxValue: '',
       value2: '',
       categoryId: 0,
-      serviceType: '',
+      serviceType: [],
       startTime: '',
       endTime: '',
       timer: null,
       timer1: null,
       serviceName: '',
       excellentBusniessList: [],
-      serviceList: [
-        {
-          message: "不限",
-          isSelect: false,
-          value: ''
-        },
+      serviceList: !window.localStorage.getItem('userinfo') ? [
         {
           message: "知识产权",
           isSelect: false,
@@ -124,6 +121,47 @@ export default {
           message: "政府补贴",
           isSelect: false,
           value: 4
+        },
+        {
+          message: "数字科技",
+          isSelect: false,
+          value: 6
+        },
+      ]: [
+        {
+          message: "知识产权",
+          isSelect: false,
+          value: 0
+        },
+        {
+          message: "资质认定",
+          isSelect: false,
+          value: 1
+        },
+        {
+          message: "工商业务",
+          isSelect: false,
+          value: 2
+        },
+        {
+          message: "财税服务",
+          isSelect: false,
+          value: 3
+        },
+        {
+          message: "政府补贴",
+          isSelect: false,
+          value: 4
+        },
+        {
+          message: "数字科技",
+          isSelect: false,
+          value: 6
+        },
+        {
+          message: "企业服务包",
+          isSelect: false,
+          value: 5
         }
       ],
       timeList: [
@@ -176,7 +214,6 @@ export default {
   mounted() {},
   methods: {
     changeTitle(value) {
-      console.log('changeTitle', value);
       if(this.timer1) clearTimeout(this.timer1);
       this.timer1 = setTimeout(() => {
         this.serviceName = value;
@@ -196,16 +233,21 @@ export default {
         method: 'post',
         data: {
           serviceFlag: 1,
-          serviceType: this.serviceType,
+          serviceTypes: this.serviceType,
           startTime: this.startTime,
           endTime: this.startTime,
+          entId: this.userId,
           // servicePriceStart: this.minValue,
           // servicePriceEnd: this.maxValue,
           serviceName: this.minValue
         }
       })
       .then((res) => {
-          this.excellentBusniessList = res.data.list;
+        this.excellentBusniessList = res.data.list;
+      }).catch(e => {
+        // 后期可能统一登录
+        let userinfo = window.localStorage.getItem('userinfo');
+        !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
       })
     },
     updateHits(item) {
@@ -219,7 +261,7 @@ export default {
       });
     },
     select(index, type, value) {
-      if(type === 'time') {
+/*       if(type === 'time') {
         let ed = new Date();
         let sd = new Date(ed.getTime() - value*24*60*60*1000);
         this.endTime = ed.getTime()/1000;
@@ -228,6 +270,16 @@ export default {
         // this.startTime = `${sd.getFullYear()}-${sd.getMonth()}-${sd.getDate()} ${sd.getHours()}:${sd.getMinutes()}:${sd.getSeconds()}`;
       } else {
         this[type] = value;
+      } */
+/*       this[type] = this[type].map(e=> {
+        e.isSelect = false;
+        return e;
+      }); */
+      this[type][index].isSelect = !this[type][index].isSelect;
+      if(this.serviceType.indexOf(this[type][index].value) > -1) {
+        this.serviceType.splice(this.serviceType.indexOf(this[type][index].value), 1);
+      } else {
+        this.serviceType.push(this[type][index].value);
       }
       this.getEntServiceDockingList();
     },
@@ -275,7 +327,7 @@ export default {
     width: 100%;
     height: 442px;
     background-size: cover;
-    background-image: url('../../images/protectBg.png');
+    background-image: url('http://minio.bjwcxf.com/cultural-image/cultural-web/产品大厅.png');
   }
   .search {
     width: 100%;
@@ -301,6 +353,7 @@ export default {
       grid-template-columns: repeat(4, 310px);
       grid-gap: 20px 20px;
       &-item {
+        cursor: pointer;
         text-align: center;
         padding-bottom: 17px;
         border-radius: 8px;
@@ -333,8 +386,13 @@ export default {
       }
       .button-new-tag-select {
         border-radius: 5px;
-        background: #D99447;
+        background: #ecf5ff;
+        color: #409EFF;
         border: 1px solid rgba(0,0,0,0);
+      }
+      .button-new-tag-not-select {
+        color: rgb(96, 98, 102);
+        background: #fff;
       }
     }
   }

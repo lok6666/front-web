@@ -40,7 +40,7 @@
         >
           <swiper-slide v-for="(item, index) in swiperConfig3"  :key="index">
             <div v-bind:class="`swiper-bg swiper-slide-${index}`" :style="`background-image: url(${item.poster})`"></div>
-            <div class="swiper-desc">视频信息的文字介绍。</div>
+            <div class="swiper-desc">{{item.desc}}</div>
           </swiper-slide>
         </swiper>
       </div>
@@ -162,8 +162,8 @@ export default {
     color: #ffffff;
     width: 100%;
     height: 442px;
-    background-size: cover;
-    background-image: url("../../images/protectBg.png");
+    background-size: 100% 100%;
+    background-image: url("http://minio.bjwcxf.com/cultural-image/cultural-web/朗园Bg.png");
   }
   @import "~@/styles/variables";
   width: 100%;
@@ -185,6 +185,7 @@ export default {
       margin-top: 0;
     }
     .side-left {
+      padding-top: 20px;
       background: #000;
       flex: 1;
       border-radius: 2px;

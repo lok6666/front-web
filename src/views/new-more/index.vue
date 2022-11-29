@@ -4,7 +4,7 @@
       <div class="new-more-search-bg">
         <div style="display: flex;align-items: center;">{{message}}
         <div class="new-more-search-agile">
-        <div class="limit-desc">Comperehensive platf</div>
+        <div class="limit-desc">Comperehensive platform</div>
         Cultural industry
         </div>
         </div>
@@ -26,7 +26,7 @@
         <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">{{total}}</span>查询结果</div>
         <div v-for="(item, index) in contentList" :key="index" :class="`item-${index} new-more-search-container-item`" @click="detail(item)">
           <div class="message">{{item.title || item.policyTitle}}</div>
-          <div class="time">{{new Date(item.releaseDate || item.policyTime).getFullYear()}}-{{new Date(item.releaseDate || item.policyTime).getMonth() + 1 }}-{{new Date(item.releaseDate || item.policyTime).getDate()}}</div>
+          <div class="time">{{(item.releaseDate || item.policyTime).substring(0, 10)}}</div>
         </div>
         <div class="pagination-block">
           <el-pagination
@@ -57,7 +57,7 @@
     name: "User",
     data() {
       return {
-        pageSize: 10,
+        pageSize: 20,
         pageNum: 1,
         total: 0,
         title: '',

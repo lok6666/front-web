@@ -69,7 +69,7 @@ export const swiperConfig1 = [{
 }]
 export const swiperConfig3 = [{
   poster: 'http://lypark.bjwjly.com/images/1.jpg',
-  desc: '朗园简介',
+  desc: '开放式文化生活给广场',
   videoDesc: '郎园PARK位于北京市石景山上庄大街18号，位于长安街延长线上。距离地铁1号线八宝山站北150米，占地面积50亩，被誉为公园里的艺术园区。项目前身是石景山博古艺苑工艺品市场，由老旧市场结构保存良好古建筑5栋，四合院建筑9栋(90年代新建仿)组成。截止2019年6月，园区已累计举办各类文化艺术活动160场，以文化为抓手，以园区为载体，活化城市气质，灵动区域发展。成为北京市具有特色的文化商业街区、石景山区公共文化地标、京西城市生活新主场',
   time: '2022-9-3',
   videoSrc: mp4_ly_0,
@@ -77,7 +77,7 @@ export const swiperConfig3 = [{
   learnNum: '200'
 },{
   poster: 'https://img2.baidu.com/it/u=4211117004,1667061654&fm=253&fmt=auto&app=138&f=JPEG?w=812&h=500',
-  desc: '发展',
+  desc: '园区风采',
   videoDesc: '依托首创置业深耕25载、28城资源积累，紧跟国家战略，深耕城市文化运营 。首创文化x首创郎园所到之处让文化成为一座城市的灵魂。',
   time: '2022-9-3',
   videoSrc: mp4_ly_1,
@@ -85,7 +85,7 @@ export const swiperConfig3 = [{
   learnNum: '200'
 },{
   poster: 'https://img2.baidu.com/it/u=2726517479,3372507072&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=427',
-  desc: '书店之夜',
+  desc: '北京书店之夜',
   videoDesc: '第十八届“北京书店之夜”的胜利举办，将切实解决实体书店面临的实际困难，减轻疫情期间的经营压力，释放文化夜经济的潜能，延续北京国际图书节的品牌辨识度和活动影响力。',
   time: '2022-9-3',
   videoSrc: mp4_ly_2,
@@ -121,7 +121,7 @@ export const swiperConfig2 = [{
 {
   poster: "https://img2.baidu.com/it/u=2889916849,746349686&fm=253&fmt=auto&app=120&f=JPEG?w=741&h=500",
   desc: '首钢园大跳台',
-  videoDesc: "首钢滑雪大跳台,位于北京市石景山区首钢老工业园区北区，是北京2022年冬奥会自由式滑雪和单板滑雪比赛的场地;由赛道、裁判塔和看台区域三部分组成，共设置坐席6700个。",
+  videoDesc: "首钢滑雪大跳台，位于北京市石景山区首钢老工业园区北区，是北京2022年冬奥会自由式滑雪和单板滑雪比赛的场地;由赛道、裁判塔和看台区域三部分组成，共设置坐席6700个。",
   time: '2022-9-3',
   videoSrc: mp4_4,
   learnNum: '1200'

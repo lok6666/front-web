@@ -5,39 +5,23 @@
       <div>楼宇信息</div>
     </div>
     <div class="finance-container">
-<!--       <div class="select-btn">
-        <div>金融机构:</div>
-        <div v-for="(btn, index) in btnList" :key="index">
-          <el-button
-            class="button-new-tag "
-            :class="[btn.isSelect ? 'button-new-tag-select' : '']"
-            size="small"
-            @click="select(index)"
-            >{{ btn.message }}</el-button
-          >
-        </div>
-      </div> -->
-      <!-- <div class="select-btn">
-        <div>利率范围:</div>
-        <div>
-          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低利率" v-model="minRate" :inline="true"></el-input>-
-          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高利率" v-model="maxRate" :inline="true"></el-input>
+      <div>
+        <div class="select-btn">
+          <div>楼宇名称:</div>
+          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)"></el-input>
+         <!--  <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
+          <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input> -->
+          <div v-for="(btn, index) in priceList" :key="index">
+            <el-button
+              class="button-new-tag "
+              :class="[btn.isSelect ? 'button-new-tag-select' : '']"
+              size="small"
+              @click="select(index)"
+              >{{ btn.message }}</el-button
+            >
+          </div>
         </div>
       </div>
-      <div class="select-btn">
-        <div>贷款期限:</div>
-        <div>
-          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低期限" v-model="minRate" :inline="true"></el-input>-
-          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高期限" v-model="maxRate" :inline="true"></el-input>
-        </div>
-      </div>
-      <div class="select-btn">
-        <div>贷款额度:</div>
-        <div>
-          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最低额度" v-model="minRate" :inline="true"></el-input>-
-          <el-input style="width: 200px; margin-left: 10px;"  placeholder="最高额度" v-model="maxRate" :inline="true"></el-input>
-        </div>
-      </div> -->
       <buildItem :loanList="loanList"/>
     </div>
     <app-footer />
@@ -81,6 +65,8 @@ export default {
         }
       ],
       loanList: [],
+      buildingName: "",
+      minValue: "",
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
     };
   },
@@ -97,11 +83,19 @@ export default {
   },
   mounted() {},
   methods: {
+    changeTitle(value) {
+      if(this.timer1) clearTimeout(this.timer1);
+      this.timer1 = setTimeout(() => {
+        this.buildingName = value;
+        this.getbuildings();
+      }, 1000);    
+    },
     getbuildings() {
       request({
         url: `${buildings}`,
         method: 'post',
         data: {
+          buildingName: this.buildingName
         }
       })
       .then((res) => {

@@ -8,7 +8,7 @@
         <span class="new-more"  @click="routeTo2()">了解更多<div class="new-more-icon"></div></span>
       </div>
       <div class="new-content">
-            <img style="margin-right: 20px;width: 427px; height: 304px;" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.qianlong.com%2F2020%2F0130%2F1580357339358.jpg&refer=http%3A%2F%2Fupload.qianlong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1669445704&t=3352a2475f48ff56373077c6a53c99c5" alt="">
+            <img style="margin-right: 20px;width: 427px; height: 304px;" :src="indexImg" alt="">
             <div class="new-content-list">
                 <div class="new-content-list-item" @click="routeTo(item)" v-for="(item, index) in contentList" :key="index">
                     <span class="new-content-list-item-title">{{item.title || item.policyTitle}}</span>
@@ -32,6 +32,7 @@ export default {
         {message: '最新新闻', itemType: 'newList', isSelect: true},
         {message: '最新政策', itemType: 'newPolicyList', isSelect: false}
       ],
+      indexImg: '',
       message: '最新新闻',
       current: 1,
       newList: [],
@@ -54,6 +55,7 @@ export default {
     }).then(res => {
       that.newList = res.data.list;
       that.contentList = res.data.list;
+      this.indexImg = that.contentList[0].picture;
     });
     request({
       url: `${indexPolicyList}`,

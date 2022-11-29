@@ -19,10 +19,10 @@
         :disabled="false"/> 
       </el-dialog>
     <div class="policy-search-bg">楼宇详情</div>
-    <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
+<!--     <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>楼宇详情</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb> -->
     <div class="collage-container">
       <div class="side-left">
           <div class="left">
@@ -32,22 +32,38 @@
                   {{data_collagedetail.buildingName}}
                 </div>
                 <div style="width: 1050px;border: 1px solid #ccc;border-radius: 16px;display:flex;flex-direction:column">
-                  <div style="display:flex;flex-direction:row;padding:20px;">
+                  <div style="display:flex;flex-direction:row;padding-top: 5px;padding-left:10px;">
                     <img :src="data_collagedetail.buildingImages" style="height: 200px;width: 300px;margin-right: 10px;"/>
                     <div class="collage-message">
-                      <div>楼宇地址：{{data_collagedetail.buildingAddress}}</div>
-                      <div>楼宇面积：{{data_collagedetail.buildingArea}}㎡</div>  
-                      <div>楼宇租金：{{data_collagedetail.buildingRent}}万元/月</div>  
-                      <div>周边配套：{{data_collagedetail.buildingPeripheral}}</div>  
-                      <!-- <div>楼宇日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
-                      <div>楼宇时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>    -->
+                      <el-tooltip effect="dark" :content="data_collagedetail.buildingAddress" placement="top-start">
+                        <div style="text-overflow: ellipsis;width: 405px;overflow: hidden;white-space: nowrap;">楼宇地址：{{data_collagedetail.buildingAddress}}</div>
+                      </el-tooltip>
+                      <div>可租面积：{{data_collagedetail.buildingArea}} ㎡</div>  
+                      <div>楼宇总面积：{{data_collagedetail.buildingTotalArea}} ㎡</div>  
+                      <div>楼宇租金：{{data_collagedetail.buildingRent}} 元/天·㎡</div>
+ <!--                      <el-tooltip effect="light" :content="data_collagedetail.buildingPeripheral" placement="top-start">
+                        <div v-if="data_collagedetail.buildingPeripheral">周边配套：{{data_collagedetail.buildingPeripheral.substring(0, 18)}}...</div>
+                      </el-tooltip> -->
+                      <div v-if="data_collagedetail.activityDateFrom">楼宇日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
+                      <div v-if="data_collagedetail.activityDateFrom">楼宇时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>
                     </div>
-                    <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)" style="color: #fff;">
-                        <div style="margin: 5px 0px;">联系人：{{data_collagedetail.contactsPerson}}</div>
-                        <div>联系电话：{{data_collagedetail.contactsPhone}}</div>  
+                    <div class="block"  style="color: #fff;">
+                        <div v-if="authorization">
+                          <div style="margin: 5px 0px;">专属客服：{{data_collagedetail.contactsPerson}}</div>
+                          <div>联系电话：{{data_collagedetail.contactsPhone}}</div>
+                        </div>
+                        <div v-else style="display: flex;flex-direction: column;align-items: center;">
+                          <div>请登录查看联系方式</div>
+                        </div>
                       </div>
                   </div>
-                  <div class="collage-desc" style="padding: 0 20px">{{data_collagedetail.buildingInfo}}</div> 
+                  <div v-if="data_collagedetail.buildingInfo.length < 100" class="collage-desc" style="padding: 0 20px">{{data_collagedetail.buildingInfo.length > 100 ?  data_collagedetail.buildingInfo.substring(0, 100) + '...': data_collagedetail.buildingInfo}}     
+                      </div>
+                    <el-tooltip v-if="data_collagedetail.buildingInfo.length > 100" effect="dark" :content="data_collagedetail.buildingInfo" placement="top-start">
+                      <div slot="content" style="width: 700px;">{{data_collagedetail.buildingInfo}}</div>
+                      <div class="collage-desc" style="padding: 0 12px">{{data_collagedetail.buildingInfo.length > 100 ?  data_collagedetail.buildingInfo.substring(0, 100) + '...': data_collagedetail.buildingInfo}}     
+                      </div>
+                    </el-tooltip>
                 </div>       
               </div>
               <!-- <div class="teacher-desc">文化赋能</div> -->
@@ -61,7 +77,8 @@
               <h3>楼宇地点</h3>
               <!-- <img :src="data_collagedetail.activityImg" style="width: 380px; height: 456px;"/> -->
               <baidu-map class="map" :center="center" :zoom="15">
-                <bm-marker :position="center" :dragging="true" @click="infoWindowOpen" :scroll-wheel-zoom="true">
+                <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+                <bm-marker  :icon="{url: 'http://minio.bjwcxf.com/cultural-image/cultural-web/map-marker.png', size: {width:32, height: 32}}"  :position="center" :dragging="true" @click="infoWindowOpen" :scroll-wheel-zoom="true">
                   <bm-info-window :show="show" @close="infoWindowClose" @open="infoWindowOpen">
                     <div style="font-size: 12px;font-family: AlibabaPuHuiTiM;">
                       <div>楼宇名称:{{data_collagedetail.buildingName}}</div>
@@ -78,6 +95,7 @@
   </div>
 </template>
 <script>
+import { getAccessToken } from '@/utils/auth';
 import { MessageBox, Message } from 'element-ui'
 import { mapGetters } from "vuex";
 import "swiper/css/swiper.css";
@@ -100,6 +118,7 @@ export default {
     return {
       show: true,
       center: {},
+      authorization: getAccessToken(),
       companyid: window.localStorage.getItem('USERID'),
       activtyForm,
       applyId: null,
@@ -128,14 +147,13 @@ export default {
   watch: {
     $route: {
       handler: function(val, oldVal){
-        let that = this;
-        request({
+        val.path.includes('building-detail') && request({
           url: `${buildingsGet}/${this.$route.params.id.replace(':', '')}`,
           method: 'get',
           data: {}
         })
         .then((res) => {
-          that.data_collagedetail = res.data;
+          this.data_collagedetail = res.data;
           this.getlocation(res.data.buildingAddress);
         });
       },
@@ -152,7 +170,6 @@ export default {
     })
     .then((res) => {
       that.data_collagedetail = res.data;
-      debugger;
       this.getlocation(res.data.buildingAddress);
     });
   },
@@ -167,6 +184,14 @@ export default {
   },
   methods: {
     getlocation(address) {
+      let that = this;
+/*         window.handleResponse = function(response){
+            that.center = response.result.location;
+            console.log('The responsed data is: ', response);
+        }
+        var script = document.createElement('script');
+        script.src = `https://api.map.baidu.com/geocoding/v3/?output=json&ak=wG6VDtVecU2vdgXQmNIswVrNHnl3oKNv&address=${address}&callback=handleResponse`;
+        document.body.insertBefore(script, document.body.firstChild); */
       request({
         url: `${locatiion}/${address}`,
         method: 'get',
@@ -174,7 +199,7 @@ export default {
       })
       .then((res) => {
         this.center = res.data;
-      });
+      }); 
     },
     infoWindowClose () {
       this.show = false
@@ -276,7 +301,7 @@ export default {
         .block {
           position: relative;
           top: 97px;
-          right: -115px; 
+          right: -110px; 
           padding: 24px 10px;      
           flex-direction: revert;
           float: right;
@@ -355,6 +380,7 @@ export default {
         align-items: center;
         // width: 640px;
         &-center {
+          padding: 0px 10px;
           // overflow: hidden;
           // text-overflow: ellipsis;
           // display: -webkit-box;

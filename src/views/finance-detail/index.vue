@@ -59,7 +59,7 @@
               </div>
             </div>
           </div>
-          <img @click="applyService()" src="../../images/applyBg.png" />
+          <img @click="applyService()" style="cursor: pointer;" src="../../images/applyBg.png" />
         </div>
       </div>
       <div class="finance-detail-content">
@@ -150,8 +150,12 @@ export default {
   methods: {
     // 初始化
     async applyService() {
-      const { data } = await this.$store.dispatch('user/getUserInfo');
-      this.applydialogVisible = true
+      let userinfo = window.localStorage.getItem('userinfo');
+      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+      if(userinfo) {
+        const { data } = await this.$store.dispatch('user/getUserInfo');
+        this.applydialogVisible = true
+      };
     },
     closeDialog(done) {
       this.applydialogVisible = false;

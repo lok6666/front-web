@@ -23,22 +23,22 @@
       </el-dialog>
     <div class="container">
       <div class="guide-policyEnter-content">
-        <div class="policy-block search" @click="$router.push('/policy-search')" >
+        <div class="policy-block search" @click="policyMatch()" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
-            政策查询
+            政策计算器
             <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
         </div>
         <div class="divide"></div>
-        <div class="policy-block apply" @click="policyMatch()" >
+        <div class="policy-block apply" @click="policyClu()" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策匹配
             <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
         </div>
@@ -48,6 +48,9 @@
 </template>
 
 <script>
+import { MessageBox } from 'element-ui'
+import { policyMatchTagsGet } from "@/config/api";
+import request from "@/utils/request";
 import { applyForm } from "@/config/constant.js";
 import PolicyCalculate from '@/components/Policycalculate/index'
 import FormTemplate from "@/components/Form/index.vue";
@@ -58,7 +61,8 @@ export default {
     return {
       applyForm,
       dialogVisible: false,
-      applydialogVisible: false
+      applydialogVisible: false,
+      userId: window.localStorage.getItem("USERID"),
     }
   },
   props: {
@@ -78,13 +82,43 @@ export default {
     FormTemplate
   },
   methods: {
+    getpolicyMatchTagsGet() {
+      request({
+        url: `${policyMatchTagsGet}`,
+        method: "GET",
+        // todo 考虑 id怎么传进去
+        params: {
+          companyid: this.userId,
+        },
+      }).then(({ data }) => {
+        if(!data) {
+          MessageBox({
+            title: '温馨提示',
+            center: true,
+            message: '您的企业标签未填写,请前往个人中心基本信息处填写',
+            showConfirmButton: true,
+            beforeClose:(action, instance, done) => {
+              done();
+            }
+          })
+        } else {
+          this.$router.push('/policy-match/政策匹配')
+        }
+      });
+    },
     policyMatch() {
       this.dialogVisible = true;
       // this.$router.push('/policy-match/政策匹配');
     },
+    policyClu() {
+      // 判断是否填写基本信息
+      let userinfo = window.localStorage.getItem('userinfo');
+      !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
+      userinfo && this.getpolicyMatchTagsGet();
+    },
     handleClose() {
       this.dialogVisible = false;
-      this.$router.push('/policy-match/政策匹配');
+      this.$router.push('/policy-cul/政策计算器');
     },
     dialogClose() {
       this.dialogVisible = false;
@@ -130,7 +164,7 @@ export default {
           background-repeat: no-repeat;
         }
         .search {
-        background: url("../../images/政策查询.png");
+        background: url("http://minio.bjwcxf.com/cultural-image/cultural-web/index-政策查询.png");
         }
         .divide {
         width: 1px;
@@ -138,7 +172,7 @@ export default {
         border: 1px solid #979797;
         }
         .apply {
-        background: url("../../images/政策申报.png");
+        background: url("http://minio.bjwcxf.com/cultural-image/cultural-web/index-政策申报.png");
         }
     }
   }

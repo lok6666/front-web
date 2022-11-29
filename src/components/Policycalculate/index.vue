@@ -14,7 +14,7 @@
         @click="bClose"
         style="color: #000;cursor: pointer;position: absolute;top: 51px;right: 17px;"
       ></i>
-      <div style="font-size: 80px;font-family: YouSheBiaoTiHei;color: #FFFFFF;">
+      <div class="text">
         政策计算器
       </div>
       <div style="margin-bottom: 25px;margin-top:5px;">
@@ -180,7 +180,7 @@
           </div>
         </div>
         <div class="select-btn">
-          <span class="title">企业规模(必填):</span>
+          <span class="title">企业规模</span>
           <div class="select-item">
             <div v-for="(btn, index) in businessAttributeOptions" :key="index">
               <el-button
@@ -220,28 +220,28 @@
             </div>
           </div> -->
         <div class="select-btn">
-          <span class="title">成立年限(必填):</span>
+          <span class="title">成立年限</span>
           <div class="select-item">
             <div v-for="(btn, index) in yearOptions" :key="index">
               <el-button
                 class="button-new-tag"
                 :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                 size="small"
-                @click="select('yearOptions', index)"
+                @click="select('yearOptions', index, 'more')"
                 >{{ btn.label }}</el-button
               >
             </div>
           </div>
         </div>
         <div class="select-btn">
-          <span class="title">区县(必填):</span>
+          <span class="title">区县</span>
           <div class="select-item">
             <div v-for="(btn, index) in locationOptions" :key="index">
               <el-button
                 class="button-new-tag"
                 :class="[btn.isSelect ? 'button-new-tag-select' : '']"
                 size="small"
-                @click="select('locationOptions', index, 'single')"
+                @click="select('locationOptions', index, 'more')"
                 >{{ btn.label }}</el-button
               >
             </div>
@@ -309,7 +309,7 @@ export default {
       yearOptions,
       themeOptions,
       xsOptions,
-      obj: {
+      typeObj: {
         yewu: "favourablebusinessOptions",
         zizhi: "zzOptions",
         guimo: "businessAttributeOptions",
@@ -331,12 +331,61 @@ export default {
       default: false,
     },
   },
+  watch: {
+    dialogVisible(route) {
+      let options = window.localStorage.getItem('cul-detail-options');
+      let detail = window.localStorage.getItem('cul-detail');
+      this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
+      this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail-options')) : [];
+      this.selectOptions.forEach(e => {
+        // 获取listName
+        let listName = this.typeObj[e.type];
+        this[listName].map(i => {
+          if (e.label === i.label) {
+            i.isSelect = true;
+          };
+          return i;
+        });
+      });
+    }
+  },
   computed: {
     ...mapGetters(["data_selection"]),
   },
-/*   created() {
-    this.userId && this.getpolicyMatchTagsGet();
-  }, */
+   created() {
+    // this.userId && this.getpolicyMatchTagsGet();
+/*     let options = window.localStorage.getItem('cul-detail-options');
+    let detail = window.localStorage.getItem('cul-detail');
+    this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail-options')) : [];
+    this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
+    this.selectOptions.forEach(e => {
+        // 获取listName
+        let listName = this.typeObj[e.type];
+        this[listName].map(i => {
+          if (e.label === i.label) {
+            i.isSelect = true;
+          };
+          return i;
+        });
+      }); */
+  },
+  updated() {
+/*     console.log('updated----');
+    let options = window.localStorage.getItem('cul-detail-options');
+    let detail = window.localStorage.getItem('cul-detail');
+    this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail-options')) : [];
+    this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
+    this.selectOptions.forEach(e => {
+      // 获取listName
+      let listName = this.typeObj[e.type];
+      this[listName].map(i => {
+        if (e.label === i.label) {
+          i.isSelect = true;
+        };
+        return i;
+      });
+    }); */
+  },
   methods: {
     getpolicyMatchTagsGet() {
       request({
@@ -347,20 +396,9 @@ export default {
           companyid: this.userId,
         },
       }).then(({ data }) => {
-        //todo 后面封装
-        window.localStorage.setItem('entTags', JSON.stringify(data));
-        Object.keys(data).forEach((e) => {
-          let optionsKey = this.obj[e];
-          if (this[optionsKey]) {
-            this[optionsKey] = this[optionsKey].map((el) => {
-              if (el.label === data[e]) {
-                el.isSelect = true;
-                this.selectOptions.push(el);
-              }
-              return el;
-            });
-          }
-        });
+        if(!data) {
+          this.$message.error('请前往个人中心填写基本信息方可使用')
+        };
       });
     },
     bClose() {
@@ -369,6 +407,9 @@ export default {
     handleClose(done) {
       this.$forceUpdate();
       this.$emit("handleClose");
+    },
+    reSelect() {
+
     },
     select(options, index, type) {
       // 多选
@@ -407,14 +448,17 @@ export default {
     },
     async calculate() {
       let that = this;
-      if (!this.isRequiredList.every((e) => that[e].some((el) => el.isSelect))) {
+      // if (!this.isRequiredList.every((e) => that[e].some((el) => el.isSelect))) {
+/*         if (this.selectOptions.length === 0) {
         Message({
           message: "请选择必填项",
           type: "error",
           duration: 2 * 1000,
         });
-      } else {
-        await this.$store.dispatch(
+      } else { */
+          window.localStorage.setItem('cul-detail', JSON.stringify(this.optionsList));
+          window.localStorage.setItem('cul-detail-options', JSON.stringify(this.selectOptions));
+         await this.$store.dispatch(
           "data/setSelection",
           _.cloneDeep(this.selectOptions)
         );
@@ -424,10 +468,11 @@ export default {
             el.isSelect = false;
           });
         });
-        this.optionsList = [];
-        this.selectOptions.length && that.$emit("handleClose");
-        this.selectOptions = [];
-      }
+         this.optionsList = [];
+        // this.selectOptions.length && that.$emit("handleClose");
+        that.$emit("handleClose");
+         this.selectOptions = [];
+      // }
     },
   },
 };

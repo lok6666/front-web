@@ -1,16 +1,19 @@
 //const host = 'http://172.16.4.62:28182';
-//const host = 'http://enterprise.bjwcxf.com:28191';
+const host = 'http://enterprise.bjwcxf.com:28191';
 //export const policyHost = 'http://172.16.4.62:5000/match';
-export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
+//export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
 export const policyHost = `${host}/policyMatch/get`;
 // 登录接口
 export const login = `${host}/auth/entLogin`
 export const authSendVerCode = `${host}/auth/sendVerCode`; // 注册验证码
+export const authSendRegVerCode = `${host}/auth/sendRegVerCode`; // 注册验证码
+export const authGetCode = `${host}/auth/getCode`; // 图形验证码
 export const authVerify = `${host}/auth/verify`; // 校验
 export const authRegister = `${host}/auth/register`; // 注册
 export const upload = `${host}/upload`; // 注册
 /*首页-招商申请*/
 export  const entApplyInsert = `${host}/entApply/insert` // 插入
+export  const entApplyCheck = `${host}/entApply/check` // 插入
 export  const articleList = `${host}/article/list` // 最新新闻
 export  const articleGet = `${host}/article/get` // 获取文章数据
 export  const policyList = `${host}/policyTags/list` // 政策列表
@@ -55,7 +58,7 @@ export  const entFilingList = `${host}/entFiling/list` // 角色管理列表
 export  const entFilingUpdate = `${host}/entFiling/update` // 角色更新
 export  const entFilingDelete = `${host}/entFiling/delete` // 角色删除
 export  const entFilingInsert = `${host}/entFiling/insert` // 角色插入
-export  const entFilingGetById = `${host}/entFiling/get` // 角色插入
+export  const entFilingGetById = `${host}/entFiling/getAuth` // 角色插入
 
 export  const locatiion = `${host}/activity/getCoordinate` // 角色插入
 
@@ -76,6 +79,7 @@ export  const entReset = `${host}/auth/entReset` // 角色管理列表
 export  const policyMatchTagsGet = `${host}/policyMatchTags/get` // 政策匹配企业标签列表
 export  const policyMatchTagsInsert = `${host}/policyMatchTags/insert` // 政策匹配企业标签新增
 export  const policyMatchTagsUpdate = `${host}/policyMatchTags/update` // 政策匹配企业标签更新
+export  const policyMatchCount = `${host}/policyMatch/count` // 政策计算器
 
 
 /*行业培训-培训课程*/
@@ -93,14 +97,14 @@ export const activityApplyAddOne = `${host}/activityApply/insert`//  活动报�
 
 /*企业服务*/
 export const entServiceDockingAll = `${host}/entServices/list` // 列表
-export const entServiceUpdate = `${host}/entServices/update` // 列表
+export const entServiceUpdate = `${host}/entServices/updateHits` // 列表
 /*企业服务-对接*/
 export const entServiceDockingInsert = `${host}/entServiceDocking/insert` // 企业对接申请
 
 /*金融服务*/
 export const financialServicesAll = `${host}/financialServices/list` // 列表
 
-export const financialServicesUpdate = `${host}/financialServices/update` // 金融服务申请
+export const financialServicesUpdate = `${host}/financialServices/updateHits` // 金融服务申请
 /*金融服务-对接*/
 export const financialServiceDockingAll = `${host}/financialServiceDocking/list` //  金融服务申请列表
 export const financialServicesInsert = `${host}/financialServiceDocking/insert` // 金融服务申请
@@ -114,3 +118,5 @@ export const treeTable = `${host}/sysResource/treeTable` // 树形结构
 export const sysResourceInsert = `${host}/sysResource/insert` // 插入
 export const sysResourceUpdate = `${host}/sysResource/update` // 更新
 export const sysResourceDelete = `${host}/sysResource/delete` // 删除
+// 轮播图
+export const industryDataList = `${host}/banner/list` //  数据表格

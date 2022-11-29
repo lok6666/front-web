@@ -22,7 +22,7 @@
         <div>政策级别:</div>
           <div v-for="(btn, index) in btnList1" :key="index">
             <el-button
-              class="button-new-tag "
+              class="button-new-tag"
               :class="[btn.isSelect ? 'button-new-tag-select' : '']"
               size="small"
               @click="select('btnList1', index, 'policyLevel')"
@@ -75,20 +75,28 @@
             <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">{{total}}</span>查询结果</div>
             <div v-for="(item, index) in policyList" :key="index"
               :class="`item-${index} policy-search-container-item`" @click="routeTo(item)">
-              <div class="message">{{item.policyTitle}}</div>
+              <div class="message" style="max-width: 1045px;overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis">{{item.policyTitle}}</div>
               <div class="time" style="display: flex;align-items: center;">
-                <div style="background: #409eff;padding: 0px 8px;
+                <div style="background: #409eff;
+                  font-size: 12px;
+                  padding: 0px 8px;
                   margin-right: 5px;
                   height: 24px;
-                  width: 70px;
                   border-radius: 3px;
                   display: flex;
                   align-items: center;
                   justify-content: center;
-                  color: #fff;">
-                  <i :class="[item.isCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)"/>收藏
+                  color: #fff;" @click.stop="check(index)">
+                  <i :class="[item.isCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;"/>收藏
                 </div>
-                {{item.policyTime}}
+                <div v-if="item.policyTime">
+                  {{item.policyTime.substring(0, 10)}}
+                </div>
+                <div v-else style="width: 81px;">
+                  暂无时间
+                </div>
               </div>
             </div>
       </div>
@@ -97,8 +105,8 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="pageNum"
-          :page-sizes="[10, 40, 70, 100]"
-          :page-size="100"
+          :page-sizes="[10, 20, 50, 100]"
+          :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
@@ -130,7 +138,7 @@ export default {
       policyTitle: '',
       policyLevel: '',
       categoryId: 0,
-      pageSize: 100,
+      pageSize: 20,
       value2: '',
       pageNum: 1,
       policyList: [],
@@ -255,8 +263,8 @@ export default {
   },
   watch: {
     value2:　function (val, oldVal) {
-      this.endTime = val[1].getTime()/1000;
-      this.startTime = val[0].getTime()/1000;
+      this.endTime = val[1].getTime();
+      this.startTime = val[0].getTime();
       this.getPolicyList();
     }
   },
@@ -331,7 +339,6 @@ export default {
 
     },
     select(list,index, type) {
-      debugger;
       this[list] = this[list].map(e => {
           e.isSelect = false;
           return e;
@@ -341,8 +348,12 @@ export default {
       if(type === 'time') {
         let ed = new Date();
         let sd = new Date(ed.getTime() - this[list][index].value*24*60*60*1000);
-        this.endTime = ed.getTime()/1000;
-        this.startTime = sd.getTime()/1000;
+        this.endTime = ed.getTime();
+        this.startTime = sd.getTime();
+        if(this[list][index].value === 1) {
+          this.endTime = '';
+          this.startTime = '';
+        };
         // this.endTime = `${ed.getFullYear()}-${ed.getMonth()}-${ed.getDate()} ${ed.getHours()}:${ed.getMinutes()}:${ed.getSeconds()}`;
         // this.startTime = `${sd.getFullYear()}-${sd.getMonth()}-${sd.getDate()} ${sd.getHours()}:${sd.getMinutes()}:${sd.getSeconds()}`;
       } else {
@@ -423,10 +434,17 @@ export default {
         height: 40px;
         border-radius: 5px;
         border: 1px solid rgba(0,0,0,0.31);
+        &:hover {
+          border-radius: 5px;
+          background: #fdf6ec;
+          color: #e6a23c;
+          border: 1px solid rgba(0,0,0,0);
+          }
       }
       .button-new-tag-select {
         border-radius: 5px;
         background: #D99447;
+        color: #fff;
         border: 1px solid rgba(0,0,0,0);
       }
     }

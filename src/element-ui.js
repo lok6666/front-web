@@ -3,6 +3,8 @@ import {
   Pagination,
   Dialog,
   Autocomplete,
+  Descriptions,
+  DescriptionsItem,
   Dropdown,
   DropdownMenu,
   DropdownItem,
@@ -28,6 +30,7 @@ import {
   FormItem,
   Tag,
   Tabs,
+  TabPane,
   Icon,
   Upload,
   Spinner,
@@ -42,7 +45,8 @@ import {
   MessageBox,
   Message,
   Notification,
-  Drawer
+  Drawer,
+  Tooltip
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -55,7 +59,10 @@ Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
 Vue.use(Input)
+Vue.use(Tooltip)
 Vue.use(InputNumber)
 Vue.use(Radio)
 Vue.use(Checkbox)
@@ -83,11 +90,13 @@ Vue.use(Aside)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
 Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Loading)
 Vue.use(Drawer)
 // 这里有个奇怪的bug,需要复值，要不然报is not defined
 const MessageBox1 = MessageBox
 
 Vue.prototype.$message = Message
+Vue.prototype.$messageBox = MessageBox1
 Vue.prototype.$confirm = MessageBox1.confirm
 Vue.prototype.$prompt = MessageBox1.prompt

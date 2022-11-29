@@ -7,22 +7,26 @@
     <div class="trade-container">
       <div class="trade-center">
       <div class="collage-video">
-        <iframe style="width: 100%; height: 750px;" :src="`${serviceUrl}`"></iframe>
+        <iframe style="width: 100%; height: 750px;border: none;" :src="`${serviceUrl}`"></iframe>
       </div>
       <div>
-        <div class="header">
-          <div class="collage-title">系列课程往期回顾</div>
+        <div class="header" style="background-color: #DFAF75;">
+          <div class="collage-title">系列课程</div>
           <!-- <div>查看全部</div> -->
         </div>
-        <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="(item, index) in swiperConfig">
-            <img class="swiper-item" :src="item.serviceImages"  @click="chooseCollage(item)"/>
-            <div class="video-desc">
-              {{item.serviceName}}
-              <div>{{item.time}}</div>
-            </div>
-          </swiper-slide>
-        </swiper>
+        <div style="background-color: #DFAF75;padding: 0px 36px 0px 36px;">
+          <div style="width: 1348px;">
+            <swiper class="swiper" :options="swiperOption" style="background-color: #DFAF75;">
+              <swiper-slide v-for="(item, index) in swiperConfig" style="width:400px">
+                <img class="swiper-item" :src="item.serviceImages"  @click="chooseCollage(item)"/>
+                <div class="video-desc">
+                  {{item.serviceName}}
+                  <div>{{item.time}}</div>
+                </div>
+              </swiper-slide>
+            </swiper>
+          </div>
+        </div>
         <collage></collage>
       </div>
       </div>
@@ -58,14 +62,18 @@ export default {
       swiperConfig: [],
       categoryId: 0,
       swiperOption: {
-        slidesPerView: 4,
-        spaceBetween: 30,
-        direction: 'horizontal',
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false
         },
-        on: {
+        slidesPerView: 5,
+        spaceBetween: 37,
+        freeMode: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+/*         on: {
           resize: () => {
             this.$refs.swiper.$swiper.changeDirection(
               window.innerWidth <= 960
@@ -73,7 +81,7 @@ export default {
                 : 'horizontal'
             )
           }
-        }
+        } */
       }
     };
   },
@@ -140,14 +148,13 @@ export default {
     width: 100%;
     height: 442px;
     background-size: 100% 142%;
-    background-image: url('../../images/行业培训Bg.png');
+    background-image: url('http://minio.bjwcxf.com/cultural-image/cultural-web/行业培训.png');
   }
   .trade-container {
     max-width: 1440px;
     margin-left: 70px;
     margin-right: 70px;
     // padding-bottom: 60px;
-    background-color: #DFAF75;
     .trade-center {
       width: 100%;
       min-width: 1298px;
@@ -171,8 +178,14 @@ export default {
         }
       }
       .swiper {
-        margin-left: 35px;
+        // margin-left: 35px;
+        // height: 300px;
+        width: 100%;
+        .swiper-wrapper {
+          // margin-left: 35px !important;
+        }
         .swiper-slide {
+          cursor: pointer;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -180,26 +193,30 @@ export default {
           text-align: center;
           font-weight: bold;
           font-size: 14px;
+          // margin-left: 33px;
+          margin-bottom: 33px;
           width: 240px !important;
           .swiper-item {
-            width: 224px;
+            height: 126px;
+            width: 240px;  
+   /*         width: 224px;
             height: 126px;
             background-size: cover;
             background-repeat: no-repeat;
-            cursor: pointer;
-          }
+            cursor: pointer; */
+          } 
           .video-desc {
             margin-top: 8px;
             text-align: left;
             width: 224px;
-          }
+          } 
         }
-        .swiper-slide:nth-child(2n) {
+/*          .swiper-slide:nth-child(2n) {
           width: 40%;
         }
         .swiper-slide:nth-child(3n) {
           width: 20%;
-        }
+        }  */
       }
     }
   }

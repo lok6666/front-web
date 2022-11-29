@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         企业风采
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
       </div>
@@ -78,6 +78,7 @@ export default {
             border-radius: 10px;
             border: 1px solid #D99447;
             display: flex;
+            cursor: pointer;
             flex-direction: column;
             align-items: center;
             margin-right: 10px;

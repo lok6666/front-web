@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         石景山风貌
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platf</div>
+            <div class="limit-desc">Comperehensive platform</div>
             Cultural industry
             </div>
       </div>
@@ -23,10 +23,10 @@
         </video>
         <div class="guide-sjsIndustrial-show">
           <div class="sjs-img-show sjsIndustrial-left" @click="showPictureDetail1">首钢园 SHOUGANG PARK</div>
-          <div class="sjs-img-show sjsIndustrial-right" @click="showPictureDetail">朗园VintAge 文化创意产业园
+          <div class="sjs-img-show sjsIndustrial-right" @click="showPictureDetail">朗园Park 文化创意产业园
             <!-- <div class="sjs-img-show r-top" @click="showPictureDetail3">中关村科幻产业创新中心</div> -->
             <!-- <div class="r-bottom"> -->
-              <!-- <div class="sjs-img-show ly-show" @click="showPictureDetail">朗园VintAge 文化创意产业园</div> -->
+              <!-- <div class="sjs-img-show ly-show" @click="showPictureDetail">朗园Park 文化创意产业园</div> -->
               <!-- <div class="more">
                 <div class="more-icon"></div>
                 查看更多
@@ -103,6 +103,7 @@ export default {
         }
         .sjsIndustrial-left {
           margin-right: 10px;
+          cursor: pointer;
           font-size: 24px;
           display: flex;
           align-items: flex-end;
@@ -116,6 +117,7 @@ export default {
         .sjsIndustrial-right {
             font-size: 24px;
             display: flex;
+            cursor: pointer;
             align-items: flex-end;
             padding: 0px 0px 23px 47px;
             width: 50%;
