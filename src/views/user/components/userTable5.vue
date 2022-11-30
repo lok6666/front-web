@@ -63,7 +63,7 @@ export default {
         },
         {
           label: "申请时间",
-          src: addressImg,
+          src: dateImg,
           showKey: "dockTime",
         },
         {
@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     routeTo(item) {
-      this.$router.push(`/protect-detail/:${item.id}`);
+      this.$router.push(`/finance-detail/:${item.id}`);
     },
     getPolicyList() {
       let that = this;

@@ -263,10 +263,16 @@ export default {
   },
   watch: {
     value2:　function (val, oldVal) {
-      this.endTime = val[1].getTime();
-      this.startTime = val[0].getTime();
+      if(val) {
+        this.endTime = val[1].getTime();
+        this.startTime = val[0].getTime();
+      } else {
+        this.endTime = '';
+        this.startTime = '';
+      }
       this.getPolicyList();
-    }
+      console.log('value2----');
+        }
   },
   methods: {
     inputConfirm(val) {

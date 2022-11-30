@@ -52,7 +52,7 @@ export default {
          }
        })
        .then((res) => {
-        that.excellentBusniessList = res.data.list;
+        that.excellentBusniessList = res.data.list.splice(0, 8);
        });
    },
   methods: {

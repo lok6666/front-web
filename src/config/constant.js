@@ -17,8 +17,11 @@ const incomeTypeRules = (rule, value, callback) => {
 
 // 数字校验
 const typeRules = (rule, value, callback) => {
+  if(!value) {
+    callback('不能为空');
+  }
   // 必须为数字
-  if(!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value) && value) {
+  else if(!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value) && value) {
     callback('请输入数字');
   } else {
     callback();

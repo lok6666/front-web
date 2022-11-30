@@ -620,7 +620,7 @@ export default {
       createForm,
       applydialogVisible: false,
       vipImgObj: {
-        '非会员': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip未认证.png',
+        '非会员': 'http://minio.bjwcxf.com/cultural-image/cultural-web/VIP-未认证.png',
         '一万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip1.png',
         '三万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip3.png',
         '五万权益包': 'http://minio.bjwcxf.com/cultural-image/cultural-web/vip5.png',
@@ -935,7 +935,6 @@ export default {
       }).then(({ data }) => {
         //todo 后面封装
         this.policyExist = data ? true : false,
-        console.log('isExist----', this.policyExist);
           (this["messageForm"] = data
           ? this["messageForm"].map((e, b) => {
               let result = { ...e };
@@ -959,14 +958,14 @@ export default {
         },
       })
         .then((res) => {
-          Message({
+          this.$message({
             message: "提交成功",
             type: "success",
             duration: 5 * 1000,
           });
         })
         .catch((e) => {
-          Message({
+          this.$message({
             message: e.msg,
             type: "error",
             duration: 5 * 1000,
@@ -983,6 +982,11 @@ export default {
             ...formData,
           },
         }).then(e => {
+          this.$message({
+            message: "提交成功",
+            type: "success",
+            duration: 5 * 1000,
+          });
           this.policyExist = true;
         });
     },

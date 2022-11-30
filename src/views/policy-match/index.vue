@@ -44,7 +44,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-item:center;width: 80%;">
                   <div class="search">
-                      <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入" @change="inputConfirm">
+                      <el-input v-model="inputValue" style="border-radius: 18px;" placeholder="请输入政策标题" @change="inputConfirm">
                           <i slot="suffix" class="el-input__icon el-icon-search" :style="'color:#D99447'" @click="search"/>
                       </el-input>
                   </div>
@@ -60,7 +60,7 @@
               </div>
           </div>
             <div class="policy-list">
-              <div class="list-item" v-for="(item, index) in policyList" :key="index" @click="routeTo(item.policyId)">
+              <div class="list-item" v-for="(item, index) in policyList" :key="index" @click="routeTo(item.policyId || item.id)">
                 <div class="left">
                   <div class="title">
                     <div class="tag-block">

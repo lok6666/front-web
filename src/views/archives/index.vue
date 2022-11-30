@@ -349,6 +349,7 @@ export default {
     max-width: 1440px;
     margin: 31px 70px 60px 70px;
     .guide-excellent-busniess-content {
+      margin-top: 40px;
       display: grid;
       grid-template-columns: repeat(4, 310px);
       grid-gap: 20px 20px;
