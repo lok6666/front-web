@@ -6,7 +6,7 @@
         <img class="table-icon" src="../../../images/列表.png" style="width: 17px; heigth: 17px;"/>查看全部
     </div>
   </div>
-  <el-table :data="tableData" style="width: 100%" @row-click="routerTo">
+  <el-table :data="tableData" style="width: 100%" @row-click="routerTo" cell-style="cursor: pointer;">
       <el-table-column v-for="(item, index) in tableItem" :key="index" :align="item.align" :min-width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
@@ -28,8 +28,10 @@
   import _ from 'lodash';
  import request from '@/utils/request';
   import levelImg from "@/images/gift.png";
-  import policyTitleImg from "@/images/单位.png";
+  import applyNum from "@/images/applyNum.png";
+  import policyTitleImg from "@/images/applyPieces.png";
   import dateImg from "@/images/time.png";
+  import applyTime from "@/images/applyTime.png";
   export default {
     data() {
       return {
@@ -49,14 +51,14 @@
         },
         {
           label: "报名人数",
-          src: dateImg,
+          src: applyNum,
           showKey: "applyCount",
           align: 'left',
           width: '15'
         },
         {
           label: "报名日期",
-          src: dateImg,
+          src: applyTime,
           showKey: "activityDateFrom",
           align: 'left',
           width: '30'
@@ -108,6 +110,7 @@
   padding-left: 20px;
   padding-right: 20px;
   .table-icon {
+    custor: pointer;
     width: 17px !important;
     height: 17px;
     margin-right: 2px;

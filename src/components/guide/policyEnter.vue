@@ -63,6 +63,22 @@ export default {
       dialogVisible: false,
       applydialogVisible: false,
       userId: window.localStorage.getItem("USERID"),
+      policyCalculate:{
+          "jigou": "不符合",
+          "diyu": "不符合",
+          "shangshi": "不符合",
+          "keyan": "不符合",
+          "fenlei": "不符合",
+          "xiangmu": "不符合",
+          "zuzhi": "不符合",
+          "yewu": "不符合",
+          "chuangxin": "不符合",
+          "caiwu": "不符合",
+          "zizhi": "不符合",
+          "guimo": "全部",
+          "nianxian": "全部",
+          "quxian": "石景山区",
+      },
     }
   },
   props: {
@@ -91,19 +107,51 @@ export default {
           companyid: this.userId,
         },
       }).then(({ data }) => {
-        if(!data) {
-          MessageBox({
-            title: '温馨提示',
-            center: true,
-            message: '您的企业标签未填写,请前往个人中心基本信息处填写',
-            showConfirmButton: true,
-            beforeClose:(action, instance, done) => {
-              done();
+        let limit = 0;
+            data && Object.keys(this.policyCalculate).forEach(e => {
+              if(data[e]) {
+                ++limit;
+              };
+            });
+            if (!data) {
+              this.$messageBox({
+                title: "温馨提示",
+                center: true,
+                message: "您的企业标签数量较少，请尽快前往企业个人中心的基本信息处进行完善，可让政策匹配更精准。",
+                cancelButtonText: '继续匹配',
+                confirmButtonText: '立即前往',
+                showCancelButton: true,
+                showConfirmButton: true,
+                beforeClose: (action, instance, done) => {
+                  if(action === 'confirm') {
+                    this.$router.push('/user');
+                  } else if(action === 'cancel'){
+                    this.$router.push('/policy-match/政策匹配');
+                  }
+                  done();
+                },
+              });
+            } else if(limit < 5) {
+              this.$messageBox({
+                title: "温馨提示",
+                center: true,
+                message: "您的企业标签数量较少，请尽快前往企业个人中心的基本信息处进行完善，可让政策匹配更精准。",
+                cancelButtonText: '继续匹配',
+                confirmButtonText: '立即前往',
+                showCancelButton: true,
+                showConfirmButton: true,
+                beforeClose: (action, instance, done) => {
+                  if(action === 'confirm') {
+                    this.$router.push('/user');
+                  } else if(action === 'cancel'){
+                    this.$router.push('/policy-match/政策匹配');
+                  }
+                  done();
+                },
+              });
+            } else {
+              this.$router.push('/policy-match/政策匹配');
             }
-          })
-        } else {
-          this.$router.push('/policy-match/政策匹配')
-        }
       });
     },
     policyMatch() {

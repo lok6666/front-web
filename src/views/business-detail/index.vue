@@ -136,10 +136,10 @@ export default {
               this.$messageBox({
                 title: '温馨提示',
                 center: true,
-                message: '请点击个人中心添加宣传资料',
+                message: '请前往个人中心添加宣传资料',
                 showConfirmButton: false,
                 beforeClose:(action, instance, done) => {
-                  this.$router.push('user/info');
+                  this.$router.push('/user');
                   done();
                 }
               })
@@ -172,7 +172,7 @@ export default {
           MessageBox({
             title: '温馨提示',
             center: true,
-            message: '请点击个人中心添加宣传资料',
+            message: '请前往个人中心添加宣传资料',
             showConfirmButton: false,
             beforeClose:(action, instance, done) => {
               this.$router.push('/user');

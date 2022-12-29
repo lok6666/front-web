@@ -3,7 +3,7 @@
       <app-header />
       <div class="policy-search-bg"></div>
       <div class="policy-container">
-        <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-left: 70px;margin-bottom: 49px;">
+        <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;margin-bottom: 49px;">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/new-more?message=最新新闻' }">最新新闻</el-breadcrumb-item>
             <el-breadcrumb-item>新闻动态</el-breadcrumb-item>
@@ -13,7 +13,7 @@
                 <div class="content-header">
                     <div class="title">{{newDetail.title}}</div>
                     <div class="desc">
-                        <div style="flex: 0.3;">发布日期:{{newDetail.releaseDate}}</div>
+                        <div v-if="newDetail.releaseDate" style="flex: 0.3;">发布日期:{{newDetail.releaseDate.substring(0, 10)}}</div>
                         <div>来源:{{newDetail.dataSources}}</div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
         display: flex;
         align-items: flex-start;
         justify-content: center; */
-      padding: 0px 146px;
+      padding: 0px 106px;
       //top: 36px;
       @media screen and (max-width: 960px) {
         margin-top: 0;
@@ -200,7 +200,23 @@
               padding-top: 39px;
               border-top: 1px solid #8B572A;
               border-bottom: 1px solid #8B572A;
+              th {
+                  border: 1px solid #ccc;
+                  min-width: 50px;
+                  height: 20px;
+                  background-color: #f1f1f1;
+                }
             }
+            .content-center table {
+                  border-collapse: collapse;
+                }
+                .content-center td,
+                .content-center th {
+                  border: 1px solid #ccc;
+                  min-width: 50px;
+                  height: 20px;
+                  background-color: #f1f1f1;
+                }
             .relation-policy {
               margin-top: 67px;
               margin-bottom: 78px;

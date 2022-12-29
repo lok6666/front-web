@@ -33,6 +33,16 @@ export default {
 <style lang="scss">
 // fix css style bug in open el-dialog
 .el-popup-parent--hidden {
+  .btnFalses{
+  background: #000 !important;
+}
+.el-message-box__wrapper {
+  .el-button--primary {
+    background: #ebb563;
+    border-color: #ebb563;
+    color: #FFF;
+  }
+}
   .fixed-header {
     padding-right: 15px;
   }

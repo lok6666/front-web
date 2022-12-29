@@ -17,7 +17,7 @@
             </div>
       </div>
       <div class="user-policy-more" @click="checkAll">
-            <img src="../../../images/CombinedShape2.png"/>
+            <img src="../../../images/CombinedShape2.png" style="width: 40px; margin-bottom: -12px;"/>
             <p>查看全部消息</p>
       </div>
     </div>
@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       mainTabs: ['最新', '热门'],
+      userId: window.localStorage.getItem('USERID'),
       current: 1,
       newList: []
     }
@@ -116,6 +117,7 @@ export default {
         }
     }
     .user-policy-more {
+      cursor: pointer;
       width: 138px;
       height: 112px;
       display: flex;

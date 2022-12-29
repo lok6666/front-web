@@ -19,9 +19,9 @@
             </div>
             <div class="policy-total-footer">
                 <div class="select-btn">
-                    <div class="title">已选条件:</div>
+                    <div class="title">{{$route.params.type === '政策匹配' ? '企业标签' : '已选条件'}}:</div>
                     <div class="select-item">
-                    <div v-for="(btn, index) in selectedOptions" :key="index" class="select-item-el">
+                    <div v-for="(btn, index) in selectedShowOptions" :key="index" class="select-item-el">
                         <el-button
                         class="button-new-tag"
                         size="mini"
@@ -64,8 +64,8 @@
                 <div class="left">
                   <div class="title">
                     <div class="tag-block">
-                      <div class="tag-item" style="background: #409eff;">
-                        <i :class="[item.policyCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" @click.stop="check(index)" />收藏
+                      <div class="tag-item" style="background: #409eff;" @click.stop="check(index)">
+                        <i :class="[item.policyCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" />收藏
                       </div>
                       <div class="tag-item location"><img src="../../images/location.png"/><div>{{locationMap[item.policyLocation]}}</div></div>
                       <div :class="[ item.policyType === 1 ? 'aaa' : 'bbb']" class="tag-item location">
@@ -201,7 +201,8 @@
                 isSelect:　false
             }
         ],
-        selectedOptions: []
+        selectedOptions: [],
+        selectedShowOptions: [],
       };
     },
     components: {
@@ -274,6 +275,7 @@
     methods: {
       changePolicy() {
         this.change = 1;
+        this.pageNum = 1;
         this.getPolicyList();
       },
       bClose() {
@@ -320,6 +322,9 @@
           data[res.type] = data[res.type] ? data[res.type] : [];
           data[res.type].push(res.value);
         });
+        this.selectedShowOptions = this.selectedOptions.filter(e => {
+          return e.label !== '不符合'
+        })
         var axios = require("axios");
         var config = {
           method: "post",
@@ -364,6 +369,9 @@
             that.selectedOptions.forEach(res => {
               that.policyCalculate[res.type] = res.label || that.policyCalculate[res.type];
              });
+             this.selectedShowOptions = this.selectedOptions.filter(e => {
+              return e.label !== '不符合'
+            })
           // };
           let tagData = {
             ...that.policyCalculate,
@@ -391,15 +399,33 @@
           });
       },
       check(index) {
-        this.policyList[index].policyCollect = !this.policyList[index].policyCollect
-        request({
-          url: `${this.policyList[index].policyCollect ? entPolicyCollectDelete: entPolicyCollectInsert}`,
+        debugger;
+        console.log('111------');
+        this.policyList[index].policyCollect
+        ? request({
+          url: `${entPolicyCollectDelete}`,
           method: 'delete',
           data: {
             entId: window.localStorage.getItem('USERID'),
             policyId: this.policyList[index].policyId,
-            isCollect: this.policyList[index].policyCollect
+            isCollect: 1
           }
+        }).then(e => {
+          debugger;
+          this.policyList[index].policyCollect = 0;
+        })
+        :
+        request({
+          url: `${entPolicyCollectInsert}`,
+          method: 'post',
+          data: {
+            entId: window.localStorage.getItem('USERID'),
+            policyId: this.policyList[index].policyId,
+            isCollect: 0
+          }
+        }).then(e => {
+          debugger;
+          this.policyList[index].policyCollect = 1;
         });
       },
       inputConfirm(val) {
@@ -587,12 +613,35 @@
                     max-width: 800px;
                     flex-wrap: wrap;
                     display: flex;
-                    cursor: pointer;
+                    // cursor: pointer;
                     div {
                       margin-right: 5px;
                     }
                     .select-item-el {
                       margin-bottom: 5px;
+                      .el-button {
+                        color: #E6A23C;
+                        background: #fdf6ec;
+                        border-color: #f5dab1;
+                      }
+                      .el-button:hover {
+                        // color: #E6A23C;
+                        color: #E6A23C;
+                        background: #fdf6ec;
+                        border-color: #f5dab1;
+                      }
+                      .el-button:active {
+                        // color: #E6A23C;
+                        color: #E6A23C;
+                        background: #fdf6ec;
+                        border-color: #f5dab1;
+                      }
+           /*            .el-button:visited {
+                        // color: #E6A23C;
+                        color: #E6A23C;
+                        background: #000;
+                        border-color: #f5dab1;
+                      } */
                     }
                 }
                 .button-new-tag {

@@ -20,7 +20,9 @@
         </div>
         <div class="select-btn">
           <div>产品名称:</div>
-          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)"></el-input>
+          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)">
+            <i slot="suffix" class="el-input__icon el-icon-search" :style="'color:#D99447'"/>
+          </el-input>
          <!--  <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
           <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input> -->
           <div v-for="(btn, index) in priceList" :key="index">
@@ -47,8 +49,8 @@
              <el-date-picker style="margin-left: 20px;" @click="date" v-model="value2" type="datetimerange" align="right" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
         </div> -->
       </div>
-      <div class="guide-excellent-busniess-content">
-        <div class="guide-excellent-busniess-content-item"
+      <div v-if="excellentBusniessList.length !== 0" class="guide-excellent-busniess-content">
+        <div  class="guide-excellent-busniess-content-item"
             @click="routeTo(item)" 
             v-for="(item,index) in excellentBusniessList"
             :key="index">
@@ -62,6 +64,7 @@
             </div>
         </div>
       </div>
+      <div v-else class="finance-tooltip">无匹配结果</div>
     </div>
     <app-footer />
   </div>
@@ -89,7 +92,7 @@ export default {
       maxValue: '',
       value2: '',
       categoryId: 0,
-      serviceType: [],
+      serviceType: '',
       startTime: '',
       endTime: '',
       timer: null,
@@ -97,6 +100,11 @@ export default {
       serviceName: '',
       excellentBusniessList: [],
       serviceList: !window.localStorage.getItem('userinfo') ? [
+        {
+          message: "全部",
+          isSelect: true,
+          value: ''
+        },
         {
           message: "知识产权",
           isSelect: false,
@@ -129,6 +137,11 @@ export default {
         },
       ]: [
         {
+           message: "全部",
+          isSelect: true,
+          value: ''
+        },
+        {
           message: "知识产权",
           isSelect: false,
           value: 0
@@ -158,11 +171,6 @@ export default {
           isSelect: false,
           value: 6
         },
-        {
-          message: "企业服务包",
-          isSelect: false,
-          value: 5
-        }
       ],
       timeList: [
       {
@@ -271,16 +279,17 @@ export default {
       } else {
         this[type] = value;
       } */
-/*       this[type] = this[type].map(e=> {
+       this[type] = this[type].map(e=> {
         e.isSelect = false;
         return e;
-      }); */
+      });
       this[type][index].isSelect = !this[type][index].isSelect;
-      if(this.serviceType.indexOf(this[type][index].value) > -1) {
+      this.serviceType = this[type][index].value;
+/*       if(this.serviceType.indexOf(this[type][index].value) > -1) {
         this.serviceType.splice(this.serviceType.indexOf(this[type][index].value), 1);
       } else {
         this.serviceType.push(this[type][index].value);
-      }
+      } */
       this.getEntServiceDockingList();
     },
     detail(index) {
@@ -347,9 +356,18 @@ export default {
   }
   .finance-container {
     max-width: 1440px;
-    margin: 31px 70px 60px 70px;
+    margin: 31px 70px 0px 70px;
+    .finance-tooltip {
+      width: 1300px;
+      display: flex;
+      height: 300px;
+      align-items: center;
+      font-size: 30px;
+      justify-content: center;
+    }
     .guide-excellent-busniess-content {
       margin-top: 40px;
+      margin-bottom: 20px;
       display: grid;
       grid-template-columns: repeat(4, 310px);
       grid-gap: 20px 20px;

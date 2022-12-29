@@ -3,7 +3,7 @@
     <div class="user-table-title">
       <div class="user-table-service">我的活动</div>
     </div>
-    <el-table :data="tableData" style="width: 100%"@row-click="routerTo">
+    <el-table :data="tableData" style="width: 100%"@row-click="routerTo" cell-style="cursor: pointer;">
       <el-table-column v-for="(item, index) in tableItem" :key="index" :width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
@@ -31,10 +31,12 @@
   import {
     activityApplyList
   } from "@/config/api";
- import request from '@/utils/request';
- import levelImg from "@/images/gift.png";
-  import policyTitleImg from "@/images/单位.png";
+  import request from '@/utils/request';
+  import levelImg from "@/images/gift.png";
+  import policyTitleImg from "@/images/applyPieces.png";
   import dateImg from "@/images/time.png";
+  import applyNum from "@/images/applyNum.png";
+  import applyTime from "@/images/applyTime.png";
 export default {
   data() {
     return {
@@ -51,13 +53,13 @@ export default {
         },
         {
           label: "报名人数",
-          src: dateImg,
+          src: applyNum,
           showKey: "applyCount",
           align: 'left'
         },
         {
           label: "报名日期",
-          src: dateImg,
+          src: applyTime,
           showKey: "activityDateFrom",
           align: 'left',
         },

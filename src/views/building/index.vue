@@ -8,7 +8,9 @@
       <div>
         <div class="select-btn">
           <div>楼宇名称:</div>
-          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)"></el-input>
+          <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="请输入" @input="changeTitle(minValue)">
+            <i slot="suffix" class="el-input__icon el-icon-search" :style="'color:#D99447'"/>
+          </el-input>
          <!--  <el-input style="width: 200px; margin-left: 10px;" v-model="minValue" placeholder="最低价格" @input="changePrice(minValue, 'minValue')"></el-input>-
           <el-input style="width: 200px" v-model="maxValue" placeholder="最高价格" @input="changePrice(maxValue, 'maxValue')"></el-input> -->
           <div v-for="(btn, index) in priceList" :key="index">

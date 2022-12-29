@@ -5,7 +5,7 @@
         我的政策
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%" @row-click="routeTo">
+    <el-table :data="tableData" style="width: 100%" @row-click="routeTo" cell-style="cursor: pointer;">
       <el-table-column v-for="(item, index) in tableItem" :key="index" :min-width="item.width">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>

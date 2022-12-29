@@ -57,7 +57,7 @@
                         </div>
                       </div>
                   </div>
-                  <div v-if="data_collagedetail.buildingInfo.length < 100" class="collage-desc" style="padding: 0 20px">{{data_collagedetail.buildingInfo.length > 100 ?  data_collagedetail.buildingInfo.substring(0, 100) + '...': data_collagedetail.buildingInfo}}     
+                  <div v-if="data_collagedetail.buildingInfo.length < 100" class="collage-desc" style="margin-top;padding: 0 20px">{{data_collagedetail.buildingInfo.length > 100 ?  data_collagedetail.buildingInfo.substring(0, 100) + '...': data_collagedetail.buildingInfo}}     
                       </div>
                     <el-tooltip v-if="data_collagedetail.buildingInfo.length > 100" effect="dark" :content="data_collagedetail.buildingInfo" placement="top-start">
                       <div slot="content" style="width: 700px;">{{data_collagedetail.buildingInfo}}</div>

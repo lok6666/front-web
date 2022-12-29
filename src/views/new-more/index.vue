@@ -57,7 +57,7 @@
     name: "User",
     data() {
       return {
-        pageSize: 20,
+        pageSize: 10,
         pageNum: 1,
         total: 0,
         title: '',

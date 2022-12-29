@@ -62,8 +62,13 @@ export default {
       categoryId: 0,
       minRate: '',
       maxRate: '',
-      serviceBank: [],
+      serviceBank: '',
       btnList: [
+        {
+          message: "全部",
+          value: '',
+          isSelect: true,
+        },
         {
           message: "建设银行",
           value: '建设银行',
@@ -106,16 +111,17 @@ export default {
       })
     },
     select(index) {
-/*       this.btnList = this.btnList.map(e=> {
+      this.btnList = this.btnList.map(e=> {
         e.isSelect = false;
         return e;
-      }); */
+      });
       this.btnList[index].isSelect = !this.btnList[index].isSelect;
-      if(this.serviceBank.indexOf(this.btnList[index].value) > -1) {
+      this.serviceBank = this.btnList[index].value;
+/*       if(this.serviceBank.indexOf(this.btnList[index].value) > -1) {
         this.serviceBank.splice(this.serviceBank.indexOf(this.btnList[index].value), 1);
       } else {
         this.serviceBank.push(this.btnList[index].value);
-      }
+      } */
       this.getFinancialServicesAll();
     },
     detail(index) {

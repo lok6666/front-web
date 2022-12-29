@@ -112,6 +112,7 @@
               <div class="reg-btn" @click="reClick">注册</div>
             </div>
             <div v-else class="logined">
+              <div @click.pr="showLogin" style="margin-left: 12px;margin-right: 10px;cursor: pointer;" :class="[loginShow ? 'date-left' : 'arrow-right']"></div>
               <div class="avatar-wrapper">
                 <img
                   :src="userInfo.avatar || defaultAvatar"
@@ -251,10 +252,27 @@ export default {
   },
   data() {
     return {
+      loginShow: true,
       entName: window.localStorage.getItem("userinfo")
         ? JSON.parse(window.localStorage.getItem("userinfo")).entName
         : "",
       companyid: window.localStorage.getItem("USERID"),
+      policyCalculate:{
+          "jigou": "不符合",
+          "diyu": "不符合",
+          "shangshi": "不符合",
+          "keyan": "不符合",
+          "fenlei": "不符合",
+          "xiangmu": "不符合",
+          "zuzhi": "不符合",
+          "yewu": "不符合",
+          "chuangxin": "不符合",
+          "caiwu": "不符合",
+          "zizhi": "不符合",
+          "guimo": "全部",
+          "nianxian": "全部",
+          "quxian": "石景山区",
+      },
       dialogVisible: false,
       wxdialogVisible: false,
       applydialogVisible: false,
@@ -330,7 +348,7 @@ export default {
         },
       }).then((res) => {
         // todo 修改后台返回字段
-        this.$message({
+        Message({
           message: res.msg,
           type: "success",
           duration: 5 * 1000,
@@ -358,13 +376,45 @@ export default {
               companyid: this.companyid,
             },
           }).then(({ data }) => {
+            let limit = 0;
+            data && Object.keys(this.policyCalculate).forEach(e => {
+              if(data[e]) {
+                ++limit;
+              };
+            });
             if (!data) {
               this.$messageBox({
                 title: "温馨提示",
                 center: true,
-                message: "您的企业标签未填写,请前往个人中心基本信息处填写",
+                message: "您的企业标签数量较少，请尽快前往企业个人中心的基本信息处进行完善，可让政策匹配更精准。",
+                cancelButtonText: '继续匹配',
+                confirmButtonText: '立即前往',
+                showCancelButton: true,
                 showConfirmButton: true,
                 beforeClose: (action, instance, done) => {
+                  if(action === 'confirm') {
+                    this.$router.push('/user');
+                  } else if(action === 'cancel'){
+                    this.$router.push(to);
+                  }
+                  done();
+                },
+              });
+            } else if(limit < 5) {
+              this.$messageBox({
+                title: "温馨提示",
+                center: true,
+                message: "您的企业标签数量较少，请尽快前往企业个人中心的基本信息处进行完善，可让政策匹配更精准。",
+                cancelButtonText: '继续匹配',
+                confirmButtonText: '立即前往',
+                showCancelButton: true,
+                showConfirmButton: true,
+                beforeClose: (action, instance, done) => {
+                  if(action === 'confirm') {
+                    this.$router.push('/user');
+                  } else if(action === 'cancel'){
+                    this.$router.push(to);
+                  }
                   done();
                 },
               });
@@ -411,6 +461,17 @@ export default {
       this.$store.commit("login/CHANGE_VISIBLE", true);
     },
 
+    showLogin() {
+      let logined = document.getElementsByClassName("logined")[0];
+      if(logined.style['right']) {
+        logined.style['right'] = '';
+        this.loginShow = true;
+      } else {
+        logined.style['right'] = '-239px';
+        this.loginShow = false;
+      }
+    },
+
     // 退出
     logout() {
       this.$store.dispatch("user/logout");
@@ -437,7 +498,6 @@ export default {
   width: 100%;
   position: relative;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
   .main-header {
     display: flex;
     justify-content: center;
@@ -581,11 +641,12 @@ export default {
           }
 
           .logined {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #fff;
-            padding-right: 46px;
+            padding-right: 20px;
             // width: 200px;
             height: 80px;
             background: #ffffff;
@@ -594,6 +655,24 @@ export default {
             font-family: AlibabaPuHuiTiR;
             color: #000000;
             line-height: 27px;
+             
+            //左箭头
+            .date-left {
+              width: 7px;
+              height: 7px;
+              border-top: 2px solid #867f7a;
+              border-right: 2px solid #867f7a;
+              transform: rotate(45deg);
+            }
+            
+            ///右箭头
+            .arrow-right {
+              width: 7px;
+              height: 7px;
+              border-top: 2px solid #867f7a;
+              border-right: 2px solid #867f7a;
+              transform: rotate(-135deg);
+            }
             .console {
               font-size: 12px;
               font-weight: 600;
@@ -609,7 +688,7 @@ export default {
             }
 
             .avatar-wrapper {
-              margin: 5px 16px 0px 30px;
+              margin: 5px 16px 0px 10px;
               position: relative;
 
               .user-avatar {

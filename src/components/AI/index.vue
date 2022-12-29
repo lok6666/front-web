@@ -412,6 +412,11 @@ export default {
         res.data.msgInfos =
           "为您找到了以下问题，可点击标题查看详情";
         res.data.replayType = "LAW";
+        // 请求接口无结果兼容
+        if(res.data.replyLawDatas.length === 0) {
+          res.data.msgInfos = '小文还在学习,暂时理解不了您说的问题';
+          res.data.replayType = "MSG";
+        };
         var that = this;
         if (
           res.data.replayType == "NEEDCONTRACTUSER" ||

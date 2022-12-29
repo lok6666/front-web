@@ -142,6 +142,7 @@ export default {
       value2: '',
       pageNum: 1,
       policyList: [],
+      policyLocation: '',
       btnList1: [
         {
           message: "不限",
@@ -161,6 +162,7 @@ export default {
         {
           message: "石景山区",
           isSelect: false,
+          policyLocation: 'shijingshan',
           value: 1,
         }
       ],
@@ -198,13 +200,13 @@ export default {
           isSelect: true,
         },
         {
-          message: "政策解读",
-          value: '政策解读',
+          message: "政策文件",
+          value: '政策文件',
           isSelect: false,
         },
         {
-          message: "政策文件",
-          value: '政策文件',
+          message: "政策解读",
+          value: '政策解读',
           isSelect: false,
         },
         {
@@ -270,13 +272,15 @@ export default {
         this.endTime = '';
         this.startTime = '';
       }
+      this.btnList2 = this.btnList2.map(e => {
+        e.isSelect = false;
+        return e;
+      });
       this.getPolicyList();
-      console.log('value2----');
         }
   },
   methods: {
     inputConfirm(val) {
-      console.log('inputConfirm-----', val);
       this.policyTitle = val;
       this.getPolicyList();
     },
@@ -293,6 +297,7 @@ export default {
           startTime: this.startTime,
           endTime: this.endTime,
           policyTitle: this.policyTitle,
+          policyLocation: this.policyLocation,
           entId: window.localStorage.getItem('USERID')
         }
       }).then(res => {
@@ -350,8 +355,9 @@ export default {
           return e;
         });
       this[list][index].isSelect = true;
-      
+      this.policyLocation = this[list][index].policyLocation ? this[list][index].policyLocation : this.policyLocation ;
       if(type === 'time') {
+        this.value2 = [];
         let ed = new Date();
         let sd = new Date(ed.getTime() - this[list][index].value*24*60*60*1000);
         this.endTime = ed.getTime();

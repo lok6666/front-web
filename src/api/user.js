@@ -58,7 +58,7 @@ export async function getUserInfo(token) {
     hits: result.data.hits,
     policyCount: result.data.policyCount,
     entLevel: result.data.entLevel,
-    serviceCount: result.data.serviceCount
+    policyNum: result.data.policyNum
   }));
   result.roles = ["ordinary"];
   // let result = {
@@ -243,5 +243,7 @@ export function bindMobile(params) {
     url: authVerify,
     method: 'post',
     data: {...data}
+  }).catch(e => {
+    throw Error('手机号已注册');
   })
 }

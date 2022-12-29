@@ -9,12 +9,14 @@
     :lock-scroll="false"
     :append-to-body="true"
   >
-    <div>
+    <terms :dialogVisible="dialogVisible" @closeDialog="closeDialog"></terms>
+    <div style="height: 330px;">
       <i class="el-dialog__close el-icon el-icon-close" @click="bClose" style="float: right;custor: pointer"/>
       <h2>
-      <img src="../../images/nobgcolor-wtlogo.png"/>
+      <img style="margin-bottom: 10px;" src="../../images/nobgcolor-wtlogo.png"/>
       <div>
         <span
+          style="margin-left: 10px;"
           v-for="(item, index) in tabs"
           :key="index"
           class="btn tab"
@@ -23,30 +25,18 @@
         >{{ item }}</span>
       </div>
     </h2>
-    <el-input v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
-    <el-input v-else v-model="mobile" placeholder="手机号" />
-    <el-input v-if="active === 0" type="password" v-model="password" placeholder="密码" />
-    <el-input v-else v-model="code" placeholder="验证码">
-      <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
-      <el-button
-        v-show="codeCount"
-        slot="suffix"
-        type="primary"
-        size="mini"
-        disabled
-        style="margin-top: 6px;"
-      >{{ codeCount }}s</el-button>
-    </el-input>
-    <el-button style="background: #D99447;border-radius: 30px;border: none;" type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
-    <p class="tip">
+    <el-input style="margin-top: 5px;" v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
+    <el-input style="margin-top: 5px;" v-if="active === 0" type="password" v-model="password" placeholder="密码" @keyup.enter="login"/>
+    <!-- <p class="tip"> -->
       <!-- <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox> -->
-      <span class="active btn" :class="{ right: active === 0 }" @click="forgetClick">忘记密码</span>
-    </p>
+      <span class="active btn" style="float: right;margin-bottom: 20px;" @click="forgetClick">忘记密码</span>
+    <!-- </p> -->
+    <el-button style="background: #D99447;border-radius: 30px;border: none;" type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p style="clear: both;">
       注册登录即表示同意
       <span style="color: #007fff;">
         <span class="btn" @click="terms">用户协议</span>
-        <span class="btn" @click="privacy">隐私政策</span>
+        <!-- <span class="btn" @click="privacy">隐私政策</span> -->
       </span>
     </p>
     </div>
@@ -68,13 +58,18 @@
 </template>
 
 <script>
+import terms from '@/views/terms/index'
 import { validMobile } from '@/utils/validate.js'
 import { mapGetters } from 'vuex'
 import { setRemember, getRemember } from '@/utils/auth.js'
 import { sendCode } from '@/api/code.js'
 export default {
+  components: {
+    terms
+  },
   data() {
     return {
+      dialogVisible: false,
       username: '',
       password: '',
       mobile: '',
@@ -98,11 +93,13 @@ export default {
   },
 
   methods: {
-
+    closeDialog() {
+      this.dialogVisible = false;
+    },
     // 关闭弹框跳转用户协议
     terms() {
-      this.$store.commit('login/CHANGE_VISIBLE', false)
-      this.$router.push('/terms')
+      // this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.dialogVisible = true;
     },
     // 关闭弹框跳转隐私政策
     privacy() {

@@ -3,7 +3,7 @@
     <div class="user-table-title">
       <div class="user-table-service">金融服务</div>
     </div>
-    <el-table :data="tableData" style="width: 100%" @row-click="routeTo">
+    <el-table :data="tableData" style="width: 100%" @row-click="routeTo" cell-style="cursor: pointer;">
       <el-table-column v-for="(item, index) in tableItem" :key="index">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
@@ -48,7 +48,8 @@ export default {
       tableData: [],
       applyStatusObj: {
         0: '申请中',
-        1: '已受理'
+        1: '申请成功',
+        2: '申请失败'
       },
       tableItem: [
         {
@@ -80,6 +81,10 @@ export default {
   methods: {
     routeTo(item) {
       this.$router.push(`/finance-detail/:${item.id}`);
+    },
+    cellStyle() {
+      console.log('cellStyle----');
+      return 'cursor: pointer';
     },
     getPolicyList() {
       let that = this;

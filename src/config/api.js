@@ -1,7 +1,7 @@
 //const host = 'http://172.16.4.62:28182';
-const host = 'http://enterprise.bjwcxf.com:28191';
+//const host = 'http://enterprise.bjwcxf.com:28191';
 //export const policyHost = 'http://172.16.4.62:5000/match';
-//export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
+export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
 export const policyHost = `${host}/policyMatch/get`;
 // 登录接口
 export const login = `${host}/auth/entLogin`
@@ -45,6 +45,10 @@ export  const entPropagateUpdate = `${host}/entPropagate/update` // 角色更新
 export  const entPropagateDelete = `${host}/entPropagate/delete` // 角色删除
 export  const entPropagateInsert = `${host}/entPropagate/insert` // 角色插入
 export  const entPropagateGetById = `${host}/entPropagate/get` // 角色插入
+export  const entPropagateTemplateUpdate = `${host}/entPropagateTemplate//update` // 角色更新
+export  const entPropagateTemplateDelete = `${host}/entPropagateTemplate//delete` // 角色删除
+export  const entPropagateTemplateInsert = `${host}/entPropagateTemplate//insert` // 角色插入
+export  const entPropagateTemplateGetById = `${host}/entPropagateTemplate//get` // 角色插入
 
 /*个人中心-财税数据*/
 export  const entIncomeList = `${host}/entIncome/list` // 角色管理列表

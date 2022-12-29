@@ -65,6 +65,9 @@ div:focus {
 // main-container global css
 .app-container {
   // padding: 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 // button
@@ -173,6 +176,10 @@ div:focus {
       width: 100%;
     }
   }
+}
+.a-dialog {
+  background-image: url("../images/login-bg.png");
+  background-size: 100% 100%;
 }
 // todo 暂时定义全局
 .register-dialog {

@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import policyIcon from "../../images/policy-icon.png";
+import newIcon from "../../images/new-icon.png";
 import { articleList, indexPolicyList } from "@/config/api.js";
 import request from '@/utils/request';
 import _ from 'lodash';
@@ -34,6 +36,8 @@ export default {
       ],
       indexImg: '',
       message: '最新新闻',
+      policyIcon,
+      newIcon,
       current: 1,
       newList: [],
       policyList: [],
@@ -55,7 +59,7 @@ export default {
     }).then(res => {
       that.newList = res.data.list;
       that.contentList = res.data.list;
-      this.indexImg = that.contentList[0].picture;
+      this.indexImg = this.contentList[0].picture || (this.mainTabs[0].isSelect ? newIcon : policyIcon);
     });
     request({
       url: `${indexPolicyList}`,
@@ -79,6 +83,7 @@ export default {
       });
       // todo 切换数据
       this.contentList = this.mainTabs[i].message === '最新新闻' ? this.newList : this.policyList;
+      this.indexImg = this.contentList[0].picture || (this.mainTabs[0].isSelect ? newIcon : policyIcon);
     }, 
     routeTo(item) {
       this.$router.push(`${this.message === '最新新闻' ? '/new-detail' : '/policy-detail'}/:artId=${item.id}`);

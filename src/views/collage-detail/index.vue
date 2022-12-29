@@ -41,12 +41,12 @@
                         <div>联系人:{{data_collagedetail.contactPerson}}</div>
                         <div>联系电话:{{data_collagedetail.contactPhone}}</div>   
                       </div>
-                      <div class="block1" @click.stop="applyAcitivty(data_collagedetail.id)" style="color: #fff;">
+                      <div class="block1" style="color: #fff;">
                         <div class="apply-num" style="display: flex;">
                             <div style="font-size: 18px;font-family: AlibabaPuHuiTiM;color: #000000;">报名人数/总数</div>
                             <div class="apply-count">{{data_collagedetail.applyNum}}/{{data_collagedetail.activityNum}}</div>
                         </div>         
-                        <div class="block">立即报名</div>               
+                        <div class="block" @click.stop="applyAcitivty(data_collagedetail.id)">立即报名</div>               
                       </div>
                     </div>
                     <div class="collage-desc" style="padding: 0 20px">{{data_collagedetail.activityAbstract}}</div>     

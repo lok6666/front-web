@@ -19,7 +19,7 @@
                 class="bankBg"
                 :style="`background-image: url(${loan.serviceImages})`"
               ></div> -->
-              <div class="limit">租金:&nbsp;<div class="item-num">{{ loan.buildingRent }}</div>&nbsp;元/天·㎡</div>
+              <div class="limit">租金:&nbsp;<div class="item-num">{{ loan.buildingRent }}</div>&nbsp;{{loan.buildingRent === '面议' ? '' : '元/天·㎡'}}</div>
               <div class="limit">面积:&nbsp;{{ loan.buildingArea }} ㎡</div>
                 <el-tooltip effect="dark" :content="loan.buildingAddress" placement="top-start">
                   <div class="limit" style="margin-bottom: 10px;width: 216px;line-height: 21px;">地址:&nbsp;{{loan.buildingAddress.substring(0, 10)}}...</div>        
@@ -83,6 +83,7 @@ margin-top: 40px;
 display: grid;
 grid-template-columns: repeat(4, 310px);
 grid-gap: 20px 20px;
+min-height: 310px;
 .finance-loan-item {
     height: 410px;
     width: 310px;

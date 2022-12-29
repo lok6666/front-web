@@ -157,7 +157,7 @@
     </el-form>
   </div>
   <div v-if="showBtn" style="text-align: right;">
-    <el-button type="primary" @click="submitForm('formRef')">提交</el-button>
+    <el-button type="warning" @click="submitForm('formRef')">提交</el-button>
     <el-button v-if="showCanelBtn" @click="resetForm('formRef')">取消</el-button>
     <div v-if="!showCanelBtn"style="width:70px; height:39px;display: inline-table;"></div>
   </div>

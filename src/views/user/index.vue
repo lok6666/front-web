@@ -309,7 +309,7 @@
     justify-content: space-between;"
           >
             <h1>{{ entName }}</h1>
-            <div
+   <!--          <div
               style="cursor: pointer;    display: flex;
     align-items: center;"
             >
@@ -317,7 +317,7 @@
               <h1 @click="vipColorChoose(vipType[entLevel])">
                 {{ vipType[entLevel] }}
               </h1>
-            </div>
+            </div> -->
           </div>
           <div class="fw-model">
             <div class="fw-model-item" v-for="(i, index) in fwList" key="index">
@@ -430,7 +430,7 @@
               :customStyle="{ margin: `0px 0px 0px 100px` }"
               @likeCountChanges="
                 likeCountChanges(
-                  isExist ? entPropagateUpdate : entPropagateInsert,
+                  isExist ? entPropagateTemplateUpdate : entPropagateTemplateInsert,
                   'POST',
                   $event
                 )
@@ -463,7 +463,7 @@
             <img style="float: left" src="../../images/认证.png" />
             <div style="margin-top: 157px;width: 50%;">
               <h2 style="margin-bottom: 50px;">您已通过企业认证</h2>
-              <div v-for="(item, index) in baForm" style="height:50px;">
+              <div v-for="(item, index) in baForm1" style="height:50px;">
                 <span>{{ item.label }}：</span>
                 <span>{{ item[item.prop] }}</span>
               </div>
@@ -523,9 +523,9 @@ import {
   entInfoInsert,
   entInfoUpdate,
   entInfoGetById,
-  entPropagateInsert,
-  entPropagateUpdate,
-  entPropagateGetById,
+  entPropagateTemplateInsert,
+  entPropagateTemplateUpdate,
+  entPropagateTemplateGetById,
   entIncomeInsert,
   entIncomeUpdate,
   entFilingUpdate,
@@ -593,16 +593,16 @@ export default {
       entLevel: JSON.parse(window.localStorage.getItem("userinfo")).entLevel,
       categoryObj: {
         1: entInfoGetById,
-        2: entPropagateGetById,
+        2: entPropagateTemplateGetById,
         4: entFilingGetById,
       },
       totalPng,
       entInfoInsert,
       entInfoUpdate,
       entInfoGetById,
-      entPropagateInsert,
-      entPropagateUpdate,
-      entPropagateGetById,
+      entPropagateTemplateInsert,
+      entPropagateTemplateUpdate,
+      entPropagateTemplateGetById,
       entIncomeInsert,
       entIncomeUpdate,
       entFilingUpdate,
@@ -672,7 +672,7 @@ export default {
         },
         {
           title: "我的政策",
-          num: JSON.parse(window.localStorage.getItem("userinfo")).serviceCount,
+          num: JSON.parse(window.localStorage.getItem("userinfo")).policyNum,
           type: "项",
         },
       ],
@@ -683,7 +683,7 @@ export default {
       ],
       propertys: [
         { id: 3, name: "财税数据填报", formType: "priceForm" },
-        { id: 4, name: "企业认证信息", formType: "baForm" },
+        { id: 4, name: "企业认证信息", formType: "baForm1" },
       ],
       services: [
         { id: 5, name: "我的政策" },
@@ -744,9 +744,10 @@ export default {
     !userinfo && this.$store.commit("login/CHANGE_VISIBLE", true);
     let that = this;
     request({
-      url: `${entPropagateGetById}`,
+      url: `${entPropagateTemplateGetById}`,
       method: "get",
       params: {
+        approvalStatus: 0,
         entId: `${this.userId}`,
       },
     }).then(({ data }) => {
@@ -794,7 +795,7 @@ export default {
         position: 'top',
         color: '#333',
         formatter: (params) => {
-          console.log('params----', params);
+          
           return params.data['营业收入']
         }
       },},
@@ -811,7 +812,7 @@ export default {
         position: 'top',
         color: '#333',
         formatter: (params) => {
-          console.log('params----', params);
+          
           return params.data['纳税总额']
         }
       }, },
@@ -828,7 +829,7 @@ export default {
         position: 'top',
         color: '#333',
         formatter: (params) => {
-          console.log('params----', params);
+          
           return params.data['资产总额']
         }
       },},
@@ -844,7 +845,7 @@ export default {
         position: 'top',
         color: '#333',
         formatter: (params) => {
-          console.log('params----', params);
+          
           return params.data['负债总额']
         }
       }, },
@@ -894,23 +895,28 @@ export default {
     },
     async chageTab(id, formType) {
       this.categoryId = id;
+      let params = {
+            approvalStatus: 0,
+            entId: `${this.userId}`
+          };
+/*       //财税数据 再加入年份月份
+      if(this.categoryId === 4) {
+        params.incomeYear = "2022";
+        params.incomeMonth = "1-12月";
+      }; */
       // 企业id
       if (this.categoryObj[this.categoryId]) {
         let { data } = await request({
           url: `${this.categoryObj[this.categoryId]}`,
           method: "GET",
-          params: {
-            entId: `${this.userId}`,
-            incomeYear: "2021",
-            incomeMonth: "1-12月",
-          },
+          params,
         });
         this.isExist = data ? true : false;
         this.id = data && data.id ? data.id : "";
         // 企业信息认证兼容,认证成功后,只显示部分字段
-        if (data.authStatus) {
+  /*       if (data.authStatus) {
           this[formType] = this.baForm1;
-        }
+        } */
         this[formType] = data
           ? this[formType].map((e, b) => {
               let result = { ...e };
@@ -945,12 +951,13 @@ export default {
       });
     },
     likeCountChanges(url, method = "POST", formData, policyMatchTags) {
-      !policyMatchTags && request({
+      request({
         url: `${url}`,
         method,
         // todo 考虑 id怎么传进去
         data: {
           entId: this.userId,
+          approvalStatus: 0,
           id: this.id,
           contactsPhone: JSON.parse(window.localStorage.getItem("userinfo"))
             .contactsPhone,
@@ -971,22 +978,22 @@ export default {
             duration: 5 * 1000,
           });
         });
-      policyMatchTags &&
-        request({
+        policyMatchTags && request({
           url: `${policyMatchTags}`,
           method: "POST",
           // todo 考虑 id怎么传进去
           data: {
             companyid: this.userId,
+            approvalStatus: 0,
             id: this.id,
             ...formData,
           },
         }).then(e => {
-          this.$message({
+/*           this.$message({
             message: "提交成功",
             type: "success",
             duration: 5 * 1000,
-          });
+          }); */
           this.policyExist = true;
         });
     },

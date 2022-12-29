@@ -10,7 +10,7 @@
         />查看全部
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%" @row-click="routeTo">
+    <el-table :data="tableData" style="width: 100%" @row-click="routeTo" cell-style="cursor: pointer;">
       <el-table-column v-for="(item, index) in tableItem" :key="index">
         <template slot="header" slot-scope="scope">
           <div style="display: flex;align-items:center;"><img class="table-item-icon" :src="item.src" />{{ item.label }}</div>
@@ -40,7 +40,8 @@ export default {
       tableData: [],
       applyStatusObj: {
         0: '申请中',
-        1: '已受理'
+        1: '申请成功',
+        2: '申请失败'
       },
       applyStatus1Obj: {
         0: '税务服务',
@@ -89,6 +90,9 @@ export default {
     checkAll() {
       this.$emit('checkAll', 6);
     },
+    cellStyle() {
+      return 'cursor: pointer';
+    },
     routeTo(item) {
       this.$router.push(`/protect-detail/:${item.id}`);
     }
@@ -109,6 +113,7 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
   .table-icon {
+    custor: pointer;
     width: 17px !important;
     height: 17px;
     margin-right: 2px;

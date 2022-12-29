@@ -44,6 +44,7 @@ export default {
   name: "user-policy",
   data() {
     return {
+      userId: window.localStorage.getItem('USERID'),
       total: 0,
       pageSize: 10,
       pageNum: 1,
