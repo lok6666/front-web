@@ -50,7 +50,7 @@
                 float: right;
                 width: 100%;
                 display: flex;justify-content: space-between;padding-right: 30px;"><span>发文机构:{{policyDetail.policySource}}</span>
-                    <span>发布日期:{{policyDetail.policyTime.substring(0, 10)}}</span>
+                    <span v-if="policyDetail.policyTime">发布日期:{{policyDetail.policyTime.substring(0, 10)}}</span>
                 </div>
                 <div class="content-center" v-html="policyDetail.policyContent.replace('扫一扫在手机打开当前页', '')"></div>
                   <div class="desc">

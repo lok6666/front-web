@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" class="home-container">
+    <div ref="container" class="home-container" style="background: #fff;">
       <app-header />
       <el-dialog
           :visible.sync="applydialogVisible"
@@ -28,18 +28,18 @@
             <div class="left">
                 <div class="teacher-name">
                   <!-- <img src="../../images/avatar.png" style="width: 100px; height: 100px;margin-bottom: 23px;"/> -->
-                  <div class="collage-title">
+                  <div class="collage-title" v-cloak>
                     {{data_collagedetail.activityName}}
                   </div>
                   <div style="border: 1px solid #ccc;border-radius: 16px;display:flex;flex-direction:column">
                     <div style="display:flex;flex-direction:row;padding:20px;">
                       <img :src="data_collagedetail.activityThumbnail" style="width: 300px;margin-right: 10px;"/>
                       <div class="collage-message">
-                        <div>活动地点:{{data_collagedetail.activityAddress}}</div>  
-                        <div v-if="data_collagedetail.activityDateTo">活动日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
-                        <div v-if="data_collagedetail.activityDateFrom">活动时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>   
-                        <div>联系人:{{data_collagedetail.contactPerson}}</div>
-                        <div>联系电话:{{data_collagedetail.contactPhone}}</div>   
+                        <div v-cloak>活动地点:{{data_collagedetail.activityAddress}}</div>  
+                        <div v-if="data_collagedetail.activityDateTo" v-cloak>活动日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
+                        <div v-if="data_collagedetail.activityDateFrom" v-cloak>活动时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>   
+                        <div v-cloak>联系人:{{data_collagedetail.contactPerson}}</div>
+                        <div v-cloak>联系电话:{{data_collagedetail.contactPhone}}</div>   
                       </div>
                       <div class="block1" style="color: #fff;">
                         <div class="apply-num" style="display: flex;">
@@ -80,6 +80,7 @@
             </div> 
         </div>
       </div>
+
       <app-footer />
     </div>
   </template>
@@ -105,6 +106,7 @@
     data() {
       return {
         show: true,
+        loading: true,
         center: {},
         companyid: window.localStorage.getItem('USERID'),
         activtyForm,
@@ -135,12 +137,14 @@
       $route: {
         handler: function(val, oldVal){
           let that = this;
+          that.data_collagedetail = [];
           request({
             url: `${actionGetById}/${this.$route.params.collageId.replace(':collageId=', '')}`,
             method: 'get',
             data: {}
           })
           .then((res) => {
+            that.loading = true;
             that.data_collagedetail = res.data;
             this.getlocation(res.data.activityAddress);
           });
@@ -250,6 +254,9 @@
     overflow-x: overlay;
     overflow-y: -webkit-overlay;
     overflow-y: overlay;
+    [v-cloak] {
+        display: none !important;
+    }
     .policy-search-bg {
         margin-top: 100px;
         padding-left: 74px;

@@ -120,6 +120,7 @@ export default {
                 message: "您的企业标签数量较少，请尽快前往企业个人中心的基本信息处进行完善，可让政策匹配更精准。",
                 cancelButtonText: '继续匹配',
                 confirmButtonText: '立即前往',
+                distinguishCancelAndClose: true,
                 showCancelButton: true,
                 showConfirmButton: true,
                 beforeClose: (action, instance, done) => {
@@ -138,6 +139,7 @@ export default {
                 message: "您的企业标签数量较少，请尽快前往企业个人中心的基本信息处进行完善，可让政策匹配更精准。",
                 cancelButtonText: '继续匹配',
                 confirmButtonText: '立即前往',
+                distinguishCancelAndClose: true,
                 showCancelButton: true,
                 showConfirmButton: true,
                 beforeClose: (action, instance, done) => {

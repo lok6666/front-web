@@ -2,7 +2,7 @@
   <div class="app-container">
     <app-header :nav-item-active="-1" />
     <!--980+305-->
-    <div class="busniess-detail-bg" :style="`background-image: url(${busneissMessage.bgImg})`">
+    <div class="busniess-detail-bg" v-cloak :style="`background-image: url(${busneissMessage.bgImg})`">
       <div style="display: flex;">
         <!--img占位图-->
         <div style="width: 485px;height: 10px;"></div>
@@ -22,7 +22,7 @@
           style="display: flex;flex-direction: column;;width: 100%;padding: 0 27px;"
         >
           <div class="title">关于我们</div>
-          <div class="content">
+          <div class="content" v-cloak>
             {{ busneissMessage.busneissDesc }}
           </div>
         </div>
@@ -242,7 +242,9 @@ export default {
   // background: #ffffff;
   min-height: calc(100vh - 50px);
   position: relative;
-
+  [v-cloak] {
+        display: none !important;
+    }
   @media screen and (max-width: 922px) {
     padding: 0;
     margin: 0;

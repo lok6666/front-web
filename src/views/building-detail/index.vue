@@ -40,7 +40,7 @@
                       </el-tooltip>
                       <div>可租面积：{{data_collagedetail.buildingArea}} ㎡</div>  
                       <div>楼宇总面积：{{data_collagedetail.buildingTotalArea}} ㎡</div>  
-                      <div>楼宇租金：{{data_collagedetail.buildingRent}} 元/天·㎡</div>
+                      <div>楼宇租金：{{data_collagedetail.buildingRent}} {{data_collagedetail.buildingRent === '面议' ? '' : '元/天·㎡'}} </div>
  <!--                      <el-tooltip effect="light" :content="data_collagedetail.buildingPeripheral" placement="top-start">
                         <div v-if="data_collagedetail.buildingPeripheral">周边配套：{{data_collagedetail.buildingPeripheral.substring(0, 18)}}...</div>
                       </el-tooltip> -->

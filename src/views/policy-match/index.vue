@@ -399,8 +399,6 @@
           });
       },
       check(index) {
-        debugger;
-        console.log('111------');
         this.policyList[index].policyCollect
         ? request({
           url: `${entPolicyCollectDelete}`,
@@ -411,7 +409,6 @@
             isCollect: 1
           }
         }).then(e => {
-          debugger;
           this.policyList[index].policyCollect = 0;
         })
         :
@@ -424,7 +421,6 @@
             isCollect: 0
           }
         }).then(e => {
-          debugger;
           this.policyList[index].policyCollect = 1;
         });
       },

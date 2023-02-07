@@ -28,9 +28,12 @@ export  const entPolicyCollectList = `${host}/entPolicyCollect/list` // 收藏�
 export  const entServiceDockingList = `${host}/entServiceDocking/list` // 申请服务列表
 export  const activityApplyList = `${host}/activityApply/list` // 活动报名列表
 export  const recruitServiceDockingApply = `${host}/recruitServiceDocking/insert` // 灵活用工报名
-
+export const dictionariesGetByCode = `${host}/dictionariesBranch/getByCode` // 一级列表
 /*企业首页*/
 export  const entPropagateGet = `${host}/entPropagate/get` // 插入
+
+/*企业基本信息 列表*/
+export  const entTagsInfoList = `${host}/entTagsInfo/list` // 插入
 
 /*个人中心-企业基本信息*/
 export  const entInfoList = `${host}/entUser/homeList` // 信息列表

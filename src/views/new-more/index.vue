@@ -26,7 +26,7 @@
         <div style=" margin-bottom: 16px; width: 100%;border-bottom: 0.1px solid;padding-bottom: 10px;">共找到<span style="color: red">{{total}}</span>查询结果</div>
         <div v-for="(item, index) in contentList" :key="index" :class="`item-${index} new-more-search-container-item`" @click="detail(item)">
           <div class="message">{{item.title || item.policyTitle}}</div>
-          <div class="time">{{(item.releaseDate || item.policyTime).substring(0, 10)}}</div>
+          <div class="time" v-if="item.releaseDate || item.policyTime">{{(item.releaseDate || item.policyTime).substring(0, 10)}}</div>
         </div>
         <div class="pagination-block">
           <el-pagination

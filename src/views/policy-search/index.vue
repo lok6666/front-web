@@ -260,6 +260,15 @@ export default {
   },
   created() {
     this.getPolicyList();
+/*     request({
+        url: `http://172.16.4.62:28182/entTagsInfo/list`,
+        method: 'post',
+        data: {
+          entTagsOne: '业务领域'
+        }
+      }).then(res => {
+        console.log('res----', res);
+      }); */
   },
   mounted() {
   },
