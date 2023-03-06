@@ -197,7 +197,7 @@ export default {
           margin-bottom: 33px;
           width: 240px !important;
           .swiper-item {
-            height: 126px;
+            height: 246px;
             width: 240px;  
    /*         width: 224px;
             height: 126px;

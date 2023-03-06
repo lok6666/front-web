@@ -2,11 +2,11 @@
   <div class="main-footer-box">
     <div class="container">
       <div class="footer-about">
-        <div class="footer-about-logo">
+        <div class="footer-about-logo" style="font-size: 20px;">
           <img
             src="../../images/guide-logo.png"
             style="width: 48px; height: 52px;"
-          />石文创服
+          />{{$router.isBeijing() ? '文化产业综合服务平台' : '文化产业综合服务平台（石景山站）'}}
         </div>
         <div class="about">
           <div class="contact-title">友情链接</div>
@@ -19,7 +19,7 @@
           <div class="contact-title">联系我们</div>
           <div class="contact-content">
             <div class="contact-email">客服信箱：wtdsj@bjwcxf.com</div>
-            <div class="contact-telephone">客服热线：010-56939760</div>
+            <div class="contact-telephone">客服热线：{{'17190033790'}}</div>
           </div>
         </div>
         <div class="contact">
@@ -49,7 +49,13 @@
 export default {
   data() {
     return {
-      list: [
+      list: this.$router.isBeijing() ? [
+        // { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
+        { id: 2, desc: "北京文化产业投融资协会", src: 'http://www.bciifa.org.cn/' },
+        { id: 3, desc: "中国文化管理协会", src: 'http://www.ccasn.com/' },
+        { id: 4, desc: "北京银行",src: 'http://www.bankofbeijing.com.cn/' },
+        { id: 5, desc: "建设银行", src: 'http://www.ccb.com' },
+      ] : [
         { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
         { id: 2, desc: "北京文化产业投融资协会", src: 'http://www.bciifa.org.cn/' },
         { id: 3, desc: "中国文化管理协会", src: 'http://www.ccasn.com/' },

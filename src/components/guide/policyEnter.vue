@@ -190,10 +190,16 @@ export default {
 <style lang="scss" scoped>
 .policy-enter-bg {
     background: #fff;
+    // max-width: 1440px;
+/*     display: flex;
+    justify-content: center; */
 };
 .guide-wrap {
   .container {
     padding: 30px 60px;
+    // padding: 30px 60px;
+/*     max-width: 1440px;
+    width: 100%; */
     .guide-policyEnter-content {
         width: 100%;
         display: flex;

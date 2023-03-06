@@ -17,9 +17,10 @@
         <policy-enter/>
         <!-- <policyMatch /> -->
         <busniess-service />
-        <industrial />
-        <sjs-industrial />
-        <ExcellentBusniess />
+        <industrial v-if="$router.isBeijing()"/>
+        <sjs-industrial v-if="!$router.isBeijing()"/>
+        <building v-if="$router.isBeijing()"></building>
+        <ExcellentBusniess v-if="!$router.isBeijing()"/>
         <bank />
       </div>
 
@@ -39,15 +40,16 @@ import { industryDataList } from "@/config/api.js";
 import request from '@/utils/request';
 import { mapGetters } from 'vuex'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import { swiperConfig } from '@/config/index'
+import { swiperConfig ,hostList} from '@/config/index'
 import 'swiper/css/swiper.css'
 import AppHeader from '@/components/Header/index'
 import AppFooter from '@/components/footer/index'
-import ArticleList from '@/components/ArticleList'
+// import ArticleList from '@/components/ArticleList'
 import Advantage from '@/components/Advantage'
 import New from '@/components/new/index.vue'
 import PolicyMatch from '@/components/guide/PolicyMatch.vue'
 import sjsIndustrial from '@/components/guide/sjsIndustrial.vue'
+import building from '@/components/guide/building.vue'
 import policyEnter from '@/components/guide/policyEnter.vue'
 import busniessService from '@/components/guide/busniessService.vue'
 import ExcellentBusniess from '@/components/guide/ExcellentBusniess.vue'
@@ -63,13 +65,14 @@ export default {
   components: {
     AppHeader,
     AppFooter,
-    ArticleList,
+    // ArticleList,
     policyEnter,
     PolicyMatch,
     sjsIndustrial,
     busniessService,
     ExcellentBusniess,
     industrial,
+    building,
     New,
     Swiper,
     SwiperSlide,
@@ -110,7 +113,13 @@ export default {
       val.path === '/' && request({
         url: `${industryDataList}`,
         method: 'post',
-        data: {}
+        data: {
+          bannerType: hostList.filter(e => {
+              if(window.location.hash.includes(e)) {
+                  return e;
+              }
+          })[0].replace('#/', '')
+        }
       }).then((e) => {
       });
       }
@@ -120,6 +129,11 @@ export default {
       url: `${industryDataList}`,
       method: 'post',
       data: {
+        bannerType: hostList.filter(e => {
+            if(window.location.hash.includes(e)) {
+                return e;
+            }
+        })[0].replace('#/', ''),
         pageSize: 5,
         pageNum: 1
       }

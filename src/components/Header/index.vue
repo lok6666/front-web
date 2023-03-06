@@ -43,7 +43,7 @@
               style="cursor:pointer;width: 45px;height: 45px;"
               src="../../images/sdzc.png"
           /></span>
-          <span @click="wxdialogVisible = !wxdialogVisible" class="index-icon"
+          <span v-if="$router.isBeijing()" @click="wxdialogVisible = !wxdialogVisible" class="index-icon"
             ><img src="../../images/微信.png" />公众号</span
           >
           <img
@@ -52,8 +52,18 @@
             src="../../images/wx-wt.png"
           />
           <span class="index-icon"
-            ><img src="../../images/路径.png" />平台热线: 010-56939760</span
+            ><img src="../../images/路径.png" />平台热线: {{'17190033790'}}</span
           >
+          <span class="index-icon">
+            <el-select v-model="locationOption" placeholder="请选择" size="mini"  @change="tabChange" style="width: 100px;">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </span>
         </div>
         <div class="header-right">
           <span>
@@ -75,7 +85,7 @@
                       </el-input> -->
             </div>
           </span>
-          <span class="index-icon" @click="applydialogVisible = true"
+          <span v-if="!$router.isBeijing()" class="index-icon" @click="applydialogVisible = true"
             ><img src="../../images/招商.png" />入驻石景山</span
           >
           <span class="index-icon" @click="AIDialogVisible = true"
@@ -86,10 +96,10 @@
       <div class="content">
         <div class="content-left">
           <span
-            style="font-size: 30px;font-weight: bold;font-family: SourceHanSerifSC-Bold, SourceHanSerifSC;"
-            >石文创服</span
+            style="font-size: 24px;font-weight: bold;font-family: SourceHanSerifSC-Bold, SourceHanSerifSC;"
+            >{{$router.isBeijing() ? '文化产业综合服务平台' : '文化产业综合服务平台（石景山站）'}}</span
           >
-          <span>助力企业梦想腾飞</span>
+          <!-- <span>助力企业梦想腾飞</span> -->
         </div>
         <div class="content-right">
           <span
@@ -155,7 +165,10 @@
         </div>
       </div>
       <div class="footer">
-        <div class="footer-desc">石景山区文化产业综合服务平台</div>
+        <!-- <div style="display: flex;">
+          <div class="footer-desc" :style="{color:$router.isBeijing() ? `#E6A23C` : ''}" @click="tabChange('/beijing')">北京站</div>
+          <div class="footer-desc" :style="{color:!$router.isBeijing() ? `#E6A23C` : ''}" @click="tabChange('/')">石景山站</div>
+        </div> -->
         <div class="logo">
           <div v-if="device !== 'desktop'" class="menu-wrapper">
             <el-dropdown trigger="click" placement="bottom">
@@ -194,7 +207,7 @@
               v-for="(nav, index) in navItems"
               :key="index"
               class="main-nav-item"
-              :class="[navItemActive === index ? 'main-nav-item-active' : '']"
+              :class="[navItemActive === nav.index ? 'main-nav-item-active' : '']"
               @click="routerTo(nav.to, index)"
             >
               <div
@@ -225,6 +238,7 @@ import FormTemplate from "@/components/Form/index.vue";
 // import customerService from '@/components/customer-service/index'
 import RegisterDialog from "./RegisterDialog";
 import LoginDialog from "./LoginDialog";
+import store from "@/store";
 export default {
   name: "Header",
   components: {
@@ -249,13 +263,27 @@ export default {
       // this.navItemActive = a;
       console.log("navItemActive--", a, b);
     },
+    "$store.state.app.location": {
+      handler: function(val) {
+        this.locationOption = val;
+        !window.location.hash.includes(val) && this.$router.changelocation(val, this.$store.state.app.location);
+      }
+    }
   },
   data() {
     return {
+      options: [{
+          value: '#/beijing',
+          label: '北京站'
+        }, {
+          value: '#/shijingshan',
+          label: '石景山站'
+        }],
       loginShow: true,
       entName: window.localStorage.getItem("userinfo")
         ? JSON.parse(window.localStorage.getItem("userinfo")).entName
         : "",
+      locationOption: location.hash.includes('#/beijing') ? '#/beijing' :  '#/shijingshan',
       companyid: window.localStorage.getItem("USERID"),
       policyCalculate:{
           "jigou": "不符合",
@@ -281,42 +309,80 @@ export default {
       applyMessageForm,
       keyword: "",
       inputIconColor: "",
-      navItems: [
+      navItems: this.$router.isBeijing() ? [
         {
           name: "首页",
           to: "/",
+          index: 0
         },
         {
           name: "政策匹配",
           to: "/policy-match/政策匹配",
+          index: 1
         },
         {
           name: "灵活用工",
           to: "/category",
+          index: 2
         },
         {
           name: "产品大厅",
           to: "/archives",
+          index: 3
         },
         {
           name: "行业培训",
           to: "/friend-link",
+          index: 4
         },
         {
           name: "金融服务",
           to: "/finance",
+          index: 5
         },
         {
           name: "楼宇信息",
           to: "/building",
+          index: 6
+        },
+      ] : [
+        {
+          name: "首页",
+          to: "/",
+          index: 0
+        },
+        {
+          name: "政策匹配",
+          to: "/policy-match/政策匹配",
+          index: 1
+        },
+        {
+          name: "知识产权",
+          to: "/archives",
+          index: 3
+        },
+        {
+          name: "行业培训",
+          to: "/friend-link",
+          index: 4
+        },
+        {
+          name: "金融服务",
+          to: "/finance",
+          index: 5
+        },
+        {
+          name: "楼宇信息",
+          to: "/building",
+          index: 6
         },
       ],
     };
   },
-  computed: {
-    ...mapGetters(["userInfo", "defaultAvatar", "device", "data_selection"]),
-  },
 
+  computed: {
+    ...mapGetters(["userInfo", "defaultAvatar", "device", "data_selection", 'location']),
+  },
   mounted() {
     if (this.$route.path === "/search") {
       this.keyword = this.$route.query && this.$route.query.keyword;
@@ -324,6 +390,9 @@ export default {
   },
 
   methods: {
+    async tabChange(tab) {
+      await store.dispatch('app/changeLocation', tab)
+    },
     busneissIndex() {
       this.$router.push(
         `/business-detail/${window.localStorage.getItem("USERID")}`
@@ -725,6 +794,8 @@ export default {
         line-height: 20px;
         font-family: AlibabaPuHuiTiR;
         color: #ffffff;
+        cursor: pointer;
+        margin-right: 10px;
       }
       @media screen and (max-width: 922px) {
         padding: 0 15px;

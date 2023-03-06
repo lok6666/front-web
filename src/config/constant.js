@@ -96,7 +96,104 @@ const locationOptions1 = [
     label: "石景山区",
     isSelect:　false,
     type: 'quxian'
+  },
+  {
+    value: "dongcheng",
+    label: "东城区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "xicheng",
+    label: "西城区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "haidian",
+    label: "海淀区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "chaoyang",
+    label: "朝阳区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "changping",
+    label: "昌平区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "tongzhou",
+    label: "通州区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "shunyi",
+    label: "顺义区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "yanqing",
+    label: "延庆区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "pinggu",
+    label: "平谷区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "daxing",
+    label: "大兴区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "miyun",
+    label: "密云区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "fangshan",
+    label: "房山区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "huairou",
+    label: "怀柔区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "fengtai",
+    label: "丰台区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "yizhuang",
+    label: "经开区",
+    sSelect:　false,
+    type: 'quxian'
+  },
+  {
+    value: "mentougou",
+    label: "门头沟区",
+    sSelect:　false,
+    type: 'quxian'
   }
+  
 ];
 const industrialOptions = [
   {

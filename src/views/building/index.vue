@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import {hostList} from '@/config/index'
 import { mapGetters } from "vuex";
 import { buildings } from "@/config/api.js";
 import { getAccessToken } from "@/utils/auth";
@@ -97,6 +98,11 @@ export default {
         url: `${buildings}`,
         method: 'post',
         data: {
+          buildingLocation: hostList.filter(e => {
+              if(window.location.hash.includes(e)) {
+                  return e;
+              }
+          })[0].replace('#/', ''),
           buildingName: this.buildingName
         }
       })

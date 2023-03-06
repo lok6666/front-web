@@ -1,11 +1,19 @@
 import Cookies from 'js-cookie'
-
+const hashList = ['#/beijing', '#/shijingshan'];
+let hash = window.location.hash;
+for (let i = 0;i < hashList.length; i++) {
+  if(hash.includes(hashList[i])) {
+    hash = hashList[i];
+    break;
+  }
+}
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  location: hash
 }
 
 const mutations = {
@@ -25,6 +33,9 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  CURRENT_LOCARION: (state, location) => {
+    state.location = location;
   }
 }
 
@@ -40,6 +51,9 @@ const actions = {
   // 切换设备
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  changeLocation({ commit }, location) {
+    commit('CURRENT_LOCARION', location)
   }
 }
 

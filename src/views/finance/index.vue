@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import {hostList} from '@/config/index'
 import { mapGetters } from "vuex";
 import { financialServicesAll } from "@/config/api.js";
 import { getAccessToken } from "@/utils/auth";
@@ -84,6 +85,11 @@ export default {
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
     };
   },
+  watch: {
+    $route(val) {
+      this.getFinancialServicesAll();
+    },
+  },
   components: {
     AppHeader,
     Loan,
@@ -103,7 +109,12 @@ export default {
         method: 'post',
         data: {
           serviceFlag: 1,
-          serviceTypes: this.serviceBank
+          serviceTypes: this.serviceBank,
+          serviceLocation: hostList.filter(e => {
+              if(window.location.hash.includes(e)) {
+                  return e;
+              }
+          })[0].replace('#/', ''),
         }
       })
       .then((res) => {

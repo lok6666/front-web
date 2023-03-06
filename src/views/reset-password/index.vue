@@ -174,7 +174,7 @@ export default {
     max-width: 470px;
     box-sizing: border-box;
     margin: 0 auto;
-    margin-top: 7%;
+    margin-top: 9%;
     background: #fff;
     border-radius: 4px;
     padding: 30px;

@@ -126,3 +126,5 @@ export const swiperConfig2 = [{
   videoSrc: mp4_4,
   learnNum: '1200'
 },]
+
+export const hostList = ['#/beijing', '#/shijingshan'];

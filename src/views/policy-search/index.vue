@@ -19,8 +19,9 @@
         </el-input>
       </div>
       <div class="select-btn">
-        <div>政策级别:</div>
-          <div v-for="(btn, index) in btnList1" :key="index">
+        <div style="width: 75px;">政策级别:</div>
+        <div style="display: flex;flex-wrap: wrap;width: 100%;">
+          <div v-for="(btn, index) in btnList1" :key="index" style="margin-top: 10px;">
             <el-button
               class="button-new-tag"
               :class="[btn.isSelect ? 'button-new-tag-select' : '']"
@@ -28,6 +29,7 @@
               @click="select('btnList1', index, 'policyLevel')"
               >{{ btn.message }}</el-button
             >
+        </div>
         </div>
       </div>
       <div class="select-btn">
@@ -163,6 +165,102 @@ export default {
           message: "石景山区",
           isSelect: false,
           policyLocation: 'shijingshan',
+          value: 1,
+        },
+        {
+          policyLocation: "dongcheng",
+          isSelect: false,
+          message: "东城区",
+          value: 1,
+        },
+        {
+          policyLocation: "xicheng",
+          isSelect: false,
+          message: "西城区",
+          value: 1,
+        },
+        {
+          policyLocation: "haidian",
+          isSelect: false,
+          message: "海淀区",
+          value: 1,
+        },
+        {
+          policyLocation: "chaoyang",
+          isSelect: false,
+          message: "朝阳区",
+          value: 1,
+        },
+        {
+          policyLocation: "changping",
+          isSelect: false,
+          message: "昌平区",
+          value: 1,
+        },
+        {
+          policyLocation: "tongzhou",
+          isSelect: false,
+          message: "通州区",
+          value: 1,
+        },
+        {
+          policyLocation: "shunyi",
+          isSelect: false,
+          message: "顺义区",
+          value: 1,
+        },
+        {
+          policyLocation: "yanqing",
+          isSelect: false,
+          message: "延庆区",
+          value: 1,
+        },
+        {
+          policyLocation: "pinggu",
+          isSelect: false,
+          message: "平谷区",
+          value: 1,
+        },
+        {
+          policyLocation: "daxing",
+          isSelect: false,
+          message: "大兴区",
+          value: 1,
+        },
+        {
+          policyLocation: "miyun",
+          isSelect: false,
+          message: "密云区",
+          value: 1,
+        },
+        {
+          policyLocation: "fangshan",
+          isSelect: false,
+          message: "房山区",
+          value: 1,
+        },
+        {
+          policyLocation: "huairou",
+          message: "怀柔区",
+          isSelect: false,
+          value: 1,
+        },
+        {
+          policyLocation: "fengtai",
+          message: "丰台区",
+          isSelect: false,
+          value: 1,
+        },
+        {
+          policyLocation: "yizhuang",
+          message: "经开区",
+          isSelect: false,
+          value: 1,
+        },
+        {
+          policyLocation: "mentougou",
+          message: "门头沟区",
+          isSelect: false,
           value: 1,
         }
       ],

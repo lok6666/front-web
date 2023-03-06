@@ -45,6 +45,7 @@
   </template>
   
   <script>
+  import {hostList} from '@/config/index'
   import { articleList, policyList } from "@/config/api.js";
   import request from '@/utils/request';
   import { mapGetters } from "vuex";
@@ -97,6 +98,11 @@
           url: `${articleList}`,
           method: 'post',
           data: {
+            contentType: hostList.filter(e => {
+              if(window.location.hash.includes(e)) {
+                  return e;
+              }
+          })[0].replace('#/', ''),
             pageNum: this.pageNum,
             pageSize: this.pageSize,
             title: this.title,

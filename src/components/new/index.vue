@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import {hostList} from '@/config/index'
 import policyIcon from "../../images/policy-icon.png";
 import newIcon from "../../images/new-icon.png";
 import { articleList, indexPolicyList } from "@/config/api.js";
@@ -51,6 +52,11 @@ export default {
       url: `${articleList}`,
       method: 'post',
       data: {
+        contentType: hostList.filter(e => {
+              if(window.location.hash.includes(e)) {
+                  return e;
+              }
+          })[0].replace('#/', ''),
         pageNum: 1,
         pageSize: 10,
         recommend: 1,
@@ -109,8 +115,13 @@ export default {
 
 <style lang="scss" scoped>
 .new-wrap {
+/*   display: flex;
+  justify-content: center; */
   .container {
     margin: 60px 92px 60px;
+    // margin: 60px 92px;
+/*     max-width: 1440px;
+    width: 100%; */
     .new-header {
         display: flex;
         justify-content: space-between;
@@ -153,6 +164,7 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
+        // justify-content: space-between;
         .new-content-list {
             width: 816px;
             max-height: 304px;

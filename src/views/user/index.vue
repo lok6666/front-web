@@ -690,6 +690,7 @@ export default {
         { id: 6, name: "我的服务" },
         { id: 7, name: "我的活动" },
         { id: 8, name: "站内信息" },
+        { id: 9, name: "修改密码" },
         // { id: 9, name: "账户管理" },
       ],
       opVisible: {
@@ -894,6 +895,11 @@ export default {
         .catch((_) => {});
     },
     async chageTab(id, formType) {
+      // 修改密码
+      if(id === 9) {
+        this.$router.push('/reset-password')
+        return;
+      };
       this.categoryId = id;
       let params = {
             approvalStatus: 0,

@@ -1,7 +1,7 @@
 //const host = 'http://172.16.4.62:28182';
-//const host = 'http://enterprise.bjwcxf.com:28191';
+// const host = 'https://entapi.bjwcxf.com';
 //export const policyHost = 'http://172.16.4.62:5000/match';
-export const host =  process.env.NODE_ENV === 'development'? "http://172.16.4.62:28182": "http://enterprise.bjwcxf.com:28191";
+export const host =  process.env.NODE_ENV === 'development'? "http://192.168.10.68:28182": "https://entapi.bjwcxf.com";
 export const policyHost = `${host}/policyMatch/get`;
 // 登录接口
 export const login = `${host}/auth/entLogin`

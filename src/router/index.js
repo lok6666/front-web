@@ -1,6 +1,46 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
+const hashList = ['#/beijing', '#/shijingshan'];
+const routerPush = Router.prototype.push;
+Router.prototype.isBeijing = function isBeijing(path) {
+  return window.location.hash.includes('beijing')
+}
+Router.prototype.changelocation = function push(path, target) {
+  let oirgin = window.location.hash;
+  for (let i = 0;i < hashList.length; i++) {
+    if(oirgin.includes(hashList[i])) {
+      oirgin = hashList[i];
+      break;
+    }
+  }
+  try {
+    return routerPush.call(this, window.location.hash.replace(oirgin, target).replace('#', ''));
+  } catch (error) {
+    console.log('error', error);
+  }
+  // routerPush.call(this, '/:status');
+}
+
+Router.prototype.push = function push(path) {
+  // router-link跳转
+  if(typeof path === 'object') {
+    path = path.path;
+  };
+  if(window.location.hash.includes('beijing')) {
+    return routerPush.call(this, `/beijing/${path.substring(1)}`).catch(error => {
+      console.log('error--', error);
+    })
+  }
+  else if(window.location.hash.includes('shijingshan')) {
+    return routerPush.call(this, `/shijingshan/${path.substring(1)}`).catch(error => {
+      console.log('error--', error);
+    })
+  }
+  return routerPush.call(this, path).catch(error => {
+    console.log('error--', error);
+  })
+}
 Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
@@ -29,6 +69,7 @@ export const constantRoutes = [
     path: '/',
     component: () => import('@/views/index/index'),
     hidden: true,
+    redirect: 'beijing',
     meta: {
       keepAlive: true,
     }
@@ -210,6 +251,212 @@ export const constantRoutes = [
   },
   {
     path: '/user',
+    hidden: true,
+    component: () => import('@/views/user/index'),
+  },
+  {
+    path: '/collect',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'collect',
+      component: () => import('@/views/collect-manage/index'),
+      meta: {
+        title: '我的收藏',
+        icon: 'collect-manage'
+      }
+    }]
+  }
+]
+/**
+ * 常量路由，所有用户可见
+ */
+ export const bjRoutes = [
+  {
+    path: '/:status',
+    component: () => import('@/views/index/index'),
+    hidden: true,
+    meta: {
+      keepAlive: true,
+    }
+  },
+  {
+    path: '/:status/tag',
+    component: () => import('@/views/tag/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/category',
+    component: () => import('@/views/category/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/policy-search',
+    component: () => import('@/views/policy-search/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/policy-report',
+    component: () => import('@/views/policy-report/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/policy-match/:type',
+    component: () => import('@/views/policy-match/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/policy-cul/:type',
+    component: () => import('@/views/policy-match/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/building',
+    component: () => import('@/views/building/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/picture-detail',
+    component: () => import('@/views/picture-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/picture-detail2',
+    component: () => import('@/views/picture-detail2/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/picture-detail3',
+    component: () => import('@/views/picture-detail3/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/new-detail/:artId/',
+    component: () => import('@/views/new-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/collage-detail/:collageId',
+    component: () => import('@/views/collage-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/teacher-detail',
+    component: () => import('@/views/teacher-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/policy-detail/:artId/',
+    component: () => import('@/views/policy-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/new-more',
+    component: () => import('@/views/new-more/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/business-detail/:id',
+    component: () => import('@/views/business-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/protect-detail/:id',
+    component: () => import('@/views/protect-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/finance',
+    component: () => import('@/views/finance/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/finance-detail/:id',
+    component: () => import('@/views/finance-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/building-detail/:id',
+    component: () => import('@/views/building-detail/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/archives',
+    component: () => import('@/views/archives/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/message',
+    component: () => import('@/views/message/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/friend-link',
+    component: () => import('@/views/friend-link/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/article/:id',
+    component: () => import('@/views/article/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/reset-password',
+    component: () => import('@/views/reset-password/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/email-validate',
+    component: () => import('@/views/email-validate/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/rebind-mobile',
+    component: () => import('@/views/rebind-mobile/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/bind-mobile',
+    component: () => import('@/views/bind-mobile/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/about',
+    component: () => import('@/views/about/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/terms',
+    component: () => import('@/views/terms/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/privacy',
+    component: () => import('@/views/privacy/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/search',
+    component: () => import('@/views/search/index'),
+    hidden: true
+  },
+  {
+    path: '/:status/email-bind',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+  {
+    path: '/:status/oauth',
+    component: () => import('@/views/oauth'),
+    hidden: true
+  },
+  {
+    path: '/:status/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+  {
+    path: '/:status/user',
     // component: Layout,
     hidden: true,
     component: () => import('@/views/user/index'),
@@ -225,7 +472,7 @@ export const constantRoutes = [
     }] */
   },
   {
-    path: '/collect',
+    path: '/:status/collect',
     component: Layout,
     children: [{
       path: 'index',
@@ -388,7 +635,7 @@ const createRouter = () => new Router({
       return { x: 0, y: 0 }
     }
   },
-  routes: constantRoutes
+  routes: constantRoutes.concat(bjRoutes)
 })
 
 const router = createRouter()

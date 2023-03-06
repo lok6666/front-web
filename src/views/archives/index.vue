@@ -2,11 +2,11 @@
   <div class="app-container">
     <app-header :nav-item-active="3" />
     <div class="protect-bg">
-      <div>产品大厅</div>
+      <div>{{$router.isBeijing() ? '产品大厅' : '知识产权'}}</div>
     </div>
     <div class="finance-container">
       <div>
-         <div class="select-btn">
+         <div class="select-btn" v-if="$router.isBeijing()">
           <div>产品类目:</div>
           <div v-for="(btn, index) in serviceList" :key="index">
             <el-button
@@ -57,20 +57,23 @@
             <img :src="item.serviceImage" class="item-icon"/>
             <!-- <div class="item-icon"  :style="`background-image: url(${item.serviceImage})`"></div> -->
             <div style="height:50px;display: flex;flex-direction:row; align-items:center;justify-content: center;">{{item.serviceName}}</div>
-            <div style="color: red;margin-top: 10px;height:50px;">{{item.servicePrice}}</div>
+            <div v-if="$router.isBeijing()" style="color: red;margin-top: 10px;height:50px;">{{item.servicePrice}}</div>
             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;padding: 0 10px;margin-top: 20px;">
               <div>{{item.serviceHits}}次浏览</div>
-              <div>{{item.supplierName}}</div>
+              <div v-if="$router.isBeijing()">{{item.supplierName}}</div>
             </div>
         </div>
       </div>
-      <div v-else class="finance-tooltip">无匹配结果</div>
+      <div v-else class="finance-tooltip">
+        <img class="guide-header-logo" style="width: 128px; height: 148px;" src="../../images/noResult.png" />
+      </div>
     </div>
     <app-footer />
   </div>
 </template>
 
 <script>
+import {hostList} from '@/config/index'
 import { entServiceDockingAll, entServiceUpdate } from "@/config/api.js";
 import request from '@/utils/request';
 import { mapGetters } from "vuex";
@@ -210,6 +213,9 @@ export default {
     this.getEntServiceDockingList();
   },
   watch: {
+    $route(val) {
+      this.getEntServiceDockingList();
+    },
     value2:　function (val, oldVal) {
       this.endTime = val[1].getTime()/1000;
       this.startTime = val[0].getTime()/1000;
@@ -240,6 +246,11 @@ export default {
         url: `${entServiceDockingAll}`,
         method: 'post',
         data: {
+          serviceLocation: hostList.filter(e => {
+              if(window.location.hash.includes(e)) {
+                  return e;
+              }
+          })[0].replace('#/', ''),
           serviceFlag: 1,
           serviceTypes: this.serviceType,
           startTime: this.startTime,

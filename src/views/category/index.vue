@@ -69,7 +69,7 @@ import AppHeader from '@/components/Header/index'
 import FormTemplate from "@/components/Form/index.vue"
 import AppFooter from '@/components/footer/index'
 import Flow from '@/components/flow/index.vue'
-import ArticleList from '@/components/ArticleList'
+// import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
 import service1Img from "@/images/service_1.png";
 import service2Img from "@/images/service_2.png";
@@ -80,7 +80,7 @@ export default {
   components: {
     AppHeader,
     AppFooter,
-    ArticleList,
+    // ArticleList,
     FormTemplate,
     Flow
   },

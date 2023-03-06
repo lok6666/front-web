@@ -29,13 +29,13 @@
 
 <script>
 import AppHeader from '@/components/Header/index'
-import ArticleList from '@/components/ArticleList'
+// import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
 export default {
   name: 'Search',
   components: {
     AppHeader,
-    ArticleList
+    // ArticleList
   },
   data() {
     return {

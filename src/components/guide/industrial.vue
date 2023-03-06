@@ -1,5 +1,5 @@
 <template>
-  <div class="guide-wrap">
+  <div class="guide-wrap" style="padding: 30px 0px;">
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
@@ -29,26 +29,24 @@ export default {
   data() {
     return {
       industrialList: [{
-        industrialName: '国内商标注册'
+        industrialName: '知识产权'
       },
       {
-        industrialName: '著作权申请'
+        industrialName: '资质认定'
       },
       {
-        industrialName: '专利申请'
+        industrialName: '工商业务'
       },
       {
-        industrialName: '政策资质'
+        industrialName: '财税服务'
       },
       {
-        industrialName: '工商财税(套餐一)'
+        industrialName: '政府补贴'
       },
       {
-        industrialName: '工商财税(套餐二)'
+        industrialName: '数字科技'
       },
-      {
-        industrialName: '工商财税(套餐三)'
-      }]
+    ]
     }
   },
   created() {

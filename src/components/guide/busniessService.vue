@@ -12,16 +12,16 @@
       <div class="guide-busniess-service-content">
         <div class="busniess-service">
           <div class="r-top">
-            <div class="busniess-service-block finance" @click="$router.push('finance')">
+            <div class="busniess-service-block finance" @click="$router.push('/finance')">
               <div class="busniess-service-block-title">金融服务</div>
               <div class="busniess-service-block-desc">贴心的金融服务管家</div>
             </div>
-            <div class="busniess-service-block manage"@click="$router.push('category')">
-              <div class="busniess-service-block-title">灵活用工</div>
+            <div class="busniess-service-block manage" @click="$router.isBeijing() ? $router.push('/category') : $router.push('/archives')">
+              <div class="busniess-service-block-title">{{$router.isBeijing() ? '灵活用工' : '知识产权'}}</div>
               <div class="busniess-service-block-desc">省心的合法合规雇佣帮手</div>
             </div>
           </div>
-          <div class="r-bottom" style="cursor: pointer;" @click="$router.push('friend-link')">
+          <div class="r-bottom" style="cursor: pointer;" @click="$router.push('/friend-link')">
               <div>行业培训</div>
               <div style="font-size: 26px;">专业的企业精英商学院</div>
           </div>

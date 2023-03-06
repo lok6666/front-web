@@ -135,7 +135,7 @@ export default {
       .then((res) => {
           this.loanList = res.data.list.filter(e=> {
             return e.id !== this.loanTail.id;
-          });
+          }).splice(0,4)
       })
   },
   watch: {

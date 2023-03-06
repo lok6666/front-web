@@ -88,6 +88,14 @@ export default {
   },
 
   mounted() {
+    this.$nextTick(function () {
+        //dom已更新
+        let p = document.querySelectorAll('.protect-block p');
+        if(!this.$router.isBeijing()) {
+          p[4].style.display = 'none';
+          p[5].style.display = 'none';
+        };
+    })
   },
   created() {
     this.busneissData = JSON.parse(window.localStorage.getItem('busneiss-detail'));

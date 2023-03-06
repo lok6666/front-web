@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view />
+      <router-view :key="$route.fullPath"/>
     </keep-alive>
     <!-- <live2d v-if="device === 'desktop'" /> -->
   </div>

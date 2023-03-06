@@ -2,6 +2,7 @@ const getters = {
   sidebar: state => state.app.sidebar,
   device: state => state.app.device,
   defaultAvatar: state => state.settings.defaultAvatar,
+  location: state => state.app.location,
   token: state => state.user.token,
   userInfo: state => state.user.userInfo,
   roles: state => state.user.roles,
