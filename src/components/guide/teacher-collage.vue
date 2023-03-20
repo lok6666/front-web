@@ -59,7 +59,7 @@
   .guide-wrap {
       background: #eee;
       .container {
-        margin: 0px 60px;
+        // margin: 0px 60px;
         padding-bottom: 58px;
         .guide-excellent-busniess-content {
             display: grid;

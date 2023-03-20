@@ -243,6 +243,8 @@ export function bindMobile(params) {
     url: authVerify,
     method: 'post',
     data: {...data}
+  }).then(e => {
+    console.log('e---', e);
   }).catch(e => {
     throw Error('手机号已注册');
   })

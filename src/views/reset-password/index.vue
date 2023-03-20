@@ -2,7 +2,7 @@
   <div class="container">
     <app-header :nav-item-active="-1" />
     <div class="content-container animated fadeInUp">
-      <h3>重置密码</h3>
+      <h3>修改密码</h3>
       <el-form ref="form" :model="form">
         <el-form-item>
           <el-input v-model="form.mobile" placeholder="输入手机号" />
@@ -73,9 +73,12 @@ export default {
           res => {
             this.loading = false
             this.$message({
-              message: '重置成功',
+              message: '修改成功',
               type: 'success'
-            })
+            });
+            this.$store.dispatch("user/logout");
+            this.$store.commit('login/CHANGE_VISIBLE', true)
+            this.$router.push('/');
           },
           error => {
             console.error(error)

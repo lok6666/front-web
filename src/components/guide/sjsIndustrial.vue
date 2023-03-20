@@ -18,15 +18,15 @@
           controls
         >
           <source
-            src="../../video/7ba8526361db302c7fb5236ff570a98e.mp4" type="video/webm"
+            src="http://minio.bjwcxf.com/culture-video/7ba8526361db302c7fb5236ff570a98e.mp4" type="video/webm"
           />
         </video>
         <div class="guide-sjsIndustrial-show">
-          <div class="sjs-img-show sjsIndustrial-left" @click="showPictureDetail1">首钢园 SHOUGANG PARK</div>
-          <div class="sjs-img-show sjsIndustrial-right" @click="showPictureDetail">朗园Park 文化创意产业园
+<!--           <div class="sjs-img-show sjsIndustrial-left" @click="showPictureDetail1">首钢园 SHOUGANG PARK</div>
+          <div class="sjs-img-show sjsIndustrial-right" @click="showPictureDetail">郎园Park 文化创意产业园 -->
             <!-- <div class="sjs-img-show r-top" @click="showPictureDetail3">中关村科幻产业创新中心</div> -->
             <!-- <div class="r-bottom"> -->
-              <!-- <div class="sjs-img-show ly-show" @click="showPictureDetail">朗园Park 文化创意产业园</div> -->
+              <!-- <div class="sjs-img-show ly-show" @click="showPictureDetail">郎园Park 文化创意产业园</div> -->
               <!-- <div class="more">
                 <div class="more-icon"></div>
                 查看更多
@@ -85,7 +85,7 @@ export default {
 <style lang="scss" scoped>
 .guide-wrap {
   .container {
-    margin: 0 60px;
+    // margin: 0 60px;
     .guide-sjsIndustrial-content {
       .guide-sjsIndustrial-show {
         display: flex;

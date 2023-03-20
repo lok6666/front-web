@@ -68,7 +68,7 @@ export default {
 .guide-wrap {
     //background: #F5F6F9;
     .container {
-      margin: 0px 60px;
+      // margin: 0px 60px;
       .guide-excellent-busniess-content {
           display: grid;
           grid-template-columns: repeat(4, 332px);

@@ -2,7 +2,7 @@
   <div ref="container" class="home-container">
     <app-header />
     <div class="protect-bg">
-      <div>朗园</div>
+      <div>郎园</div>
     </div>
     <div class="content-container">
       <div class="side-left">
@@ -86,7 +86,7 @@ export default {
         bg: "https://img1.baidu.com/it/u=1779030509,995191853&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=333"
       },
       {
-        excellentBusniessName: '朗园咖啡',
+        excellentBusniessName: '郎园咖啡',
         bg: "https://img2.baidu.com/it/u=3094745482,1814621851&fm=253&fmt=auto&app=138&f=JPEG?w=886&h=500"
       },
       {
@@ -163,7 +163,7 @@ export default {
     width: 100%;
     height: 442px;
     background-size: 100% 100%;
-    background-image: url("http://minio.bjwcxf.com/cultural-image/cultural-web/朗园Bg.png");
+    background-image: url("http://minio.bjwcxf.com/cultural-image/cultural-web/郎园Bg.png");
   }
   @import "~@/styles/variables";
   width: 100%;

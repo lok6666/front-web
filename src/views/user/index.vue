@@ -690,7 +690,7 @@ export default {
         { id: 6, name: "我的服务" },
         { id: 7, name: "我的活动" },
         { id: 8, name: "站内信息" },
-        { id: 9, name: "修改密码" },
+        // { id: 9, name: "修改密码" },
         // { id: 9, name: "账户管理" },
       ],
       opVisible: {

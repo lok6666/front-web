@@ -2,7 +2,7 @@
   <div class="guide-wrap" style="display: flex;justify-content: center;">
     <div class="container">
       <div class="guide-header">
-        <img class="guide-header-logo" src="../../images/guide-logo.png" />
+        <img class="guide-header-logo" src="../../images/guide-logo.png"/>
         楼宇信息
         <div class="guide-agile">
             <div class="limit-desc">Comperehensive platform</div>
@@ -10,20 +10,24 @@
             </div>
       </div>
       <div class="guide-excellent-busniess-content">
-        <swiper class="swiper" :options="swiperOption">
-              <swiper-slide
-              v-for="(item, index) in excellentBusniessList"
-              style="display: flex;flex-direction: column;"
-              :key="index"
-              >
-              <!--v-bind:style="`background-size: 100% 100%;background-repeat: no-repeat;background-image:url(${item.buildingImages})`"-->
-              <img class="swiper-item" :src="item.buildingImages"  @click="routeTo(item.id)"/>
-              <div class="video-desc">{{item.buildingName}}</div>
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination" style="bottom: 1px;"></div>
-            <!-- <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div> -->
-            </swiper>
+        <div style="display: flex;justify-content: center;">
+          <div style="width: 1320px;">
+            <swiper class="swiper" :options="swiperOption">
+                <swiper-slide
+                v-for="(item, index) in excellentBusniessList"
+                style="display: flex;flex-direction: column;"
+                :key="index"
+                >
+                <!--v-bind:style="`background-size: 100% 100%;background-repeat: no-repeat;background-image:url(${item.buildingImages})`"-->
+                <img class="swiper-item" :src="item.buildingImages"  @click="routeTo(item.id)"/>
+                <div class="video-desc">{{item.buildingName}}</div>
+              </swiper-slide>
+              <div class="swiper-pagination" slot="pagination" style="bottom: 1px;"></div>
+              <!-- <div class="swiper-button-prev" slot="button-prev"></div>
+              <div class="swiper-button-next" slot="button-next"></div> -->
+          </swiper>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -42,7 +46,7 @@ export default {
       swiperOption: {
           slidesPerView: 4,
           slidesPerColumn: 2,
-          spaceBetween: 30,
+          // spaceBetween: 20,
 /*           autoplay: {
             delay: 2500,
             disableOnInteraction: false
@@ -83,7 +87,8 @@ export default {
          url: `${buildings}`,
          method: 'post',
          data: {
-          attestationStatus: 1
+          attestationStatus: 1,
+          buildingLocation: this.$router.isBeijing() ? 'beijing' : 'shijingshan'
          }
        })
        .then((res) => {
@@ -103,35 +108,40 @@ export default {
 .guide-wrap {
     //background: #F5F6F9;
     .container {
-      margin: 0px 60px;
+      // margin: 0px 60px;
       .guide-excellent-busniess-content {
+        // padding: 0px 65px;
 /*           display: grid;
           grid-template-columns: repeat(4, 332px);
           grid-template-rows: repeat(2, 300px);
           justify-content: center; */
           .swiper {
+            width: 100%;
             height: 480px;
             margin-left: auto;
             margin-right: auto;
             max-width: 1440px;
+            // padding: 0px 58px 0px 58px;
             .swiper-slide {
               // width: 100% !important;
               border-radius: 10px;
               // border: 1px solid #D99447;
-              height: 200px;
+              height: 216px;
               display: flex;
               justify-content: center;
               align-items: center;
               text-align: center;
               font-weight: 700;
+              width: 310px !important;
               font-size: 36.4px;
               // background-color: #fff !important;
               background-position: center !important;
               background-repeat:no-repeat !important;
               background-size: cover;
               .swiper-item {
-            height: 100%;
-            width: 100%;  
+            height: 184px;
+            width: 310px;
+           
    /*         width: 224px;
             height: 126px;
             background-size: cover;

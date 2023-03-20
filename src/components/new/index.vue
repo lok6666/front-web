@@ -24,7 +24,7 @@
 import {hostList} from '@/config/index'
 import policyIcon from "../../images/policy-icon.png";
 import newIcon from "../../images/new-icon.png";
-import { articleList, indexPolicyList } from "@/config/api.js";
+import { articleList, indexPolicyList, sjsindexPolicyList } from "@/config/api.js";
 import request from '@/utils/request';
 import _ from 'lodash';
 export default {
@@ -68,7 +68,7 @@ export default {
       this.indexImg = this.contentList[0].picture || (this.mainTabs[0].isSelect ? newIcon : policyIcon);
     });
     request({
-      url: `${indexPolicyList}`,
+      url: `${this.$router.isBeijing() ? indexPolicyList : sjsindexPolicyList}`,
       method: 'post',
       data: {
       }

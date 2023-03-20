@@ -20,6 +20,8 @@
     <div style="width: 60%;margin: 0 auto;margin-top: 26px;">
       <div style="width: 100%;" v-if="active === 0">
       <!-- <div style="width: 50%"> -->
+        <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" @blur.stop="checkUserName"/>
+        <el-input v-model="password" type="password" placeholder="密码不能少于6位数" />
         <el-input v-model="mobile" placeholder="手机号"  @blur.stop="checkMobile"/>
         <el-input v-model="imgCode" placeholder="图形验证码">
           <span slot="suffix" class="imgCode-btn btn" @click.stop="getCode"><img :src="img" style="height: 35px;"></span>
@@ -35,8 +37,6 @@
             style="margin-bottom: 6px;"
           >{{ codeCount }}s</el-button>
         </el-input>
-        <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" @blur.stop="checkUserName"/>
-        <el-input v-model="password" type="password" placeholder="密码不能少于6位数" />
         <p>注册登录即表示同意
           <span style="color: #007fff;">
             <span class="btn" @click="terms">用户协议</span>
@@ -49,10 +49,10 @@
       <div style="width: 100%;" v-if="active === 1">
         <!-- <div style="width: 50%"> -->
           <el-input v-model="entName" placeholder="请输入公司名称"/>
-          <el-input v-model="shxydm" placeholder="社会统一代码" />
-          <el-input v-model="frdb" placeholder="法人"/>
+          <el-input v-model="shxydm" placeholder="请输入统一社会信用代码" />
+<!--           <el-input v-model="frdb" placeholder="法人"/>
           <el-input v-model="frdbPhone" placeholder="法人手机号"/>
-          <el-input v-model="frdbCard" placeholder="法人身份证"/>
+          <el-input v-model="frdbCard" placeholder="法人身份证"/> -->
           <p>注册登录即表示同意
             <span style="color: #007fff;">
               <span class="btn" @click="terms">用户协议</span>
@@ -107,7 +107,9 @@ export default {
       visible: false,
       active: 0,
       key: "",
-      img: ""
+      img: "",
+      isUserNameRegist: false,
+      isCodeRegist: false
     }
   },
   methods: {
@@ -135,22 +137,26 @@ export default {
       this.mobile = ''
       this.code = ''
       this.password = ''
+      this.isUserNameRegist = ''
+      this.isCodeRegist = ''
     },
     // 校验用户名
     checkUserName() {
+      this.isUserNameRegist = false;
       this.username && validate({
         username: this.username
       }).catch(e => {
-          this.$message({
-            message: '用户名已注册',
-            type: 'erroe'
-          })
-      })
+        this.isUserNameRegist = true;
+      });
+
     },
     // 校验手机号
     checkMobile() {
+      this.isCodeRegist = false;
       this.mobile && validate({
         contactsPhone: this.mobile
+      }).catch(e => {
+        this.isCodeRegist = true;
       });
     },
     // 身份证
@@ -173,13 +179,23 @@ export default {
     },
     // 完成
     finish() {
+      const entName = this.entName
+      if (entName === '') {
+        this.$message('请输入公司名称')
+        return false
+      }
+      const shxydm = this.shxydm
+      if (shxydm === '') {
+        this.$message('请输入社会统一代码')
+        return false
+      }
       request({
         url: `${entFilingInsert}`,
         method: 'POST',
         // todo 考虑 id怎么传进去
         data: {
           entId: this.userId,
-          entName: this.entName,
+          entname: this.entName,
           shxydm: this.shxydm,
           frdb: this.frdb,
           frdbPhone: this.frdbPhone,
@@ -188,7 +204,7 @@ export default {
       }).then(res => {
           new Promise(async(resolve, reject) => {
             try {
-              const params = { username: this.username, password: this.password, entName: this.entName }
+              const params = { username: this.username, password: this.password, entname: this.entName }
               await this.$store.dispatch('user/accountLogin', params)
               // const { roles } = await this.$store.dispatch('user/getUserInfo')
               const accessRoutes = await this.$store.dispatch('permission/generateRoutes', ["ordinary"])
@@ -288,6 +304,14 @@ export default {
       if (mobile === '') {
         this.$message('请输入手机号')
         return
+      }
+      if (this.isUserNameRegist) {
+        this.$message('用户名已注册')
+        return false
+      }
+      if (this.isCodeRegist) {
+        this.$message('手机号已注册')
+        return false
       }
       if (this.imgCode === '') {
         this.$message('请输入图形验证码')

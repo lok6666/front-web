@@ -131,7 +131,11 @@ export default {
                   }
                   done();
                 },
-              });
+              }).then((res) => {
+                console.log('res', res);
+              }).catch((e) => {
+                console.log('e---', e);
+              });;
             } else if(limit < 5) {
               this.$messageBox({
                 title: "温馨提示",
@@ -143,6 +147,7 @@ export default {
                 showCancelButton: true,
                 showConfirmButton: true,
                 beforeClose: (action, instance, done) => {
+                  done();
                   if(action === 'confirm') {
                     this.$router.push('/user');
                   } else if(action === 'cancel'){
@@ -150,6 +155,10 @@ export default {
                   }
                   done();
                 },
+              }).then((res) => {
+                console.log('res', res);
+              }).catch((e) => {
+                console.log('e---', e);
               });
             } else {
               this.$router.push('/policy-match/政策匹配');

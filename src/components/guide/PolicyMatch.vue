@@ -103,7 +103,7 @@ export default {
 }
 .guide-wrap {
   .container {
-    margin: 0 60px;
+    // margin: 0 60px;
     .guide-header {
           display: flex;
           align-items: center;

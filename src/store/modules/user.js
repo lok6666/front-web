@@ -143,7 +143,7 @@ const actions = {
       const params = {
         token: token
       }
-      location.reload()
+      // location.reload()
       // logout(params).then(res => {
         resolve()
       // }).catch(error => {
@@ -153,7 +153,7 @@ const actions = {
   },
 
   /**
-   * 重置
+   * 修改
    */
   resetToken({ commit }) {
     return new Promise(resolve => {

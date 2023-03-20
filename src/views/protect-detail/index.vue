@@ -21,13 +21,13 @@
         <div class="protect-block" v-html="busneissData.serviceSynopsis">
           
         </div>
-        <div class="protect-apply">
+        <div class="protect-apply" v-if="$router.isBeijing()">
           <div class="protect-apply-btn" v-if="authorization">
             <span>联系人:{{busneissData.supplierPerson}}</span>
-            <span>联系电话:{{busneissData.supplierContactX}}</span>
+            <span>咨询电话:{{busneissData.supplierContactX}}</span>
           </div>
           <div class="protect-apply-btn" v-else>
-            <span>请登录查看联系人及联系方式</span>
+            <span>请登录查看咨询电话</span>
           </div>
         </div>
       </div>
@@ -90,11 +90,11 @@ export default {
   mounted() {
     this.$nextTick(function () {
         //dom已更新
-        let p = document.querySelectorAll('.protect-block p');
-        if(!this.$router.isBeijing()) {
-          p[4].style.display = 'none';
-          p[5].style.display = 'none';
-        };
+        // let p = document.querySelectorAll('.protect-block p');
+        // if(!this.$router.isBeijing()) {
+        //   p[4].style.display = 'none';
+        //   p[5].style.display = 'none';
+        // };
     })
   },
   created() {

@@ -14,13 +14,14 @@
             </swiper>
         </div>
         <new/>
-        <policy-enter/>
+        <policy-enter v-if="!$router.isBeijing()" />
         <!-- <policyMatch /> -->
         <busniess-service />
         <industrial v-if="$router.isBeijing()"/>
         <sjs-industrial v-if="!$router.isBeijing()"/>
-        <building v-if="$router.isBeijing()"></building>
+        <cultural v-if="!$router.isBeijing()"/>
         <ExcellentBusniess v-if="!$router.isBeijing()"/>
+        <building></building>
         <bank />
       </div>
 
@@ -50,6 +51,7 @@ import New from '@/components/new/index.vue'
 import PolicyMatch from '@/components/guide/PolicyMatch.vue'
 import sjsIndustrial from '@/components/guide/sjsIndustrial.vue'
 import building from '@/components/guide/building.vue'
+import cultural from '@/components/guide/cultural.vue'
 import policyEnter from '@/components/guide/policyEnter.vue'
 import busniessService from '@/components/guide/busniessService.vue'
 import ExcellentBusniess from '@/components/guide/ExcellentBusniess.vue'
@@ -73,6 +75,7 @@ export default {
     ExcellentBusniess,
     industrial,
     building,
+    cultural,
     New,
     Swiper,
     SwiperSlide,
@@ -85,6 +88,7 @@ export default {
   },
   data() {
     return {
+      routerScrollMap: new Map([['/beijing/', 0], ['/shijingshan/', 0]]),
       scrollTop: 0,
       current: 1,
       size: 6,
@@ -109,8 +113,8 @@ export default {
   },
   watch: {
     $route(val) {
-      val.path === '/' && (document.getElementsByClassName('home-container')[0].scrollTop = this.scrollTop);
-      val.path === '/' && request({
+      this.routerScrollMap.get(val.path) && (document.getElementsByClassName('home-container')[0].scrollTop = this.routerScrollMap.get(val.path));
+      this.routerScrollMap.get(val.path) && request({
         url: `${industryDataList}`,
         method: 'post',
         data: {
@@ -153,7 +157,7 @@ export default {
   mounted() {
     // this.getArtList()
     document.getElementsByClassName('home-container')[0].addEventListener('scroll', () => {
-      this.scrollTop = document.getElementsByClassName('home-container')[0].scrollTop;
+      this.routerScrollMap.set(window.location.hash.replace('#', ''), document.getElementsByClassName('home-container')[0].scrollTop )
     }); // 监听页面滚动
   },
 

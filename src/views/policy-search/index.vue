@@ -145,7 +145,7 @@ export default {
       pageNum: 1,
       policyList: [],
       policyLocation: '',
-      btnList1: [
+      btnList1: this.$router.isBeijing() ? [
         {
           message: "不限",
           isSelect: true,
@@ -162,12 +162,6 @@ export default {
           value: 2,
         },
         {
-          message: "石景山区",
-          isSelect: false,
-          policyLocation: 'shijingshan',
-          value: 1,
-        },
-        {
           policyLocation: "dongcheng",
           isSelect: false,
           message: "东城区",
@@ -180,15 +174,27 @@ export default {
           value: 1,
         },
         {
+          policyLocation: "chaoyang",
+          isSelect: false,
+          message: "朝阳区",
+          value: 1,
+        },
+        {
           policyLocation: "haidian",
           isSelect: false,
           message: "海淀区",
           value: 1,
         },
         {
-          policyLocation: "chaoyang",
+          message: "石景山区",
           isSelect: false,
-          message: "朝阳区",
+          policyLocation: 'shijingshan',
+          value: 1,
+        },
+        {
+          policyLocation: "fengtai",
+          message: "丰台区",
+          isSelect: false,
           value: 1,
         },
         {
@@ -246,12 +252,6 @@ export default {
           value: 1,
         },
         {
-          policyLocation: "fengtai",
-          message: "丰台区",
-          isSelect: false,
-          value: 1,
-        },
-        {
           policyLocation: "yizhuang",
           message: "经开区",
           isSelect: false,
@@ -261,6 +261,23 @@ export default {
           policyLocation: "mentougou",
           message: "门头沟区",
           isSelect: false,
+          value: 1,
+        }
+      ] : [
+        {
+          message: "不限",
+          isSelect: true,
+          value: '',
+        },
+        {
+          message: "国家级",
+          isSelect: false,
+          value: 3,
+        },
+        {
+          message: "石景山区",
+          isSelect: false,
+          policyLocation: 'shijingshan',
           value: 1,
         }
       ],
@@ -545,7 +562,7 @@ export default {
     padding: 0px 70px 10px;
     .select-btn {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       margin-bottom: 10px;
       .button-new-tag {
         margin-left: 10px;

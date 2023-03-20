@@ -16,7 +16,7 @@ function initAudioEvent() {
     var audio = document.getElementsByTagName('audio')[0];
     var audioPlayer = document.getElementById('audioPlayer');
 
-    // 重置进度条
+    // 修改进度条
     resetProgress();
 
     // 监听音频播放时间并更新进度条
@@ -148,7 +148,7 @@ function updateProgress(audio) {
 }
 
 /**
- * 重置进度条
+ * 修改进度条
  */
 function resetProgress() {
   const value = 0

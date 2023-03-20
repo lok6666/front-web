@@ -132,7 +132,9 @@ export default {
     request({
         url: `${actionAll}`,
         method: 'post',
-        data: {}
+        data: {
+          activityLocation: this.$router.isBeijing() ? 'beijing' : 'shijingshan'
+        }
       })
       .then((res) => {
           // console.log('res----', res.data.list);

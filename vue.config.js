@@ -1,9 +1,9 @@
 'use strict'
 const path = require('path')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin");
 const defaultSettings = require('./src/settings.js')
 const webpack = require('webpack')
-
+// const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -68,6 +68,11 @@ module.exports = {
     }
   },
   chainWebpack(config) {
+/*      if (process.env.use_analyzer) { // 添加分析工具
+      config
+      .plugin('webpack-bundle-analyzer')
+      .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+     } */
     // 解决quill-image-resize-module导入问题, https://github.com/kensnyder/quill-image-resize-module/issues/54
     config.plugin('provide').use(webpack.ProvidePlugin, [{
           'window.Quill': 'quill'
@@ -99,7 +104,8 @@ module.exports = {
       .use('vue-loader')
       .loader('vue-loader')
       .tap(options => {
-        options.compilerOptions.preserveWhitespace = true
+        options.compilerOptions.preserveWhitespace = true,
+        options.esModule = false
         return options
       })
       .end()
@@ -121,6 +127,43 @@ module.exports = {
               inline: /runtime\..*\.js$/
             }])
             .end()
+            config.module
+            .rule('image')
+            .test(/\.(png|jpe?g|gif)(\?.*)?$/)
+            .use('image-webpack-loader')
+            .loader('image-webpack-loader')
+            .options({
+                // 此处为ture的时候不会启用压缩处理,目的是为了开发模式下调试速度更快
+                disable: process.env.NODE_ENV == 'development' ? true : false
+            })
+            .end()
+/*             config.module
+            .rule('file')
+            .test(/\.(eot|woff2?|ttf|svg)$/)
+            .use('url-loader')
+            .loader('url-loader')
+            .options({
+                // 此处为ture的时候不会启用压缩处理,目的是为了开发模式下调试速度更快
+                disable: process.env.NODE_ENV == 'development' ? true : false
+            })
+            .end() */
+            config.optimization.minimizer([
+              new TerserPlugin({
+                cache: true,//降版本后添加
+                // 多进程
+                parallel: true,//降版本后添加
+                terserOptions: {
+                  ecma: undefined,
+                  warnings: false,
+                  parse: {},
+                  compress: {
+                    drop_console: true,
+                    drop_debugger: false,
+                    pure_funcs: ['console.log'], // 移除console
+                  },
+                },
+              })
+          ]).end()
           config
             .optimization.splitChunks({
               chunks: 'all',

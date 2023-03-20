@@ -6,7 +6,7 @@
           <img
             src="../../images/guide-logo.png"
             style="width: 48px; height: 52px;"
-          />{{$router.isBeijing() ? '文化产业综合服务平台' : '文化产业综合服务平台（石景山站）'}}
+          />{{'文惠企服'}}
         </div>
         <div class="about">
           <div class="contact-title">友情链接</div>
@@ -25,7 +25,8 @@
         <div class="contact">
           <div class="contact-title">微信公众号</div>
           <div class="contact-content">
-            <img style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/wx-wt.png"/>
+            <img v-if="$router.isBeijing()" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/wx-wt.png"/>
+            <img v-if="!$router.isBeijing()" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/sjs_wx.jpg"/>
           </div>
         </div>
       </div>
@@ -35,7 +36,7 @@
           京公网安备 1101070200067 京ICP备18006354号-2
         </div> -->
         <div class="footer-direct">
-          © 2012-2022 石文创服<img
+          © 2012-2022 文惠企服<img
             src="../../images/ga.png"
             style="width: 17px;height: 17px;"
           />京公网安备 1101070200067 京ICP备18006354号-2

@@ -233,7 +233,7 @@
             </div>
           </div>
         </div>
-        <div class="select-btn">
+<!--         <div class="select-btn">
           <span class="title">区县</span>
           <div class="select-item">
             <div v-for="(btn, index) in locationOptions" :key="index">
@@ -246,7 +246,7 @@
               >
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div
         class="calculate"
@@ -316,7 +316,12 @@ export default {
         nianxian: "yearOptions",
         quxian: "locationOptions",
       },
-      selectOptions: [],
+      selectOptions: [{
+    value: "shijingshan",
+    label: "石景山区",
+    isSelect:　false,
+    type: 'quxian'
+  }],
       isRequiredList: [
         "locationOptions",
         "yearOptions",

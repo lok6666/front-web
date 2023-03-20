@@ -48,7 +48,7 @@
   .guide-wrap {
       background: #FFFFFF;
       .container {
-        margin: 10px 60px;
+        // margin: 10px 60px;
         padding-bottom: 58px;
         .guide-excellent-busniess-content {
             display: grid;

@@ -77,7 +77,7 @@ export default {
 .guide-wrap {
   background: #F5F6F9;
   .container {
-    margin: 0 60px;
+    // margin: 0 60px;
     .guide-Industrial-content {
         display: grid;
         grid-template-columns: repeat(4, 330px);

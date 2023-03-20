@@ -91,13 +91,7 @@ const locationOptions1 = [
     isSelect:　false,
     type: 'quxian'
   },
-  {
-    value: "shijingshan",
-    label: "石景山区",
-    isSelect:　false,
-    type: 'quxian'
-  },
-  {
+  /* {
     value: "dongcheng",
     label: "东城区",
     sSelect:　false,
@@ -110,14 +104,26 @@ const locationOptions1 = [
     type: 'quxian'
   },
   {
-    value: "haidian",
-    label: "海淀区",
+    value: "chaoyang",
+    label: "朝阳区",
     sSelect:　false,
     type: 'quxian'
   },
   {
-    value: "chaoyang",
-    label: "朝阳区",
+    value: "haidian",
+    label: "海淀区",
+    sSelect:　false,
+    type: 'quxian'
+  }, */
+  {
+    value: "shijingshan",
+    label: "石景山区",
+    isSelect:　false,
+    type: 'quxian'
+  },
+  /*{ 
+    value: "fengtai",
+    label: "丰台区",
     sSelect:　false,
     type: 'quxian'
   },
@@ -176,12 +182,6 @@ const locationOptions1 = [
     type: 'quxian'
   },
   {
-    value: "fengtai",
-    label: "丰台区",
-    sSelect:　false,
-    type: 'quxian'
-  },
-  {
     value: "yizhuang",
     label: "经开区",
     sSelect:　false,
@@ -192,7 +192,7 @@ const locationOptions1 = [
     label: "门头沟区",
     sSelect:　false,
     type: 'quxian'
-  }
+  } */
   
 ];
 const industrialOptions = [
@@ -392,18 +392,13 @@ const locationOptions = [
     isSelect:　false
   },
   {
-    value: "海淀区",
-    label: "海淀区",
-    isSelect:　false
-  },
-  {
     value: "朝阳区",
     label: "朝阳区",
     isSelect:　false
   },
   {
-    value: "昌平区",
-    label: "昌平区",
+    value: "海淀区",
+    label: "海淀区",
     isSelect:　false
   },
   {
@@ -411,6 +406,12 @@ const locationOptions = [
     label: "石景山区",
     isSelect:　false
   },
+  {
+    value: "昌平区",
+    label: "昌平区",
+    isSelect:　false
+  },
+
   {
     value: "通州区",
     label: "通州区",
@@ -1203,7 +1204,7 @@ const applyMessageForm = [
   rules: { required: true, validator: socialUniformCodeRules, trigger: 'blur'},
   showInput: true
 },
-{
+/* {
   prop: "legalPerson",
   label: "法人",
   rules: { required: true, validator: emtyRules, trigger: 'blur'},
@@ -1214,16 +1215,16 @@ const applyMessageForm = [
   label: "法人联系方式",
   rules: { required: true, validator: phoneRules, trigger: 'blur'},
   showInput: true
-},
+}, */
 {
   prop: "contactsName",
-  rules: [],
+  rules: { required: true, validator: emtyRules, trigger: 'blur'},
   label: "联系人",
   showInput: true
 },
 {
   prop: "contactsPhone",
-  rules: [],
+  rules: { required: true, validator: phoneRules, trigger: 'blur'},
   label: "联系方式",
   showInput: true
 },

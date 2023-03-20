@@ -1,7 +1,7 @@
 //const host = 'http://172.16.4.62:28182';
-// const host = 'https://entapi.bjwcxf.com';
+// const host = 'http://entapi.bjwcxf.com';
 //export const policyHost = 'http://172.16.4.62:5000/match';
-export const host =  process.env.NODE_ENV === 'development'? "http://192.168.10.68:28182": "https://entapi.bjwcxf.com";
+export const host =  process.env.NODE_ENV === 'development'? "http://192.168.10.36:28182": "http://entapi.bjwcxf.com";
 export const policyHost = `${host}/policyMatch/get`;
 // 登录接口
 export const login = `${host}/auth/entLogin`
@@ -18,6 +18,7 @@ export  const articleList = `${host}/article/list` // 最新新闻
 export  const articleGet = `${host}/article/get` // 获取文章数据
 export  const policyList = `${host}/policyTags/list` // 政策列表
 export  const indexPolicyList = `${host}/policyTags/listByHome` // 首页政策列表
+export  const sjsindexPolicyList = `${host}/policyTags/listBySJS` // 首页石景山政策列表
 export  const collagePolicyList = `${host}/policyTags/listByCollect` // 收藏政策列表
 export  const policyDetail = `${host}/policyTags/get` //  政策详情
 export  const policyRelationList = `${host}/policyRelation/list` // 关联信息
@@ -80,7 +81,7 @@ export  const messageList = `${host}/message/list` // 角色管理列表
 export  const fincialDataStatisticsGetByEntId = `${host}/fincialDataStatistics/getByEntId` // 角色管理列表
 
 /*个人中心-账户管理*/
-export  const entReset = `${host}/auth/entReset` // 角色管理列表
+export  const entReset = `${host}/auth/entReset` // 修改密码
 
 /*个人中心-政策标签新增*/
 export  const policyMatchTagsGet = `${host}/policyMatchTags/get` // 政策匹配企业标签列表

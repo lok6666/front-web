@@ -19,6 +19,27 @@ const whiteList = ['/', '/tag', '/category', '/archives', '/finance', '/building
 '/shijingshan/message', '/shijingshan/friend-link', '/shijingshan/article/:id', '/shijingshan/reset-password', '/shijingshan/about', '/shijingshan/search', '/shijingshan/terms', '/shijingshan/privacy', '/shijingshan/email-bind']
 
 router.beforeEach(async(to, from, next) => {
+  // debugger;
+  /* try {
+
+    let ip4 = await publicIp.v4();
+    // console.log('ip45----', ip4);
+    window.handleResponse = function (response) {
+      let {x, y} = response.content.point;
+      console.log('data---', response.content.point);
+      var script = document.createElement('script');
+      script.src = `https://api.map.baidu.com/place/v2/search?query=区&region=北京&output=json&center=${y},${x}&ak=wG6VDtVecU2vdgXQmNIswVrNHnl3oKNv&callback=handleResponse1`;
+      document.body.insertBefore(script, document.body.firstChild);
+    };
+    window.handleResponse1 = function (response) {
+      console.log('data1---', response);
+    }
+    var script = document.createElement('script');
+    script.src = `https://api.map.baidu.com/location/ip?ak=wG6VDtVecU2vdgXQmNIswVrNHnl3oKNv&ip=${ip4}&coor=bd09ll&callback=handleResponse`;
+    document.body.insertBefore(script, document.body.firstChild);
+  } catch (error) {
+    console.log('error---', error);
+  } */
 
   // 百度统计
   if (window.location.hostname === 'www.poile.cn' && to.path) {

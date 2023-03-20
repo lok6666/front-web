@@ -52,7 +52,7 @@ export default {
 <style lang="scss" scoped>
 .guide-wrap {
   .container {
-    margin: 0 60px;
+    // margin: 0 60px;
     .guide-busniess-service-content {
       .busniess-service {
         font-size: 56px;

@@ -43,27 +43,42 @@
               style="cursor:pointer;width: 45px;height: 45px;"
               src="../../images/sdzc.png"
           /></span>
-          <span v-if="$router.isBeijing()" @click="wxdialogVisible = !wxdialogVisible" class="index-icon"
-            ><img src="../../images/微信.png" />公众号</span
-          >
+          <span @click="wxdialogVisible = !wxdialogVisible" class="index-icon"
+            >
+            <img src="../../images/微信.png" />公众号</span>
           <img
             style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
-            v-if="wxdialogVisible"
+            v-if="wxdialogVisible && $router.isBeijing()"
             src="../../images/wx-wt.png"
+          />
+          <img
+            style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
+            v-if="wxdialogVisible && !$router.isBeijing()"
+            src="../../images/sjs_wx.jpg"
           />
           <span class="index-icon"
             ><img src="../../images/路径.png" />平台热线: {{'17190033790'}}</span
           >
-          <span class="index-icon">
-            <el-select v-model="locationOption" placeholder="请选择" size="mini"  @change="tabChange" style="width: 100px;">
+          <el-button round size="small" style="display: flex;justify-content: center;width: 90px;font-weight: bolder;" icon="el-icon-s-promotion" @click="tabChange">{{$router.isBeijing() ? '石景山站' : '北京站'}}</el-button>
+<!--           <span class="index-icon">
+            <el-select v-model="locationOption"
+            placeholder="请选择"
+            size="small"
+            @change="tabChange" style="width: 125px;">
+              <template #prefix>
+                <span style="padding-left: 7px;padding-top: 6px;color: #0E9CEC;">
+                  <img src="../../images/local-icon.png"/>
+                </span>
+              </template>
               <el-option
+                style="border-radius: 10px;"
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
-          </span>
+          </span> -->
         </div>
         <div class="header-right">
           <span>
@@ -97,7 +112,7 @@
         <div class="content-left">
           <span
             style="font-size: 24px;font-weight: bold;font-family: SourceHanSerifSC-Bold, SourceHanSerifSC;"
-            >{{$router.isBeijing() ? '文化产业综合服务平台' : '文化产业综合服务平台（石景山站）'}}</span
+            >文惠企服</span
           >
           <!-- <span>助力企业梦想腾飞</span> -->
         </div>
@@ -147,9 +162,10 @@
                             <el-dropdown-item>绑定邮箱</el-dropdown-item>
                           </router-link> -->
                       <el-dropdown-item>
-                        <span style="display:block;" @click="logout"
-                          >退 出</span
-                        >
+                        <span style="display:block;" @click="resetPassword">修改密码</span>
+                      </el-dropdown-item>
+                      <el-dropdown-item>
+                        <span style="display:block;" @click="logout">退出</span>
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -165,10 +181,9 @@
         </div>
       </div>
       <div class="footer">
-        <!-- <div style="display: flex;">
-          <div class="footer-desc" :style="{color:$router.isBeijing() ? `#E6A23C` : ''}" @click="tabChange('/beijing')">北京站</div>
-          <div class="footer-desc" :style="{color:!$router.isBeijing() ? `#E6A23C` : ''}" @click="tabChange('/')">石景山站</div>
-        </div> -->
+        <div style="display: flex;">
+          <div class="footer-desc" >{{$router.isBeijing() ? '文化产业综合服务平台（北京站）' : '文化产业综合服务平台（石景山站）'}}</div>
+        </div>
         <div class="logo">
           <div v-if="device !== 'desktop'" class="menu-wrapper">
             <el-dropdown trigger="click" placement="bottom">
@@ -391,7 +406,8 @@ export default {
 
   methods: {
     async tabChange(tab) {
-      await store.dispatch('app/changeLocation', tab)
+      debugger;
+      await store.dispatch('app/changeLocation', this.$router.isBeijing() ? '#/shijingshan' : '#/beijing')
     },
     busneissIndex() {
       this.$router.push(
@@ -417,8 +433,8 @@ export default {
         },
       }).then((res) => {
         // todo 修改后台返回字段
-        Message({
-          message: res.msg,
+        this.$message({
+          message: '提交成功',
           type: "success",
           duration: 5 * 1000,
         });
@@ -469,6 +485,10 @@ export default {
                   }
                   done();
                 },
+              }).then((res) => {
+                console.log('res', res);
+              }).catch((e) => {
+                console.log('e---', e);
               });
             } else if(limit < 5) {
               this.$messageBox({
@@ -488,6 +508,10 @@ export default {
                   }
                   done();
                 },
+              }).then((res) => {
+                console.log('res', res);
+              }).catch((e) => {
+                console.log('e---', e);
               });
             } else {
               this.$router.push(to);
@@ -545,10 +569,14 @@ export default {
 
     // 退出
     logout() {
-      this.$store.dispatch("user/logout");
-      // this.$store.dispatch('user/logout').then(res => { this.$router.push('/') })
+      this.$store.dispatch("user/logout").then(e => {
+        this.$router.push('/');
+      });
     },
-
+    resetPassword() {
+      // this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$router.push('/reset-password')
+    },
     // 搜索
     search() {
       const keyword = this.keyword;
@@ -632,6 +660,23 @@ export default {
           margin-right: 29px;
           display: flex;
           align-items: center;
+        }
+        .index-icon {
+          .el-select {
+          color: #000;
+          // background-color: red;
+          & /deep/ .el-input {
+              .el-input__inner {
+                color: #000 !important;
+                border-radius: 10px;
+                padding: 0px 10px 0px 34px;
+                background: rgba(179,216,255, 0.7);
+              }
+              .el-input__suffix {
+                margin-right: -1px;
+              }
+            }
+          }
         }
       }
       .header-right {

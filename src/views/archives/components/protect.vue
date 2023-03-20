@@ -66,7 +66,7 @@ export default {
 <style lang="scss" scoped>
 .guide-wrap {
     .container {
-      margin: 0px 60px;
+      // margin: 0px 60px;
       .guide-excellent-busniess-content {
           display: grid;
           grid-template-columns: repeat(4, 310px);
