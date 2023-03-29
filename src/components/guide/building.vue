@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png"/>
         楼宇信息
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
       </div>
@@ -15,7 +15,7 @@
             <swiper class="swiper" :options="swiperOption">
                 <swiper-slide
                 v-for="(item, index) in excellentBusniessList"
-                style="display: flex;flex-direction: column;"
+                style="display: flex;flex-direction: column;cursor: pointer;"
                 :key="index"
                 >
                 <!--v-bind:style="`background-size: 100% 100%;background-repeat: no-repeat;background-image:url(${item.buildingImages})`"-->

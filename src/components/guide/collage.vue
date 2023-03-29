@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png" style="margin-left: 31px;"/>
         企业面对面
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
       </div>

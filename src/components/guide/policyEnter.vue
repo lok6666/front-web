@@ -28,7 +28,7 @@
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策计算器
             <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
         </div>
@@ -38,7 +38,7 @@
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策匹配
             <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
         </div>

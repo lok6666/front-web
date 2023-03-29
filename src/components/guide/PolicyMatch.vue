@@ -1,12 +1,12 @@
 <template>
   <div class="guide-wrap policy-bg">
-    <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose" @dialogClose="dialogClose"/>
+    <!-- <policy-calculate :dialogVisible="dialogVisible" @handleClose="handleClose" @dialogClose="dialogClose"/> -->
     <div class="container">
       <div class="guide-header">
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         政策匹配
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
       </div>

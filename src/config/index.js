@@ -114,7 +114,7 @@ export const swiperConfig2 = [{
 {
   poster: "https://img2.baidu.com/it/u=2889916849,746349686&fm=253&fmt=auto&app=120&f=JPEG?w=741&h=500",
   desc: '首钢园大跳台',
-  videoDesc: "首钢滑雪大跳台，位于北京市石景山区首钢老工业园区北区，是北京2022年冬奥会自由式滑雪和单板滑雪比赛的场地;由赛道、裁判塔和看台区域三部分组成，共设置坐席6700个。",
+  videoDesc: "首钢滑雪大跳台，位于北京市石景山区首钢老工业园区北区，是北京2022年冬奥会自由式滑雪和单板滑雪比赛的场地由赛道、裁判塔和看台区域三部分组成，共设置坐席6700个。",
   time: '2022-9-3',
   videoSrc: 'http://minio.bjwcxf.com/culture-video/4.mp4',
   learnNum: '1200'

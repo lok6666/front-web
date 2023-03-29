@@ -4,7 +4,7 @@
         <div class="guide-header">
           流程图
           <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
         </div>

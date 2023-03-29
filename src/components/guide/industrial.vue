@@ -5,7 +5,7 @@
         <img class="guide-header-logo" src="../../images/guide-logo.png" />
         产品大厅
         <div class="guide-agile">
-            <div class="limit-desc">Comperehensive platform</div>
+            <div class="limit-desc">comprehensive platform</div>
             Cultural industry
             </div>
       </div>
