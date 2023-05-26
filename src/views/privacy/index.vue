@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 export default {
   name: 'Terms',
   components: {

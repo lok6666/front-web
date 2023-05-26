@@ -23,7 +23,7 @@
       </el-dialog>
     <div class="container">
       <div class="guide-policyEnter-content">
-        <div class="policy-block search" @click="policyMatch()" >
+<!--         <div class="policy-block search" @click="policyMatch()" >
             <div></div>
             <img class="guide-header-logo" src="../../images/guide-logo.png" />
             政策计算器
@@ -32,10 +32,10 @@
             Cultural industry
             </div>
         </div>
-        <div class="divide"></div>
+        <div class="divide"></div> -->
         <div class="policy-block apply" @click="policyClu()" >
             <div></div>
-            <img class="guide-header-logo" src="../../images/guide-logo.png" />
+            <!-- <img class="guide-header-logo" src="../../images/guide-logo.png" /> -->
             政策匹配
             <div class="guide-agile">
             <div class="limit-desc">comprehensive platform</div>
@@ -198,14 +198,14 @@ export default {
 
 <style lang="scss" scoped>
 .policy-enter-bg {
-    background: #fff;
+    // background: #fff;
     // max-width: 1440px;
 /*     display: flex;
     justify-content: center; */
 };
 .guide-wrap {
   .container {
-    padding: 30px 60px;
+    // padding: 30px 60px;
     // padding: 30px 60px;
 /*     max-width: 1440px;
     width: 100%; */
@@ -219,13 +219,17 @@ export default {
           display: flex;
           align-items: flex-end;
           align-items: flex-end;
-          justify-content: center;
-          width: 596px;
+          justify-content: end;
+          // width: 596px;
+          width: 100%;
           font-size: 56px;
           padding-bottom: 33px;
+          padding-right: 60px;
           color: #212121;
-          height: 517px;
-          background-size: cover !important;
+          // height: 517px;
+          height: 300px;
+          // background-size: cover !important;
+          // background-size: 100% 117%;
           background-repeat: no-repeat;
         }
         .search {
@@ -237,7 +241,9 @@ export default {
         border: 1px solid #979797;
         }
         .apply {
-        background: url("http://minio.bjwcxf.com/cultural-image/cultural-web/index-政策申报.png");
+          background-repeat: no-repeat;
+          background-size: 100% 234% !important;
+          background: url("https://online-pic.51mo.com/preview/photo/P-10234157/10218773.jpg?imageView2/2/w/1280/q/90|imageMogr2/thumbnail/1024x798/extent/1024x798/position/north|watermark/2/text/6a2U5Yqb6K6-IHd3dy41MW1vLmNvbSBJRDEwMjM0MTU3/font/6buR5L2T/fontsize/350/gravity/South/dx/0/dy/6/fill/IzRhNGE0YQ==")
         }
     }
   }

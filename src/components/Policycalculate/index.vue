@@ -7,7 +7,7 @@
       :lock-scroll="false"
       :center="true"
       :show-close="false"
-      :before-close="handleClose"
+      :before-close="dialogClose"
     >
       <i
         class="el-dialog__close el-icon el-icon-close"
@@ -264,6 +264,7 @@ import { MessageBox, Message } from "element-ui";
 import { mapGetters } from "vuex";
 import _ from "lodash";
 import { policyMatchTagsGet } from "@/config/api";
+// import { getDictionariesGetByCode } from "@/utils/util";
 import request from "@/utils/request";
 import {
   industrialOptions,
@@ -285,6 +286,7 @@ import {
   favourablebusinessOptions1,
   busneissOptions,
   taxOptions,
+  selection
 } from "@/config/constant.js";
 export default {
   name: "Advantage",
@@ -316,12 +318,21 @@ export default {
         nianxian: "yearOptions",
         quxian: "locationOptions",
       },
-      selectOptions: [{
-    value: "shijingshan",
-    label: "石景山区",
-    isSelect:　false,
-    type: 'quxian'
-  }],
+      locationhashMap: {
+        '#/shijingshan': {
+          value: 'shijingshan',
+          label: '石景山区',
+          isSelect:　false,
+        type: 'quxian'
+        },
+        '#/chaoyang': {
+          value: 'chaoyang',
+          label: '朝阳区',
+          isSelect:　false,
+        type: 'quxian'
+        }
+      },
+      selectOptions: [],
       isRequiredList: [
         "locationOptions",
         "yearOptions",
@@ -331,65 +342,62 @@ export default {
     };
   },
   props: {
-    dialogVisible: {
-      type: Boolean,
-      default: false,
-    },
+    dialogVisible: Boolean
   },
   watch: {
     dialogVisible(route) {
-      let options = window.localStorage.getItem('cul-detail-options');
-      let detail = window.localStorage.getItem('cul-detail');
-      this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
-      this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail-options')) : [];
-      this.selectOptions.forEach(e => {
-        // 获取listName
-        let listName = this.typeObj[e.type];
-        this[listName].map(i => {
-          if (e.label === i.label) {
-            i.isSelect = true;
+      if(route) {
+        let that = this;
+        let options = window.localStorage.getItem('cul-detail-options');
+        let detail = window.localStorage.getItem('cul-detail');
+        this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
+        // 判断是否切换站台,如果切换站台清空cul-detail-options
+ /*        if(detail) {
+          let data = JSON.parse(window.localStorage.getItem('cul-detail-options'));
+          if(!this.$router.isBeijing().includes(data[0].value)) {
+            // 清空选中的列表select状态
+            this.optionsList.forEach((element) => {
+              that[element] = that[element].map((el) => {
+                el.isSelect = false;
+                return el;
+              });
+            });
+            window.localStorage.setItem('cul-detail-options', JSON.stringify([this.locationhashMap[this.$router.isBeijing()]]))
           };
-          return i;
+        }; */
+        this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail-options')):  [this.locationhashMap[this.$router.isBeijing()]];
+        this.selectOptions.forEach(e => {
+          // 获取listName
+          let listName = this.typeObj[e.type];
+          this[listName].map(i => {
+            if (e.label === i.label) {
+              i.isSelect = true;
+            };
+            return i;
+          });
         });
-      });
+      } else {
+        this.$emit("dialogClose");
+      }
     }
   },
   computed: {
     ...mapGetters(["data_selection"]),
   },
-   created() {
-    // this.userId && this.getpolicyMatchTagsGet();
-/*     let options = window.localStorage.getItem('cul-detail-options');
-    let detail = window.localStorage.getItem('cul-detail');
-    this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail-options')) : [];
-    this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
-    this.selectOptions.forEach(e => {
-        // 获取listName
-        let listName = this.typeObj[e.type];
-        this[listName].map(i => {
-          if (e.label === i.label) {
-            i.isSelect = true;
-          };
-          return i;
-        });
-      }); */
-  },
-  updated() {
-/*     console.log('updated----');
-    let options = window.localStorage.getItem('cul-detail-options');
-    let detail = window.localStorage.getItem('cul-detail');
-    this.optionsList = options ? JSON.parse(window.localStorage.getItem('cul-detail-options')) : [];
-    this.selectOptions = detail ? JSON.parse(window.localStorage.getItem('cul-detail')) : [];
-    this.selectOptions.forEach(e => {
-      // 获取listName
-      let listName = this.typeObj[e.type];
-      this[listName].map(i => {
-        if (e.label === i.label) {
-          i.isSelect = true;
-        };
-        return i;
-      });
-    }); */
+  async created() {
+    // this.yearOptions = (await getDictionariesGetByCode('policyCul', this.yearOptions)).map(e => {
+    //   return {...e, type: "nianxian"};
+    // });
+    // this.favourablebusinessOptions = (await getDictionariesGetByCode('favourablebusiness', this.favourablebusinessOptions)).map(e => {
+    //   return {...e, type: "yewu"};
+    // });
+    // this.zzOptions = (await getDictionariesGetByCode('naturalEndowments', this.zzOptions)).map(e => {
+    //   return {...e, type: "zizhi"};
+    // });
+    // this.businessAttributeOptions = (await getDictionariesGetByCode('businessAttribute', this.businessAttributeOptions)).map(e => {
+    //   return {...e, type: "guimo"};
+    // });
+    this.selectOptions = this.locationhashMap[this.$router.isBeijing()];
   },
   methods: {
     getpolicyMatchTagsGet() {
@@ -410,7 +418,7 @@ export default {
       this.$emit("dialogClose");
     },
     handleClose(done) {
-      this.$forceUpdate();
+      // this.$forceUpdate();
       this.$emit("handleClose");
     },
     reSelect() {
@@ -449,6 +457,10 @@ export default {
           return e;
         });
       }
+      // 为了政策计算器兼容
+/*       this.selectOptions = this.selectOptions.map(e => {
+        return {label: e.branchName, ...e};
+      }); */
       this.optionsList.push(options);
     },
     async calculate() {
@@ -467,12 +479,6 @@ export default {
           "data/setSelection",
           _.cloneDeep(this.selectOptions)
         );
-        // 清空选中的列表select状态
-        this.optionsList.forEach((element) => {
-          that[element].forEach((el) => {
-            el.isSelect = false;
-          });
-        });
          this.optionsList = [];
         // this.selectOptions.length && that.$emit("handleClose");
         that.$emit("handleClose");

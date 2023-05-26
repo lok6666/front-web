@@ -113,6 +113,7 @@
 
 <script>
 import axios from "axios";
+import {imgDatalogV3} from "@/utils/util.js";
 //   import legislation from "../components/tool_legislation";
 //   import lawcase from "../components/tool_case";
 //   import dispute from "../components/tool_dispute";
@@ -263,12 +264,19 @@ export default {
       }); */
   },
   mounted() {
+    
     this.chatWindowActive();
   },
   methods: {
     // 关闭弹窗
     bClose() {
-        this.$emit('bClose');
+      imgDatalogV3({
+        eventCode: 'CLOSE_AI',
+        eventName: '智能客服关闭埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      this.$emit('bClose');
     },
     // 原回车键失去回车功能
     stopEnter(event) {
@@ -353,6 +361,12 @@ export default {
     },
     // 查看详情
     goDetail(item) {
+      imgDatalogV3({
+        eventCode: 'AI_TO_POLICY_DETAIL',
+        eventName: '智能客户查看政策详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       var that = this;
       axios({
         url: `http://enterprise.bjwcxf.com:9288/getAnswer/${item.lawTitle}`,
@@ -387,6 +401,12 @@ export default {
     },
     // 发送消息
     send() {
+      imgDatalogV3({
+        eventCode: 'AI_TO_SEND',
+        eventName: '智能客户发送埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       if (this.message == "") {
         alert("不能发送空白信息");
         return;

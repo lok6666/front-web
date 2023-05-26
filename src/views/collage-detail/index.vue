@@ -35,7 +35,7 @@
                     <div style="display:flex;flex-direction:row;padding:20px;">
                       <img :src="data_collagedetail.activityThumbnail" style="width: 300px;margin-right: 10px;"/>
                       <div class="collage-message">
-                        <div v-cloak>活动地点:{{data_collagedetail.activityAddress}}</div>  
+                        <div v-cloak style="width: 533px;">活动地点:{{data_collagedetail.activityAddress}}</div>  
                         <div v-if="data_collagedetail.activityDateTo" v-cloak>活动日期:{{data_collagedetail.activityDateFrom.substring(0, 10)}} 至 {{data_collagedetail.activityDateTo.substring(0, 10)}}</div>
                         <div v-if="data_collagedetail.activityDateFrom" v-cloak>活动时间:{{data_collagedetail.activityDateFrom.substring(11, 16)}}</div>   
                         <div v-cloak>联系人:{{data_collagedetail.contactPerson}}</div>
@@ -89,12 +89,12 @@
   import { mapGetters } from "vuex";
   import "swiper/css/swiper.css";
   import 'vue-bmap-gl/dist/style.css'
-  import AppHeader from "@/components/Header/index";
+  import AppHeader from "@/components/Header/index.vue";
   import FormTemplate from "@/components/Form/index.vue";
   import request from '@/utils/request';
   import { activtyForm } from "@/config/constant.js";
   import { actionAll, activityApplyAddOne, actionGetById, locatiion } from "@/config/api.js";
-  import AppFooter from "@/components/footer/index";
+  import AppFooter from "@/components/footer/index.vue";
   import { pagePublishedArticle } from "@/api/article.js";
   export default {
     name: "Index",
@@ -300,7 +300,7 @@
           .block1 {
             position: relative;
             top: 72px;
-            right: -215px;       
+            // right: -215px;       
             flex-direction: revert;
             float: right;
             font-size: 14px;
@@ -350,7 +350,7 @@
             font-size: 18px;display: flex;flex-direction: column;justify-content: space-around;
           }
           .collage-desc {
-            // width: 290px;
+            width: 1046px;
             font-size: 20px;
             font-family: AlibabaPuHuiTiM;
             color: #B48859;

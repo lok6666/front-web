@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { financialServicesUpdate } from "@/config/api.js";
 import request from '@/utils/request';
 import _ from 'lodash';
@@ -74,6 +75,12 @@ export default {
 /*       let userinfo = window.localStorage.getItem('userinfo');
       !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true); */
       // if(userinfo) {
+        imgDatalogV3({
+          eventCode: 'FINANCE_DETAIL',
+          eventName: '金融服务查看详情埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        });
         this.$store.dispatch('data/setLoanDetail', _.cloneDeep(loan));
         this.updateHits(loan);
         this.$router.push({

@@ -2,7 +2,14 @@
   <div class="app-container">
     <app-header :nav-item-active="-1" />
     <div class="policy-search-bg">
-      <div style="display: flex;align-items: center;">最新政策<p class="policy-search-agile">Cultural industry</p></div>
+      <div style="display: flex;align-items: center;">最新政策
+        <p class="policy-search-agile" >
+          <div style="display:flex;    flex-direction: column;">
+            <div class="limit-desc" style=" font-size: 14px;">comprehensive platform</div>
+          <div style="font-size: 26px;">Cultural industry</div>
+          </div>
+        </p>
+      </div>
     </div>
     <div class="policy-search-container">
     <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-top: 20px;">
@@ -42,12 +49,17 @@
               @click="select('btnList2', index, 'time')"
               >{{ btn.message }}</el-button>
         </div>
-        <el-date-picker style="margin-left: 20px;"
-        @click="date"
-        v-model="value2"
-        type="daterange"
-        align="right"
-        start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']"></el-date-picker>
+        <el-date-picker
+          v-model="value1"
+          style="margin-left: 10px;"
+          type="date"
+          placeholder="开始日期">
+        </el-date-picker>
+        <el-date-picker
+          v-model="value2"
+          type="date"
+          placeholder="结束日期">
+        </el-date-picker>
       </div>
       <div class="select-btn">
         <div>政策类型:</div>
@@ -128,6 +140,20 @@ import bank1 from "../../images/bank1.png";
 import AppHeader from "@/components/Header/index";
 import AppFooter from "@/components/footer/index";
 import { updateUser, bindUsername } from "@/api/user.js";
+const locationhashMap = {
+        '#/shijingshan': {
+          message: "石景山区",
+          isSelect: false,
+          policyLocation: 'shijingshan',
+          value: 1,
+        },
+        '#/chaoyang': {
+          message: "朝阳区",
+          isSelect: false,
+          policyLocation: 'chaoyang',
+          value: 1,
+        }
+      };
 export default {
   name: "User",
   data() {
@@ -141,11 +167,17 @@ export default {
       policyLevel: '',
       categoryId: 0,
       pageSize: 20,
+      value1: '',
       value2: '',
       pageNum: 1,
       policyList: [],
       policyLocation: '',
-      btnList1: this.$router.isBeijing() ? [
+      locationhashMap: {
+        '#/beijing': 'beijing',
+        '#/shijingshan': 'shijingshan',
+        '#/chaoyang': 'chaoyang'
+      },
+      btnList1: this.$router.isBeijing() === '#/beijing' ? [
         {
           message: "不限",
           isSelect: true,
@@ -275,11 +307,12 @@ export default {
           value: 3,
         },
         {
-          message: "石景山区",
+          message: "北京市",
           isSelect: false,
-          policyLocation: 'shijingshan',
-          value: 1,
-        }
+          value: 2,
+          policyLocation: '',
+        },
+        locationhashMap[this.$router.isBeijing()]
       ],
       btnList2: [
         {
@@ -388,20 +421,23 @@ export default {
   mounted() {
   },
   watch: {
-    value2:　function (val, oldVal) {
-      if(val) {
-        this.endTime = val[1].getTime();
-        this.startTime = val[0].getTime();
-      } else {
-        this.endTime = '';
-        this.startTime = '';
-      }
+    value1: function(val) {
+      this.startTime = val ? val.getTime() : '';
       this.btnList2 = this.btnList2.map(e => {
         e.isSelect = false;
         return e;
       });
       this.getPolicyList();
-        }
+      return val;
+    },
+    value2: function(val) {
+      this.endTime = val ? val.getTime() : '';
+      this.btnList2 = this.btnList2.map(e => {
+        e.isSelect = false;
+        return e;
+      });
+      this.getPolicyList();
+    }
   },
   methods: {
     inputConfirm(val) {
@@ -409,21 +445,47 @@ export default {
       this.getPolicyList();
     },
     getPolicyList() {
-      let that = this;
-      request({
-        url: `${collagePolicyList}`,
-        method: 'post',
-        data: {
+      const data = {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           policyKind: this.policyKind,
-          policyLevel: this.policyLevel,
+          // 国家级,市级,区级
+          // policyLevel: this.policyLevel,
+          // 开始时间
           startTime: this.startTime,
+          // 结束时间
           endTime: this.endTime,
+          // 标题
           policyTitle: this.policyTitle,
-          policyLocation: this.policyLocation,
+          // 区县
+          // policyLocation: this.policyLocation,
+          // 不限
+          // policyLocationList: ['china', 'beijing', this.locationhashMap[this.$router.isBeijing()]],
           entId: window.localStorage.getItem('USERID')
-        }
+        };
+      let that = this;
+      
+      // 国家级
+      if(this.policyLevel === 3) {
+        data.policyLocationList = ['china'];
+      }
+      // 市级
+      else if(this.policyLevel === 2){
+        data.policyLocationList = ['beijing'];
+      }
+      // 区级
+      else if(this.policyLevel === 1){
+        data.policyLocation =  this.policyLocation;
+      }
+      // 不限
+      else {
+        data.policyLocationList = this.locationhashMap[this.$router.isBeijing()] === 'beijing' ? [] : ['china', 'beijing', this.locationhashMap[this.$router.isBeijing()]];
+      }
+
+      request({
+        url: `${collagePolicyList}`,
+        method: 'post',
+        data
       }).then(res => {
         that.policyList = res.data.list;
         that.total = res.data.total;
@@ -479,9 +541,13 @@ export default {
           return e;
         });
       this[list][index].isSelect = true;
-      this.policyLocation = this[list][index].policyLocation ? this[list][index].policyLocation : this.policyLocation ;
+      // 国家级 北京市干掉location
+      if(this[list][index].value === 2 || this[list][index].value === 3 || !this[list][index].value) {
+        this.policyLocation = '';
+      } else {
+        this.policyLocation = this[list][index].policyLocation ? this[list][index].policyLocation : this.policyLocation ;
+      }
       if(type === 'time') {
-        this.value2 = [];
         let ed = new Date();
         let sd = new Date(ed.getTime() - this[list][index].value*24*60*60*1000);
         this.endTime = ed.getTime();

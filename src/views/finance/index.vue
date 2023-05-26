@@ -13,7 +13,7 @@
             :class="[btn.isSelect ? 'button-new-tag-select' : 'button-new-tag-not-select']"
             size="small"
             @click="select(index)"
-            >{{ btn.message }}</el-button
+            >{{ btn.branchName }}</el-button
           >
         </div>
       </div>
@@ -47,14 +47,16 @@
 <script>
 import {hostList} from '@/config/index'
 import { mapGetters } from "vuex";
-import { financialServicesAll } from "@/config/api.js";
+import {imgDatalogV3} from "@/utils/util.js";
+import { financialServicesAll,dictionariesGetByCode } from "@/config/api.js";
+import { getDictionariesGetByCode } from "@/utils/util";
 import { getAccessToken } from "@/utils/auth";
 import request from '@/utils/request';
 import bj_bank from "../../images/bj_bank.png";
 import jh_bank from "../../images/bank2.png";
-import AppHeader from "@/components/Header/index";
-import Loan from "@/components/loan/index";
-import AppFooter from "@/components/footer/index";
+import AppHeader from "@/components/Header/index.vue";
+import Loan from "@/components/loan/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",
@@ -66,20 +68,10 @@ export default {
       serviceBank: '',
       btnList: [
         {
-          message: "全部",
-          value: '',
+          branchName: "全部",
+          branchCode: '',
           isSelect: true,
         },
-        {
-          message: "建设银行",
-          value: '建设银行',
-          isSelect: false,
-        },
-        {
-          message: "北京银行",
-          value: '北京银行',
-          isSelect: false,
-        }
       ],
       loanList: [],
       path: process.env.VUE_APP_BASE_API + "/user/avatar/update",
@@ -88,6 +80,7 @@ export default {
   watch: {
     $route(val) {
       this.getFinancialServicesAll();
+      // getDictionariesGetByCode();
     },
   },
   components: {
@@ -98,7 +91,8 @@ export default {
   computed: {
     ...mapGetters(["defaultAvatar", "device"]),
   },
-  created() {
+  async created() {
+    this.btnList = await getDictionariesGetByCode('finance', this.btnList);
     this.getFinancialServicesAll();
   },
   mounted() {},
@@ -127,7 +121,7 @@ export default {
         return e;
       });
       this.btnList[index].isSelect = !this.btnList[index].isSelect;
-      this.serviceBank = this.btnList[index].value;
+      this.serviceBank = this.btnList[index].branchCode;
 /*       if(this.serviceBank.indexOf(this.btnList[index].value) > -1) {
         this.serviceBank.splice(this.serviceBank.indexOf(this.btnList[index].value), 1);
       } else {
@@ -136,6 +130,12 @@ export default {
       this.getFinancialServicesAll();
     },
     detail(index) {
+      imgDatalogV3({
+        eventCode: 'FINACE_DETAIL',
+        eventName: '金融服务详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$router.push({
         path: `/finance-detail/:${index}`
       })

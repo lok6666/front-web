@@ -89,6 +89,7 @@
   <script>
   import { MessageBox, Message } from 'element-ui'
   import { applyPolicyForm, applyForm } from "@/config/constant.js";
+  // import * as policyData from "@/config/data.js";
   import { policyRelationList, policyDetail,policyApplyById,policyApplyUpdateOne,policyApplyInsert } from "@/config/api.js";
   import request from '@/utils/request';
   import { mapGetters } from "vuex";
@@ -112,6 +113,7 @@
         policyApplyInsert,
         time: '2022-9-7',
         list: [],
+        // policyData,
         applyForm,
         userid: window.localStorage.getItem('USERID'),
         isExist: false,
@@ -119,6 +121,10 @@
     },
     created() {
       let that = this;
+/*       import('@/config/data.js').then(({ default: text }) => {
+        let data = policyData.find(e => e.id === that.$route.params.artId);
+        console.log('data----', data)
+      }); */
       request({
         url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
         method: 'get'
@@ -140,6 +146,8 @@
       $route: {
         handler: function(val, oldVal){
           let that = this;
+/*           let data = policyData.find(e => e.id === that.$route.params.artId);
+          console.log('data----', data) */
           request({
             url: `${policyDetail}/${that.$route.params.artId.replace(':artId=', '')}`,
             method: 'get'
@@ -297,7 +305,7 @@
                 }
             }
             .content-center {
-              line-height: 1.5;
+              line-height: 2.0;
             }
             .desc {
               display: flex;

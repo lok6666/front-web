@@ -21,10 +21,11 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import {hostList} from '@/config/index'
 import policyIcon from "../../images/policy-icon.png";
 import newIcon from "../../images/new-icon.png";
-import { articleList, indexPolicyList, sjsindexPolicyList } from "@/config/api.js";
+import { articleList, indexPolicyList, locationPolicyList } from "@/config/api.js";
 import request from '@/utils/request';
 import _ from 'lodash';
 export default {
@@ -35,6 +36,11 @@ export default {
         {message: '最新新闻', itemType: 'newList', isSelect: true},
         {message: '最新政策', itemType: 'newPolicyList', isSelect: false}
       ],
+      locationhashMap: {
+        '#/beijing': 'beijing',
+        '#/shijingshan': 'shijingshan',
+        '#/chaoyang': 'chaoyang'
+      },
       indexImg: '',
       message: '最新新闻',
       policyIcon,
@@ -68,9 +74,10 @@ export default {
       this.indexImg = this.contentList[0].picture || (this.mainTabs[0].isSelect ? newIcon : policyIcon);
     });
     request({
-      url: `${this.$router.isBeijing() ? indexPolicyList : sjsindexPolicyList}`,
+      url: `${this.$router.isBeijing() === '#/beijing' ? indexPolicyList : locationPolicyList}`,
       method: 'post',
       data: {
+        policyLocation: this.locationhashMap[this.$router.isBeijing()]
       }
     }).then(res => {
       that.policyList = res.data;
@@ -78,6 +85,18 @@ export default {
   },
   methods: {
     changeTab(i) {
+      let data = this.mainTabs[i].message === '最新新闻' ? {
+          eventCode: 'INDEX_NEWS_TAB',
+          eventName: '最新新闻tab埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        } : {
+          eventCode: 'INDEX_POLICY_TAB',
+          eventName: '最新政策tab埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        };
+      imgDatalogV3(data);
       this.mainTabs.forEach((el, index) => {
         if(index === i) {
           this.message = el.message;
@@ -92,9 +111,33 @@ export default {
       this.indexImg = this.contentList[0].picture || (this.mainTabs[0].isSelect ? newIcon : policyIcon);
     }, 
     routeTo(item) {
+      let data = this.message === '最新新闻' ? {
+          eventCode: 'INDEX_NEWS_DETAIL',
+          eventName: '最新新闻详情埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        } : {
+          eventCode: 'INDEX_POLICY_DETAIL',
+          eventName: '最新政策详情埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        };
+      imgDatalogV3(data);
       this.$router.push(`${this.message === '最新新闻' ? '/new-detail' : '/policy-detail'}/:artId=${item.id}`);
     },
     routeTo2() {
+      let data = this.message === '最新新闻' ? {
+          eventCode: 'INDEX_NEWS_MORE',
+          eventName: '最新新闻更多埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        } : {
+          eventCode: 'INDEX_POLICY_MORE',
+          eventName: '最新政策更多埋点',
+          location: this.$router.isBeijing(),
+          page: this.$route.path
+        };
+      imgDatalogV3(data);
       this.message === '最新新闻' ?this.$router.push(`/new-more?message=${this.message}`) :this.$router.push(`/policy-search`) ;
     }
   },

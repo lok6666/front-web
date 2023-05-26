@@ -12,10 +12,10 @@
                     <div class="title">已为您{{$route.params.type === '政策匹配' ? '推荐' :'计算'}}出适合的政策</div>
                     <div class="num">{{listLength}}条</div>
                 </div>
-                <div class="total-price">
+  <!--               <div class="total-price">
                     <div class="title">政策可提供最大扶持资金</div>
                     <div class="num">{{price}}万元</div>
-                </div>
+                </div> -->
             </div>
             <div class="policy-total-footer">
                 <div class="select-btn">
@@ -27,7 +27,7 @@
                         size="mini"
                         type="warning"
                         plain
-                        >{{ btn.label }}</el-button>
+                        >{{ btn.label}}</el-button>
                     </div>
                     </div>
                 </div>
@@ -68,12 +68,12 @@
                         <i :class="[item.policyCollect? `el-icon-star-on` : `el-icon-star-off`]" style="cursor: pointer;" />收藏
                       </div>
                       <div class="tag-item location"><img src="../../images/location.png"/><div>{{locationMap[item.policyLocation]}}</div></div>
-                      <div :class="[ item.policyType === 1 ? 'aaa' : 'bbb']" class="tag-item location">
+<!--                       <div :class="[ item.policyType === 1 ? 'aaa' : 'bbb']" class="tag-item location">
                         <div>{{item.policyType === 1 ? '申报中' : '已结束'}}</div>
-                      </div>
+                      </div> -->
                       <!-- <div class="tag-item process-1">{{item.process}}</div> -->
                     </div>
-                    <div style="max-width: 720px; display: -webkit-box;
+                    <div style="max-width: 800px; display: -webkit-box;
                         -webkit-line-clamp: 1;
                         -webkit-box-orient: vertical;
                         text-overflow: ellipsis;
@@ -90,7 +90,13 @@
                   </div>
                 </div>
                 <div class="right">
-                  <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.policyMaxMoney ? `${item.policyMaxMoney}万元`: '评选认定中'}}</div>
+                  <div class="tag-block">
+                      <div :class="[ item.policyType === 1 ? 'aaa' : 'bbb']" class="tag-item location">
+                        <div :class="[ item.policyType === 1 ? 'aaa' : 'bbb']" style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;">{{item.policyType === 1 ? '申报中' : '已结束'}}</div>
+                      </div>
+                      <!-- <div class="tag-item process-1">{{item.process}}</div> -->
+                    </div>
+                  <!-- <div style="font-size: 26px;font-family: PingFangSC-Semibold, PingFang SC;font-weight: 600;color: #D99447;">{{item.policyMaxMoney ? `${item.policyMaxMoney}万元`: '评选认定中'}}</div> -->
                   <div class="measure">
                     <div v-for="(i, index) in opacition" :key="index" @click.stop="test(i.message,item.policyId)">{{i.message}}</div>
                   </div>
@@ -140,8 +146,28 @@
         price: '0',
         locationMap: {
           beijing: '北京',
-          shijingshan: '石景山'
+          shijingshan: '石景山',
+          chaoyang: '朝阳',
+          china: '国家'
         },
+        locationhashMap1: {
+        '#/shijingshan': {
+          value: 'shijingshan',
+          label: '石景山区',
+          isSelect:　false,
+        type: 'quxian'
+        },
+        '#/chaoyang': {
+          value: 'chaoyang',
+          label: '朝阳区',
+          isSelect:　false,
+        type: 'quxian'
+        }
+      },
+        locationhashMap: {
+        '#/shijingshan': 'shijingshan',
+        '#/chaoyang': 'chaoyang'
+      },
         // 点击换一批为1,其他为0,政策计算器无change字段
         change: 0,
         isHandler: 0,
@@ -179,11 +205,11 @@
                 label: "发布时间",
                 isSelect:　false
             },
-            {
+/*             {
                 value: "beijing",
                 label: "最高奖励金额",
                 isSelect:　false
-            }
+            } */
         ] : [
             {
                 value: "1企业",
@@ -195,11 +221,11 @@
                 label: "发布时间",
                 isSelect:　false
             },
-            {
+/*             {
                 value: "beijing",
                 label: "最高奖励金额",
                 isSelect:　false
-            }
+            } */
         ],
         selectedOptions: [],
         selectedShowOptions: [],
@@ -226,11 +252,11 @@
                 label: "发布时间",
                 isSelect:　false
             },
-            {
+/*             {
                 value: "beijing",
                 label: "最高奖励金额",
                 isSelect:　false
-            }
+            } */
         ];
             } else if(this.$route.params.type === '政策匹配') {
               this.change = 0;
@@ -245,11 +271,11 @@
                 label: "发布时间",
                 isSelect:　false
             },
-            {
+/*             {
                 value: "beijing",
                 label: "最高奖励金额",
                 isSelect:　false
-            }
+            } */
         ];
               this.getpolicyMatchTagsGet()
             }
@@ -316,7 +342,14 @@
         });
       },
       getCulPolicyList() {
+        // todo 政策计算器bug
         this.selectedOptions = window.localStorage.getItem('cul-detail-options') ? JSON.parse(window.localStorage.getItem('cul-detail-options')): [];
+        // 北京站不切换,其他站切换loccation
+        if((this.$router.isBeijing() !== '#/beijing')) {
+          this.selectedOptions[0] = this.locationhashMap1[this.$router.isBeijing()];
+        };
+
+        // console.log('selectedOptions----', this.this.locationhashMap[this.$router.isBeijing()]);
         let data = {};
         this.selectedOptions.forEach(res => {
           data[res.type] = data[res.type] ? data[res.type] : [];
@@ -329,7 +362,7 @@
         var config = {
           method: "post",
           url: `${policyMatchCount}`, //上传图片地址
-          data: data
+          data: {...data, quxian: [this.locationhashMap[this.$router.isBeijing()], 'beijing', 'china']}
         };
         axios(config)
         .then(({data}) => {
@@ -343,7 +376,7 @@
           // 发布时间排序
           this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
           // 按奖金排序
-          this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+          // this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
         });
 /*         request({
             url: `${policyMatchCount}`,
@@ -395,7 +428,7 @@
             // 发布时间排序
             this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
             // 按奖金排序
-            this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+            // this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
           });
       },
       check(index) {
@@ -453,7 +486,7 @@
         // 发布时间排序
         this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
         // 按奖金排序
-        this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+        // this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
       },
       handleCurrentChange(val) {
         this.pageNum = val;
@@ -461,7 +494,7 @@
         // 发布时间排序
         this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
         // 按奖金排序
-        this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+        // this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -477,7 +510,7 @@
         // 发布时间排序
         this.siftOptions[this.siftIndex].label=== '发布时间' && this.sortTime();
         // 按奖金排序
-        this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
+        // this.siftOptions[this.siftIndex].label=== '最高奖励金额' && this.sortMoney();
       },
       sortList() {
         let prePage = this.pageSize*(this.pageNum - 1) > this.realPolicyList.length ? 0 : this.pageSize*(this.pageNum - 1);
@@ -771,10 +804,19 @@
               display: flex;
               flex-direction: column;
               justify-content: center;
-              align-items: center;   
+              align-items: center; 
+              .tag-block {
+                .aaa {
+                  color: rgb(217, 148, 71);
+                }
+                .bbb {
+                  color: gray;
+                }
+              }  
               .measure {
                 margin-top: 24px;
-                width: 330px;
+                // width: 330px;
+                width: 260px;
                 display: flex;
                 justify-content: space-around;
               }

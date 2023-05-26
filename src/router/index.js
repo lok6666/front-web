@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-const hashList = ['#/beijing', '#/shijingshan'];
+const hashList = ['#/beijing', '#/shijingshan', '#/chaoyang'];
 const routerPush = Router.prototype.push;
 Router.prototype.isBeijing = function isBeijing(path) {
-  return window.location.hash.includes('beijing')
+  let locationhash = hashList.find(e => window.location.hash.includes(e));
+  // return window.location.hash.includes('beijing')
+  return locationhash;
 }
 Router.prototype.changelocation = function push(path, target) {
   let oirgin = window.location.hash;
@@ -34,6 +36,11 @@ Router.prototype.push = function push(path) {
   }
   else if(window.location.hash.includes('shijingshan')) {
     return routerPush.call(this, `/shijingshan/${path.substring(1)}`).catch(error => {
+      console.log('error--', error);
+    })
+  }
+  else if(window.location.hash.includes('chaoyang')) {
+    return routerPush.call(this, `/chaoyang/${path.substring(1)}`).catch(error => {
       console.log('error--', error);
     })
   }

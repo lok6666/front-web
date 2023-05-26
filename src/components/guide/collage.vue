@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import request from '@/utils/request';
 import { activtyForm } from "@/config/constant.js";
 import { actionAll, activityApplyAddOne } from "@/config/api.js";
@@ -110,7 +111,12 @@ export default {
       activtyForm,
       applyId: null,
       indexCollage: {},
-      collageList: []
+      collageList: [],
+      locationhashMap: {
+        '#/beijing': 'beijing',
+        '#/shijingshan': 'shijingshan',
+        '#/chaoyang': 'chaoyang'
+      }
     }
   },
   components: {
@@ -129,11 +135,12 @@ export default {
     }
   },
   created() {
+    console.log('actionAll---', actionAll);
     request({
         url: `${actionAll}`,
         method: 'post',
         data: {
-          activityLocation: this.$router.isBeijing() ? 'beijing' : 'shijingshan'
+          activityLocation: this.locationhashMap[this.$router.isBeijing()]
         }
       })
       .then((res) => {
@@ -150,10 +157,22 @@ export default {
       done();
     },
     routerTo(item) {
+      imgDatalogV3({
+        eventCode: 'ACTIVITY_TO_DETAIL',
+        eventName: '企业面对面详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$store.dispatch('data/collagedetail', _.cloneDeep(item));
       this.$router.push(`/collage-detail/:collageId=${item.id}`);
     },
     applyAcitivty(id) {
+      imgDatalogV3({
+        eventCode: 'ACTIVITY_TO_APPLY',
+        eventName: '企业面对面报名埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       let userinfo = window.localStorage.getItem('userinfo');
       !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
       if(userinfo) {
@@ -238,7 +257,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
           }
           .apply-time-and-location {
@@ -304,18 +323,24 @@ export default {
           font-size: 36px;
           font-family: AlibabaPuHuiTiB;
           color: #212121;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          max-height: 82px;
+          -webkit-box-orient: vertical;
         }
         .desc {
           width: 576px;
           line-height: 43px;
           // height: 184px;
-          height: 184px;
+          // height: 139px;
           font-size: 20px;
           font-family: AlibabaPuHuiTiB;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
         }
         .apply-time-and-location {

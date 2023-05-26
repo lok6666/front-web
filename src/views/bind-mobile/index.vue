@@ -38,7 +38,7 @@
 
 <script>
 import { bindMobile } from '@/api/user.js'
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 import { validMobile } from '@/utils/validate.js'
 import { sendCode } from '@/api/code.js'
 export default {

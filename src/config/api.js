@@ -1,7 +1,7 @@
 //const host = 'http://172.16.4.62:28182';
-// const host = 'http://entapi.bjwcxf.com';
+//const host = 'http://entapi.bjwcxf.com';
 //export const policyHost = 'http://172.16.4.62:5000/match';
-export const host =  process.env.NODE_ENV === 'development'? "http://192.168.10.36:28182": "http://entapi.bjwcxf.com";
+ export const host =  process.env.NODE_ENV === 'development'? "http://192.168.10.68:28182": "http://entapi.bjwcxf.com";
 export const policyHost = `${host}/policyMatch/get`;
 // 登录接口
 export const login = `${host}/auth/entLogin`
@@ -18,7 +18,7 @@ export  const articleList = `${host}/article/list` // 最新新闻
 export  const articleGet = `${host}/article/get` // 获取文章数据
 export  const policyList = `${host}/policyTags/list` // 政策列表
 export  const indexPolicyList = `${host}/policyTags/listByHome` // 首页政策列表
-export  const sjsindexPolicyList = `${host}/policyTags/listBySJS` // 首页石景山政策列表
+export  const locationPolicyList = `${host}/policyTags/listByLocation` // 首页石景山政策列表
 export  const collagePolicyList = `${host}/policyTags/listByCollect` // 收藏政策列表
 export  const policyDetail = `${host}/policyTags/get` //  政策详情
 export  const policyRelationList = `${host}/policyRelation/list` // 关联信息
@@ -49,10 +49,10 @@ export  const entPropagateUpdate = `${host}/entPropagate/update` // 角色更新
 export  const entPropagateDelete = `${host}/entPropagate/delete` // 角色删除
 export  const entPropagateInsert = `${host}/entPropagate/insert` // 角色插入
 export  const entPropagateGetById = `${host}/entPropagate/get` // 角色插入
-export  const entPropagateTemplateUpdate = `${host}/entPropagateTemplate//update` // 角色更新
-export  const entPropagateTemplateDelete = `${host}/entPropagateTemplate//delete` // 角色删除
-export  const entPropagateTemplateInsert = `${host}/entPropagateTemplate//insert` // 角色插入
-export  const entPropagateTemplateGetById = `${host}/entPropagateTemplate//get` // 角色插入
+export  const entPropagateTemplateUpdate = `${host}/entPropagateTemplate/update` // 角色更新
+export  const entPropagateTemplateDelete = `${host}/entPropagateTemplate/delete` // 角色删除
+export  const entPropagateTemplateInsert = `${host}/entPropagateTemplate/insert` // 角色插入
+export  const entPropagateTemplateGetById = `${host}/entPropagateTemplate/get` // 角色插入
 
 /*个人中心-财税数据*/
 export  const entIncomeList = `${host}/entIncome/list` // 角色管理列表
@@ -128,3 +128,5 @@ export const sysResourceUpdate = `${host}/sysResource/update` // 更新
 export const sysResourceDelete = `${host}/sysResource/delete` // 删除
 // 轮播图
 export const industryDataList = `${host}/banner/list` //  数据表格
+// 打点
+export const eventLogList = `${host}/eventLog/insert` //  数据表格

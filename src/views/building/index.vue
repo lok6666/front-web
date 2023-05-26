@@ -33,14 +33,14 @@
 <script>
 import {hostList} from '@/config/index'
 import { mapGetters } from "vuex";
-import { buildings } from "@/config/api.js";
-import { getAccessToken } from "@/utils/auth";
+import { buildings, buildingsUpdate } from "@/config/api.js";
+import { getAccessToken } from "@/utils/auth"
 import request from '@/utils/request';
 import bj_bank from "../../images/bj_bank.png";
 import jh_bank from "../../images/bank2.png";
-import AppHeader from "@/components/Header/index";
-import buildItem from "@/components/buildItem/index";
-import AppFooter from "@/components/footer/index";
+import AppHeader from "@/components/Header/index.vue";
+import buildItem from "@/components/buildItem/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",

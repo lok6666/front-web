@@ -81,12 +81,12 @@ import request from '@/utils/request';
 import { MessageBox } from 'element-ui'
 import { messageForm3} from "@/config/constant.js";
 import {entPropagateGetById,entInfoGetById, policyMatchTagsGet} from '@/config/api.js'
-import AppHeader from "@/components/Header/index";
+import AppHeader from "@/components/Header/index.vue";
 import busniessLogo from "../../images/busneiss-logo.png";
 import bank1 from "../../images/about-busneiss2.png";
 import bank2 from "../../images/bank1.png";
 // import protect from "@/components/guide/protect.vue";
-import AppFooter from "@/components/footer/index";
+import AppFooter from "@/components/footer/index.vue";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",

@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-const hashList = ['#/beijing', '#/shijingshan'];
+const hashList = ['#/beijing', '#/shijingshan', '#/chaoyang'];
 let hash = window.location.hash;
 for (let i = 0;i < hashList.length; i++) {
   if(hash.includes(hashList[i])) {

@@ -80,7 +80,11 @@ module.exports = {
 
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
-
+    config.module
+    .rule('images')
+      .use('url-loader')
+        .loader('url-loader')
+        .tap(options => Object.assign(options, { limit: 2000, esModule: false })).end()
     // set svg-sprite-loader
     config.module
       .rule('svg')
@@ -163,7 +167,7 @@ module.exports = {
                   },
                 },
               })
-          ]).end()
+          ]).end
           config
             .optimization.splitChunks({
               chunks: 'all',

@@ -21,7 +21,7 @@
         <div class="protect-block" v-html="busneissData.serviceSynopsis">
           
         </div>
-        <div class="protect-apply" v-if="$router.isBeijing()">
+        <div class="protect-apply" v-if="$router.isBeijing() === '#/beijing'">
           <div class="protect-apply-btn" v-if="authorization">
             <span>联系人:{{busneissData.supplierPerson}}</span>
             <span>咨询电话:{{busneissData.supplierContactX}}</span>
@@ -44,8 +44,8 @@ import request from '@/utils/request';
 import { MessageBox, Message } from 'element-ui'
 import { applyMessageForm2 } from "@/config/constant.js";
 import FormTemplate from "@/components/Form/index.vue"
-import AppHeader from "@/components/Header/index";
-import AppFooter from "@/components/footer/index";
+import AppHeader from "@/components/Header/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 import { pagePublishedArticle } from "@/api/article.js";
 export default {
   name: "Index",

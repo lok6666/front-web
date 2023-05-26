@@ -78,8 +78,8 @@ import { actionAll, activityApplyAddOne } from "@/config/api.js";
 import { activtyForm } from "@/config/constant.js";
 import 'swiper/css/swiper.css';
 import request from '@/utils/request'
-import AppHeader from "@/components/Header/index";
-import AppFooter from "@/components/footer/index";
+import AppHeader from "@/components/Header/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 export default {
   name: "User",
   data() {

@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { buildings } from "@/config/api.js";
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import request from '@/utils/request';
@@ -42,6 +43,11 @@ export default {
   name: "excellent-busniess",
   data() {
     return {
+      locationhashMap: {
+        '#/beijing': 'beijing',
+        '#/shijingshan': 'shijingshan',
+        '#/chaoyang': 'chaoyang'
+      },
       excellentBusniessList: [],
       swiperOption: {
           slidesPerView: 4,
@@ -88,7 +94,7 @@ export default {
          method: 'post',
          data: {
           attestationStatus: 1,
-          buildingLocation: this.$router.isBeijing() ? 'beijing' : 'shijingshan'
+          buildingLocation: this.locationhashMap[this.$router.isBeijing()]
          }
        })
        .then((res) => {
@@ -97,6 +103,12 @@ export default {
    },
   methods: {
     routeTo(entid) {
+      imgDatalogV3({
+        eventCode: 'INDEX_BUILDING_TO_DETAIL',
+        eventName: '首页楼宇跳详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       // this.$router.push(`/business-detail/:id=9fb9596f386b46f4b6cef429019c8393`)
       this.$router.push(`/building-detail/${entid}`)
     }

@@ -38,6 +38,7 @@
     </div>
   </template>
   <script>
+  import {imgDatalogV3} from "@/utils/util.js";
   import { policyListByRecommend, articleGet } from "@/config/api.js";
   import request from '@/utils/request';
   import { mapGetters } from "vuex";
@@ -114,6 +115,12 @@
   
     methods: {
       routeTo(item) {
+        imgDatalogV3({
+        eventCode: 'NEW_DETAIL_TO_OTHER',
+        eventName: '新闻详情跳转链接埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
         let that = this;
         window.open(`${location.origin}/#/new-detail/:artId=${item.id}`)
       }

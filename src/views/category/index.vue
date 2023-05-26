@@ -59,15 +59,16 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { recruitServiceDockingApply } from "@/config/api.js";
 import request from '@/utils/request';
 import { MessageBox, Message } from 'element-ui'
 import { applyMessageForm1 } from "@/config/constant.js";
 import { mapGetters } from 'vuex'
 import { categoryList } from '@/api/category.js'
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 import FormTemplate from "@/components/Form/index.vue"
-import AppFooter from '@/components/footer/index'
+import AppFooter from '@/components/footer/index.vue'
 import Flow from '@/components/flow/index.vue'
 // import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
@@ -124,6 +125,12 @@ export default {
     init() {
     },
     async applyService() {
+      imgDatalogV3({
+        eventCode: 'CATEGORY_APPLY',
+        eventName: '灵活用工申请服务埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       let userinfo = window.localStorage.getItem('userinfo');
       !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
       userinfo && (this.applydialogVisible = true);

@@ -13,7 +13,7 @@
         <div class="guide-Industrial-content-item" v-for="(item,index) in industrialList" :key="index" @click="routeTo(item)">
           <div :class="`item-icon`" :style="`background-image: url(${item.serviceTags ? item.serviceTags : ''})`"></div>{{item.serviceName}}
         </div>
-        <div class="guide-Industrial-content-item guide-Industrial-content-more" @click="$router.push('/archives')">
+        <div class="guide-Industrial-content-item guide-Industrial-content-more" @click="checkMore()">
           <div :class="`item-icon item-icon-${index}`"></div>查看更多
         </div>
       </div>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { entServiceDockingAll } from "@/config/api.js";
 import request from '@/utils/request';
 export default {
@@ -62,7 +63,22 @@ export default {
       })
   },
   methods: {
+    checkMore() {
+      imgDatalogV3({
+        eventCode: 'INDEX_PRODUCTION_TO_MORE',
+        eventName: '首页产品大厅更多埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      this.$router.push('/archives')
+    },
     routeTo(item) {
+      imgDatalogV3({
+        eventCode: 'INDEX_PRODUCTION_TO_DETAIL',
+        eventName: '首页产品大厅埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$store.dispatch('data/setBusneissDetail', _.cloneDeep(item));
       window.localStorage.setItem('busneiss-detail', JSON.stringify(item));
       this.$router.push({

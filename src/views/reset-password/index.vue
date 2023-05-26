@@ -40,7 +40,7 @@
 <script>
 import { sendCode } from '@/api/code.js'
 import { resetPassword } from '@/api/user.js'
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 import { validMobile } from '@/utils/validate.js'
 export default {
   components: {

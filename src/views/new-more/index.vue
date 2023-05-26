@@ -4,7 +4,7 @@
       <div class="new-more-search-bg">
         <div style="display: flex;align-items: center;">{{message}}
         <div class="new-more-search-agile">
-        <div class="limit-desc">Comperehensive platform</div>
+        <div class="limit-desc">comprehensive platform</div>
         Cultural industry
         </div>
         </div>
@@ -48,11 +48,12 @@
   import {hostList} from '@/config/index'
   import { articleList, policyList } from "@/config/api.js";
   import request from '@/utils/request';
+  import {imgDatalogV3} from "@/utils/util.js";
   import { mapGetters } from "vuex";
   import { getAccessToken } from "@/utils/auth";
   import bank1 from "../../images/bank1.png";
-  import AppHeader from "@/components/Header/index";
-  import AppFooter from "@/components/footer/index";
+  import AppHeader from "@/components/Header/index.vue";
+  import AppFooter from "@/components/footer/index.vue";
   import { updateUser, bindUsername } from "@/api/user.js";
   export default {
     name: "User",
@@ -141,6 +142,18 @@
         this.getPolicyList();
       },
       detail(item) {
+        let data = this.message === '最新新闻' ? {
+        eventCode: 'TO_NEW_DETAIL',
+        eventName: '新闻详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      } : {
+        eventCode: 'TO_POLOCY_DETAIL',
+        eventName: '政策详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      };
+        imgDatalogV3(data);
         this.$router.push(`${this.message === '最新新闻' ? '/new-detail' : '/policy-detail'}/:artId=${item.id}`);
       },
     },

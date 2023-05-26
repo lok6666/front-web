@@ -70,7 +70,7 @@
               <!-- <div class="block"><img src="../../images/basic-location-black.png"/>定位</div> -->
           </div>
           <div class="content">
-              <h3>楼宇介绍</h3>
+              <!-- <h3>楼宇介绍</h3> -->
               <div class="content-center" v-html="data_collagedetail.buildingDetail"></div>
           </div>
           <div class="right">
@@ -100,12 +100,12 @@ import { MessageBox, Message } from 'element-ui'
 import { mapGetters } from "vuex";
 import "swiper/css/swiper.css";
 import 'vue-bmap-gl/dist/style.css'
-import AppHeader from "@/components/Header/index";
+import AppHeader from "@/components/Header/index.vue";
 import FormTemplate from "@/components/Form/index.vue";
 import request from '@/utils/request';
 import { activtyForm } from "@/config/constant.js";
 import { actionAll, activityApplyAddOne, buildingsGet, locatiion } from "@/config/api.js";
-import AppFooter from "@/components/footer/index";
+import AppFooter from "@/components/footer/index.vue";
 import { pagePublishedArticle } from "@/api/article.js";
 export default {
   name: "Index",

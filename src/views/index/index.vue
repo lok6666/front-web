@@ -14,13 +14,18 @@
             </swiper>
         </div>
         <new/>
-        <policy-enter v-if="!$router.isBeijing()" />
+        <policy-enter v-if="!($router.isBeijing() === '#/beijing')" />
         <!-- <policyMatch /> -->
         <busniess-service />
-        <industrial v-if="$router.isBeijing()"/>
-        <sjs-industrial v-if="!$router.isBeijing()"/>
-        <cultural v-if="!$router.isBeijing()"/>
-        <ExcellentBusniess v-if="!$router.isBeijing()"/>
+        <industrial v-if="$router.isBeijing() === '#/beijing'"/>
+        <!--石景山风貌-->
+        <sjs-industrial v-if="$router.isBeijing() === '#/shijingshan'"/>
+        <!--朝阳风貌-->
+        <cyIndustrial v-if="$router.isBeijing() === '#/chaoyang'"/>
+        <!--文化产业园-->
+        <cultural v-if="($router.isBeijing() === '#/shijingshan')"/>
+        <!--企业风采-->
+        <ExcellentBusniess v-if="($router.isBeijing() === '#/shijingshan')"/>
         <building></building>
         <bank />
       </div>
@@ -43,13 +48,14 @@ import { mapGetters } from 'vuex'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import { swiperConfig ,hostList} from '@/config/index'
 import 'swiper/css/swiper.css'
-import AppHeader from '@/components/Header/index'
-import AppFooter from '@/components/footer/index'
+import AppHeader from '@/components/Header/index.vue'
+import AppFooter from '@/components/footer/index.vue'
 // import ArticleList from '@/components/ArticleList'
-import Advantage from '@/components/Advantage'
+import Advantage from '@/components/Advantage.vue'
 import New from '@/components/new/index.vue'
-import PolicyMatch from '@/components/guide/PolicyMatch.vue'
+// import PolicyMatch from '@/components/guide/PolicyMatch.vue'
 import sjsIndustrial from '@/components/guide/sjsIndustrial.vue'
+import cyIndustrial from '@/components/guide/cyIndustrial.vue'
 import building from '@/components/guide/building.vue'
 import cultural from '@/components/guide/cultural.vue'
 import policyEnter from '@/components/guide/policyEnter.vue'
@@ -69,8 +75,9 @@ export default {
     AppFooter,
     // ArticleList,
     policyEnter,
-    PolicyMatch,
+    // PolicyMatch,
     sjsIndustrial,
+    cyIndustrial,
     busniessService,
     ExcellentBusniess,
     industrial,

@@ -1228,6 +1228,13 @@ const applyMessageForm = [
   label: "联系方式",
   showInput: true
 },
+/* {
+  prop: "entLocation",
+  label: "上一年度营业收入(万元)",
+  rules: { required: true, validator: emtyRules, trigger: 'blur'},
+  showSelect: true,
+  options: locationOptions
+}, */
 {
   prop: "registerDistrict",
   label: "公司地址",

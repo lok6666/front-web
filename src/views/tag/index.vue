@@ -60,7 +60,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { tagList } from '@/api/tag.js'
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 // import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
 export default {

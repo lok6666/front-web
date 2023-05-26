@@ -2,19 +2,19 @@
   <div class="app-container">
     <app-header :nav-item-active="3" />
     <div class="protect-bg">
-      <div>{{$router.isBeijing() ? '产品大厅' : '知识产权'}}</div>
+      <div>{{$router.isBeijing() === '#/beijing'? '产品大厅' : '知识产权'}}</div>
     </div>
     <div class="finance-container">
       <div>
-         <div class="select-btn" v-if="$router.isBeijing()">
+         <div class="select-btn" v-if="$router.isBeijing() === '#/beijing'">
           <div>产品类目:</div>
           <div v-for="(btn, index) in serviceList" :key="index">
             <el-button
               class="button-new-tag "
               :class="[btn.isSelect ? 'button-new-tag-select' : 'button-new-tag-not-select']"
               size="small"
-              @click="select(index, 'serviceList', btn.value)"
-              >{{ btn.message }}</el-button
+              @click="select(index, 'serviceList', btn.branchCode)"
+              >{{ btn.branchName }}</el-button
             >
           </div>
         </div>
@@ -57,10 +57,10 @@
             <img :src="item.serviceImage" class="item-icon"/>
             <!-- <div class="item-icon"  :style="`background-image: url(${item.serviceImage})`"></div> -->
             <div style="height:50px;display: flex;flex-direction:row; align-items:center;justify-content: center;">{{item.serviceName}}</div>
-            <div v-if="$router.isBeijing()" style="color: red;margin-top: 10px;height:50px;">{{item.servicePrice}}</div>
+            <div v-if="$router.isBeijing() === '#/beijing'" style="color: red;margin-top: 10px;height:50px;">{{item.servicePrice}}</div>
             <div style="color: #909090;font-size: 16px;display:flex;justify-content: space-between;padding: 0 10px;margin-top: 20px;">
               <div>{{item.serviceHits}}次浏览</div>
-              <div v-if="$router.isBeijing()">{{item.supplierName}}</div>
+              <div v-if="$router.isBeijing() === '#/beijing'">{{item.supplierName}}</div>
             </div>
         </div>
       </div>
@@ -73,17 +73,19 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import {hostList} from '@/config/index'
-import { entServiceDockingAll, entServiceUpdate } from "@/config/api.js";
+import { entServiceDockingAll, entServiceUpdate, dictionariesGetByCode } from "@/config/api.js";
+import { getDictionariesGetByCode } from "@/utils/util";
 import request from '@/utils/request';
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
 import loanBg1 from "../../images/loan-card-header1.png";
 import bank1 from "../../images/bank1.png";
-import AppHeader from "@/components/Header/index";
+import AppHeader from "@/components/Header/index.vue";
 import { MessageBox, Message } from 'element-ui'
 // import protect from "./components/protect.vue";
-import AppFooter from "@/components/footer/index";
+import AppFooter from "@/components/footer/index.vue";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",
@@ -102,78 +104,12 @@ export default {
       timer1: null,
       serviceName: '',
       excellentBusniessList: [],
-      serviceList: !window.localStorage.getItem('userinfo') ? [
+      serviceList: [
         {
-          message: "全部",
+          branchName: "全部",
           isSelect: true,
-          value: ''
-        },
-        {
-          message: "知识产权",
-          isSelect: false,
-          value: 0
-        },
-        {
-          message: "资质认定",
-          isSelect: false,
-          value: 1
-        },
-        {
-          message: "工商业务",
-          isSelect: false,
-          value: 2
-        },
-        {
-          message: "财税服务",
-          isSelect: false,
-          value: 3
-        },
-        {
-          message: "政府补贴",
-          isSelect: false,
-          value: 4
-        },
-        {
-          message: "数字科技",
-          isSelect: false,
-          value: 6
-        },
-      ]: [
-        {
-           message: "全部",
-          isSelect: true,
-          value: ''
-        },
-        {
-          message: "知识产权",
-          isSelect: false,
-          value: 0
-        },
-        {
-          message: "资质认定",
-          isSelect: false,
-          value: 1
-        },
-        {
-          message: "工商业务",
-          isSelect: false,
-          value: 2
-        },
-        {
-          message: "财税服务",
-          isSelect: false,
-          value: 3
-        },
-        {
-          message: "政府补贴",
-          isSelect: false,
-          value: 4
-        },
-        {
-          message: "数字科技",
-          isSelect: false,
-          value: 6
-        },
+          branchCode: ''
+        }
       ],
       timeList: [
       {
@@ -209,7 +145,8 @@ export default {
     // protect,
     AppFooter,
   },
-  created() {
+  async created() {
+    this.serviceList = await getDictionariesGetByCode('archives', this.serviceList);
     this.getEntServiceDockingList();
   },
   watch: {
@@ -295,7 +232,7 @@ export default {
         return e;
       });
       this[type][index].isSelect = !this[type][index].isSelect;
-      this.serviceType = this[type][index].value;
+      this.serviceType = this[type][index].branchCode;
 /*       if(this.serviceType.indexOf(this[type][index].value) > -1) {
         this.serviceType.splice(this.serviceType.indexOf(this[type][index].value), 1);
       } else {

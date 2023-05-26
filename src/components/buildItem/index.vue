@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { financialServicesUpdate } from "@/config/api.js";
 import request from '@/utils/request';
 import _ from 'lodash';
@@ -69,6 +70,12 @@ export default {
     detail(loan, index) {
       // this.$store.dispatch('data/setBuildDetail', _.cloneDeep(loan));
       // this.updateHits(loan);
+      imgDatalogV3({
+        eventCode: 'BUILDING_TODETAIL',
+        eventName: '楼宇查看详情埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$router.push({
         path: `/building-detail/:${loan.id}`
       });

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { entServiceDockingAll } from "@/config/api.js";
 import request from '@/utils/request';
 export default {
@@ -53,6 +54,12 @@ export default {
   },
   methods: {
     routeTo(item) {
+      imgDatalogV3({
+        eventCode: 'ARCTIVES_DETAIL',
+        eventName: '知识产权埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$store.dispatch('data/setBusneissDetail', _.cloneDeep(item));
       window.localStorage.setItem('busneiss-detail', JSON.stringify(item));
       this.$router.push({

@@ -140,7 +140,7 @@
 import { mapGetters } from 'vuex'
 import { parseDate } from '@/utils/index.js'
 import '@/assets/quill-emoji/quill-emoji.js'
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 import { pageMessage, addMessage, addReply, deleteO } from '@/api/message.js'
 export default {
   name: 'Message',

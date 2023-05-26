@@ -77,16 +77,17 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";
-import AppHeader from "@/components/Header/index";
+import AppHeader from "@/components/Header/index.vue";
 import { applyMessageForm2 } from "@/config/constant.js";
 import { MessageBox, Message } from 'element-ui'
 import { financialServicesAll, financialServicesInsert } from "@/config/api.js";
 import FormTemplate from "@/components/Form/index.vue";
 import request from '@/utils/request';
-import Loan from "@/components/loan/index";
-import AppFooter from "@/components/footer/index";
+import Loan from "@/components/loan/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",
@@ -150,6 +151,12 @@ export default {
   methods: {
     // 初始化
     async applyService() {
+      imgDatalogV3({
+        eventCode: 'FINACE_APPLY',
+        eventName: '金融服务申请服务埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       let userinfo = window.localStorage.getItem('userinfo');
       !userinfo && this.$store.commit('login/CHANGE_VISIBLE', true);
       if(userinfo) {

@@ -29,7 +29,7 @@
 <script>
 import { validateEmail } from '@/api/user.js'
 import { validEmail } from '@/utils/validate.js'
-import AppHeader from '@/components/Header/index'
+import AppHeader from '@/components/Header/index.vue'
 export default {
   components: {
     AppHeader

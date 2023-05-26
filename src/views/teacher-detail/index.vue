@@ -46,10 +46,10 @@
   <script>
   import { mapGetters } from "vuex";
   import { getAccessToken } from "@/utils/auth";
-  import AppHeader from "@/components/Header/index";
+  import AppHeader from "@/components/Header/index.vue";
   import teacgerCollage from "@/components/guide/teacher-collage.vue";
   import bank1 from "../../images/bank1.png";
-  import AppFooter from "@/components/footer/index";
+  import AppFooter from "@/components/footer/index.vue";
   import { updateUser, bindUsername } from "@/api/user.js";
   export default {
     name: "User",

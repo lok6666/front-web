@@ -25,8 +25,9 @@
         <div class="contact">
           <div class="contact-title">微信公众号</div>
           <div class="contact-content">
-            <img v-if="$router.isBeijing()" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/wx-wt.png"/>
-            <img v-if="!$router.isBeijing()" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/sjs_wx.jpg"/>
+            <img v-if="$router.isBeijing() === '#/beijing'" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/wx-wt.png"/>
+            <img v-if="$router.isBeijing() === '#/shijingshan'" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/sjs_wx.jpg"/>
+            <img v-if="$router.isBeijing() === '#/chaoyang'" style="width: 100px;height: 100px;margin-left: -8px;" src="../../images/cy_wx.jpg"/>
           </div>
         </div>
       </div>
@@ -50,14 +51,14 @@
 export default {
   data() {
     return {
-      list: this.$router.isBeijing() ? [
+      list: this.$router.isBeijing() === '#/beijing' ? [
         // { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
         { id: 2, desc: "北京文化产业投融资协会", src: 'http://www.bciifa.org.cn/' },
         { id: 3, desc: "中国文化管理协会", src: 'http://www.ccasn.com/' },
         { id: 4, desc: "北京银行",src: 'http://www.bankofbeijing.com.cn/' },
         { id: 5, desc: "建设银行", src: 'http://www.ccb.com' },
       ] : [
-        { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
+        // { id: 0, desc: "北京市石景山区政府", src: 'http://www.bjsjs.gov.cn/index.shtml' },
         { id: 2, desc: "北京文化产业投融资协会", src: 'http://www.bciifa.org.cn/' },
         { id: 3, desc: "中国文化管理协会", src: 'http://www.ccasn.com/' },
         { id: 4, desc: "北京银行",src: 'http://www.bankofbeijing.com.cn/' },

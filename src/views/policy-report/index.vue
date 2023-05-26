@@ -73,8 +73,8 @@
 import { mapGetters } from "vuex";
 import { getAccessToken } from "@/utils/auth";;
 import bank1 from "../../images/bank1.png";
-import AppHeader from "@/components/Header/index";
-import AppFooter from "@/components/footer/index";
+import AppHeader from "@/components/Header/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {
   name: "User",

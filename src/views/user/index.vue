@@ -551,7 +551,7 @@ import {
 import totalPng from "../../images/total.png";
 import echarts from "./components/echarts.vue";
 import policy from "./components/policy.vue";
-import AI from "@/components/AI/index";
+import AI from "@/components/AI/index.vue";
 import request from "@/utils/request";
 import policyList from "./components/policyList.vue";
 import userTable from "./components/userTable.vue";
@@ -560,10 +560,10 @@ import userTable3 from "./components/userTable3.vue";
 import userTable4 from "./components/userTable4.vue";
 import userTable5 from "./components/userTable5.vue";
 import userTable6 from "./components/userTable6.vue";
-import AppHeader from "@/components/Header/index";
+import AppHeader from "@/components/Header/index.vue";
 import FormTemplate from "@/components/Form/index.vue";
 import priceFormTemplate from "@/components/Form/priceForm.vue";
-import AppFooter from "@/components/footer/index";
+import AppFooter from "@/components/footer/index.vue";
 import { MessageBox, Message } from "element-ui";
 import { updateUser, bindUsername } from "@/api/user.js";
 export default {

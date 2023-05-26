@@ -1,15 +1,15 @@
 <!-- 头部导航栏 -->
 <template>
   <div class="main-header-box">
-    <policy-calculate
+<!--       <policy-calculate
       :dialogVisible="dialogVisible"
       @handleClose="handleClose"
       @dialogClose="dialogClose"
-    ></policy-calculate>
+    ></policy-calculate> -->
     <el-dialog
       :visible.sync="applydialogVisible"
       :center="true"
-      title="入驻石景山"
+      title="入驻申请"
       width="880px"
       :before-close="closeDialog"
     >
@@ -32,7 +32,7 @@
     <AI v-if="AIDialogVisible || isShowAIDialogVisible" @bClose="bClose" />
     <img
       src="../../images/logo.png"
-      @click="$router.push('/')"
+      @click="toIndex()"      
       style="cursor:pointer;z-index: 251; position: fixed; left: 57px;"
     />
     <header class="main-header">
@@ -48,19 +48,29 @@
             <img src="../../images/微信.png" />公众号</span>
           <img
             style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
-            v-if="wxdialogVisible && $router.isBeijing()"
+            v-if="wxdialogVisible && $router.isBeijing() === '#/beijing'"
             src="../../images/wx-wt.png"
           />
           <img
             style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
-            v-if="wxdialogVisible && !$router.isBeijing()"
+            v-if="wxdialogVisible && $router.isBeijing() === '#/shijingshan'"
             src="../../images/sjs_wx.jpg"
           />
-          <span class="index-icon"
+          <img
+            style="z-index: 1;width: 100px;height: 100px;position: absolute;top: 52px;left: 262px;z-index: 1;"
+            v-if="wxdialogVisible && $router.isBeijing() === '#/chaoyang'"
+            src="../../images/cy_wx.jpg"
+          />
+          <span
             ><img src="../../images/路径.png" />平台热线: {{'17190033790'}}</span
           >
-          <el-button round size="small" style="display: flex;justify-content: center;width: 90px;font-weight: bolder;" icon="el-icon-s-promotion" @click="tabChange">{{$router.isBeijing() ? '石景山站' : '北京站'}}</el-button>
-<!--           <span class="index-icon">
+          <!--非北京站展示跳转北京站按钮-->
+          <el-button round size="small" v-if="$router.isBeijing() !== '#/beijing'" style="display: flex;justify-content: center;width: 90px;font-weight: bolder;" icon="el-icon-s-promotion" @click="tabChange('#/beijing', 'TO_BEIJING', '点击北京站')">北京站</el-button>
+          <!--北京站展示跳转按钮-->
+          <el-button round size="small" v-if="$router.isBeijing() === '#/beijing'" style="display: flex;justify-content: center;width: 90px;font-weight: bolder;" icon="el-icon-s-promotion" @click="tabChange('#/shijingshan', 'TO_SHIJINGSHAN', '点击石景山站')">石景山站</el-button>
+          <!--北京站展示跳转按钮-->
+          <el-button round size="small" v-if="$router.isBeijing() === '#/beijing'" style="display: flex;justify-content: center;width: 90px;font-weight: bolder;" icon="el-icon-s-promotion" @click="tabChange('#/chaoyang', 'TO_CHAOYANG', '点击朝阳站')">朝阳站</el-button>
+ <!--          <span class="index-icon">
             <el-select v-model="locationOption"
             placeholder="请选择"
             size="small"
@@ -100,10 +110,13 @@
                       </el-input> -->
             </div>
           </span>
-          <span v-if="!$router.isBeijing()" class="index-icon" @click="applydialogVisible = true"
-            ><img src="../../images/招商.png" />入驻石景山</span
+          <span v-if="$router.isBeijing() !== '#/beijing'" class="index-icon" @click="SettleIn()"
+            ><img src="../../images/招商.png" />入驻{{locationhashMap[$router.isBeijing()]}}</span
           >
-          <span class="index-icon" @click="AIDialogVisible = true"
+<!--           <span v-if="$router.isBeijing() === '#/chaoyang'" class="index-icon" @click="applydialogVisible = true"
+            ><img src="../../images/招商.png" />入驻朝阳</span
+          > -->
+          <span class="index-icon" @click="openAiDialogVisBle()"
             ><img src="../../images/客服.png" />智能客服</span
           >
         </div>
@@ -182,7 +195,7 @@
       </div>
       <div class="footer">
         <div style="display: flex;">
-          <div class="footer-desc" >{{$router.isBeijing() ? '文化产业综合服务平台（北京站）' : '文化产业综合服务平台（石景山站）'}}</div>
+          <div class="footer-desc" >文化产业综合服务平台（{{locationhashMap[$router.isBeijing()]}}站）</div>
         </div>
         <div class="logo">
           <div v-if="device !== 'desktop'" class="menu-wrapper">
@@ -223,7 +236,7 @@
               :key="index"
               class="main-nav-item"
               :class="[navItemActive === nav.index ? 'main-nav-item-active' : '']"
-              @click="routerTo(nav.to, index)"
+              @click="routerTo(nav.to, index, nav.logName, nav.name)"
             >
               <div
                 style="display: flex;align-items: end;align-content: stretch;"
@@ -244,11 +257,12 @@
 import { policyMatchTagsGet } from "@/config/api";
 import { messageForm, applyMessageForm } from "@/config/constant.js";
 import { entApplyInsert } from "@/config/api.js";
+import {imgDatalogV3} from "@/utils/util.js";
 import { mapGetters } from "vuex";
 import { MessageBox } from "element-ui";
 import request from "@/utils/request";
 import AI from "@/components/AI/index";
-import PolicyCalculate from "@/components/Policycalculate/index";
+// import PolicyCalculate from "@/components/Policycalculate/index";
 import FormTemplate from "@/components/Form/index.vue";
 // import customerService from '@/components/customer-service/index'
 import RegisterDialog from "./RegisterDialog";
@@ -257,7 +271,7 @@ import store from "@/store";
 export default {
   name: "Header",
   components: {
-    PolicyCalculate,
+    // PolicyCalculate,
     RegisterDialog,
     FormTemplate,
     LoginDialog,
@@ -287,6 +301,15 @@ export default {
   },
   data() {
     return {
+      locationhashMap: {
+        '#/beijing': '北京',
+        '#/shijingshan': '石景山',
+        '#/chaoyang': '朝阳'
+      },
+      entLocationhashMap: {
+        '#/shijingshan': 'shijingshan',
+        '#/chaoyang': 'chaoyang'
+      },
       options: [{
           value: '#/beijing',
           label: '北京站'
@@ -298,7 +321,7 @@ export default {
       entName: window.localStorage.getItem("userinfo")
         ? JSON.parse(window.localStorage.getItem("userinfo")).entName
         : "",
-      locationOption: location.hash.includes('#/beijing') ? '#/beijing' :  '#/shijingshan',
+      locationOption: this.$router.isBeijing(),
       companyid: window.localStorage.getItem("USERID"),
       policyCalculate:{
           "jigou": "不符合",
@@ -324,69 +347,82 @@ export default {
       applyMessageForm,
       keyword: "",
       inputIconColor: "",
-      navItems: this.$router.isBeijing() ? [
-        {
+      navItems: this.$router.isBeijing() === '#/beijing' ? [
+        { 
+          logName: "NAV_INDEX",
           name: "首页",
           to: "/",
           index: 0
         },
         {
+          logName: "NAV_POLICY_MATCH",
           name: "政策匹配",
           to: "/policy-match/政策匹配",
           index: 1
         },
         {
+          logName: "NAV_CATEGORY_LINK",
           name: "灵活用工",
           to: "/category",
           index: 2
         },
         {
+          logName: "NAV_PRODUCTION",
           name: "产品大厅",
           to: "/archives",
           index: 3
         },
         {
+          logName: "NAV_FRIEND_LINK",
           name: "行业培训",
           to: "/friend-link",
           index: 4
         },
         {
+          logName: "NAV_FINANCE",
           name: "金融服务",
           to: "/finance",
           index: 5
         },
         {
+          logName: "NAV_BUILDING",
           name: "楼宇信息",
           to: "/building",
           index: 6
         },
       ] : [
         {
+          logName: "NAV_INDEX",
           name: "首页",
           to: "/",
           index: 0
         },
         {
+          logName: "NAV_POLICY_MATCH",
           name: "政策匹配",
           to: "/policy-match/政策匹配",
           index: 1
         },
         {
+          logName: "NAV_ARCHTIVES",
           name: "知识产权",
           to: "/archives",
           index: 3
         },
         {
+          logName: "NAV_FRIEND_LINK",
           name: "行业培训",
           to: "/friend-link",
           index: 4
         },
         {
+          logName: "NAV_FINANCE",
           name: "金融服务",
           to: "/finance",
           index: 5
         },
         {
+          logName: "NAV_BUILDING",
           name: "楼宇信息",
           to: "/building",
           index: 6
@@ -405,16 +441,60 @@ export default {
   },
 
   methods: {
-    async tabChange(tab) {
-      debugger;
-      await store.dispatch('app/changeLocation', this.$router.isBeijing() ? '#/shijingshan' : '#/beijing')
+    settleIn() {
+      imgDatalogV3({
+        eventCode: 'HEADER_SETTLE_IN',
+        eventName: '首页入驻埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      this.applydialogVisible = true
+    },
+    toIndex() {
+      imgDatalogV3({
+        eventCode: 'TO_INDEX',
+        eventName: '打开首页埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      this.$router.push('/')
+    },
+    openAiDialogVisBle() {
+      imgDatalogV3({
+        eventCode: 'OPEN_AI',
+        eventName: '打开智能客服埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      this.AIDialogVisible = true
+    },
+    async tabChange(tab, eventCode, eventName) {
+      imgDatalogV3({
+        eventCode,
+        eventName,
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      await store.dispatch('app/changeLocation', tab)
     },
     busneissIndex() {
+      imgDatalogV3({
+        eventCode: "TO_ENTERPRISE_INDEX",
+        eventName: '点击企业首页埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$router.push(
         `/business-detail/${window.localStorage.getItem("USERID")}`
       );
     },
     openWtUrl() {
+      imgDatalogV3({
+        eventCode: 'TO_BJWT',
+        eventName: '点击北文投logo埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       window.open("http://www.bjwt.com/");
     },
     bClose() {
@@ -430,6 +510,7 @@ export default {
         method: "post",
         data: {
           ...formData,
+          entLocation: this.entLocationhashMap[this.$router.isBeijing()]
         },
       }).then((res) => {
         // todo 修改后台返回字段
@@ -446,8 +527,13 @@ export default {
         this.applydialogVisible = false;
       });
     },
-    routerTo(to, index) {
-      let mess;
+    routerTo(to, index, logName, name) {
+      imgDatalogV3({
+        eventCode: logName,
+        eventName: `点击${name}埋点`,
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       if (to === "/policy-match/政策匹配") {
         let userinfo = window.localStorage.getItem("userinfo");
         if (!userinfo) {
@@ -548,11 +634,23 @@ export default {
 
     // 注册点击
     reClick() {
+      imgDatalogV3({
+        eventCode: 'REGISTER',
+        eventName: '点击注册埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$refs.reDialog.open();
     },
 
     // 登录点击
     loClick() {
+      imgDatalogV3({
+        eventCode: "LOGIN",
+        eventName: '点击登录锚点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$store.commit("login/CHANGE_VISIBLE", true);
     },
 
@@ -569,12 +667,24 @@ export default {
 
     // 退出
     logout() {
+      imgDatalogV3({
+        eventCode: 'LOGOUT',
+        eventName: '点击退出埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$store.dispatch("user/logout").then(e => {
         this.$router.push('/');
       });
     },
     resetPassword() {
       // this.$store.commit('login/CHANGE_VISIBLE', false)
+      imgDatalogV3({
+        eventCode: 'RESET_PASSWORD',
+        eventName: '点击修改密码埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
       this.$router.push('/reset-password')
     },
     // 搜索
@@ -839,7 +949,7 @@ export default {
         line-height: 20px;
         font-family: AlibabaPuHuiTiR;
         color: #ffffff;
-        cursor: pointer;
+        // cursor: pointer;
         margin-right: 10px;
       }
       @media screen and (max-width: 922px) {

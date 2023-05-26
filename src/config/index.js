@@ -120,4 +120,4 @@ export const swiperConfig2 = [{
   learnNum: '1200'
 },]
 
-export const hostList = ['#/beijing', '#/shijingshan'];
+export const hostList = ['#/beijing', '#/shijingshan', '#/chaoyang'];

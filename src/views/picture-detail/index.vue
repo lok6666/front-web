@@ -57,8 +57,8 @@ import "video.js/dist/video-js.css";
 import { mapGetters } from "vuex";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
-import AppHeader from "@/components/Header/index";
-import AppFooter from "@/components/footer/index";
+import AppHeader from "@/components/Header/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 import { pagePublishedArticle } from "@/api/article.js";
 export default {
   name: "Index",

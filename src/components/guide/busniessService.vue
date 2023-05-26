@@ -12,12 +12,12 @@
       <div class="guide-busniess-service-content">
         <div class="busniess-service">
           <div class="r-top">
-            <div class="busniess-service-block finance" @click="$router.push('/finance')">
+            <div class="busniess-service-block finance" @click="finace()">
               <div class="busniess-service-block-title">金融服务</div>
               <div class="busniess-service-block-desc">贴心的金融服务管家</div>
             </div>
-            <div class="busniess-service-block manage" @click="$router.isBeijing() ? $router.push('/category') : $router.push('/archives')">
-              <div class="busniess-service-block-title">{{$router.isBeijing() ? '灵活用工' : '知识产权'}}</div>
+            <div class="busniess-service-block manage" @click="category()">
+              <div class="busniess-service-block-title">{{$router.isBeijing() === '#/beijing' ? '灵活用工' : '知识产权'}}</div>
               <div class="busniess-service-block-desc">省心的合法合规雇佣帮手</div>
             </div>
           </div>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {imgDatalogV3} from "@/utils/util.js";
 export default {
   name: "busniessService",
   props: {
@@ -45,6 +46,33 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  methods: {
+    finace() {
+      let data = this.$router.isBeijing() === '#/beijing' ? {
+        eventCode: 'INDEX_CATEGORY_TO_DETAIL',
+        eventName: '首页灵活用工埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      } : {
+        eventCode: 'INDEX_ARCHIVES_TO_DETAIL',
+        eventName: '首页知识产权埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      };
+      imgDatalogV3(data);
+      this.$router.isBeijing() === '#/beijing' ? $router.push('/category') : $router.push('/archives')
+      
+    },
+    finace() {
+      imgDatalogV3({
+        eventCode: 'INDEX_FINANCE_TO_DETAIL',
+        eventName: '首页金融服务埋点',
+        location: this.$router.isBeijing(),
+        page: this.$route.path
+      });
+      this.$router.push('/finance')
+    },
   }
 };
 </script>
